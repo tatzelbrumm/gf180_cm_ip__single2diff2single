@@ -1,5 +1,8 @@
 # Chipalooza Analog Project (ihp-sg13cmos5l)
 
+> [!NOTE]
+> **Status (2026-10-06):** this repository is being ported from the IHP sg13cmos5l design to GF180MCU (`gf180mcuD`, Chipalooza #3). Only the **Directory Structure** and **Layout Sources** sections describe the GF180 target. Everything else is still the inherited IHP template text and will be rewritten step by step; see [`CLAUDE.md`](CLAUDE.md) and [`docs/IHP_TO_GF180_PORT_MAP.md`](docs/IHP_TO_GF180_PORT_MAP.md).
+
 (c) 2026 Tim Edwards and Simon Dorrer
 
 > [!IMPORTANT]
@@ -68,69 +71,35 @@ Then search and replace the remaining occurrences inside those files — Xschem 
 <summary>Show Directory Structure</summary>
 
 ```text
-📁 sg13cmos5l_chipalooza_analog_project/
+📁 gf180_cm_ip__single2diff2single/            # <TOP> = the top-cell name, see CLAUDE.md §1
+├─ .designinit  .gitignore  .gitattributes  LICENSE
+├─ CLAUDE.md  README.md  Makefile  submission.yaml
+├─ 📁 docs/                          # GF180_PROCESS_OPTIONS, OPERATING_LIMITS, IHP_TO_GF180_PORT_MAP
+├─ 📁 dependencies/                  # links to gf180mcu_ocd_io etc.; nothing vendored yet
+├─ 📁 harness_stub/                  # assumed slot interface until the GF180 harness is published
+├─ 📁 floorplan/                     # GF180 slot templates: none exist yet
 ├─ 📁 final/
-│  ├─ 📁 gds/
-│  │  └─ sg13cmos5l_chipalooza_analog_project.gds
-│  ├─ 📁 lef/
-│  │  └─ sg13cmos5l_chipalooza_analog_project.lef
-│  ├─ 📁 lib/
-│  │  └─ sg13cmos5l_chipalooza_analog_project.lib
-│  └─ 📁 vh/
-│     └─ sg13cmos5l_chipalooza_analog_project.vh
-├─ 📁 floorplan/
-│  ├─ chipalooza_template_small.gds          # 500µm × 200µm slot
-│  ├─ chipalooza_template_small_analog.gds   # 500µm × 200µm slot + 3 analog pins
-│  ├─ chipalooza_template_tiny.gds           # 200µm × 200µm slot
-│  └─ chipalooza_template_tiny_analog.gds    # 200µm × 200µm slot + 3 analog pins
+│  ├─ 📁 gds/  📁 lef/  📁 lib/  📁 vh/       # <TOP>.gds, .lef, .lib, .vh produced by `make build-top`
 ├─ 📁 layout/
-│  ├─ sg13cmos5l_chipalooza_analog_project.gds          # exported tapeout GDS (read by every build and sign-off target)
-│  ├─ sg13cmos5l_chipalooza_analog_project.klay.gds     # KLayout editing source (live PCells + library references)
-│  └─ sg13cmos5l_chipalooza_analog_project.klay.klib    # library binding of the .klay.gds to macros/inverter/layout/inverter.gds
+│  ├─ 📁 klayout/                    # KLayout editing source: <TOP>.klay.gds + <TOP>.klay.klib
+│  ├─ 📁 magic/                      # Magic editing source (*.mag), only for a cell authored in Magic
+│  └─ 📁 gds/                        # exported static <TOP>.gds, what every build and sign-off target reads
 ├─ 📁 macros/
-│  ├─ 📁 counter/                            # digital example sub-macro for AMS designs (own Makefile & README)
-│  └─ 📁 inverter/                           # analog example sub-macro (own Makefile & README)
+│  ├─ 📁 gf180mcu_IOPadSingle2Diff/  # analog input pad + CDM protection + S2D buffer
+│  │  └─ 📁 layout/{klayout,magic,gds}/   # same three roles as at the top level
+│  └─ 📁 gf180mcu_IOPadDiff2Single/  # D2S class-AB driver + analog output pad
+│     └─ 📁 layout/{klayout,magic,gds}/
 ├─ 📁 netlist/
-│  ├─ 📁 layout/
-│  │  ├─ *.cir                               # KLayout LVS extracted netlists
-│  │  └─ *.ext.spc                           # Magic LVS extracted netlists
-│  ├─ 📁 pex/
-│  │  └─ *_magic_pex_*.spice
-│  └─ 📁 schematic/
-│     ├─ *.cdl                               # Xschem CDL netlists (KLayout LVS)
-│     └─ *.spice                             # Xschem SPICE netlists (Magic + Netgen LVS)
-├─ 📁 render/
-│  └─ 📁 img/
-│     ├─ sg13cmos5l_chipalooza_analog_project_black.png
-│     └─ sg13cmos5l_chipalooza_analog_project_white.png
-├─ 📁 schematic/
-│  └─ 📁 xschem/
-│     ├─ sg13cmos5l_chipalooza_analog_project.sch
-│     ├─ sg13cmos5l_chipalooza_analog_project.sym
-│     ├─ sg13cmos5l_chipalooza_analog_project_pex.sym
-│     └─ xschemrc
-├─ 📁 scripts/
-│  ├─ check_boundary.py
-│  └─ check_pex_ports.py
-├─ 📁 testbenches/
-│  └─ 📁 xschem/
-│     ├─ 📁 plot_simulations/
-│     │  ├─ 📁 data/
-│     │  ├─ 📁 figures/
-│     │  ├─ ngspice2python.py
-│     │  └─ plot_sg13cmos5l_chipalooza_analog_project.py
-│     ├─ sg13cmos5l_chipalooza_analog_project_tb_tran.sch
-│     └─ xschemrc
-├─ 📁 verification/
-│  ├─ 📁 drc/
-│  │  ├─ 📁 <cell>.klayout.drc/
-│  │  └─ 📁 <cell>.magic.drc/
-│  └─ 📁 lvs/
-│     ├─ 📁 <cell>.klayout.lvs/
-│     └─ 📁 <cell>.magic.lvs/
-├─ Makefile
-├─ README.md
-└─ submission.yaml                             # submission description read by the precheck
+│  ├─ 📁 layout/                     # *_klayout.cir (KLayout LVS), *_magic.ext.spc (Magic LVS)
+│  ├─ 📁 pex/                        # *_magic_pex_*.spice
+│  └─ 📁 schematic/                  # *_klayout.cdl, *_magic.spice
+├─ 📁 render/img/
+├─ 📁 schematic/xschem/              # <TOP>.sch, .sym, _pex.sym, xschemrc
+├─ 📁 scripts/                       # check_boundary.py, check_pex_ports.py, extract_pad.py, pcells/
+├─ 📁 testbenches/xschem/            # <TOP>_tb_tran.sch, plot_simulations/, xschemrc
+└─ 📁 verification/
+   ├─ 📁 drc/  <cell>.klayout.drc/  <cell>.magic.drc/
+   └─ 📁 lvs/  <cell>.klayout.lvs/  <cell>.magic.lvs/
 ```
 
 </details>
@@ -173,24 +142,27 @@ Start your top-level layout from one of the GDS templates in `floorplan/`. They 
 
 ## Layout Sources and the Exported Tapeout GDS
 
-`layout/sg13cmos5l_chipalooza_analog_project.klay.gds` is the source of truth. It is the KLayout editing source: it references the PDK PCells and pulls the `inverter` cell in as a library through `layout/sg13cmos5l_chipalooza_analog_project.klay.klib`, so every device is still live and editable. `layout/sg13cmos5l_chipalooza_analog_project.gds` is exported from it with `File > Export Layout For Tapeout`, which resolves every PCell and library reference into a static cell, and it is what every build and sign-off target reads.
+`layout/` is split by role, the same "source vs. derived artifact" idiom as `netlist/{schematic,layout,pex}` and `verification/{drc,lvs}`. The file's location tells you whether it is safe to edit or gets overwritten by a re-export. Every macro under `macros/` uses the same three subdirectories.
+
+| Directory | Holds | Edited by hand? |
+| --- | --- | --- |
+| `layout/klayout/` | KLayout editing source `<TOP>.klay.gds` + `<TOP>.klay.klib` (live PCells, library references), plus KLayout's own generated folders (`backups/`, `drc_run_*`, `lvs_run_*`) | yes |
+| `layout/magic/` | Magic editing source `*.mag`, only for a cell that is authored in Magic | yes, if used |
+| `layout/gds/` | exported static `<TOP>.gds`: no PCells, no library indirection | never, regenerate |
+
+Rules:
+
+1. **One authoring tool per cell.** Two hand-edited sources of the same cell have no merge story: edit one and the other silently goes stale, and only a DRC/LVS mismatch reveals it. The directory of the tool that is not used stays empty (`.gitkeep`) or carries a short `NOTE.md` saying so, for example "this cell is authored in KLayout, see `layout/klayout/`".
+2. **The export always goes to `layout/gds/<cell>.gds`**, whichever tool authored the cell. `gds` is the tool-agnostic exported view, the counterpart of `final/gds/` one level up; it is not "KLayout's output folder", which is why it is not the partner of `magic`. Every DRC, LVS, PEX and build target reads this file. If both tools ever produce a GDS of the same cell, they get tool suffixes, `<cell>_klayout.gds` and `<cell>_magic.gds`, exactly like `netlist/layout/*_klayout.cir` next to `*_magic.ext.spc`, and never overwrite each other.
+3. **A parent binds a child macro to the child's exported GDS, never to its editing source.** In `layout/klayout/<TOP>.klay.klib` the `lib_path` of a macro is `../../macros/<macro>/layout/gds/<macro>.gds` (relative to the `.klib`). The hierarchy therefore only consumes a finished snapshot of the level below and never reaches into its live editing state. Rename a macro and `lib_name` and `lib_path` must follow.
+4. **Launch KLayout from the file's own directory**, `cd layout/klayout && klayout -e <TOP>.klay.gds`, because the relative `lib_path` depends on it. `make open` does this.
 
 > [!IMPORTANT]
-> Re-export after every layout change and never hand-edit `layout/sg13cmos5l_chipalooza_analog_project.gds`. Keeping the two in step by editing both is how they drift apart, and the drift is invisible because the sign-off targets only look at the exported file.
+> Re-export to `layout/gds/<TOP>.gds` with `File > Export Layout For Tapeout` after every layout change and never hand-edit the exported file. Keeping the two in step by editing both is how they drift apart, and the drift is invisible because the sign-off targets only look at the exported file.
 
-The export re-evaluates the PCells against the **installed** PDK, so device geometry can change even though nobody touched the editing source. A layout carried over from another PDK revision or from a different template therefore has to be re-exported under the target PDK and re-checked, not copied. Re-run DRC, LVS and PEX after every export.
+The export re-evaluates the PCells against the **installed** PDK, so device geometry can change even though nobody touched the editing source. A layout carried over from another PDK, another PDK revision or a different template therefore has to be re-exported under the target PDK and re-checked, not copied. This applies to everything inherited from the IHP version of this design. Re-run DRC, LVS and PEX after every export.
 
-The `.klib` file binds the library name `inverter` to `../macros/inverter/layout/inverter.gds`. If you rename the sub-macro, update `lib_name` and `lib_path` there as well, otherwise KLayout cannot resolve the library instances when it opens the editing source.
-
-The Makefile's `_GDS_EXT` variable picks `.gds` when it exists and falls back to `.klay.gds` otherwise, so the DRC, LVS and PEX targets work either way. The build targets (`check-boundary`, `lef`, `copy-gds`, `render-gds`) always read `layout/<TOP>.gds`.
-
-To edit the layout, start KLayout in edit mode on the editing source from inside the container:
-
-```sh
-klayout -e layout/sg13cmos5l_chipalooza_analog_project.klay.gds
-```
-
-or use [`make open`](#open-the-design-files), which opens a file browser with one button per design file and starts the right tool in the file's own directory.
+The Makefile's `_GDS_EXT` fallback (`.gds`, else `.klay.gds`) and its `layout/<TOP>.gds` paths still assume the flat template layout and are retargeted together with the rest of the Makefile. The three-directory convention and its history are discussed in the IHP sibling project's notes: [`2026-09-27_sonnet_single2diff2single_toplevel_structure_and_chipalooza_magic_authoring.md`](../sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/chatlog/2026-09-27_sonnet_single2diff2single_toplevel_structure_and_chipalooza_magic_authoring.md), Turns 14, 19 and 21 to 23.
 
 
 ## Xschem Configuration

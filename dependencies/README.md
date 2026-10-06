@@ -1,8 +1,8 @@
 # dependencies
 
-Nothing is vendored yet. URLs only:
+Nothing is vendored yet. Links only:
 
-- Analog and digital I/O cells (dual-voltage, 3.3 V core / 5 V pad): `https://github.com/RTimothyEdwards/gf180mcu_ocd_io` — cell `asig_5p0`
-- Harness (empty as of 2026-09-30): `https://github.com/RTimothyEdwards/gf180mcu_ocd_chipalooza`
-- Analog and power switches: `https://github.com/RTimothyEdwards/gf180mcu_ocd_ip__analog_switches`
-- PDK sources: `https://github.com/google/gf180mcu-pdk` (original), `gf180mcuD` via open_pdks / Ciel
+- [gf180mcu_ocd_io](https://github.com/RTimothyEdwards/gf180mcu_ocd_io): analog and digital I/O cells (dual-voltage, 3.3 V core / 5 V pad); analog pad is cell `asig_5p0`
+- [gf180mcu_ocd_chipalooza](https://github.com/RTimothyEdwards/gf180mcu_ocd_chipalooza): the harness (empty as of 2026-09-30)
+- [gf180mcu_ocd_ip__analog_switches](https://github.com/RTimothyEdwards/gf180mcu_ocd_ip__analog_switches): analog and power switches
+- [google/gf180mcu-pdk](https://github.com/google/gf180mcu-pdk): original PDK sources; `gf180mcuD` comes via open_pdks / Ciel

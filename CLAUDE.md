@@ -41,8 +41,8 @@ are one device (`*_06v0`, usable at 5 V), digital slot I/O at 3.3 V, pads may se
 
 ## 5. Where things are
 
-- Harness: `https://github.com/RTimothyEdwards/gf180mcu_ocd_chipalooza` — empty (LICENSE only) as of
+- Harness: [RTimothyEdwards/gf180mcu_ocd_chipalooza](https://github.com/RTimothyEdwards/gf180mcu_ocd_chipalooza) — empty (LICENSE only) as of
   2026-09-30. `harness_stub/` holds our *assumed* interface until it is published.
-- Analog pad: `gf180mcu_ocd_io__asig_5p0` from `https://github.com/RTimothyEdwards/gf180mcu_ocd_io`
+- Analog pad: `gf180mcu_ocd_io__asig_5p0` from [RTimothyEdwards/gf180mcu_ocd_io](https://github.com/RTimothyEdwards/gf180mcu_ocd_io)
   (URL only; not yet added as a dependency). It has HBM diodes only; CDM protection is ours.
 - Notes, logs, running chat log: the `_sudelbuecher` worktree (`sudelbuecher/chatlog/`).
