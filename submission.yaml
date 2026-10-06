@@ -3,52 +3,55 @@
 #
 # This is the configuration file for your submission.
 # Please edit the fields below to match your project.
+#
+# STATUS 2026-10-06: ported from the IHP sg13cmos5l version of this design. The GF180 harness
+# (RTimothyEdwards/gf180mcu_ocd_chipalooza) is not published yet, so slot-size and analog-pins below
+# are carried over from the IHP version and are UNVERIFIED for GF180. The precheck may expect other
+# values. Revisit when the harness appears (see harness_stub/README.md).
 
-project-name: Chipalooza Analog Project
+project-name: Single-to-Differential-to-Single Converter (GF180)
 
 # Must be a unique name and must match TOP in the Makefile, the file names in
 # layout/, schematic/xschem/ and testbenches/xschem/, and the top cell inside
 # the GDS. See "To rename the project" in README.md.
-top-cell: "sg13cmos5l_chipalooza_analog_project"
+top-cell: "gf180_cm_ip__single2diff2single"
 
 team-members:
-- Firstname Lastname
-- Firstname Lastname
+- Christoph Maier
 
 # small (500um x 200um), tiny (200um x 200um) or large (500um x 415um).
-# Must match the floorplan template this layout was started from.
+# UNVERIFIED for GF180: these are the IHP slot sizes.
 slot-size: tiny
 
-# Number of analog pins actually used, 0-3. This example wires all three
-# (analog_0, analog_1, analog_2), see final/vh/sg13cmos5l_chipalooza_analog_project.vh.
+# UNVERIFIED for GF180: the IHP harness gave vin, vout, vcm -> analog_pin[2:0].
 analog-pins: 3
 
-short-description: Hand-drawn analog-on-top macro built from the inverter sub-macro.
+short-description: Single-ended-to-differential-to-single-ended analog pad buffer pair for GF180MCU (gf180mcuD), ported from the IHP sg13cmos5l design.
 
 # Please add the documentation about your project here.
 # Why did you choose to create it? How does it work? How can it be tested, etc.?
 # If your project requires additional external hardware, e.g. a USB port,
 # please mention this so it can be considered when designing the PCB.
 long-description: |
-  An analog-on-top example macro for the ihp-sg13cmos5l Open-PDK.
+  Single-ended <-> differential analog pad buffers for I/O-limited shared-die
+  platforms (Chipalooza, TinyTapeout, HeiChips).
 
-  The top level is drawn **by hand** in KLayout on top of the `tiny` floorplan
-  template and instantiates four `inverter` unit cells from the `inverter`
-  sub-macro in `macros/inverter/`.
+  On-chip analog building blocks should be fully differential for signal range
+  and supply rejection, but multi-user platforms hand each participant only a
+  few single-ended pads. This macro bridges that gap: a single-ended input pad
+  is buffered into a fully differential on-chip signal, and a differential-in
+  driver buffers it back out to a single-ended output pad.
 
-  The macro is signed off with the full analog flow:
+  This is the GlobalFoundries GF180MCU (gf180mcuD) port of the IHP sg13cmos5l
+  design. The macros are `gf180mcu_IOPadSingle2Diff` and
+  `gf180mcu_IOPadDiff2Single` in macros/. The pads come from
+  `gf180mcu_ocd_io__asig_5p0`, which carries HBM diodes only; the CDM
+  protection next to the gates is part of this design.
 
-  * Xschem schematic and transient testbench, simulated with ngspice
-  * KLayout and Magic DRC
-  * KLayout and Magic + Netgen LVS
-  * Magic parasitic extraction, followed by a post-layout simulation
-  * CACE characterization of the inverter unit cell
-
-  Testing: drive `uio_in[0]` and observe the inverter outputs on `analog_1`
-  and `analog_2`; `analog_0` is the analog input. `VPWR`/`VGND` supply the
-  digital rails and `VAPWR` the analog rail. Reproduce the committed results
-  with `make all` inside the IIC-OSIC-TOOLS container. No additional external
-  hardware is required.
+  NOTE: this repository is a skeleton. The layout, schematics and netlists are
+  not yet drawn for GF180, and the operating limits (docs/OPERATING_LIMITS.md)
+  are not yet decided. Rewrite this section to describe the as-built circuit,
+  how it is tested and what external hardware it needs, once the design exists.
 
 # These paths are used to verify your
 # submission during the precheck.

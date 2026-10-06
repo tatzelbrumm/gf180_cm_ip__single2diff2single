@@ -21,8 +21,28 @@ if {![info exists PDK]} {
     source $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/xschemrc
 }
 
-# Source top-level schematic xschemrc to pull in canonical library paths and macro libraries.
-source [file normalize [file join [file dirname [info script]] ../../schematic/xschem/xschemrc]]
+# Append a library path only if not already present.
+if {![llength [info commands append_xschem_library_path_unique]]} {
+  proc append_xschem_library_path_unique {path} {
+    set normalized [file normalize $path]
+    if {![info exists ::XSCHEM_LIBRARY_PATH]} {
+      set ::XSCHEM_LIBRARY_PATH $normalized
+      return
+    }
+    set entries [split $::XSCHEM_LIBRARY_PATH :]
+    if {[lsearch -exact $entries $normalized] < 0} {
+      if {$::XSCHEM_LIBRARY_PATH eq ""} {
+        set ::XSCHEM_LIBRARY_PATH $normalized
+      } else {
+        append ::XSCHEM_LIBRARY_PATH :$normalized
+      }
+    }
+  }
+}
+
+# Add current directory to xschem library path
+append_xschem_library_path_unique [file join [file dirname [info script]] ../../schematic/xschem]
+append_xschem_library_path_unique [file dirname [info script]]
 
 # Pin the netlist directory to the simulations folder of the loaded schematic
 if {![llength [info commands pin_netlist_dir]]} {

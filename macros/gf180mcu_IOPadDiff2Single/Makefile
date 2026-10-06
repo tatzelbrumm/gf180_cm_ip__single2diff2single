@@ -4,7 +4,7 @@
 MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Variables
-TOP = gf180_cm_ip__single2diff2single
+TOP = gf180mcu_IOPadDiff2Single
 
 .DEFAULT_GOAL := help
 
@@ -52,7 +52,6 @@ RENDER_TECH ?= gf180mcuD
 OPEN_ARGS ?=
 
 # Folder structure
-MACROS_DIR      := macros
 XSCHEM_SCH_DIR  := schematic/xschem
 XSCHEM_TB_DIR   := testbenches/xschem
 LAY_DIR         := layout
@@ -122,43 +121,20 @@ sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem 
 	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
 .PHONY: sim-view-xschem
 
-
 sim-all: ## Simulate the macro
 	$(MAKE) sim-xschem TB=$(TOP)_tb_tran
 .PHONY: sim-all
 # ================================================================================================
 
 
-# Build Targets
-build-single2diff: ## Verify, build and simulate the gf180mcu_IOPadSingle2Diff macro
-	@$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadSingle2Diff all
-.PHONY: build-single2diff
-
-build-diff2single: ## Verify, build and simulate the gf180mcu_IOPadDiff2Single macro
-	@$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadDiff2Single all
-.PHONY: build-diff2single
-
-build-macros: ## Verify, build and simulate all macros (IOPadSingle2Diff and IOPadDiff2Single)
-	$(MAKE) build-single2diff
-	$(MAKE) build-diff2single
-#	ToDo: further macros
-.PHONY: build-macros
-
-build-top: ## Build TOP cell (check PR boundary, Verilog, LEF, LIB, copy GDS, and render images)
-	$(MAKE) check-boundary
+# Build Target
+build-top: ## Build TOP cell (Verilog, LEF, LIB, copy GDS, and render image)
 	$(MAKE) lef
 	$(MAKE) lib
 	$(MAKE) verilog
 	$(MAKE) copy-gds
 	$(MAKE) render-gds
 .PHONY: build-top
-# ================================================================================================
-
-
-# PR Boundary Check Target
-check-boundary: ## Check that the TOP cell layout carries the PR boundary box on layer 0 (PR_bndry 0/0) that the chip flow needs
-	python3 $(SCRIPTS_DIR)/check_boundary.py $(LAY_GDS_DIR)/$(TOP).gds $(TOP)
-.PHONY: check-boundary
 # ================================================================================================
 
 
@@ -388,7 +364,7 @@ klayout-verify: ## Verify CELL cell with KLayout (usage: make klayout-verify [CE
 #	$(MAKE) klayout-pex CELL=$(CELL)
 .PHONY: klayout-verify
 
-klayout-verify-all: ## Verify the top-level cell with KLayout (DRC, LVS)
+klayout-verify-all: ## Verify all main subcells with KLayout (DRC, LVS)
 	$(MAKE) klayout-verify CELL=$(TOP)
 .PHONY: klayout-verify-all
 
@@ -398,15 +374,14 @@ magic-verify: ## Verify CELL cell with Magic (usage: make magic-verify [CELL=<ce
 	$(MAKE) magic-pex CELL=$(CELL)
 .PHONY: magic-verify
 
-magic-verify-all: ## Verify the top-level cell with Magic (DRC, LVS, PEX)
+magic-verify-all: ## Verify all main subcells with Magic (DRC, LVS, PEX)
 	$(MAKE) magic-verify CELL=$(TOP)
 .PHONY: magic-verify-all
 # ================================================================================================
 
 
 # Verify, Build and Simulate All Target
-all: ## Verify, build and simulate the macros and the TOP cell
-	$(MAKE) build-macros
+all: ## Verify, build and simulate the TOP cell
 	$(MAKE) klayout-verify-all
 	$(MAKE) magic-verify-all
 	$(MAKE) build-top
@@ -415,8 +390,8 @@ all: ## Verify, build and simulate the macros and the TOP cell
 # ================================================================================================
 
 
-# Clean Targets
-clean: ## Delete all generated files and folders of the TOP cell (final, netlists, render, DRC/LVS reports, simulation outputs)
+# Clean Target
+clean: ## Delete all generated files and folders (final, netlists, render, DRC/LVS reports, simulation outputs)
 	rm -rf $(GDS_DIR) $(LEF_DIR) $(LIB_DIR) $(VH_DIR)
 	rm -rf $(NET_SCH_DIR) $(NET_LAY_DIR) $(NET_PEX_DIR)
 	rm -rf $(RENDER_IMG_DIR)
@@ -425,23 +400,4 @@ clean: ## Delete all generated files and folders of the TOP cell (final, netlist
 	rm -rf $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures $(SIM_PLOT_DIR)/__pycache__
 	rm -rf $(SCRIPTS_DIR)/__pycache__
 .PHONY: clean
-
-clean-single2diff: ## Delete all generated files and folders of the gf180mcu_IOPadSingle2Diff macro
-	@$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadSingle2Diff clean
-.PHONY: clean-single2diff
-
-clean-diff2single: ## Delete all generated files and folders of the gf180mcu_IOPadDiff2Single macro
-	@$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadDiff2Single clean
-.PHONY: clean-diff2single
-
-clean-macros: ## Delete all generated files and folders of all macros
-	$(MAKE) clean-single2diff
-	$(MAKE) clean-diff2single
-#	ToDo: further macros
-.PHONY: clean-macros
-
-clean-all: ## Delete all generated files and folders of the macros and the TOP cell
-	$(MAKE) clean-macros
-	$(MAKE) clean
-.PHONY: clean-all
 # ================================================================================================

@@ -15,13 +15,5 @@ backups/
 sim_build/
 /schematic/xschem/simulations
 /testbenches/xschem/simulations
-/macros/inverter/verification/cace/_runs
-/macros/inverter/verification/cace/_docs
-/macros/inverter/verification/cace/netlist
-/macros/inverter/verification/cace/templates/simulations
-/macros/inverter/schematic/xschem/simulations
-/macros/inverter/testbenches/xschem/simulations
-/macros/counter/schematic/xschem/simulations
-/macros/counter/testbenches/xschem/simulations
-/macros/counter/flow/final
-/macros/counter/fpga/*/build/
+/macros/*/schematic/xschem/simulations
+/macros/*/testbenches/xschem/simulations

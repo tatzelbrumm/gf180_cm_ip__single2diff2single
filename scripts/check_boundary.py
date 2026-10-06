@@ -5,9 +5,11 @@
 import argparse
 import sys
 
-# GDS layer of prBoundary. Magic maps every datatype of it to its boundary layer (cifin: calma BOUND 189 *),
-# and LibreLane's Magic.StreamOut reads the FIXED_BBOX derived from it for every macro it places.
-BOUNDARY_LAYER = 189
+# GDS layer of the PR boundary (PR_bndry 0/0 in gf180mcu.lyp; gf180mcuD.tech maps `calma BOUND 0 0`, and
+# `PRBOUND 63 0` as a second boundary layer). Read from the PDK sources, not yet checked against a real
+# GF180 GDS or against the harness precheck. The IHP value was 189. Override with --layer.
+# Magic derives the cell's FIXED_BBOX from it, and LibreLane's Magic.StreamOut reads that for every macro it places.
+BOUNDARY_LAYER = 0
 
 
 def boundary_shapes(kdb, layout, cell, layer):

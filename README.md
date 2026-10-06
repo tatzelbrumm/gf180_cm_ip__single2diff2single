@@ -1,43 +1,34 @@
-# Chipalooza Analog Project (ihp-sg13cmos5l)
+# Single-ended / Differential / Single-ended Analog Pad Converter (GF180MCU)
 
 > [!NOTE]
-> **Status (2026-10-06):** this repository is being ported from the IHP sg13cmos5l design to GF180MCU (`gf180mcuD`, Chipalooza #3). Only the **Directory Structure** and **Layout Sources** sections describe the GF180 target. Everything else is still the inherited IHP template text and will be rewritten step by step; see [`CLAUDE.md`](CLAUDE.md) and [`docs/IHP_TO_GF180_PORT_MAP.md`](docs/IHP_TO_GF180_PORT_MAP.md).
+> **Status (2026-10-06):** skeleton. This repository is the GF180MCU (`gf180mcuD`, Chipalooza #3) port of the IHP sg13cmos5l design `sg13cmos5l_cm_ip__single2diff2single`. The build files (`Makefile`, the `xschemrc` files, `submission.yaml`, `.gitignore`, `scripts/`) now target GF180MCU, and every IHP design file has been removed. **No layout, schematic, testbench or netlist exists yet and no Makefile target has been run.** The GF180 harness is unpublished, so slot size, pin interface and precheck rules are assumptions carried over from the IHP version; anything marked *unverified* below is such an assumption. See [`CLAUDE.md`](CLAUDE.md), [`docs/IHP_TO_GF180_PORT_MAP.md`](docs/IHP_TO_GF180_PORT_MAP.md) and [`harness_stub/README.md`](harness_stub/README.md).
 
-(c) 2026 Tim Edwards and Simon Dorrer
+(c) 2026 Tim Edwards and Simon Dorrer (the build flow derives from their Chipalooza analog project template)
 
 > [!IMPORTANT]
-> This repository requires the [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS) container with tag `2026.08` or later.
+> This repository requires the [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS) container with tag `2026.08` or later, and a tag that ships the `gf180mcuD` PDK (install it with Ciel otherwise). Not yet checked for the tag you use.
 
 > [!TIP]
 > If you want to use `nix-shell` instead of the container, have a look here: [heichips26-template](https://github.com/HeiChips/heichips26-template).
 
-> [!TIP]
-> New to this flow? Start with the [**ihp-sg13cmos5l AMS chip design tutorial**](https://iic-jku.github.io/ihp-sg13cmos5l-ams-chip-template/index.html). This project follows the same analog flow and directory conventions, so the tutorial applies here as well.
+Single-ended analog pads are all a shared-die platform hands to each participant, while on-chip analog blocks should be fully differential for signal range and supply rejection. This design bridges the two: a single-ended analog **input pad** is buffered into a fully differential on-chip signal, and a differential-in **output driver** buffers it back out to a single-ended analog **output pad**.
 
-<p align="center">
-  <a href="render/img/sg13cmos5l_chipalooza_analog_project_white.png">
-    <img src="render/img/sg13cmos5l_chipalooza_analog_project_white.png" alt="Render of the ihp-sg13cmos5l sg13cmos5l_chipalooza_analog_project `tiny` layout (200um x 200um)" width=70%>
-  </a>
-  <br>
-  <em>Render of the ihp-sg13cmos5l sg13cmos5l_chipalooza_analog_project `tiny` layout (200um x 200um).</em>
-</p>
+The top level `gf180_cm_ip__single2diff2single` is drawn **by hand** (analog on top) and uses a **recursive macro structure**: it embeds the two sub-macros [`gf180mcu_IOPadSingle2Diff`](macros/gf180mcu_IOPadSingle2Diff/README.md) (input pad, CDM protection, single-ended-to-differential buffer) and [`gf180mcu_IOPadDiff2Single`](macros/gf180mcu_IOPadDiff2Single/README.md) (class-AB differential-to-single-ended driver, output pad). The pads come from Tim Edwards' `gf180mcu_ocd_io__asig_5p0`, which has HBM diodes only; the CDM protection next to the gates is part of this design.
 
-This is the analog-on-top example project for Chipalooza 2026: the top level `sg13cmos5l_chipalooza_analog_project` is drawn **by hand** in KLayout, based on one of the floorplan templates in `floorplan/`. It uses a **recursive macro structure**: the top level embeds the [`inverter`](macros/inverter/README.md) sub-macro, which shows the complete analog design flow (schematic → simulation → layout → DRC/LVS/PEX → post-layout simulation → characterization). For **mixed-signal (AMS)** submissions the digital [`counter`](macros/counter/README.md) sub-macro is shipped alongside it, which shows the complete digital flow (RTL → lint → RTL simulation → FPGA → LibreLane hardening → PEX → gate-level and mixed-signal simulation).
-
-The whole flow runs inside the [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS) container, which ships every tool it needs: Xschem, ngspice, Magic, Netgen, KLayout, CACE, LibreLane, Verilator, Icarus Verilog, cocotb, Yosys, and the `sak-*` helper scripts.
+The whole flow runs inside the [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS) container: Xschem, ngspice, Magic, Netgen, KLayout and the `sak-*` helper scripts.
 
 > [!IMPORTANT]
-> You must rename `sg13cmos5l_chipalooza_analog_project` to a unique name and fill in [`submission.yaml`](submission.yaml) in the repository root before you submit. `top-cell` there has to match `TOP` in the [`Makefile`](Makefile).
+> `top-cell` in [`submission.yaml`](submission.yaml) has to match `TOP` in the [`Makefile`](Makefile), the file names below and the top cell inside the GDS. The intended name is `gf180_cm_ip__single2diff2single` (not final until confirmed, see `CLAUDE.md` section 1).
 
-[`submission.yaml`](submission.yaml) describes the submission and is what the precheck reads. It is filled in for this example and carries these fields:
+[`submission.yaml`](submission.yaml) describes the submission and is what the precheck reads. It carries these fields:
 
 | Field | Meaning |
 | --- | --- |
 | `project-name` | free-text name of the project |
 | `top-cell` | the macro's cell name, unique across all submissions |
 | `team-members` | one list entry per person |
-| `slot-size` | `tiny` (200 µm × 200 µm), `small` (500 µm × 200 µm) or `large` (500 µm × 415 µm) |
-| `analog-pins` | how many of `analog_0` … `analog_2` the macro uses, `0`–`3` |
+| `slot-size` | `tiny`, `small` or `large` (IHP sizes 200 x 200, 500 x 200 and 500 x 415 µm). *Unverified for GF180.* |
+| `analog-pins` | how many analog pins the macro uses, `0`-`3`. *Unverified for GF180* (the IHP design used three: vin, vout, vcm). |
 | `short-description` | one line |
 | `long-description` | the project documentation, Markdown in a YAML block scalar |
 | `gds-path`, `lef-path`, `header-path` | globs for the three deliverables, each must match **exactly one** file |
@@ -52,17 +43,14 @@ header-path: final/vh/*.vh
 
 They are produced by `make build-top`, so run it once before submitting.
 
-> [!WARNING]
-> The precheck this template descends from rejects `analog-pins` greater than `0` unless `slot-size` is `small`, even though a `tiny` analog floorplan template is shipped and this example uses it (`tiny` with three analog pins). Confirm the rule with the organizers before you rely on a tiny analog slot.
+To rename the project, change `TOP` in the [`Makefile`](Makefile) (every target derives its file names from it) and in the two macro Makefiles if a macro is renamed, and rename the files that carry the name:
 
-To rename the project, change `TOP` in the [`Makefile`](Makefile) — every target derives its file names from it, so nothing else in the Makefile has to be touched — and rename the files that carry the name:
+- `layout/klayout/<TOP>.klay.gds` and `.klay.klib`, `layout/gds/<TOP>.gds`, **and the top cell inside the GDS files** (open in KLayout, rename the cell, save). The DRC, LVS and PEX targets pass the file name as the cell name, so the two must match.
+- `schematic/xschem/<TOP>.sch` and `.sym` (`_pex.sym` is regenerated by `symbol-pex`)
+- `testbenches/xschem/<TOP>_tb_tran.sch`
+- `testbenches/xschem/plot_simulations/plot_<TOP>.py`
 
-- `layout/sg13cmos5l_chipalooza_analog_project.gds`, `.klay.gds` and `.klay.klib`, **and the top cell inside both GDS files** (open in KLayout, rename the cell, save). The DRC, LVS and PEX targets pass the file name as the cell name, so the two must match.
-- `schematic/xschem/sg13cmos5l_chipalooza_analog_project.sch` and `.sym` (`_pex.sym` is regenerated by `symbol-pex`)
-- `testbenches/xschem/sg13cmos5l_chipalooza_analog_project_tb_tran.sch`
-- `testbenches/xschem/plot_simulations/plot_sg13cmos5l_chipalooza_analog_project.py`
-
-Then search and replace the remaining occurrences inside those files — Xschem schematics and the plot script are plain text. The ones that matter are the DUT symbol instances and the `.include` of the PEX netlist in the testbench, and the raw file names in the plot script. Finally set `top-cell` in [`submission.yaml`](submission.yaml) to the same name.
+Then search and replace the remaining occurrences inside those files (Xschem schematics and the plot script are plain text): the DUT symbol instances, the `.include` of the PEX netlist in the testbench, and the raw file names in the plot script. Finally set `top-cell` in [`submission.yaml`](submission.yaml) to the same name.
 
 
 ## Directory Structure
@@ -77,67 +65,55 @@ Then search and replace the remaining occurrences inside those files — Xschem 
 ├─ 📁 docs/                          # GF180_PROCESS_OPTIONS, OPERATING_LIMITS, IHP_TO_GF180_PORT_MAP
 ├─ 📁 dependencies/                  # links to gf180mcu_ocd_io etc.; nothing vendored yet
 ├─ 📁 harness_stub/                  # assumed slot interface until the GF180 harness is published
-├─ 📁 floorplan/                     # GF180 slot templates: none exist yet
-├─ 📁 final/
-│  ├─ 📁 gds/  📁 lef/  📁 lib/  📁 vh/       # <TOP>.gds, .lef, .lib, .vh produced by `make build-top`
+├─ 📁 floorplan/                     # GF180 slot templates: none exist yet (README only)
+├─ 📁 final/                         # generated by `make build-top`, absent until the first run
+│  ├─ 📁 gds/  📁 lef/  📁 lib/  📁 vh/       # <TOP>.gds, .lef, .lib, .vh
 ├─ 📁 layout/
 │  ├─ 📁 klayout/                    # KLayout editing source: <TOP>.klay.gds + <TOP>.klay.klib
 │  ├─ 📁 magic/                      # Magic editing source (*.mag), only for a cell authored in Magic
 │  └─ 📁 gds/                        # exported static <TOP>.gds, what every build and sign-off target reads
 ├─ 📁 macros/
 │  ├─ 📁 gf180mcu_IOPadSingle2Diff/  # analog input pad + CDM protection + S2D buffer
-│  │  └─ 📁 layout/{klayout,magic,gds}/   # same three roles as at the top level
-│  └─ 📁 gf180mcu_IOPadDiff2Single/  # D2S class-AB driver + analog output pad
-│     └─ 📁 layout/{klayout,magic,gds}/
-├─ 📁 netlist/
+│  │  ├─ Makefile  README.md
+│  │  ├─ 📁 layout/{klayout,magic,gds}/   # same three roles as at the top level
+│  │  └─ 📁 schematic/xschem/  📁 testbenches/xschem/  📁 scripts/   # xschemrc files, check_pex_ports.py
+│  └─ 📁 gf180mcu_IOPadDiff2Single/  # D2S class-AB driver + analog output pad, same structure
+├─ 📁 netlist/                       # generated, absent until the first run
 │  ├─ 📁 layout/                     # *_klayout.cir (KLayout LVS), *_magic.ext.spc (Magic LVS)
 │  ├─ 📁 pex/                        # *_magic_pex_*.spice
 │  └─ 📁 schematic/                  # *_klayout.cdl, *_magic.spice
-├─ 📁 render/img/
+├─ 📁 render/img/                    # generated
 ├─ 📁 schematic/xschem/              # <TOP>.sch, .sym, _pex.sym, xschemrc
 ├─ 📁 scripts/                       # check_boundary.py, check_pex_ports.py, extract_pad.py, pcells/
 ├─ 📁 testbenches/xschem/            # <TOP>_tb_tran.sch, plot_simulations/, xschemrc
-└─ 📁 verification/
+└─ 📁 verification/                  # generated
    ├─ 📁 drc/  <cell>.klayout.drc/  <cell>.magic.drc/
    └─ 📁 lvs/  <cell>.klayout.lvs/  <cell>.magic.lvs/
 ```
 
 </details>
 
-
 ## Recursive Macro Structure
 
 This project embeds two sub-macros in `macros/`, and each level has its own Makefile with the same targets:
 
-- **Top level (`sg13cmos5l_chipalooza_analog_project`)** — the hand-drawn submission macro. Its layout instantiates the `inverter` cells. Its Makefile verifies and builds the **top cell only** (`CELL` defaults to `sg13cmos5l_chipalooza_analog_project`).
-- **Analog sub-macro ([`macros/inverter/`](macros/inverter/README.md))** — the complete flow reference for the unit `inverter` cell (`TOP = inverter`), including sizing notebooks and CACE characterization.
-- **Digital sub-macro ([`macros/counter/`](macros/counter/README.md))** — the digital counterpart for **mixed-signal (AMS)** designs (`TOP = counter_top`). Its RTL is linted (Verilator), simulated (Icarus Verilog and cocotb), emulated on an FPGA and hardened into a placeable macro with LibreLane, which runs the Magic and KLayout DRC and the Netgen LVS as part of the flow. [`generate-xspice`](macros/counter/README.md#generate-xspice-file) turns the hardened netlist into an XSPICE model, so the digital block can be simulated together with analog circuitry in an Xschem testbench.
+- **Top level (`gf180_cm_ip__single2diff2single`)**: the hand-drawn submission macro. Its layout instantiates the two macros below. Its Makefile verifies and builds the **top cell only** (`CELL` defaults to `gf180_cm_ip__single2diff2single`).
+- **[`macros/gf180mcu_IOPadSingle2Diff/`](macros/gf180mcu_IOPadSingle2Diff/README.md)** (`TOP = gf180mcu_IOPadSingle2Diff`): analog input pad, CDM protection, single-ended-to-differential buffer.
+- **[`macros/gf180mcu_IOPadDiff2Single/`](macros/gf180mcu_IOPadDiff2Single/README.md)** (`TOP = gf180mcu_IOPadDiff2Single`): class-AB differential-to-single-ended driver and analog output pad.
 
-Every macro follows the same principle, and the simulations always run last, so they use the artifacts the same invocation has just produced:
+The macro Makefiles were derived from the template's analog sub-macro Makefile; its CACE characterization targets were dropped, and the PDK, layout and name strings were retargeted. They have not been run for GF180. Every level follows the same principle, and the simulations always run last, so they use the artifacts the same invocation has just produced:
 
 | Makefile | `all` flow |
 | --- | --- |
-| [`macros/counter/`](macros/counter/) (digital) | lint → build (FPGA and LibreLane, including the XSPICE model) → extract (PEX of the hardened GDS) → simulate. DRC and LVS run inside the LibreLane flow. |
-| [`macros/inverter/`](macros/inverter/) (analog) | verify (DRC, LVS, PEX) → build (LEF, LIB, Verilog stub, GDS, render) → simulate |
+| each macro | verify (DRC, LVS, PEX) → build (LEF, LIB, Verilog stub, GDS, render) → simulate |
 | top level | build macros → verify (DRC, LVS, PEX) → build (boundary check, LEF, LIB, Verilog stub, GDS, render) → simulate |
 
-**Build order matters**: if you modify a sub-macro, run its own flow first (`make -C macros/inverter all` or `make -C macros/counter all`, or equivalently `make build-inverter` / `make build-counter` from here), then rebuild the top level. The top-level `make all` does this automatically by running `build-macros` before verifying and building the top cell. You can also remove the sub-macros entirely and draw everything flat in the top-level layout (not recommended).
-
-> [!TIP]
-> The example top level shipped here is **analog only**: it instantiates the `inverter` and leaves the `counter` unused, so nothing but `build-macros` touches it. To go mixed-signal, build the digital macro once with `make build-counter`, add its hardened GDS `macros/counter/final/gds/counter_top.gds` as a second library entry in [`layout/sg13cmos5l_chipalooza_analog_project.klay.klib`](layout/sg13cmos5l_chipalooza_analog_project.klay.klib) next to the `inverter` binding, place the `counter_top` cell in the top-level layout and re-export the tapeout GDS. `counter_top.sym` is already visible in a top-level Xschem session, see [Xschem Configuration](#xschem-configuration).
+**Build order matters**: if you modify a sub-macro, run its own flow first (`make -C macros/gf180mcu_IOPadSingle2Diff all`, or equivalently `make build-single2diff` / `make build-diff2single` from here), then rebuild the top level. The top-level `make all` does this automatically by running `build-macros` before verifying and building the top cell. A macro's exported GDS `layout/gds/<macro>.gds` is what the top-level `.klib` binds to, see the next sections.
 
 
 ## Floorplan Templates
 
-Start your top-level layout from one of the GDS templates in `floorplan/`. They define the slot geometry and all pin positions:
-
-- **Signal pins** on Metal3 (west edge): the standard chip interface (`clk`, `ena`, `rst_n`, `ui_in[7:0]`, `uo_out[7:0]`, `uio_*[7:0]`) that connects your project to the eFPGA.
-- **Analog pins** (`analog_0` … `analog_2`) on Metal2 (south edge) — only in the `*_analog` variants. Declare how many you use in [`submission.yaml`](submission.yaml) (`analog-pins:`), and see the warning above about which slot sizes may carry them.
-- **Power straps** on Metal4, running **vertically all the way from bottom to top**: `VPWR`, `VGND`, and optionally `VAPWR` (analog supply). Keeping them as drawn is the safe default, because they line up with the chip power grid straight away. There is no hard requirement to do so — as a macro, the P&R tools can usually drop the power grid around your project as needed — but if you shorten, move or rename them, say so in [`submission.yaml`](submission.yaml) so the chip integration can take it into account.
-- **PR boundary** on layer 189 (`prBoundary`), the box the chip flow derives the macro bounding box from, see [PR Boundary Check](#pr-boundary-check).
-
-> [!TIP]
-> There is no specific power-supply requirement for your project, and `TopMetal1` may be used. Leaving the top metals free makes the project easier to fold into a larger SoC later, and as a macro the P&R tools can usually drop the power grid around it as needed.
+None for GF180 yet. The IHP slot templates were removed because their geometry, pin positions and layers do not apply. Slot geometry, wrapper interface and precheck rules arrive with `gf180mcu_ocd_chipalooza`, which is still empty; until then [`harness_stub/README.md`](harness_stub/README.md) holds the assumed interface and [`floorplan/README.md`](floorplan/README.md) the status.
 
 
 ## Layout Sources and the Exported Tapeout GDS
@@ -162,30 +138,29 @@ Rules:
 
 The export re-evaluates the PCells against the **installed** PDK, so device geometry can change even though nobody touched the editing source. A layout carried over from another PDK, another PDK revision or a different template therefore has to be re-exported under the target PDK and re-checked, not copied. This applies to everything inherited from the IHP version of this design. Re-run DRC, LVS and PEX after every export.
 
-The Makefile's `_GDS_EXT` fallback (`.gds`, else `.klay.gds`) and its `layout/<TOP>.gds` paths still assume the flat template layout and are retargeted together with the rest of the Makefile. The three-directory convention and its history are discussed in the IHP sibling project's notes: [`2026-09-27_sonnet_single2diff2single_toplevel_structure_and_chipalooza_magic_authoring.md`](../sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/chatlog/2026-09-27_sonnet_single2diff2single_toplevel_structure_and_chipalooza_magic_authoring.md), Turns 14, 19 and 21 to 23.
+The Makefiles follow this convention strictly: every DRC, LVS, PEX and build target reads `layout/gds/<cell>.gds` and nothing else (`LAY_GDS_DIR` in the Makefile). The IHP sibling project's Makefile falls back to `layout/klayout/<cell>.klay.gds` when no exported GDS exists; this project deliberately does not, so a forgotten export fails loudly instead of checking a stale or unresolved source. The three-directory convention and its history are discussed in the IHP sibling project's notes: [`2026-09-27_sonnet_single2diff2single_toplevel_structure_and_chipalooza_magic_authoring.md`](../sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/chatlog/2026-09-27_sonnet_single2diff2single_toplevel_structure_and_chipalooza_magic_authoring.md), Turns 14, 19 and 21 to 23.
 
 
 ## Xschem Configuration
 
-Xschem reads exactly one `xschemrc` at start-up, and that file decides which symbol libraries are visible and where netlists and simulation output are written. This template ships one per folder that holds schematics:
+Xschem reads exactly one `xschemrc` at start-up, and that file decides which symbol libraries are visible and where netlists and simulation output are written. This project ships one per folder that holds schematics:
 
 | `xschemrc` | Belongs to |
 | --- | --- |
 | [`schematic/xschem/xschemrc`](schematic/xschem/xschemrc) | top-level schematics |
 | [`testbenches/xschem/xschemrc`](testbenches/xschem/xschemrc) | top-level testbenches |
-| [`macros/inverter/schematic/xschem/xschemrc`](macros/inverter/schematic/xschem/xschemrc) | inverter schematics |
-| [`macros/inverter/testbenches/xschem/xschemrc`](macros/inverter/testbenches/xschem/xschemrc) | inverter testbenches |
-| [`macros/inverter/verification/cace/templates/xschemrc`](macros/inverter/verification/cace/templates/xschemrc) | CACE testbench templates |
-| [`macros/counter/schematic/xschem/xschemrc`](macros/counter/schematic/xschem/xschemrc) | counter schematics |
-| [`macros/counter/testbenches/xschem/xschemrc`](macros/counter/testbenches/xschem/xschemrc) | counter testbenches |
+| [`macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc`](macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc) | input pad macro schematics |
+| [`macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc`](macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc) | input pad macro testbenches |
+| [`macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc`](macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc) | output driver macro schematics |
+| [`macros/gf180mcu_IOPadDiff2Single/testbenches/xschem/xschemrc`](macros/gf180mcu_IOPadDiff2Single/testbenches/xschem/xschemrc) | output driver macro testbenches |
 
 ### What Every File Does
 
 All of them run the same four steps, in this order:
 
-1. **Pick the PDK.** `PDK_ROOT` is probed in the usual install locations if the environment does not set it, and `PDK` falls back to `ihp-sg13cmos5l`. The container already exports `PDK_ROOT`, and [`.designinit`](.designinit) exports `PDK`, so this step is only a safety net for an Xschem started outside that environment.
-2. **Source the PDK `xschemrc`.** `$PDK_ROOT/$PDK/libs.tech/xschem/xschemrc` brings in the IHP device symbols, the ngspice model paths and the IHP menu. It is guarded by `[info exists PDK]` so it is read once even when several project files are chained.
-3. **Add the project library paths.** `append_xschem_library_path_unique` appends a folder to `XSCHEM_LIBRARY_PATH` only if it is not already there, so the same folder never appears twice no matter how the files are chained. [`testbenches/xschem/xschemrc`](testbenches/xschem/xschemrc) adds none of its own and gets its paths from the file it sources.
+1. **Pick the PDK.** `PDK_ROOT` is probed in the usual install locations if the environment does not set it, and `PDK` falls back to `gf180mcuD`. The container already exports `PDK_ROOT`, and [`.designinit`](.designinit) exports `PDK`, so this step is only a safety net for an Xschem started outside that environment.
+2. **Source the PDK `xschemrc`.** `$PDK_ROOT/$PDK/libs.tech/xschem/xschemrc` brings in the GF180 device symbols, the ngspice model paths and the PDK menu. It is guarded by `[info exists PDK]` so it is read once even when several project files are chained.
+3. **Add the project library paths.** `append_xschem_library_path_unique` appends a folder to `XSCHEM_LIBRARY_PATH` only if it is not already there, so the same folder never appears twice no matter how the files are chained.
 4. **Pin the netlist directory.** `pin_netlist_dir` decides where `xschem netlist` and the simulators write.
 
 Both helper procedures are defined behind an `[info commands ...]` guard, so sourcing one file from another is harmless and the order does not matter.
@@ -197,16 +172,13 @@ The top level pulls in everything below it:
 ```text
 testbenches/xschem/xschemrc
 └─ source schematic/xschem/xschemrc
-   ├─ source macros/inverter/schematic/xschem/xschemrc
-   └─ source macros/counter/schematic/xschem/xschemrc
-
-macros/inverter/verification/cace/templates/xschemrc
-└─ source macros/inverter/schematic/xschem/xschemrc
+   ├─ source macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc
+   └─ source macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc
 ```
 
-Each schematic folder puts itself and its sibling testbenches folder on the library path, and each testbenches folder does the reverse. The top level therefore sees all six schematic and testbench folders, which is what lets `sg13cmos5l_chipalooza_analog_project.sch` instantiate `inverter.sym` and `counter_top.sym`, and what lets you open a macro testbench from a top-level session. The macro files do not source each other or the top level, so a macro can be opened and simulated on its own.
+Each schematic folder puts itself and its sibling testbenches folder on the library path, and each testbenches folder does the reverse. The top level therefore sees all the schematic and testbench folders, which is what lets the top-level schematic instantiate the macro symbols, and what lets you open a macro testbench from a top-level session. The macro files do not source each other or the top level, so a macro can be opened and simulated on its own.
 
-Add a further sub-macro to the top level by sourcing its `schematic/xschem/xschemrc` from [`schematic/xschem/xschemrc`](schematic/xschem/xschemrc), next to the `inverter` and `counter` lines.
+Add a further sub-macro to the top level by sourcing its `schematic/xschem/xschemrc` from [`schematic/xschem/xschemrc`](schematic/xschem/xschemrc), next to the existing `source` lines.
 
 ### Where Netlists and Simulation Output Go
 
@@ -216,10 +188,10 @@ Add a further sub-macro to the top level by sourcing its `schematic/xschem/xsche
 | --- | --- |
 | `<x>/testbenches/xschem` | `<x>/testbenches/xschem/simulations` |
 | `<x>/schematic/xschem` | `<x>/testbenches/xschem/simulations` |
-| `.../cace/templates` | `.../cace/templates/simulations` |
+| `.../cace/templates` | `.../cace/templates/simulations` (kept from the template, no CACE folder exists here) |
 | anywhere else (a PDK example) | left at the value the `xschemrc` pinned |
 
-It runs twice: once while the `xschemrc` is read, using that file's own folder, and again through Xschem's `load_file_postprocess` hook for every schematic that is opened afterwards. The second call is the important one. Because the top level puts the macro folders on the library path, a macro testbench can be opened from a top-level session, and without the hook its netlist would land in `testbenches/xschem/simulations/`. Its relative includes such as `.include ../../../netlist/pex/inverter_magic_pex_3.spice` are resolved by ngspice relative to the netlist file, so they would then point at the wrong tree and the simulation would abort. With the hook, the netlist always lands next to its own schematic and the includes resolve.
+It runs twice: once while the `xschemrc` is read, using that file's own folder, and again through Xschem's `load_file_postprocess` hook for every schematic that is opened afterwards. The second call is the important one. Because the top level puts the macro folders on the library path, a macro testbench can be opened from a top-level session, and without the hook its netlist would land in `testbenches/xschem/simulations/`. Its relative includes such as `.include ../../../netlist/pex/gf180mcu_IOPadSingle2Diff_magic_pex_3.spice` are resolved by ngspice relative to the netlist file, so they would then point at the wrong tree and the simulation would abort. With the hook, the netlist always lands next to its own schematic and the includes resolve.
 
 A `set netlist_dir` passed on the Xschem command line still wins, because `--command` runs after the file is loaded. The LVS netlist targets rely on this to write into `netlist/schematic/` instead.
 
@@ -228,7 +200,7 @@ All `simulations/` folders are generated and git-ignored.
 ### Which File Is Used
 
 - The Makefile targets always name one explicitly with `--rcfile`, so a target behaves the same from any working directory.
-- Starting Xschem from within one of the seven folders picks up that folder's file, which is the normal interactive case. `make open` does the same, because it starts Xschem in the file's own directory.
+- Starting Xschem from within one of the folders above picks up that folder's file, which is the normal interactive case. `make open` does the same, because it starts Xschem in the file's own directory.
 - Started from anywhere else, Xschem falls back to `~/.xschem/xschemrc` and sees neither the project symbols nor the pinned `netlist_dir`. Pass the file explicitly then, for example `xschem --rcfile schematic/xschem/xschemrc <file>`.
 
 
@@ -249,15 +221,17 @@ They read `PDK_ROOT`, `PDK`, `PDKPATH` and `STD_CELL_LIBRARY` from the environme
 source .designinit
 ```
 
-Only two Python helpers are kept in [`scripts/`](scripts/), because they are specific to this template:
+Only two Python helpers are kept in [`scripts/`](scripts/) (each macro carries its own copy of `check_pex_ports.py`), because they are specific to this project:
 
 - [`scripts/check_boundary.py`](scripts/check_boundary.py) — the PR boundary check, see below
 - [`scripts/check_pex_ports.py`](scripts/check_pex_ports.py) — checks that every port of a PEX netlist is really connected
 
+The `sak-render.py -t` tech name is a Makefile variable, `RENDER_TECH` (default `gf180mcuD`), and `gf180mcuD` is a PDK name that `sak-pdk` lists in the container, the same kind of name the IHP version passed. It has not yet been run through `sak-render.py` itself. KPEX has no verified GF180 support, so use the Magic PEX targets.
+
 
 ## Makefile Targets
 
-The Makefile is identical in structure to the inverter sub-macro's (same variables, same targets) with `TOP = sg13cmos5l_chipalooza_analog_project` — see [`macros/inverter/README.md`](macros/inverter/README.md) for the full reference of every target, every parameter (`CELL`, `EXT_MODE`, `THRESHOLD`, `MINRES`, `MINDELAY`, `DRC_LEVEL`, `EV_PRECISION`, `TB`, `SCRIPT`, `OPEN_ARGS`) and every DRC level and PEX mode. In short:
+The top-level Makefile has the same structure as each macro's (same variables, same targets) with `TOP = gf180_cm_ip__single2diff2single`; the macro Makefiles use their own macro name as `TOP`. The parameters are `CELL`, `EXT_MODE`, `THRESHOLD`, `MINRES`, `MINDELAY`, `DRC_LEVEL`, `EV_PRECISION`, `TB`, `SCRIPT`, `OPEN_ARGS` and `RENDER_TECH`, documented in the Makefile header and by `make help`. In short:
 
 ```sh
 make                                     # help: all targets and variables
@@ -266,9 +240,9 @@ make klayout-verify-all                  # KLayout DRC + LVS of the top cell
 make magic-verify-all                    # Magic DRC + LVS + PEX of the top cell
 make check-boundary                      # PR boundary box check of the top cell layout
 make build-top                           # boundary check, LEF, LIB, Verilog stub, final GDS, render
-make build-inverter                      # run the inverter sub-macro's full flow (make -C macros/inverter all)
-make build-counter                       # run the counter sub-macro's full flow (make -C macros/counter all)
-make build-macros                        # verify, build and simulate all sub-macros (counter and inverter)
+make build-single2diff                   # full flow of the gf180mcu_IOPadSingle2Diff macro (make -C macros/... all)
+make build-diff2single                   # full flow of the gf180mcu_IOPadDiff2Single macro
+make build-macros                        # verify, build and simulate both macros
 make sim-all                             # run all top-level testbenches
 make sim-xschem                          # top-level transient (default: <CELL>_tb_tran, needs magic-pex first)
 make sim-xschem TB=<testbenchname>       # run another testbench
@@ -276,15 +250,13 @@ make sim-view-xschem                     # plot the results (default: plot_<CELL
 make sim-view-xschem SCRIPT=<scriptname> # run another plotting script
 make all                                 # build-macros + verify + build + simulate
 make clean                               # delete the top level's generated files (final, netlist, render, reports, simulations)
-make clean-inverter                      # run make clean in the inverter sub-macro
-make clean-counter                       # run make clean in the counter sub-macro
-make clean-macros                        # run make clean in all sub-macros (counter and inverter)
+make clean-single2diff                   # run make clean in the gf180mcu_IOPadSingle2Diff macro
+make clean-diff2single                   # run make clean in the gf180mcu_IOPadDiff2Single macro
+make clean-macros                        # run make clean in both macros
 make clean-all                           # clean-macros + clean
 ```
 
-The per-step targets behind these are the same as in the sub-macro and all take `CELL=<cellname>`: `klayout-drc`, `klayout-lvs-netlist`, `klayout-lvs`, `klayout-pex`, `klayout-verify`, `magic-drc`, `magic-lvs-netlist`, `magic-lvs`, `magic-pex`, `magic-verify`, `symbol-pex`, and the build steps `lef`, `lib`, `verilog`, `copy-gds`, `render-gds`. Run `make help` for the full list.
-
-`build-counter` and `clean-counter` only descend into the digital macro. Its own targets — linting, the RTL and gate-level simulations, the FPGA build, the LibreLane flow and the XSPICE model — are documented in [`macros/counter/README.md`](macros/counter/README.md) and are run from that folder.
+The per-step targets behind these all take `CELL=<cellname>`: `klayout-drc`, `klayout-lvs-netlist`, `klayout-lvs`, `klayout-pex`, `klayout-verify`, `magic-drc`, `magic-lvs-netlist`, `magic-lvs`, `magic-pex`, `magic-verify`, `symbol-pex`, and the build steps `lef`, `lib`, `verilog`, `copy-gds`, `render-gds`. The `verilog` target recognizes the supply pins `VDD`, `VSS`, `VPWR`, `VDPWR`, `VAPWR`, `VGND`, `VNB`, `VPB` and the direction prefixes `di_`/`do_`; adjust both once the harness's supply and pin naming is known.
 
 
 ### Open the Design Files
@@ -300,35 +272,33 @@ make open OPEN_ARGS="--prune backups"  # skip one more directory name
 > [!NOTE]
 > This target needs a display. Run it inside the container's VNC/noVNC desktop or over X11 forwarding. In a shell-only container it stops with `cannot open a window`.
 
-See [Open the Design Files](macros/inverter/README.md#open-the-design-files) in the sub-macro README for the full file-type-to-tool table and the pruning rules.
-
 
 ### PR Boundary Check
 
-Checks that the top cell of `layout/<TOP>.gds` draws the PR boundary box on layer 189 (`prBoundary`). `build-top` runs it first:
+Checks that the top cell of `layout/gds/<TOP>.gds` draws the PR boundary box on layer 0 (`PR_bndry`, 0/0). `build-top` runs it first:
 
 ```sh
 make check-boundary
 ```
 
-The chip flow derives the bounding box of every macro from this layer: Magic maps all datatypes of layer 189 to its boundary, and LibreLane's `Magic.StreamOut` runs `get_bbox.tcl` on every macro it places. A layout without the box fails the whole chip build with `Failed to extract PR boundary from GDSII view of macro '<TOP>'`, two flows away from the layout that caused it. The box comes with the floorplan templates in `floorplan/`, so treat it as part of the layout: never delete it as clutter, keep it in the KLayout editing source (`<TOP>.klay.gds`) so every re-export carries it, and hide it at render time with `sak-render.py -x` if it spoils a shot. The check runs [`scripts/check_boundary.py`](scripts/check_boundary.py), which also warns when the drawn geometry extends beyond the boundary box.
+The layer number is *unverified* against the harness: it is read from the PDK sources (`PR_bndry 0/0` in `gf180mcu.lyp`, `calma BOUND 0 0` in `gf180mcuD.tech`; the IHP value was 189) and has not been checked against a real GF180 GDS or the precheck. Override it with `scripts/check_boundary.py --layer <n>`. The IHP chip flow derived the bounding box of every macro from this layer, and a layout without the box failed the whole chip build with `Failed to extract PR boundary from GDSII view of macro '<TOP>'`; whether the GF180 flow works the same way is not known until the harness is published. The check runs [`scripts/check_boundary.py`](scripts/check_boundary.py), which also warns when the drawn geometry extends beyond the boundary box.
 
 The sub-macros have no such target: the box is only needed by the cell the chip flow places, which is the top level.
 
 
-### Differences to the Sub-Macro
+### Differences to the Sub-Macros
 
-- `sim-all` runs only the top-level testbenches (currently `sg13cmos5l_chipalooza_analog_project_tb_tran`). The testbench simulates the schematic by default and includes the extracted PEX netlist by swapping the DUT to the `_pex` symbol for a post-layout run. That symbol, `schematic/xschem/<CELL>_pex.sym`, is built by the `symbol-pex` target, which `klayout-pex` and `magic-pex` run automatically before every extraction. The inverter's own testbenches and CACE characterization live in `macros/inverter/`, the counter's gate-level and mixed-signal testbenches in `macros/counter/`, and there is no `sim-cace` at this level.
-- `klayout-verify-all`/`magic-verify-all` verify the top cell only — the inverter cells are covered by `build-macros`/`build-inverter` (or run the sub-macro's own `make`), and the counter is signed off inside its LibreLane flow by `build-macros`/`build-counter`.
+- `sim-all` runs only the top-level testbenches (`<TOP>_tb_tran`). The testbench simulates the schematic by default and includes the extracted PEX netlist by swapping the DUT to the `_pex` symbol for a post-layout run. That symbol, `schematic/xschem/<CELL>_pex.sym`, is built by the `symbol-pex` target, which `klayout-pex` and `magic-pex` run automatically before every extraction. The macros' own testbenches live in `macros/<macro>/testbenches/xschem/`.
+- `klayout-verify-all`/`magic-verify-all` verify the top cell only; the macros are covered by `build-macros` (or run the macro's own `make`).
 - `build-top` additionally runs `check-boundary` first, see above.
 - `make all` first runs `build-macros`, so the sub-macros are verified, built and simulated before the top cell.
 - `clean` deletes only the top level's generated files (`final/`, `netlist/`, `render/img/`, the DRC/LVS reports, and the simulation outputs). `clean-macros` runs `make clean` in every sub-macro, and `clean-all` combines both, mirroring `build-macros`/`all`.
 
 > [!NOTE]
-> The top-level testbench `.include`s the extracted PEX netlist `netlist/pex/sg13cmos5l_chipalooza_analog_project_magic_pex_3.spice`, and `make verilog` reads its pin list from a PEX netlist as well. Directly after `make clean`, run `make magic-pex` (or the full `make all`) once before `make sim-xschem`, `make sim-all` or `make build-top`, otherwise the include fails.
+> The top-level testbench is expected to `.include` the extracted PEX netlist `netlist/pex/<TOP>_magic_pex_3.spice`, and `make verilog` reads its pin list from a PEX netlist as well. Directly after `make clean`, run `make magic-pex` (or the full `make all`) once before `make sim-xschem`, `make sim-all` or `make build-top`, otherwise the include fails.
 
 > [!WARNING]
-> Most of the generated outputs are committed in this repository, so `make clean` leaves a large deletion set in `git status`. Run `git restore .` to get them back if you did not mean to remove them.
+> If you commit the generated outputs, `make clean` leaves a large deletion set in `git status`. Run `git restore .` to get them back if you did not mean to remove them.
 
 
 ## License

@@ -4,17 +4,19 @@ Analog-on-top IC project for **Chipalooza #3** (GlobalFoundries GF180MCU, varian
 a port of `sg13cmos5l_cm_ip__single2diff2single` (IHP, Chipalooza 2026).
 Target circuit: a **single-ended → differential → single-ended converter** between analog pads.
 
-**Status (2026-10-06):** skeleton only. The files inherited from the IHP template
-(`sg13cmos5l_chipalooza_analog_project` names, `macros/inverter`, `macros/counter`, IHP floorplan
-GDS, IHP PDK paths in the `Makefile` and `xschemrc` files) are still present and are replaced
-step by step. `docs/IHP_TO_GF180_PORT_MAP.md` lists what has to change.
+**Status (2026-10-06):** skeleton, build files retargeted. `Makefile` (top and both macros),
+all `xschemrc` files, `submission.yaml`, `.gitignore`, `scripts/check_boundary.py` and the README now
+target GF180 (`gf180mcuD`). Every IHP design file (template `inverter`/`counter` macros, IHP floorplan
+GDS, IHP-named layout, schematic, testbench and generated outputs) has been removed; the IHP repo
+`sg13cmos5l_cm_ip__single2diff2single` is the reference. **No GF180 layout, schematic or testbench exists, and no
+Makefile target has been run** (only `make -n`). Open items are in `docs/IHP_TO_GF180_PORT_MAP.md`.
 
 ## 1. Hard invariant: the top-cell name
 
 Intended name: `gf180_cm_ip__single2diff2single` (matches the folder; not final until confirmed).
 It must read the same in `Makefile` (`TOP =`), `submission.yaml` (`top-cell:`), the file names in
 `layout/`, `schematic/xschem/`, `testbenches/xschem/`, and as the **GDS cell name inside**
-`layout/*.gds` and `layout/*.klay.gds`. `make check-boundary` is the cheapest validator.
+`layout/gds/<TOP>.gds` and `layout/klayout/<TOP>.klay.gds`. `make check-boundary` is the cheapest validator.
 
 ## 2. Environment
 
@@ -46,3 +48,10 @@ are one device (`*_06v0`, usable at 5 V), digital slot I/O at 3.3 V, pads may se
 - Analog pad: `gf180mcu_ocd_io__asig_5p0` from [RTimothyEdwards/gf180mcu_ocd_io](https://github.com/RTimothyEdwards/gf180mcu_ocd_io)
   (URL only; not yet added as a dependency). It has HBM diodes only; CDM protection is ours.
 - Notes, logs, running chat log: the `_sudelbuecher` worktree (`sudelbuecher/chatlog/`).
+
+## 6. Layout paths
+
+Every Makefile target reads `layout/gds/<cell>.gds` only (`LAY_GDS_DIR`). `layout/klayout/` and
+`layout/magic/` are editing sources; export to `layout/gds/` before any `make` target (README, "Layout
+Sources and the Exported Tapeout GDS"). Unverified guesses are labelled as such in the Makefile,
+`submission.yaml` and `scripts/check_boundary.py`: `slot-size`, `analog-pins`, PR boundary layer 0. (`RENDER_TECH = gf180mcuD` matches the `sak-pdk` list; not yet run through `sak-render.py`.)
