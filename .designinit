@@ -1,8 +1,9 @@
 # shellcheck shell=bash
 
-# IHP Microelectronics: ihp-sg13cmos5l
-export PDK=ihp-sg13cmos5l
+# GlobalFoundries gf180mcuD (the process variant of the wafer.space shuttle / Chipalooza #3)
+export PDK=gf180mcuD
 export PDKPATH=$PDK_ROOT/$PDK
-export STD_CELL_LIBRARY=sg13cmos5l_stdcell
+# Not used by this analog-only design; kept because the sak-* scripts read it.
+export STD_CELL_LIBRARY=gf180mcu_fd_sc_mcu7t5v0
 export SPICE_USERINIT_DIR=$PDKPATH/libs.tech/ngspice
 export KLAYOUT_PATH=$PDKPATH/libs.tech/klayout
