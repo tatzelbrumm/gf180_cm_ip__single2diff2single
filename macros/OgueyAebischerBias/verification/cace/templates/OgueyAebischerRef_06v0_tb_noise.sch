@@ -1,8 +1,9 @@
-v {xschem version=3.4.4 file_version=1.2}
+v {xschem version=3.4.8RC file_version=1.3}
 G {}
 K {}
 V {}
 S {}
+F {}
 E {}
 T {Template testbench: output current noise - OgueyAebischerRef_06v0} 120 -1030 0 0 0.5 0.5 {}
 T {H. J. Oguey and D. Aebischer, CMOS current reference without resistance,
@@ -12,8 +13,22 @@ T {ngspice .noise needs a voltage output, so the mirrored current is sensed by a
   VDS     fixed drain voltage, an AC short: all of XMREP's noise current flows in Vsense
   HSENSE  1 V/A CCVS: v(nsense) is numerically the short-circuit output noise current
 A resistor would swamp the ~0.1 pA/rtHz device noise with its own thermal noise.
-Ibias_noise is the spot density at f_spot (default 1 Hz).} 770 -520 0 0 0.3 0.3 {}
-C {devices/code_shown.sym} 20 -880 0 0 {name=NGSPICE
+Ibias_noise is the spot density at f_spot (default 1 Hz).} 550 -360 0 0 0.3 0.3 {}
+N 180 -140 180 -120 {lab=0}
+N 420 -320 480 -320 {lab=vbp}
+N 420 -300 480 -300 {lab=vbn}
+N 420 -280 480 -280 {lab=vbr}
+N 260 -280 300 -280 {lab=#net1}
+N 260 -280 260 -240 {lab=#net1}
+N 360 -260 360 -140 {lab=0}
+N 260 -140 360 -140 {lab=0}
+N 180 -180 180 -140 {lab=0}
+N 260 -180 260 -140 {lab=0}
+N 180 -140 260 -140 {lab=0}
+N 360 -360 360 -340 {lab=vdd}
+N 180 -360 360 -360 {lab=vdd}
+N 180 -360 180 -240 {lab=vdd}
+C {devices/code_shown.sym} 20 -850 0 0 {name=NGSPICE
 simulator=ngspice
 only_toplevel=false
 value="
@@ -48,20 +63,6 @@ value="
 .param sw_stat_mismatch=CACE\{mm=0\}
 "}
 C {OgueyAebischerRef_06v0.sym} 360 -300 0 0 {name=x1}
-N 180 -140 180 -120 {lab=0}
-N 420 -320 480 -320 {lab=vbp}
-N 420 -300 480 -300 {lab=vbn}
-N 420 -280 480 -280 {lab=vbr}
-N 260 -280 300 -280 {lab=#net1}
-N 260 -280 260 -240 {lab=#net1}
-N 360 -260 360 -140 {lab=0}
-N 260 -140 360 -140 {lab=0}
-N 180 -180 180 -140 {lab=0}
-N 260 -180 260 -140 {lab=0}
-N 180 -140 260 -140 {lab=0}
-N 360 -360 360 -340 {lab=vdd}
-N 180 -360 360 -360 {lab=vdd}
-N 180 -360 180 -240 {lab=vdd}
 C {devices/vsource.sym} 180 -210 0 1 {name=VDD value="dc CACE\{vdd\} ac 1"}
 C {devices/gnd.sym} 180 -120 0 0 {name=l1 lab=0}
 C {devices/vsource.sym} 260 -210 0 1 {name=Voff value=0}

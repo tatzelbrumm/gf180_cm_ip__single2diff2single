@@ -1,10 +1,11 @@
-v {xschem version=3.4.4 file_version=1.2}
+v {xschem version=3.4.8RC file_version=1.3}
 G {}
 K {}
 V {}
 S {}
+F {}
 E {}
-T {Template testbench: start-up transient - OgueyAebischerRef_03v3} 120 -860 0 0 0.5 0.5 {}
+T {Template testbench: start-up transient - OgueyAebischerRef_03v3} 120 -960 0 0 0.5 0.5 {}
 T {H. J. Oguey and D. Aebischer, CMOS current reference without resistance,
 IEEE J. Solid-State Circuits, vol. 32, no. 7, pp. 1132-1135, Jul. 1997} 400 -140 0 0 0.3 0.3 {}
 T {No .nodeset: VDD ramps from 0 to CACE\{vdd\} in CACE\{tramp\}, and the start-up kick has to
@@ -13,7 +14,21 @@ core current I1 is within 10 % of its final value (negative: settled during the 
 If I1 never gets there the meas fails, nothing is echoed and CACE reports a failure,
 which is the correct outcome for a reference that did not start.
 IHP version measured vbr crossing 100 mV, which fired on ramp coupling (see 2026-09-04 log).} 600 -330 0 0 0.3 0.3 {}
-C {devices/code_shown.sym} 20 -690 0 0 {name=NGSPICE
+N 180 -140 180 -120 {lab=0}
+N 420 -320 480 -320 {lab=vbp}
+N 420 -300 480 -300 {lab=vbn}
+N 420 -280 480 -280 {lab=vbr}
+N 260 -280 300 -280 {lab=#net1}
+N 260 -280 260 -240 {lab=#net1}
+N 360 -260 360 -140 {lab=0}
+N 260 -140 360 -140 {lab=0}
+N 180 -180 180 -140 {lab=0}
+N 260 -180 260 -140 {lab=0}
+N 180 -140 260 -140 {lab=0}
+N 360 -360 360 -340 {lab=vdd}
+N 180 -360 360 -360 {lab=vdd}
+N 180 -360 180 -240 {lab=vdd}
+C {devices/code_shown.sym} 20 -790 0 0 {name=NGSPICE
 simulator=ngspice
 only_toplevel=false
 value="
@@ -40,7 +55,7 @@ meas tran Vbr_final find v(vbr) at=CACE[0.99*(3*CACE\{tramp\}+200e-6)]
 echo $&t_startup $&Vbp_final $&Vbn_final $&Vbr_final > CACE\{simpath\}/CACE\{filename\}_CACE\{N\}.data
 .endc
 "}
-C {devices/code_shown.sym} 20 -810 0 0 {name=MODEL only_toplevel=true
+C {devices/code_shown.sym} 20 -910 0 0 {name=MODEL only_toplevel=true
 format="tcleval( @value )"
 value="
 .include $::180MCU_MODELS/design.ngspice
@@ -49,20 +64,6 @@ value="
 .param sw_stat_mismatch=CACE\{mm=0\}
 "}
 C {OgueyAebischerRef_03v3.sym} 360 -300 0 0 {name=x1}
-N 180 -140 180 -120 {lab=0}
-N 420 -320 480 -320 {lab=vbp}
-N 420 -300 480 -300 {lab=vbn}
-N 420 -280 480 -280 {lab=vbr}
-N 260 -280 300 -280 {lab=#net1}
-N 260 -280 260 -240 {lab=#net1}
-N 360 -260 360 -140 {lab=0}
-N 260 -140 360 -140 {lab=0}
-N 180 -180 180 -140 {lab=0}
-N 260 -180 260 -140 {lab=0}
-N 180 -140 260 -140 {lab=0}
-N 360 -360 360 -340 {lab=vdd}
-N 180 -360 360 -360 {lab=vdd}
-N 180 -360 180 -240 {lab=vdd}
 C {devices/vsource.sym} 180 -210 0 1 {name=VDD value="dc CACE\{vdd\} pwl(0 0 CACE\{tramp\} CACE\{vdd\})"}
 C {devices/gnd.sym} 180 -120 0 0 {name=l1 lab=0}
 C {devices/vsource.sym} 260 -210 0 1 {name=Voff value=0}
