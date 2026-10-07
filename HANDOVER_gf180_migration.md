@@ -93,3 +93,59 @@ device sizes, protection and operating limits are re-derived for GF180.
 - IHP notes worktree: `verbatim_chatlog_recovery/verbatim-chatlog-export.md`, the class-AB pad driver notes,
   and the layout-structure chatlog (Turns 14, 19, 21 to 23).
 - This repo: `docs/GF180_PROCESS_OPTIONS.md`, `docs/OPERATING_LIMITS.md`, `harness_stub/README.md`.
+
+## 7. Session 2026-10-06 late (Claude Opus): bias port, CACE, IOPad proof of concept
+
+Request: migrate the work-in-progress design; as proof of concept run the bias circuit test and
+verification suites, start building CACE suites, create xschem schematics and symbols for circuits and
+testbenches. User decision this session: build the bias in **both** device families (`03v3` and `06v0`).
+
+Done (details in each macro README):
+
+- `macros/OgueyAebischerBias/`: IHP bias core + start-up ported wire for wire (GF180 FET symbols have the
+  IHP pin geometry), sizes re-derived from extracted gm/ID data and mismatch Monte Carlo; wrapper
+  `OgueyAebischerRef_<v>` (the CACE DUT), start-up testbench, CACE yaml + six templates per variant,
+  results in `verification/cace/results/`. `scripts/check_port.py` compares xschem's netlist with the IHP
+  netlist device by device (PASS for both variants).
+- `macros/gf180mcu_IOPadSingle2Diff/`: CDM front end (Tim's > 50 Ω / > 25 µm numbers, placeholder sizes),
+  pad-in-the-loop testbench with `gf180mcu_ocd_io__asig_5p0`, CACE `input_params`. Finding: with CDM
+  diodes to a 3.3 V vdd the input is not 5 V tolerant; numbers in `docs/OPERATING_LIMITS.md`.
+- `macros/gf180mcu_IOPadDiff2Single/`: symbol and port-only schematic (IHP symbol pin bugs fixed).
+- Top-level `schematic/xschem/xschemrc` sources the bias macro; `.gitignore` covers CACE outputs;
+  `docs/IHP_TO_GF180_PORT_MAP.md`, `docs/OPERATING_LIMITS.md`, `CLAUDE.md`, `README.md` updated.
+
+**Not delivered by the bridge:** `macros/OgueyAebischerBias/Makefile` ("protected file", the bridge
+refuses Makefiles). The user received it as a chat attachment and has to copy it in. It is the IOPad macro
+Makefile plus `VARIANT`, `sim-cace`, `sim-cace-all`, CACE outputs in `clean`.
+
+Where the numbers came from: a cloud container with ngspice-42, xschem 3.4.8RC built from source,
+CACE 2.13, and a gf180mcuD tree assembled by hand from `gf180mcu_fd_pr` @ `e11a8c9` (the commit open_pdks
+pins) laid out like open_pdks (`libs.tech/ngspice`, `libs.tech/xschem`, `fix_xschemrc.py` applied) plus the
+pad symbol/netlist under `libs.ref/gf180mcu_ocd_io`. **Not yet reproduced in the IIC-OSIC-TOOLS
+container**; do that first (`make sim-all`, `make sim-cace-all` in the bias macro, `cace` in the
+Single2Diff `verification/cace`).
+
+Open decisions for the user:
+
+1. Device family per block (03v3 vs 06v0) and the analog supply (3.3 V vs 5 V); the input-range result
+   ties into this.
+2. Bias topology: cascode M10/M13/M14 for PSRR (30.7 / 35.2 dB against the 50 dB target) and leg
+   matching; weaker kick or faster release for the start-up overshoot (14× for a µs ramp, 6–16 µs settling);
+   MiM instead of the depleted NMOS cap M26.
+3. CACE spec limits marked *placeholder* in the yaml files (I1 70–130 nA, Iq < 2 µA, ±15 % / ±6 %
+   mismatch, Iin ±1 µA).
+4. CDM resistor and diode sizes (placeholders), and whether the diodes go to a 5 V rail.
+
+Traps found this session:
+
+- xschem < 3.4.8 ignores CACE's `top_is_subckt` (DUT netlist has `**.subckt`, testbenches fail) and rejects
+  the UTF-8 BOM that the project's older `xschemrc` files start with. The new files have no BOM.
+- CACE netlists templates with the PDK `xschemrc` plus the templates folder only; a template's own
+  `xschemrc` is ignored. Symbols outside the PDK's `libs.tech/xschem` must sit next to the templates.
+- A template whose annotation text used `CACE{dvdd}` while `dvdd` was not declared in the yaml left
+  `CACE{dvdd=5.0}` in the code block unsubstituted ("Condition dvdd not defined"); declaring the condition
+  in the yaml fixed it. Declare every condition a template mentions.
+- GF180 mismatch ignores `m`; W ≤ 100 µm per FET; transient decks need `abstol=1e-13` and an explicit
+  `tmax` or cold corners take minutes.
+- At the start of this session `git status`/`git log` were run once in the design worktree before this
+  file's rule was read; no `index.lock` was left (checked). No further git commands were run.

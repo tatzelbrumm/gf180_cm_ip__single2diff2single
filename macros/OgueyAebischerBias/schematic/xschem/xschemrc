@@ -41,14 +41,10 @@ if {![llength [info commands append_xschem_library_path_unique]]} {
 }
 
 # Add current directory to xschem library path
-append_xschem_library_path_unique [file join [file dirname [info script]] ../../schematic/xschem]
 append_xschem_library_path_unique [file dirname [info script]]
+append_xschem_library_path_unique [file join [file dirname [info script]] ../../testbenches/xschem]
 
 # Pin the netlist directory to the simulations folder of the loaded schematic
-# Harness I/O cells (gf180mcu_ocd_io, installed by open_pdks under libs.ref): reference them as
-# gf180mcu_ocd_io/xschem/<cell>.sym, e.g. the analog pad gf180mcu_ocd_io__asig_5p0 in testbenches.
-append_xschem_library_path_unique [file join $env(PDK_ROOT) $env(PDK) libs.ref]
-
 if {![llength [info commands pin_netlist_dir]]} {
   proc pin_netlist_dir {dir} {
     set dir [file normalize $dir]

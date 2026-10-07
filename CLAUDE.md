@@ -4,12 +4,13 @@ Analog-on-top IC project for **Chipalooza #3** (GlobalFoundries GF180MCU, varian
 a port of `sg13cmos5l_cm_ip__single2diff2single` (IHP, Chipalooza 2026).
 Target circuit: a **single-ended → differential → single-ended converter** between analog pads.
 
-**Status (2026-10-06):** skeleton, build files retargeted. `Makefile` (top and both macros),
-all `xschemrc` files, `submission.yaml`, `.gitignore`, `scripts/check_boundary.py` and the README now
-target GF180 (`gf180mcuD`). Every IHP design file (template `inverter`/`counter` macros, IHP floorplan
-GDS, IHP-named layout, schematic, testbench and generated outputs) has been removed; the IHP repo
-`sg13cmos5l_cm_ip__single2diff2single` is the reference. **No GF180 layout, schematic or testbench exists, and no
-Makefile target has been run** (only `make -n`). Open items are in `docs/IHP_TO_GF180_PORT_MAP.md`.
+**Status (2026-10-06, late):** skeleton and build files retargeted to `gf180mcuD` (see
+`HANDOVER_gf180_migration.md`). First GF180 design content, proof of concept: `macros/OgueyAebischerBias`
+(bias reference in `03v3` and `06v0` variants: schematics, symbols, start-up testbench, full CACE suite,
+run in a cloud container, results in `verification/cace/results/`), the CDM input front end of
+`macros/gf180mcu_IOPadSingle2Diff` with a pad-in-the-loop testbench and a CACE input-range deck, and a
+port-only skeleton of `macros/gf180mcu_IOPadDiff2Single`. **No layout exists**; DRC/LVS/PEX targets have not
+been run. Open items: `docs/IHP_TO_GF180_PORT_MAP.md`, `docs/OPERATING_LIMITS.md`, handover file §7.
 
 ## 1. Hard invariant: the top-cell name
 

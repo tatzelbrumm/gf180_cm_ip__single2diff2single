@@ -1,0 +1,138 @@
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+#
+# CACE characterization file, PROOF OF CONCEPT (2026-10-06): input side only.
+# The single-ended -> differential buffer does not exist yet; this deck checks the CDM
+# front end together with the harness' analog pad cell, i.e. the input operating range
+# that docs/OPERATING_LIMITS.md has to state.
+
+name:           gf180mcu_IOPadSingle2Diff
+description:    Analog input pad buffer, single-ended to differential, GF180MCU (input CDM front end only)
+PDK:            gf180mcuD
+
+cace_format:    5.2
+
+authorship:
+  designer:         Christoph Maier
+  creation_date:    October 6, 2026
+  license:          Apache-2.0 WITH SHL-2.1
+
+paths:
+  root:             ..
+  schematic:        ../schematic/xschem
+  netlist:          cace/netlist
+  documentation:    cace/_docs
+  runs:             cace/_runs
+
+pins:
+  vdd:
+    description: Analog supply (3.3 V domain)
+    type: power
+    direction: inout
+    Vmin: 3.0
+    Vmax: 3.6
+  vss:
+    description: Analog ground
+    type: ground
+    direction: inout
+  in:
+    description: Analog input, from the analog pad (gf180mcu_ocd_io__asig_5p0 ASIG5V)
+    type: signal
+    direction: input
+  vcm:
+    description: Output common-mode reference
+    type: signal
+    direction: input
+  outp:
+    description: Differential output, positive
+    type: signal
+    direction: output
+  outn:
+    description: Differential output, negative
+    type: signal
+    direction: output
+
+default_conditions:
+  vdd:
+    description: Analog supply voltage
+    display: VDD
+    unit: V
+    typical: 3.3
+  vin:
+    description: Pad voltage
+    display: Vpad
+    unit: V
+    typical: 1.65
+  dvdd:
+    description: Pad (I/O) supply of the harness analog pad cell, DVDD
+    display: DVDD
+    unit: V
+    typical: 5.0
+  vcm:
+    description: Common-mode reference input
+    display: Vcm
+    unit: V
+    typical: 1.65
+  corner_mos:
+    description: Process corner MOSFET
+    display: Corner MOSFET
+    typical: typical
+  corner_d:
+    description: Process corner diodes / resistors / MOS caps
+    display: Corner D
+    typical: typical
+  temp:
+    description: Ambient temperature
+    display: Temperature
+    unit: °C
+    typical: 27
+
+parameters:
+  input_params:
+    spec:
+      Iin:
+        display: Input current into the macro
+        description: DC current from the pad into the in pin. Limit (placeholder) = 1 uA either way.
+        unit: uA
+        minimum: {value: -1}
+        typical: {value: any}
+        maximum: {value: 1}
+      Vprot:
+        display: Protected gate node voltage
+        description: Voltage at in_prot, behind the CDM resistor and diodes
+        unit: V
+        minimum: {value: any}
+        typical: {value: any}
+        maximum: {value: any}
+    tool:
+      ngspice:
+        template: gf180mcu_IOPadSingle2Diff_tb_input.sch
+        format: ascii
+        suffix: .data
+        variables: [Iin, Vprot]
+    plot:
+      Iin_vs_vin:
+        type: xyplot
+        xaxis: vin
+        yaxis: Iin
+        limits: auto
+      Vprot_vs_vin:
+        type: xyplot
+        xaxis: vin
+        yaxis: Vprot
+        limits: auto
+    conditions:
+      vdd:
+        typical: 3.3
+      dvdd:
+        typical: 5.0
+      vcm:
+        typical: 1.65
+      vin:
+        enumerate: [-0.3, 0, 1.65, 3.3, 3.6, 4.0, 5.0, 5.5]
+      corner_mos:
+        typical: typical
+      corner_d:
+        enumerate: [typical, ss, ff]
+      temp:
+        enumerate: [-40, 27, 85]

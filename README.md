@@ -100,6 +100,7 @@ This project embeds two sub-macros in `macros/`, and each level has its own Make
 - **Top level (`gf180_cm_ip__single2diff2single`)**: the hand-drawn submission macro. Its layout instantiates the two macros below. Its Makefile verifies and builds the **top cell only** (`CELL` defaults to `gf180_cm_ip__single2diff2single`).
 - **[`macros/gf180mcu_IOPadSingle2Diff/`](macros/gf180mcu_IOPadSingle2Diff/README.md)** (`TOP = gf180mcu_IOPadSingle2Diff`): analog input pad, CDM protection, single-ended-to-differential buffer.
 - **[`macros/gf180mcu_IOPadDiff2Single/`](macros/gf180mcu_IOPadDiff2Single/README.md)** (`TOP = gf180mcu_IOPadDiff2Single`): class-AB differential-to-single-ended driver and analog output pad.
+- **[`macros/OgueyAebischerBias/`](macros/OgueyAebischerBias/README.md)** (`TOP = OgueyAebischerRef_<VARIANT>`, `VARIANT` = `03v3` or `06v0`): resistor-free bias current reference with start-up, ported from IHP in two device-family variants. Has `sim-cace` / `sim-cace-all` targets. Not yet part of `build-macros`.
 
 The macro Makefiles were derived from the template's analog sub-macro Makefile; its CACE characterization targets were dropped, and the PDK, layout and name strings were retargeted. They have not been run for GF180. Every level follows the same principle, and the simulations always run last, so they use the artifacts the same invocation has just produced:
 
@@ -153,6 +154,8 @@ Xschem reads exactly one `xschemrc` at start-up, and that file decides which sym
 | [`macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc`](macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc) | input pad macro testbenches |
 | [`macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc`](macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc) | output driver macro schematics |
 | [`macros/gf180mcu_IOPadDiff2Single/testbenches/xschem/xschemrc`](macros/gf180mcu_IOPadDiff2Single/testbenches/xschem/xschemrc) | output driver macro testbenches |
+| [`macros/OgueyAebischerBias/schematic/xschem/xschemrc`](macros/OgueyAebischerBias/schematic/xschem/xschemrc) | bias macro schematics |
+| [`macros/OgueyAebischerBias/testbenches/xschem/xschemrc`](macros/OgueyAebischerBias/testbenches/xschem/xschemrc) | bias macro testbenches |
 
 ### What Every File Does
 
@@ -173,7 +176,8 @@ The top level pulls in everything below it:
 testbenches/xschem/xschemrc
 └─ source schematic/xschem/xschemrc
    ├─ source macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc
-   └─ source macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc
+   ├─ source macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc
+   └─ source macros/OgueyAebischerBias/schematic/xschem/xschemrc
 ```
 
 Each schematic folder puts itself and its sibling testbenches folder on the library path, and each testbenches folder does the reverse. The top level therefore sees all the schematic and testbench folders, which is what lets the top-level schematic instantiate the macro symbols, and what lets you open a macro testbench from a top-level session. The macro files do not source each other or the top level, so a macro can be opened and simulated on its own.

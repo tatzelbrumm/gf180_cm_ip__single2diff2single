@@ -17,3 +17,8 @@ sim_build/
 /testbenches/xschem/simulations
 /macros/*/schematic/xschem/simulations
 /macros/*/testbenches/xschem/simulations
+# CACE generated outputs (summaries and plots worth keeping go to verification/cace/results/)
+/macros/*/verification/cace/_runs
+/macros/*/verification/cace/_docs
+/macros/*/verification/cace/netlist
+/macros/*/verification/cace/templates/simulations
