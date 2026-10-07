@@ -1,11 +1,15 @@
-v {xschem version=3.4.4 file_version=1.2}
+v {xschem version=3.4.8RC file_version=1.3}
 G {}
 K {}
 V {}
 S {}
+F {}
 E {}
 T {H. J. Oguey and D. Aebischer, CMOS current reference without resistance,
 IEEE J. Solid-State Circuits, vol. 32, no. 7, pp. 1132-1135, Jul. 1997} 440 -150 0 0 0.3 0.3 {}
+T {Start-up testbench, OgueyAebischerRef_03v3. VDD ramps 0 -> 3.3 V in 1 ms; no .nodeset,
+so the kick circuit has to start the core on its own. Port of the IHP OgueyAebischerBias_tb.sch
+(which still ramped to 1.2 V over 100 ms).} 440 -660 0 0 0.3 0.3 {}
 N 380 -200 380 -180 {lab=0}
 N 380 -420 380 -200 {lab=0}
 N 380 -500 380 -480 {lab=vdd}
@@ -29,7 +33,7 @@ C {devices/lab_pin.sym} 720 -360 0 1 {name=l6 lab=vbp}
 C {devices/lab_pin.sym} 720 -340 0 1 {name=l7 lab=vbn}
 C {devices/lab_pin.sym} 720 -320 0 1 {name=l8 lab=vbr}
 C {devices/title.sym} 160 -40 0 0 {name=l1 author="Christoph Maier"}
-C {devices/code_shown.sym} 0 -880 0 0 {name=NGSPICE
+C {devices/code_shown.sym} 0 -950 0 0 {name=NGSPICE
 only_toplevel=true
 value="
 .options gmin=1e-15 abstol=1p
@@ -48,13 +52,10 @@ plot vdd vbp vbn vbr xref.xbias.vres xref.xstart.vkick
 plot v.xref.xbias.vi1#branch v.xref.xbias.vi4#branch v.xref.xbias.viaux#branch
 .endc
 "}
-C {devices/code_shown.sym} 0 -620 0 0 {name=MODELS
+C {devices/code_shown.sym} 0 -610 0 0 {name=MODELS
 only_toplevel=true
 format="tcleval( @value )"
 value="
 .include $::180MCU_MODELS/design.ngspice
 .lib $::180MCU_MODELS/sm141064.ngspice typical
 "}
-T {Start-up testbench, OgueyAebischerRef_03v3. VDD ramps 0 -> 3.3 V in 1 ms; no .nodeset,
-so the kick circuit has to start the core on its own. Port of the IHP OgueyAebischerBias_tb.sch
-(which still ramped to 1.2 V over 100 ms).} 440 -660 0 0 0.3 0.3 {}

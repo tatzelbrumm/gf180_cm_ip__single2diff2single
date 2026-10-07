@@ -1,19 +1,18 @@
-v {xschem version=3.4.4 file_version=1.2}
+v {xschem version=3.4.8RC file_version=1.3}
 G {}
 K {}
 V {}
 S {}
+F {}
 E {}
+T {GF180MCU port (06v0 devices) of the IHP sg13cmos5l design, 2026-10-06. Wires and placement unchanged; W/L re-derived for GF180, see macro README.} 160 -880 0 0 0.3 0.3 {}
 N 900 -480 920 -480 { lab=vdd}
 N 920 -540 920 -480 { lab=vdd}
 N 900 -540 900 -510 { lab=vdd}
 N 840 -480 860 -480 { lab=vkick}
-N 740 -340 970 -340 { lab=vbn}
 N 400 -480 420 -480 { lab=vdd}
 N 400 -540 400 -480 { lab=vdd}
 N 420 -540 420 -510 { lab=vdd}
-N 350 -540 400 -540 { lab=vdd}
-N 350 -100 420 -100 { lab=vss}
 N 740 -480 760 -480 { lab=vdd}
 N 760 -540 760 -480 { lab=vdd}
 N 740 -540 740 -510 { lab=vdd}
@@ -26,8 +25,6 @@ N 760 -160 760 -100 { lab=vss}
 N 740 -130 740 -100 { lab=vss}
 N 900 -220 900 -190 { lab=vbr}
 N 740 -340 740 -190 { lab=vbn}
-N 900 -220 970 -220 { lab=vbr}
-N 580 -420 970 -420 { lab=vbp}
 N 480 -480 480 -420 { lab=vbp}
 N 460 -480 480 -480 { lab=vbp}
 N 680 -480 680 -380 { lab=vkick}
@@ -35,7 +32,6 @@ N 840 -480 840 -380 { lab=vkick}
 N 420 -450 420 -380 { lab=vkick}
 N 740 -450 740 -340 { lab=vbn}
 N 900 -450 900 -220 { lab=vbr}
-N 350 -240 380 -240 { lab=disable}
 N 380 -260 380 -240 { lab=disable}
 N 380 -260 390 -260 { lab=disable}
 N 450 -260 460 -260 { lab=disable}
@@ -70,6 +66,12 @@ N 760 -100 900 -100 { lab=vss}
 N 740 -100 760 -100 { lab=vss}
 N 580 -100 740 -100 { lab=vss}
 N 420 -100 580 -100 { lab=vss}
+N 360 -540 400 -540 {lab=vdd}
+N 360 -240 380 -240 {lab=disable}
+N 360 -100 420 -100 {lab=vss}
+N 580 -420 960 -420 {lab=vbp}
+N 740 -340 960 -340 {lab=vbn}
+N 900 -220 960 -220 {lab=vbr}
 C {devices/title.sym} 160 -40 0 0 {name=l1 author="Christoph Maier"}
 C {symbols/nfet_06v0.sym} 880 -160 0 0 {name=M24
 L=1u
@@ -176,4 +178,3 @@ spiceprefix=X
 C {devices/iopin.sym} 960 -220 0 0 {name=p5 lab=vbr}
 C {devices/ipin.sym} 360 -240 0 0 {name=p6 lab=disable}
 C {devices/lab_wire.sym} 500 -380 0 0 {name=l11 lab=vkick}
-T {GF180MCU port (06v0 devices) of the IHP sg13cmos5l design, 2026-10-06. Wires and placement unchanged; W/L re-derived for GF180, see macro README.} 160 -880 0 0 0.3 0.3 {}

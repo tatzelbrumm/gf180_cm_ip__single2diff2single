@@ -1,9 +1,14 @@
-v {xschem version=3.4.4 file_version=1.2}
+v {xschem version=3.4.8RC file_version=1.3}
 G {}
 K {}
 V {}
 S {}
+F {}
 E {}
+T {OgueyAebischerRef_06v0: resistor-free Oguey-Aebischer current reference + start-up kick, GF180MCU 06v0 devices.
+CACE DUT. Port order (symbol): vdd vbp vbn disable vbr vss.
+H. J. Oguey and D. Aebischer, CMOS current reference without resistance,
+IEEE J. Solid-State Circuits, vol. 32, no. 7, pp. 1132-1135, Jul. 1997} 380 -700 0 0 0.3 0.3 {}
 N 380 -500 760 -500 {lab=vdd}
 N 540 -500 540 -380 {lab=vdd}
 N 760 -500 760 -380 {lab=vdd}
@@ -28,18 +33,13 @@ N 620 -320 620 -240 {lab=vbr}
 N 620 -240 840 -240 {lab=vbr}
 N 840 -320 840 -240 {lab=vbr}
 N 820 -320 840 -320 {lab=vbr}
-N 840 -240 840 -220 {lab=vbr}
-N 840 -220 960 -220 {lab=vbr}
+N 840 -240 960 -240 {lab=vbr}
 C {OgueyAebischerBias_06v0.sym} 760 -340 0 0 {name=xbias}
 C {ToBiasStartup_06v0.sym} 540 -340 0 0 {name=xstart}
 C {devices/iopin.sym} 380 -500 0 1 {name=p1 lab=vdd}
 C {devices/iopin.sym} 960 -420 0 0 {name=p2 lab=vbp}
 C {devices/iopin.sym} 960 -260 0 0 {name=p3 lab=vbn}
 C {devices/ipin.sym} 380 -320 0 0 {name=p4 lab=disable}
-C {devices/iopin.sym} 960 -220 0 0 {name=p5 lab=vbr}
+C {devices/iopin.sym} 960 -240 0 0 {name=p5 lab=vbr}
 C {devices/iopin.sym} 380 -200 0 1 {name=p6 lab=vss}
 C {devices/title.sym} 160 -40 0 0 {name=l1 author="Christoph Maier"}
-T {OgueyAebischerRef_06v0: resistor-free Oguey-Aebischer current reference + start-up kick, GF180MCU 06v0 devices.
-CACE DUT. Port order (symbol): vdd vbp vbn disable vbr vss.
-H. J. Oguey and D. Aebischer, CMOS current reference without resistance,
-IEEE J. Solid-State Circuits, vol. 32, no. 7, pp. 1132-1135, Jul. 1997} 380 -700 0 0 0.3 0.3 {}

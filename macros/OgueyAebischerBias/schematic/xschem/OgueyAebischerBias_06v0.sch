@@ -1,9 +1,11 @@
-v {xschem version=3.4.4 file_version=1.2}
+v {xschem version=3.4.8RC file_version=1.3}
 G {}
 K {}
 V {}
 S {}
+F {}
 E {}
+T {GF180MCU port (06v0 devices) of the IHP sg13cmos5l design, 2026-10-06. Wires and placement unchanged; W/L re-derived for GF180, see macro README.} 160 -880 0 0 0.3 0.3 {}
 N 900 -400 920 -400 { lab=vss}
 N 920 -160 920 -100 { lab=vss}
 N 560 -400 580 -400 { lab=vss}
@@ -49,12 +51,7 @@ N 620 -400 640 -400 { lab=vbr}
 N 580 -780 720 -780 { lab=vdd}
 N 720 -780 740 -780 { lab=vdd}
 N 560 -780 580 -780 { lab=vdd}
-N 800 -580 970 -580 { lab=vbn}
-N 510 -780 560 -780 { lab=vdd}
-N 510 -100 560 -100 { lab=vss}
 N 840 -720 840 -660 { lab=vbp}
-N 840 -460 970 -460 { lab=vbr}
-N 900 -660 970 -660 { lab=vbp}
 N 580 -690 580 -650 { lab=#net1}
 N 580 -590 580 -460 { lab=vbr}
 N 740 -590 740 -580 { lab=vbn}
@@ -65,32 +62,32 @@ N 900 -490 900 -430 { lab=vres}
 N 800 -660 840 -660 { lab=vbp}
 N 900 -320 920 -320 { lab=vss}
 N 560 -320 580 -320 { lab=vss}
-N 620 -320 640 -320 { lab=#net4}
+N 620 -320 640 -320 { lab=vbr}
 N 900 -240 920 -240 { lab=vss}
 N 560 -240 580 -240 { lab=vss}
-N 620 -240 640 -240 { lab=#net5}
+N 620 -240 640 -240 { lab=vbr}
 N 900 -160 920 -160 { lab=vss}
 N 560 -160 580 -160 { lab=vss}
-N 620 -160 640 -160 { lab=#net6}
-N 580 -370 580 -350 {}
-N 900 -370 900 -350 {}
-N 900 -290 900 -270 {}
-N 580 -290 580 -270 {}
-N 580 -210 580 -190 {}
-N 900 -210 900 -190 {}
-N 900 -130 900 -100 {}
-N 580 -130 580 -100 {}
-N 640 -320 640 -240 {}
-N 840 -400 840 -320 {}
-N 840 -240 840 -160 {}
-N 840 -460 840 -400 {}
-N 840 -320 840 -240 {}
-N 640 -240 640 -160 {}
-N 640 -400 640 -320 {}
-N 840 -400 860 -400 {}
-N 840 -320 860 -320 {}
-N 840 -240 860 -240 {}
-N 840 -160 860 -160 {}
+N 620 -160 640 -160 { lab=vbr}
+N 580 -370 580 -350 {lab=#net4}
+N 900 -370 900 -350 {lab=#net5}
+N 900 -290 900 -270 {lab=#net6}
+N 580 -290 580 -270 {lab=#net7}
+N 580 -210 580 -190 {lab=#net8}
+N 900 -210 900 -190 {lab=#net9}
+N 900 -130 900 -100 {lab=vss}
+N 580 -130 580 -100 {lab=vss}
+N 640 -320 640 -240 {lab=vbr}
+N 840 -400 840 -320 {lab=vbr}
+N 840 -240 840 -160 {lab=vbr}
+N 840 -460 840 -400 {lab=vbr}
+N 840 -320 840 -240 {lab=vbr}
+N 640 -240 640 -160 {lab=vbr}
+N 640 -400 640 -320 {lab=vbr}
+N 840 -400 860 -400 {lab=vbr}
+N 840 -320 860 -320 {lab=vbr}
+N 840 -240 860 -240 {lab=vbr}
+N 840 -160 860 -160 {lab=vbr}
 N 920 -400 920 -320 { lab=vss}
 N 560 -400 560 -320 { lab=vss}
 N 920 -320 920 -240 { lab=vss}
@@ -98,6 +95,11 @@ N 560 -320 560 -240 { lab=vss}
 N 920 -240 920 -160 { lab=vss}
 N 560 -240 560 -160 { lab=vss}
 N 640 -460 840 -460 { lab=vbr}
+N 520 -780 560 -780 {lab=vdd}
+N 520 -100 560 -100 {lab=vss}
+N 900 -660 960 -660 {lab=vbp}
+N 800 -580 960 -580 {lab=vbn}
+N 840 -460 960 -460 {lab=vbr}
 C {devices/title.sym} 160 -40 0 0 {name=l1 author="Christoph Maier"}
 C {symbols/nfet_06v0.sym} 880 -520 0 0 {name=M10
 L=3u
@@ -290,4 +292,3 @@ sa=0 sb=0 sd=0
 model=nfet_06v0
 spiceprefix=X
 }
-T {GF180MCU port (06v0 devices) of the IHP sg13cmos5l design, 2026-10-06. Wires and placement unchanged; W/L re-derived for GF180, see macro README.} 160 -880 0 0 0.3 0.3 {}
