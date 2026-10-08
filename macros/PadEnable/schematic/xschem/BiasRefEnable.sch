@@ -9,16 +9,42 @@ T {BiasRefEnable} 60 -560 0 0 0.5 0.5 {}
 T {Reference-current switch in front of ClassABBiasIn (NMOS input diode NI):} 60 -500 0 0 0.25 0.25 {}
 T {TGN / TGP pass iin to iout while en = 1; while en = 0 they open and TDN pulls iout,} 60 -478 0 0 0.25 0.25 {}
 T {NI's gate line, to vss. The external reference is not relied on to switch off.} 60 -456 0 0 0.25 0.25 {}
-T {GF180MCU (gf180mcuD), 03v3 devices; written by ../../scripts/gen_padenable.py on 2026-10-08, edit the sheet from now on.} 60 120 0 0 0.2 0.2 {layer=4}
-N 60 -300 560 -300 {lab=vdd}
-N 60 0 560 0 {lab=vss}
-C {devices/iopin.sym} 60 -300 0 1 {name=p1 lab=vdd}
-C {devices/iopin.sym} 60 0 0 1 {name=p2 lab=vss}
-C {devices/ipin.sym} 60 -180 0 0 {name=p3 lab=en}
-C {devices/ipin.sym} 60 -140 0 0 {name=p4 lab=en_b}
-C {devices/iopin.sym} 60 -100 0 1 {name=p5 lab=iin}
-C {devices/iopin.sym} 640 -100 0 0 {name=p6 lab=iout}
-C {symbols/pfet_03v3.sym} 200 -220 0 0 {name=TGP
+T {GF180MCU (gf180mcuD), 03v3 devices; written by ../../scripts/gen_padenable.py on 2026-10-08, edit the sheet from now on.} 60 -110 0 0 0.2 0.2 {layer=4}
+N 150 -380 170 -380 {lab=iin}
+N 230 -380 250 -380 {lab=iout}
+N 200 -420 200 -380 {lab=vdd}
+N 230 -180 250 -180 {lab=iout}
+N 150 -180 170 -180 {lab=iin}
+N 200 -180 200 -140 {lab=vss}
+N 360 -250 360 -230 {lab=iout}
+N 360 -170 360 -140 {lab=vss}
+N 380 -200 380 -140 {lab=vss}
+N 200 -340 200 -320 {lab=en_b}
+N 140 -380 140 -180 {lab=iin}
+N 140 -180 150 -180 {lab=iin}
+N 140 -380 150 -380 {lab=iin}
+N 100 -280 140 -280 {lab=iin}
+N 250 -380 260 -380 {lab=iout}
+N 260 -380 260 -180 {lab=iout}
+N 250 -180 260 -180 {lab=iout}
+N 100 -320 200 -320 {lab=en_b}
+N 100 -240 200 -240 {lab=en}
+N 200 -240 200 -220 {lab=en}
+N 200 -320 300 -320 {lab=en_b}
+N 300 -320 300 -200 {lab=en_b}
+N 300 -200 320 -200 {lab=en_b}
+N 260 -280 420 -280 {lab=iout}
+N 360 -200 380 -200 {lab=vss}
+N 100 -140 380 -140 {lab=vss}
+N 360 -280 360 -250 {lab=iout}
+N 100 -420 200 -420 {lab=vdd}
+C {devices/iopin.sym} 100 -420 0 1 {name=p1 lab=vdd}
+C {devices/iopin.sym} 100 -140 0 1 {name=p2 lab=vss}
+C {devices/ipin.sym} 100 -240 0 0 {name=p3 lab=en}
+C {devices/ipin.sym} 100 -320 0 0 {name=p4 lab=en_b}
+C {devices/iopin.sym} 100 -280 0 1 {name=p5 lab=iin}
+C {devices/iopin.sym} 420 -280 0 0 {name=p6 lab=iout}
+C {symbols/pfet_03v3.sym} 200 -360 3 0 {name=TGP
 L=0.5u
 W=1u
 nf=1
@@ -32,15 +58,7 @@ sa=0 sb=0 sd=0
 model=pfet_03v3
 spiceprefix=X
 }
-N 180 -220 140 -220 {lab=en_b}
-C {devices/lab_pin.sym} 140 -220 0 0 {name=l7 sig_type=std_logic lab=en_b}
-N 220 -250 220 -270 {lab=iin}
-C {devices/lab_pin.sym} 220 -270 0 1 {name=l8 sig_type=std_logic lab=iin}
-N 220 -190 220 -170 {lab=iout}
-C {devices/lab_pin.sym} 220 -170 0 1 {name=l9 sig_type=std_logic lab=iout}
-N 220 -220 260 -220 {lab=vdd}
-C {devices/lab_pin.sym} 260 -220 0 1 {name=l10 sig_type=std_logic lab=vdd}
-C {symbols/nfet_03v3.sym} 200 -60 0 0 {name=TGN
+C {symbols/nfet_03v3.sym} 200 -200 1 0 {name=TGN
 L=0.5u
 W=1u
 nf=1
@@ -54,15 +72,7 @@ sa=0 sb=0 sd=0
 model=nfet_03v3
 spiceprefix=X
 }
-N 180 -60 140 -60 {lab=en}
-C {devices/lab_pin.sym} 140 -60 0 0 {name=l11 sig_type=std_logic lab=en}
-N 220 -90 220 -110 {lab=iin}
-C {devices/lab_pin.sym} 220 -110 0 1 {name=l12 sig_type=std_logic lab=iin}
-N 220 -30 220 -10 {lab=iout}
-C {devices/lab_pin.sym} 220 -10 0 1 {name=l13 sig_type=std_logic lab=iout}
-N 220 -60 260 -60 {lab=vss}
-C {devices/lab_pin.sym} 260 -60 0 1 {name=l14 sig_type=std_logic lab=vss}
-C {symbols/nfet_03v3.sym} 400 -60 0 0 {name=TDN
+C {symbols/nfet_03v3.sym} 340 -200 0 0 {name=TDN
 L=0.5u
 W=1u
 nf=1
@@ -76,11 +86,4 @@ sa=0 sb=0 sd=0
 model=nfet_03v3
 spiceprefix=X
 }
-N 380 -60 340 -60 {lab=en_b}
-C {devices/lab_pin.sym} 340 -60 0 0 {name=l15 sig_type=std_logic lab=en_b}
-N 420 -90 420 -110 {lab=iout}
-C {devices/lab_pin.sym} 420 -110 0 1 {name=l16 sig_type=std_logic lab=iout}
-N 420 -30 420 0 {lab=vss}
-N 420 -60 460 -60 {lab=vss}
-N 460 -60 460 0 {lab=vss}
-C {devices/title.sym} 160 220 0 0 {name=l0 author="Christoph Maier"}
+C {devices/title.sym} 160 -40 0 0 {name=l0 author="Christoph Maier"}
