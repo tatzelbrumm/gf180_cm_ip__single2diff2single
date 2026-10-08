@@ -1,0 +1,308 @@
+[21:08:47] INFO     Maximum number of jobs is 4.        parameter_manager.py:105
+[21:08:47] INFO     Working directory set to '..'       parameter_manager.py:153
+                    ('/tmp/gfm_s2d/gf180mcu_IOPadSingle                         
+                    2Diff').                                                    
+[21:08:47] INFO     Starting a new run with tag         parameter_manager.py:624
+                    'RUN_2026-10-08_21-08-47'.                                  
+[21:08:47] INFO     PDK root is '/home/claude/pdk'.     parameter_manager.py:637
+[21:08:47] INFO     Running parameters: input_params             cace_cli.py:327
+[21:08:47] INFO     Generating simulation netlist from    cace_regenerate.py:554
+                    schematic…                                                  
+[21:08:48] ERROR    Using run time directory              cace_regenerate.py:636
+                    XSCHEM_SHAREDIR =                                           
+                    /opt/xschem/share/xschem                                    
+[21:08:48] ERROR    Sourcing                              cace_regenerate.py:636
+                    /opt/xschem/share/xschem/xschemrc                           
+                    init file                                                   
+[21:08:48] ERROR    Sourcing                              cace_regenerate.py:636
+                    /tmp/gfm_s2d/gf180mcu_IOPadSingle2Dif                       
+                    f/schematic/xschem/xschemrc init file                       
+[21:08:48] ERROR    pdk installation: using               cace_regenerate.py:636
+                    /home/claude/pdk                                            
+[21:08:48] ERROR    180MCU_MODELS:                        cace_regenerate.py:636
+                    /home/claude/pdk/gf180mcuD/libs.tech/                       
+                    ngspice                                                     
+[21:08:48] ERROR    setup_tcp_bespice: success :          cace_regenerate.py:636
+                    listening to TCP port: 2022                                 
+[21:08:48] ERROR    -----------/tmp/gfm_s2d/gf180mcu_IOPa cace_regenerate.py:636
+                    dSingle2Diff/schematic/xschem/gf180mc                       
+                    u_IOPadSingle2Diff.sch                                      
+[21:08:48] ERROR    Warning: open net: in_en              cace_regenerate.py:636
+[21:08:48] ERROR    Error: undriven node: outn            cace_regenerate.py:636
+[21:08:48] ERROR    Error: undriven node: outp            cace_regenerate.py:636
+[21:08:48] ERROR    -----------/tmp/gfm_s2d/PadEnable/sch cace_regenerate.py:636
+                    ematic/xschem/InputEnable.sch                               
+[21:08:48] ERROR    -----------/tmp/gfm_s2d/PadEnable/sch cace_regenerate.py:636
+                    ematic/xschem/EnableInv.sch                                 
+[21:08:48] ERROR    -----------/tmp/gfm_s2d/gf180mcu_IOPa cace_regenerate.py:636
+                    dSingle2Diff/schematic/xschem/gf180mc                       
+                    u_IOPadSingle2Diff.sch                                      
+[21:08:48] ERROR                                          cace_regenerate.py:636
+[21:08:48] ERROR    Xschem process returned error code 10 cace_regenerate.py:638
+                                                                                
+───────────────────────────── Started input_params ─────────────────────────────
+[21:08:48] INFO     Parameter input_params: Generating  parameter_ngspice.py:211
+                    simulation files…                                           
+[21:08:48] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:49] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:49] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:49] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:50] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:50] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:51] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:51] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:51] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:52] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:52] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:53] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:53] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:53] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:54] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:54] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:55] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:55] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:56] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:56] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:57] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:57] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:58] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:58] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:58] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:59] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:08:59] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:00] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:00] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:01] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:01] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:02] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:02] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:02] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:03] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:03] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:04] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:04] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:05] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:05] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:06] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:06] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:07] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:07] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:08] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:08] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:08] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:09] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:09] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:10] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:10] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:10] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:11] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:11] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:12] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:12] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:13] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:13] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:13] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:14] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:14] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:15] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:15] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:16] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:16] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:17] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:17] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:17] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:18] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:18] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:19] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:19] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[21:09:19] INFO     Parameter input_params: Running     parameter_ngspice.py:572
+                    simulations…                                                
+[21:09:24] INFO     Parameter input_params: Collecting  parameter_ngspice.py:671
+                    results…                                                    
+[21:09:24] INFO     Parameter input_params: Saving      parameter_ngspice.py:854
+                    simulation summary as                                       
+                    'cace/_runs/RUN_2026-10-08_21-08-47                         
+                    /parameters/input_params/simulation                         
+                    _summary.md'…                                               
+                      Simulation Summary for input_params                       
+
+                                                      
+ run      vin  temp  corner_d         Iin       Vprot 
+ ──────────────────────────────────────────────────── 
+ run_00  -0.3   -40   typical  -7.978e-11  -3.000e-01 
+ run_01     0   -40   typical  -2.769e-13   7.582e-11 
+ run_02  1.65   -40   typical  -3.150e-15       1.650 
+ run_03   3.3   -40   typical   1.614e-14       3.300 
+ run_04   3.6   -40   typical   2.046e-12       3.600 
+ run_05   4.0   -40   typical   1.250e-05       3.997 
+ run_06   5.0   -40   typical   2.616e-03       4.284 
+ run_07   5.5   -40   typical   4.399e-03       4.295 
+ run_08  -0.3    27   typical  -4.440e-09  -3.000e-01 
+ run_09     0    27   typical  -3.132e-13   7.349e-11 
+ run_10  1.65    27   typical  -4.205e-15       1.650 
+ run_11   3.3    27   typical   1.607e-14       3.300 
+ run_12   3.6    27   typical   2.870e-10       3.600 
+ run_13   4.0    27   typical   1.866e-05       3.996 
+ run_14   5.0    27   typical   3.357e-03       4.212 
+ run_15   5.5    27   typical   5.428e-03       4.226 
+ run_16  -0.3    85   typical  -4.171e-08  -3.000e-01 
+ run_17     0    85   typical  -2.504e-12   5.383e-10 
+ run_18  1.65    85   typical   4.774e-14       1.650 
+ run_19   3.3    85   typical   2.617e-13       3.300 
+ run_20   3.6    85   typical   5.240e-09       3.600 
+ run_21   4.0    85   typical   6.758e-05       3.985 
+ run_22   5.0    85   typical   3.972e-03       4.146 
+ run_23   5.5    85   typical   6.226e-03       4.162 
+ run_24  -0.3   -40        ss  -7.978e-11  -3.000e-01 
+ run_25     0   -40        ss  -2.769e-13   8.776e-11 
+ run_26  1.65   -40        ss   3.331e-16       1.650 
+ run_27   3.3   -40        ss   1.947e-14       3.300 
+ run_28   3.6   -40        ss   2.053e-12       3.600 
+ run_29   4.0   -40        ss   1.242e-05       3.996 
+ run_30   5.0   -40        ss   2.270e-03       4.281 
+ run_31   5.5   -40        ss   3.810e-03       4.292 
+ run_32  -0.3    27        ss  -4.440e-09  -3.000e-01 
+ run_33     0    27        ss  -3.132e-13   8.606e-11 
+ run_34  1.65    27        ss  -4.080e-15       1.650 
+ run_35   3.3    27        ss   1.507e-14       3.300 
+ run_36   3.6    27        ss   2.868e-10       3.600 
+ run_37   4.0    27        ss   1.818e-05       3.995 
+ run_38   5.0    27        ss   2.881e-03       4.208 
+ run_39   5.5    27        ss   4.651e-03       4.222 
+ run_40  -0.3    85        ss  -4.158e-08  -3.000e-01 
+ run_41     0    85        ss  -2.499e-12   6.331e-10 
+ run_42  1.65    85        ss   4.002e-14       1.650 
+ run_43   3.3    85        ss   2.513e-13       3.300 
+ run_44   3.6    85        ss   5.162e-09       3.600 
+ run_45   4.0    85        ss   6.345e-05       3.984 
+ run_46   5.0    85        ss   3.391e-03       4.141 
+ run_47   5.5    85        ss   5.305e-03       4.156 
+ run_48  -0.3   -40        ff  -7.978e-11  -3.000e-01 
+ run_49     0   -40        ff  -2.769e-13   6.388e-11 
+ run_50  1.65   -40        ff   1.089e-15       1.650 
+ run_51   3.3   -40        ff   1.900e-14       3.300 
+ run_52   3.6   -40        ff   2.046e-12       3.600 
+ run_53   4.0   -40        ff   1.258e-05       3.997 
+ run_54   5.0   -40        ff   3.089e-03       4.287 
+ run_55   5.5   -40        ff   5.205e-03       4.299 
+ run_56  -0.3    27        ff  -4.441e-09  -3.000e-01 
+ run_57     0    27        ff  -3.132e-13   6.091e-11 
+ run_58  1.65    27        ff  -5.246e-15       1.650 
+ run_59   3.3    27        ff   1.421e-14       3.300 
+ run_60   3.6    27        ff   2.872e-10       3.600 
+ run_61   4.0    27        ff   1.914e-05       3.996 
+ run_62   5.0    27        ff   4.024e-03       4.217 
+ run_63   5.5    27        ff   6.523e-03       4.231 
+ run_64  -0.3    85        ff  -4.184e-08  -3.000e-01 
+ run_65     0    85        ff  -2.509e-12   4.432e-10 
+ run_66  1.65    85        ff   5.607e-14       1.650 
+ run_67   3.3    85        ff   2.719e-13       3.300 
+ run_68   3.6    85        ff   5.317e-09       3.600 
+ run_69   4.0    85        ff   7.210e-05       3.987 
+ run_70   5.0    85        ff   4.799e-03       4.152 
+ run_71   5.5    85        ff   7.541e-03       4.168 
+                                                      
+[21:09:24] INFO     Parameter input_params: Plotting Iin_vs_vin parameter.py:929
+                    to                                                          
+                    'cace/_runs/RUN_2026-10-08_21-08-47/paramet                 
+                    ers/input_params'…                                          
+[21:09:25] INFO     Parameter input_params: Plotting            parameter.py:929
+                    Vprot_vs_vin to                                             
+                    'cace/_runs/RUN_2026-10-08_21-08-47/paramet                 
+                    ers/input_params'…                                          
+─────────────────────── Completed input_params: Fail ❌ ────────────────────────
+
+[21:09:25] INFO     Done with CACE simulations and evaluations   cace_cli.py:371
+                    in 0:00:37.                                                 
+                   CACE Summary for gf180mcu_IOPadSingle2Diff                   
+
+netlist source: schematic                                                       
+
+                                                                                
+                            Min     Min     Typ     Typ     Max     Max         
+ Param…  Tool    Result   Limit   Value  Target   Value   Limit   Value  Status 
+ ────────────────────────────────────────────────────────────────────────────── 
+ Input   ngspi…  Iin      -1 uA  -0.042     any   0.000    1 uA  7541.…   Fail  
+ curre…                              uA              uA              uA    ❌   
+ into                                                                           
+ the                                                                            
+ macro                                                                          
+ Prote…  ngspi…  Vprot      any  -0.300     any   3.450     any   4.299   Pass  
+ gate                                 V               V               V    ✅   
+ node                                                                           
+ volta…                                                                         
+                                                                                
+[21:09:25] INFO     Generating documentation in         parameter_manager.py:255
+                    'cace/_docs'                                                
