@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 Tim Edwards and Simon Dorrer
+# SPDX-FileCopyrightText: 2026 Tim Edwards, Simon Dorrer and Christoph Maier
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
@@ -121,9 +121,28 @@ sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem 
 	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
 .PHONY: sim-view-xschem
 
-sim-all: ## Simulate the macro
-	$(MAKE) sim-xschem TB=$(TOP)_tb_tran
+sim-all: ## Simulate the macro (CACE suite: enabled DC, disabled state, enable transient)
+	$(MAKE) sim-cace
 .PHONY: sim-all
+
+# CACE (verification/cace/<datasheet>.yaml; results worth keeping go to verification/cace/results/)
+CACE_DIR := verification/cace
+# Datasheet(s) of this macro; sim-cace runs CACE_TOP, sim-cace-all runs all of them
+CACE_CELLS := gf180mcu_IOPadDiff2Single
+CACE_TOP ?= $(TOP)
+# Parameter groups to run (default: all). Override with: make sim-cace CACE_PARAMS="dc_params loop_params"
+CACE_PARAMS ?=
+CACE_JOBS ?= 4
+# --nofail: exit 0 and write the documentation (_docs) even when parameters fail; CACE_OPTS= to stop on failures
+CACE_OPTS ?= --nofail
+
+sim-cace: ## Run the CACE suite of CACE_TOP (usage: make sim-cace [CACE_TOP=<datasheet>] [CACE_PARAMS="<groups>"])
+	cd $(CACE_DIR) && cace $(CACE_TOP).yaml -s schematic $(if $(CACE_PARAMS),-p $(CACE_PARAMS),) -j $(CACE_JOBS) --parallel-parameters 1 $(CACE_OPTS)
+.PHONY: sim-cace
+
+sim-cace-all: ## Run the CACE suites of all datasheets of this macro (CACE_CELLS)
+	for c in $(CACE_CELLS); do $(MAKE) sim-cace CACE_TOP=$$c || exit 1; done
+.PHONY: sim-cace-all
 # ================================================================================================
 
 
@@ -391,7 +410,7 @@ all: ## Verify, build and simulate the TOP cell
 
 
 # Clean Target
-clean: ## Delete all generated files and folders (final, netlists, render, DRC/LVS reports, simulation outputs)
+clean: ## Delete all generated files and folders (final, netlists, render, DRC/LVS reports, simulation and CACE outputs)
 	rm -rf $(GDS_DIR) $(LEF_DIR) $(LIB_DIR) $(VH_DIR)
 	rm -rf $(NET_SCH_DIR) $(NET_LAY_DIR) $(NET_PEX_DIR)
 	rm -rf $(RENDER_IMG_DIR)
@@ -399,5 +418,7 @@ clean: ## Delete all generated files and folders (final, netlists, render, DRC/L
 	rm -rf $(XSCHEM_SCH_DIR)/simulations $(XSCHEM_TB_DIR)/simulations
 	rm -rf $(SIM_PLOT_DIR)/data $(SIM_PLOT_DIR)/figures $(SIM_PLOT_DIR)/__pycache__
 	rm -rf $(SCRIPTS_DIR)/__pycache__
+	rm -rf $(CACE_DIR)/_runs $(CACE_DIR)/_docs $(CACE_DIR)/netlist
+	rm -rf $(CACE_DIR)/templates/simulations
 .PHONY: clean
 # ================================================================================================

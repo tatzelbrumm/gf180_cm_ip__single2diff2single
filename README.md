@@ -106,7 +106,7 @@ This project embeds two sub-macros in `macros/`, and each level has its own Make
 - **[`macros/ClassABDriver/`](macros/ClassABDriver/README.md)**: the class-AB driver core (matched-pair DDA, folded cascode, class-AB output, Miller compensation) and its CACE fixture `ClassABDriverBiased`; ported from the IHP design notes, re-sized for GF180 (2026-10-08).
 - **[`macros/ClassABBias/`](macros/ClassABBias/README.md)**: the driver's bias trees `ClassABBiasIn` / `ClassABBiasOut` (reference current into / out of `iref`) and the ideal fixture `ClassABBiasIdeal`, each with its own CACE suite.
 - **[`macros/PadEnable/`](macros/PadEnable/README.md)**: enable cells of the analog pads (`EnableInv`, `DriverEnable`, `BiasRefEnable`, `InputEnable`).
-  These three have no Makefile yet (the bridge cannot write Makefiles); run CACE directly in `verification/cace/`.
+  Their Makefiles (and the changes to the existing ones: `sim-cace`, `sim-cace-all`, `make sim-cace-macros` at the top) come as a package, because the bridge cannot write Makefiles: `_sudelbuecher/sudelbuecher/deliveries/2026-10-08_opus_makefiles.zip`, installed with its `install.sh`.
 
 The macro Makefiles were derived from the template's analog sub-macro Makefile; its CACE characterization targets were dropped, and the PDK, layout and name strings were retargeted. They have not been run for GF180. Every level follows the same principle, and the simulations always run last, so they use the artifacts the same invocation has just produced:
 

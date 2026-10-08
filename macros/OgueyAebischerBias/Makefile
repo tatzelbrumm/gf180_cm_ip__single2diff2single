@@ -136,9 +136,11 @@ sim-all: ## Simulate the macro (start-up testbench of both variants)
 # Override with: make sim-cace CACE_PARAMS="dc_params tran_startup_params"
 CACE_PARAMS ?=
 CACE_JOBS ?= 4
+# --nofail: exit 0 and write the documentation (_docs) even when parameters fail; CACE_OPTS= to stop on failures
+CACE_OPTS ?= --nofail
 
 sim-cace: ## Run the CACE suite of TOP (usage: make sim-cace [VARIANT=<03v3|06v0>] [CACE_PARAMS="<groups>"])
-	cd $(CACE_DIR) && cace $(TOP).yaml $(if $(CACE_PARAMS),-p $(CACE_PARAMS),) -j $(CACE_JOBS) --parallel-parameters 1
+	cd $(CACE_DIR) && cace $(TOP).yaml $(if $(CACE_PARAMS),-p $(CACE_PARAMS),) -j $(CACE_JOBS) --parallel-parameters 1 $(CACE_OPTS)
 .PHONY: sim-cace
 
 sim-cace-all: ## Run the CACE suites of both variants

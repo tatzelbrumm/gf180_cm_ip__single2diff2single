@@ -141,8 +141,16 @@ build-diff2single: ## Verify, build and simulate the gf180mcu_IOPadDiff2Single m
 build-macros: ## Verify, build and simulate all macros (IOPadSingle2Diff and IOPadDiff2Single)
 	$(MAKE) build-single2diff
 	$(MAKE) build-diff2single
-#	ToDo: further macros
+#	ToDo: further macros (OgueyAebischerBias, ClassABBias, ClassABDriver, PadEnable have no layout yet; see sim-cace-macros)
 .PHONY: build-macros
+
+sim-cace-macros: ## Run the CACE suites of all macros that have one
+	$(MAKE) -C $(MACROS_DIR)/OgueyAebischerBias sim-cace-all
+	$(MAKE) -C $(MACROS_DIR)/ClassABBias sim-cace-all
+	$(MAKE) -C $(MACROS_DIR)/ClassABDriver sim-cace-all
+	$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadDiff2Single sim-cace
+	$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadSingle2Diff sim-cace
+.PHONY: sim-cace-macros
 
 build-top: ## Build TOP cell (check PR boundary, Verilog, LEF, LIB, copy GDS, and render images)
 	$(MAKE) check-boundary
@@ -437,7 +445,10 @@ clean-diff2single: ## Delete all generated files and folders of the gf180mcu_IOP
 clean-macros: ## Delete all generated files and folders of all macros
 	$(MAKE) clean-single2diff
 	$(MAKE) clean-diff2single
-#	ToDo: further macros
+	@$(MAKE) -C $(MACROS_DIR)/OgueyAebischerBias clean
+	@$(MAKE) -C $(MACROS_DIR)/ClassABBias clean
+	@$(MAKE) -C $(MACROS_DIR)/ClassABDriver clean
+	@$(MAKE) -C $(MACROS_DIR)/PadEnable clean
 .PHONY: clean-macros
 
 clean-all: ## Delete all generated files and folders of the macros and the TOP cell

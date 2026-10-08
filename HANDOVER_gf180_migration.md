@@ -169,7 +169,9 @@ reference and is re-migrated later. Running log with every number and decision:
 - Round trip: every ported or generated sheet netlisted by xschem and compared device by device with its reference
   netlist (`ClassABDriver/scripts/check_classab_port.py`), MISMATCHES 0.
 
-Not delivered: Makefiles for the three new macros (the bridge refuses Makefiles); not ported: the self-contained
+Makefiles (three new, four changed) come as `_sudelbuecher/sudelbuecher/deliveries/2026-10-08_opus_makefiles.zip`
+(the bridge refuses Makefiles); its `install.sh` copies them and keeps the old ones as `Makefile.orig-2026-10-08`.
+Not ported: the self-contained
 bias variants `_oa` (Oguey–Aebischer) and `_bg` (bandgap), which need a GF180 re-design; no layout.
 
 Traps found:

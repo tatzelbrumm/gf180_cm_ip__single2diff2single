@@ -4,7 +4,9 @@
 MAKEFILE_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Variables
-TOP = gf180mcu_IOPadSingle2Diff
+# Cells: ClassABBiasIn (reference current into iref), ClassABBiasOut (out of iref), ClassABBiasIdeal (test fixture).
+# Override with: make <target> TOP=<cell>
+TOP ?= ClassABBiasIn
 
 .DEFAULT_GOAL := help
 
@@ -121,18 +123,14 @@ sim-view-xschem: ## Plot Xschem simulation results (usage: make sim-view-xschem 
 	SHOW_PLOTS=1 python3 $(SIM_PLOT_DIR)/$(SCRIPT).py
 .PHONY: sim-view-xschem
 
-# xschem exits with status 10 on "undriven node: outp" (the single-ended -> differential buffer is not designed yet,
-# outp/outn have no driver) although the netlist is complete; sim-all then runs ngspice on that netlist itself.
-sim-all: ## Simulate the macro (pad-in-the-loop DC testbench, then the CACE input-range suite)
-	rm -f $(XSCHEM_TB_DIR)/simulations/$(TOP)_tb_dc.spice
-	$(MAKE) sim-xschem TB=$(TOP)_tb_dc || (test -s $(XSCHEM_TB_DIR)/simulations/$(TOP)_tb_dc.spice && cd $(XSCHEM_TB_DIR)/simulations && ngspice -b $(TOP)_tb_dc.spice)
-	$(MAKE) sim-cace
+sim-all: ## Simulate the macro (the CACE suites of both bias variants; there are no separate testbenches)
+	$(MAKE) sim-cace-all
 .PHONY: sim-all
 
 # CACE (verification/cace/<datasheet>.yaml; results worth keeping go to verification/cace/results/)
 CACE_DIR := verification/cace
 # Datasheet(s) of this macro; sim-cace runs CACE_TOP, sim-cace-all runs all of them
-CACE_CELLS := gf180mcu_IOPadSingle2Diff
+CACE_CELLS := ClassABBiasIn ClassABBiasOut
 CACE_TOP ?= $(TOP)
 # Parameter groups to run (default: all). Override with: make sim-cace CACE_PARAMS="dc_params loop_params"
 CACE_PARAMS ?=
