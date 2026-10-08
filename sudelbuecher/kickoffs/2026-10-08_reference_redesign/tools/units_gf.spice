@@ -1,0 +1,8 @@
+* unit_r2 for GF180 03v3: split-tail PMOS pair, ppolyf_u_3k between the sources
+.subckt unit_r2 x y gp gn vdd vss vbp rl=50u
+XTa sa vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+XTb sb vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+XR sa sb vss ppolyf_u_3k r_width=1u r_length={rl}
+XMa y gp sa sa pfet_03v3 W=20u L=1u nf=2
+XMb x gn sb sb pfet_03v3 W=20u L=1u nf=2
+.ends unit_r2

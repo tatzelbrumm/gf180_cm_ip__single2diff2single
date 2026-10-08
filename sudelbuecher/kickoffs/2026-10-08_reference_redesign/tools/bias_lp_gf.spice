@@ -1,0 +1,16 @@
+.subckt d2s_bias_lp vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn iab=5u ibnc=2u
+IBP vbp vss 5u
+XBP vbp vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+IBN vdd vbn 5u
+XBN vbn vbn vss vss nfet_03v3 W=6u L=6u nf=1
+IBNC vdd vbnc {ibnc}
+XBNC vbnc vbnc vss vss nfet_03v3 W=1u L=8u nf=1
+IBPC vbpc vss 2u
+XBPC vbpc vbpc vdd vdd pfet_03v3 W=1u L=4u nf=1
+IABP vabp vss {iab}
+XRP1 n1 n1 vddo vddo pfet_03v3 W=12u L=0.6u nf=2
+XRP2 vabp vabp n1 vdd pfet_03v3 W=6.66u L=0.6u nf=1
+IABN vdd vabn {iab}
+XRN1 n2 n2 vsso vsso nfet_03v3 W=8u L=1u nf=2
+XRN2 vabn vabn n2 vss nfet_03v3 W=4.4u L=1u nf=1
+.ends d2s_bias_lp

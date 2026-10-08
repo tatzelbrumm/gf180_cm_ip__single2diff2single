@@ -1,0 +1,31 @@
+* GF180 03v3 port of d2s_bias_ref.spice (diodes, in, out); sizes re-derived 2026-10-08
+.subckt d2s_bias_diodes vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn
+XBP vbp vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+XBN vbn vbn vss vss nfet_03v3 W=6u L=6u nf=1
+XBNC vbnc vbnc vss vss nfet_03v3 W=1u L=8u nf=1
+XBPC vbpc vbpc vdd vdd pfet_03v3 W=1u L=4u nf=1
+XRP1 n1 n1 vddo vddo pfet_03v3 W=12u L=0.6u nf=2
+XRP2 vabp vabp n1 vdd pfet_03v3 W=6.66u L=0.6u nf=1
+XRN1 n2 n2 vsso vsso nfet_03v3 W=8u L=1u nf=2
+XRN2 vabn vabn n2 vss nfet_03v3 W=4.4u L=1u nf=1
+.ends d2s_bias_diodes
+.subckt d2s_bias_in vdd vss vddo vsso iref vbp vbn vbpc vbnc vabp vabn
+XNI iref iref vss vss nfet_03v3 W=6u L=6u nf=1
+XNBP vbp iref vss vss nfet_03v3 W=6u L=6u nf=1
+XNBPC vbpc iref vss vss nfet_03v3 W=2.5u L=6u nf=1
+XNABP vabp iref vss vss nfet_03v3 W=6u L=6u nf=1
+XPBN vbn vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+XPBNC vbnc vbp vdd vdd pfet_03v3 W=8u L=6u nf=1
+XPABN vabn vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+Xd vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn d2s_bias_diodes
+.ends d2s_bias_in
+.subckt d2s_bias_out vdd vss vddo vsso iref vbp vbn vbpc vbnc vabp vabn
+XPI iref iref vdd vdd pfet_03v3 W=20u L=6u nf=2
+XPBN vbn iref vdd vdd pfet_03v3 W=20u L=6u nf=2
+XPBNC vbnc iref vdd vdd pfet_03v3 W=8u L=6u nf=1
+XPABN vabn iref vdd vdd pfet_03v3 W=20u L=6u nf=2
+XNBP vbp vbn vss vss nfet_03v3 W=6u L=6u nf=1
+XNBPC vbpc vbn vss vss nfet_03v3 W=2.5u L=6u nf=1
+XNABP vabp vbn vss vss nfet_03v3 W=6u L=6u nf=1
+Xd vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn d2s_bias_diodes
+.ends d2s_bias_out
