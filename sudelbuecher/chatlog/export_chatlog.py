@@ -9,7 +9,14 @@ more tool kinds summarized, refused tool calls reported as such.
 2026-10-08 (Opus session): user messages sent while the assistant was working (attachment records of
 type queued_command, humanTurn) are exported where they arrived; text files the user attached
 (attachment type file) are exported verbatim under the user's message; turn headers carry the date
-when the session spans more than one day. All other attachment records stay excluded. Refusal detection looks at the head of a result only."""
+when the session spans more than one day. All other attachment records stay excluded. Refusal detection looks at the head of a result only.
+2026-10-08 (same session, after an automatic context compaction): the compaction summary is not a user message and
+is not exported. A compaction rewrites the transcript, so the turns before it exist only in an earlier export; for
+appending to that export, environment variables (optional):
+  CHATLOG_TURN_OFFSET   number of turns already in the earlier export (turn numbers continue after it)
+  CHATLOG_BODY_ONLY=1   write the turns only, without the file header
+  CHATLOG_COMPACT_USER  text shown as the user message of the turn the compaction interrupted
+  CHATLOG_COMPACT_TIME  its time label (e.g. "2026-10-08 19:22")"""
 import json, re, sys, datetime, os
 from zoneinfo import ZoneInfo
 src, out, title, sid, model = sys.argv[1:6]
@@ -72,6 +79,13 @@ def block_texts(c):
     return [b.get("text", "") for b in c if isinstance(b, dict) and b.get("type") == "text"]
 for r in path:
     if r.get("isMeta"): continue
+    if r.get("isCompactSummary"):
+        new_turn(r)
+        if os.environ.get("CHATLOG_COMPACT_TIME"): cur["label"] = os.environ["CHATLOG_COMPACT_TIME"]
+        if os.environ.get("CHATLOG_COMPACT_USER"): cur["user"].append(os.environ["CHATLOG_COMPACT_USER"])
+        cur["items"].append(("note", f"[The context was compacted automatically at {stamp(r)}. The record of this turn up to that point "
+                                     "was replaced by a summary, which is not exported; the turn continues below.]"))
+        continue
     if r["type"] == "attachment":
         a = r.get("attachment", {})
         if a.get("type") == "queued_command" and a.get("humanTurn") and (a.get("origin") or {}).get("kind") == "human":
@@ -125,9 +139,10 @@ L = ["<!--", "SPDX-FileCopyrightText: 2026 Christoph Maier", "SPDX-License-Ident
      "tool calls as `*[ ]*` summaries (actions and observable results only); shell commands verbatim in collapsed blocks, their output omitted.",
      "The internal reasoning trace is not included.",
      f"Times are Europe/Berlin. Exported through the record stamped {stamp(last, '%Y-%m-%d %H:%M')}; later turns are not in this file.", ""]
-multiday = len({t["day"] for t in turns}) > 1
-for n, t in enumerate(turns, 1):
-    L += [f"## Turn {n} — {t['day'] + ' ' if multiday else ''}{t['time']}", ""]
+multiday = len({t["day"] for t in turns}) > 1 or bool(os.environ.get("CHATLOG_TURN_OFFSET"))
+if os.environ.get("CHATLOG_BODY_ONLY") == "1": L = []
+for n, t in enumerate(turns, 1 + int(os.environ.get("CHATLOG_TURN_OFFSET", "0"))):
+    L += [f"## Turn {n} — {t.get('label') or ((t['day'] + ' ' if multiday else '') + t['time'])}", ""]
     for u in t["user"]:
         L += ["**User:**", "", u, ""]
     if t["items"]:

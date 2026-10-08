@@ -2,13 +2,15 @@
 SPDX-FileCopyrightText: 2026 Christoph Maier
 SPDX-License-Identifier: Apache-2.0
 -->
-# 2026-10-06 — GF180 port: bias reference in two variants, CACE suites, IOPad proof of concept
+# 2026-10-06 — GF180 port: bias reference in two variants, CACE suites, IOPad proof of concept; 2026-10-08: class-AB driver, bias and pad enables
 
 Session `ae2f9665-832e-520c-96fd-494fa4898beb`, Claude (configured model `claude-opus-5-5`; the serving model may differ).
 Verbatim export of the displayed conversation: user messages, visible replies and `SendUserMessage` texts as written;
 tool calls as `*[ ]*` summaries (actions and observable results only); shell commands verbatim in collapsed blocks, their output omitted.
 The internal reasoning trace is not included.
-Times are Europe/Berlin. Exported through the record stamped 2026-10-08 03:07; later turns are not in this file.
+Times are Europe/Berlin. Exported through the record stamped 2026-10-08 21:17; later turns are not in this file.
+An automatic context compaction on 2026-10-08 at 19:23 rewrote the transcript: turns 1–7 come from the export made
+before it (2026-10-08 03:07), turns 8 onward from the rewritten transcript.
 
 ## Turn 1 — 2026-10-06 21:30
 
@@ -3712,6 +3714,4819 @@ The convention is: copy the transcript aside, run `export_chatlog.py` on it, the
 
 ```sh
 S=/tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad; mkdir -p $S/chatlog && cd $S/chatlog && cp ~/.claude/projects/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb.jsonl session.jsonl && cp /mnt/user-data/uploads/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/chatlog/export_chatlog.py . && python3 -I export_chatlog.py session.jsonl 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md "2026-10-06 — GF180 port: bias reference in two variants, CACE suites, IOPad proof of concept" ae2f9665-832e-520c-96fd-494fa4898beb claude-opus-5-5; grep -c "^## Turn" *.md; grep -n "^## Turn" *.md
+```
+
+</details>
+
+## Turn 8 — 2026-10-08 19:22
+
+**User:**
+
+*[This message is reconstructed from the compaction summary, which quoted it; "[y]our" is the summary's bracket, not necessarily the original wording.]*
+
+Even though the class AB buffer amplifier and the bias circuits associated with it are in a temporary place in the IHP process, what about porting these circuits, test setups, and CACE characterization sketch to Global Foundries 180, just as proof-of-concept and smoke test of [y]our schematic drawing and verification flow? In which directories would you store the schematics, test bases, figures, results, logs, and chat log?
+
+**Assistant:**
+
+*[The context was compacted automatically at 19:23. The record of this turn up to that point was replaced by a summary, which is not exported; the turn continues below.]*
+
+*[Ran a command (on the computer; 92 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver && ls; ls net xschem | head -40; for f in net/*.spice improvements/sim/*.spice; do printf "%s %s\n" "$(grep -ciE '^[mx].*sg13' $f)" $f; done 2>/dev/null | head -30; grep -E '^#|^## ' improvements/log.md | head -40; grep -c 'parameter\|- name' verification/cace/d2s_miller_biased.yaml; echo ---; ls $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher; ls $HOME/mnt/gf180_cm_ip__single2diff2single/macros/gf180mcu_IOPadDiff2Single
+```
+
+</details>
+
+*[Ran a command (on the computer; 130 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver && ls -la port_gf180 power_down | head -40; find port_gf180 -type f | head -40; for f in port_gf180/*.md; do echo "== $f"; head -60 "$f"; done; head -30 power_down/*.md 2>/dev/null | head -50; grep -cE '^[mM]' d2s_miller.spice d2s_bias.spice d2s_loadcomp.spice; ls $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/esd_protection
+```
+
+</details>
+
+*[Ran a command (on the computer; refused by the user).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver && sed -n 60,200p port_gf180/kickoff_port_gf180.md; echo ----; ls build_verification_suite; ls improvements/sim improvements/sim/tb 2>/dev/null | head -50; cat $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/README.md | head -40; ls $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/esd_protection $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs
+```
+
+</details>
+
+*[Request interrupted by user for tool use]*
+
+## Turn 9 — 2026-10-08 19:24
+
+**User:**
+
+I'm not too happy where the IHP circuits ended up.
+
+**Assistant:**
+
+Understood, I've stopped. Nothing has been written for this request yet.
+
+Here's what I found before you stopped me. All of the class-AB work lives in the IHP notes worktree, under `sudelbuecher/design_considerations/class_ab_pad_driver/`. Inside that folder, the original driver, `improvements/` (which now holds the real design: d2s_mpdda, the bias variants, `figures/`, `log.md`), `power_down/` and a `port_gf180/` that so far holds only your kickoff file are all side by side. Schematics, simulations, figures and notes are mixed together, and none of it is in the main repo. Your kickoff also says to write the GF180 port into that IHP `port_gf180/` folder. I wouldn't do that unless you say so.
+
+For GF180, I'd keep design and notes apart, the way OgueyAebischerBias is already laid out:
+
+- **Main repo `gf180_cm_ip__single2diff2single`:**
+  - Driver: `macros/gf180mcu_IOPadDiff2Single/`. That folder already exists with the port-only placeholder, and the driver is what goes in it.
+    - `schematic/xschem/`: d2s_mpdda, units, Miller caps
+    - `testbenches/xschem/`: step, loop, dc, thd, noise, op
+    - `verification/cace/`: yaml, templates and `results/`, with the CACE plots there
+    - `scripts/`
+    - a `README.md` with the results table
+  - Bias variants: a separate macro, `macros/ClassABBias/` (name open), laid out the same way, because the bias feeds the driver rather than being part of it.
+  - Schematic renders: `render/img/`.
+- **GF180 notes worktree `_sudelbuecher/sudelbuecher/`:**
+  - Run logs: `logs/main/`.
+  - Chat log: `chatlog/`, with `ref/` and `pix/`.
+  - A running `log.md` for the design reasoning, but no schematics or decks there.
+
+The IHP tree stays untouched. I'd only read from it.
+
+What bothers you most about the IHP placement: that the working design sits in the notes branch rather than the repo, how it's split across improvements/power_down/port_gf180, or something else? Tell me and I'll adjust the layout before I start the port.
+
+## Turn 10 — 2026-10-08 19:33
+
+**User:**
+
+Eventually, all the schematics should be macros in the hierarchy. It's rather obvious that the bias circuits should be separate macros, with their own verification suites, because the bias circuits can be simulated stand-alone.
+The ClassAB pad driver could be a macro, but maybe to be characterized in conjunction with a bias circuit. In terms of macro hierarchy, the problem is that the circuit should in part or in its entirety get laid out in custom analog pads, not in the slot as intended by Chipalooza. The analog input and output pads need enable circuits. It probably makes sense to put the enable circuitry into its own sub-macro, unlike the evolved design considerations in the IHP version.
+
+**Assistant:**
+
+Agreed. Here's the hierarchy I'd use for GF180. Every macro gets the OgueyAebischerBias layout: `schematic/xschem`, `testbenches/xschem`, `verification/cace` with `results/`, `scripts`, `README.md`.
+
+**Bias macros, each stand-alone with its own CACE suite**
+- `OgueyAebischerBias`: already exists.
+- One macro per class-AB bias variant you want to keep (`_in`, `_out`, `_oa`, `_bg`).
+- The diode replicas (`d2s_bias_diodes`) as a shared sub-macro, because every variant uses them.
+- The ideal fixture (`d2s_bias_lp`) stays a testbench part, not a macro.
+
+**`ClassABDriver`**
+- The core: d2s_mpdda with its DDA units and Miller caps. No pads and no enable.
+- Its CACE suite runs it twice:
+  - with the ideal fixture, so driver specs are judged on their own;
+  - with a real bias macro, as a combined deck like the `d2s_miller_biased` wrapper in IHP.
+- That way a failure points at either the driver or the bias.
+
+**`PadEnable`, the enable sub-macro**
+- For the output pad: enable logic, and the gate clamps that turn OP/ON into ESD clamps when the pad is disabled.
+- For the input pad: the matching switch-off for `IOPadSingle2Diff`.
+- Own testbench: enable/disable timing, disabled leakage, and the clamp state during an ESD-like pulse.
+- One GF180 point helps here: the logic can run on the same 3.3 V (or 5 V) supply as the analog. So the 1.2 V → 3.3 V level shifter that was still open on IHP may simply disappear.
+
+**Pad macros, the layout targets**
+- `gf180mcu_IOPadSingle2Diff` and `gf180mcu_IOPadDiff2Single` both exist already. They become the cells that instantiate front end or driver, `PadEnable`, ESD and the CDM resistor.
+- They're meant to be drawn as custom cells in the `gf180mcu_ocd_io` pad ring, not in the Chipalooza slot. The pad-level CACE suites test the whole thing through the pad.
+
+Figures, logs and the chat log go where I said before:
+- schematic renders in `render/img/`;
+- CACE plots in each macro's `verification/cace/results/`;
+- run logs in `_sudelbuecher/sudelbuecher/logs/main/`;
+- the chat log in `_sudelbuecher/sudelbuecher/chatlog/`.
+
+The IHP tree stays read-only.
+
+I'd start with the diode sub-macro and one bias variant, re-sized for GF180 with its own CACE suite, because it doesn't depend on any open hierarchy decision. Then `ClassABDriver` on the ideal fixture, then `PadEnable`, then the pad wrappers.
+
+One thing decides how the pad macros are cut: should each pad get its own bias, inside the pad cell, or should one bias macro sit outside and feed both pads through routed bias lines?
+
+## Turn 11 — 2026-10-08 19:46
+
+**User:**
+
+Ok, do it! This will give us a macro hierarchy to work with (and to tweak), and to remigrate to the IHP design once we've figured out the details in the GF180 repo.
+Ich lasse bitten ...
+
+**Assistant:**
+
+Starting now. Order of work: the diode replicas and the bias variants first, then the driver core on the ideal fixture, then the enable sub-macro, then the two pad wrappers. Each gets its own macro folder in the GF180 repo. Sources are read from the IHP tree and never written to.
+
+*[Called ToolSearch (0 lines of output).  
+Loaded skill "anthropic-skills:xschem-analog-schematic".  
+Created task "Read IHP class-AB sources (bias, driver, power-down)".  
+Created task "Bias macros: diode replicas + bias variants, re-sized for GF180, CACE each".  
+Created task "ClassABDriver macro (d2s_mpdda core), testbenches, CACE with ideal and real bias".  
+Created task "PadEnable sub-macro and pad wrappers (IOPadDiff2Single, IOPadSingle2Diff)".  
+Created task "Deliver to device, update docs/README/handover, logs and chat log; verify".]*
+
+*[Ran a command (on the computer; 63 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+ls $HOME/mnt; cd $HOME/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver && wc -c port_gf180/kickoff_port_gf180.md improvements/bias.md improvements/log.md improvements/xschem/README.md improvements/sim/* power_down/log.md 2>/dev/null; ls improvements/sim/tb power_down/sim power_down/xschem build_verification_suite
+```
+
+</details>
+
+*[Ran a command (on the computer; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver && pwd -P; readlink -f $HOME/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher
+```
+
+</details>
+
+*[Copied 19 files from the computer to the cloud container (1 lines of output).]*
+
+*[Read the GF180 kickoff and bias notes (in the cloud container; 269 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/mnt/user-data/uploads/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver; ln -sfn $S /home/claude/ihpab; cat $S/port_gf180/kickoff_port_gf180.md | sed -n 55,200p; cat $S/improvements/bias.md
+```
+
+</details>
+
+*[Read IHP bias and driver netlists, check tools (in the cloud container; 249 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/improvements/sim; cat d2s_bias_ref.spice d2s_bias_lp.spice d2s_mpdda.spice units.spice ccomp.spice; which ngspice xschem; ls /opt/xschem/bin /home/claude/pdk/gf180mcuD/libs.tech 2>&1 | head
+```
+
+</details>
+
+*[Read power-down design log and netlists (in the cloud container; 329 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/power_down; sed -n 1,400p log.md; cat sim/d2s_mpdda_pd.spice; diff <(sed 's/ *$//' ../improvements/sim/d2s_bias_ref.spice) sim/d2s_bias_ref_pd.spice | head -120
+```
+
+</details>
+
+*[Review earlier IHP→GF180 schematic porting script (in the cloud container; 208 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/repo/macros/OgueyAebischerBias/scripts; wc -l *; sed -n 1,200p port_from_ihp.py
+```
+
+</details>
+
+*[Ran a command (on the computer; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver; ls improvements/xschem/*.sch improvements/xschem/*.sym improvements/xschem/xschemrc improvements/sim/tb/*.spice verification/cace/*.yaml verification/cace/templates/* verification/cace/scripts/* | sed 's|^|~/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver/|' | python3 -c "import sys,json; print(json.dumps([l.strip() for l in sys.stdin]))"
+```
+
+</details>
+
+*[Copied 36 files from the computer to the cloud container (1 lines of output).]*
+
+*[Read xschem README and testbench decks (in the cloud container; 343 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/improvements; sed -n 1,200p xschem/README.md; cat sim/tb/tb_mpdda_loop.spice sim/tb/tb_mpdda_dc.spice sim/tb/tb_mpdda_step.spice
+```
+
+</details>
+
+*[List GF180 symbols and resistor/cap/pnp models (in the cloud container; 98 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+P=/home/claude/pdk/gf180mcuD/libs.tech; ls $P/xschem/symbols | head -80; ls $P/ngspice; grep -n "^\.subckt\|^\.SUBCKT" $P/ngspice/sm141064.ngspice | grep -i "ppoly\|pnp\|mim\|cap_" | head -30
+```
+
+</details>
+
+*[Inspect high-R poly models and symbols (in the cloud container; 102 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+P=/home/claude/pdk/gf180mcuD/libs.tech; sed -n 38782,38812p $P/ngspice/sm141064.ngspice; sed -n 38906,38930p $P/ngspice/sm141064.ngspice; grep -n "rsh_ppolyf_u_1k\b\|rsh_ppolyf_u_3k\b\|rsh_ppolyf_u_2k\b" $P/ngspice/sm141064.ngspice | head; cat $P/xschem/symbols/ppolyf_u_3k.sym | head -30; cat $P/xschem/symbols/pnp_05p00x05p00.sym | grep -E "^K|^B 5|format|template"
+```
+
+</details>
+
+*[Read pin geometry for needed GF180 symbols (in the cloud container; 32 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+P=/home/claude/pdk/gf180mcuD/libs.tech/xschem/symbols; for s in ppolyf_u_3k ppolyf_u_1k pfet_03v3 nfet_03v3 cap_mim_2f0fF cap_pmos_03v3; do echo "== $s"; grep -E "^B 5|format=" $P/$s.sym; done; grep -n "nfet_03v3\b" -A3 /home/claude/pdk/gf180mcuD/libs.tech/ngspice/sm141064.ngspice | grep -i "wmax\|lmax\|wmin\|lmin" | sort -u | head
+```
+
+</details>
+
+*[Ran a command (on the computer; 87 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && ls; ls macros macros/*; ls scripts 2>/dev/null; find . -newer macros/OgueyAebischerBias/Makefile -type f -not -path './.git/*' | head -30; cat macros/gf180mcu_IOPadDiff2Single/README.md | head -30
+```
+
+</details>
+
+*[Request interrupted by user]*
+
+## Turn 12 — 2026-10-08 19:50
+
+**User:**
+
+While you're at it, update the logs from time to time, to preempt compaction.
+
+**Assistant:**
+
+*[Ran a command (on the computer; 22 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher && ls logs logs/main chatlog; head -5 MANIFEST.tsv; tail -3 MANIFEST.tsv
+```
+
+</details>
+
+*[Write first running-log entry (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /mnt/user-data/outputs/log1 && cat > /mnt/user-data/outputs/log1/2026-10-08_opus_classab_port_log.md <<'EOF'
+<!--
+SPDX-FileCopyrightText: 2026 Christoph Maier
+SPDX-License-Identifier: Apache-2.0
+-->
+# Running log — class-AB pad driver, its bias and the pad enables, IHP → GF180 (proof of concept)
+
+Session ae2f9665 (continued), Claude (configured model `claude-opus-5-5`; the serving model may differ).
+Newest entries at the bottom. Times are Europe/Berlin. Written to preempt context compaction; the
+chat log of the session is `../../chatlog/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md`.
+
+## 2026-10-08 19:46 — task and decisions (Christoph)
+
+Task: port the IHP class-AB buffer (d2s_mpdda), its bias circuits, test setups and CACE sketch to GF180
+as a proof of concept and smoke test of the schematic and verification flow. Re-migrate to IHP later.
+
+Hierarchy (agreed 19:33–19:46):
+
+- Every schematic becomes a macro in the hierarchy of the main repo `gf180_cm_ip__single2diff2single`.
+- Bias circuits: separate macros, each with its own verification suite (they simulate stand-alone).
+- Class-AB driver: a macro, characterized with an ideal bias fixture and with a real bias macro.
+- The driver may end up (partly or whole) in custom analog pads, not in the Chipalooza slot.
+- Analog input and output pads need enable circuits: the enable goes into its own sub-macro, unlike
+  the IHP `power_down/` cells where the switches are spread through every cell.
+
+Where things go:
+
+- Main repo: `macros/<Macro>/{schematic/xschem, testbenches/xschem, verification/cace(+results), scripts, README.md}`,
+  laid out like `macros/OgueyAebischerBias`. Schematic renders in `render/img/`.
+- Notes worktree: this log and tool output in `sudelbuecher/logs/main/`, the chat log in `sudelbuecher/chatlog/`.
+- IHP trees are read only.
+
+## 19:50 — sources read (indexed, not copied)
+
+IHP notes worktree `sudelbuecher/design_considerations/class_ab_pad_driver/`:
+
+- `port_gf180/kickoff_port_gf180.md` (2026-10-06): scope defaults (03v3 devices at 3.3 V; in: diodes, the
+  four bias variants, d2s_bias_lp, d2s_mpdda with units and Miller caps), re-derive sizes, PDK facts.
+- `improvements/bias.md`, `improvements/xschem/README.md`, `improvements/sim/{d2s_bias_ref,d2s_bias_lp,d2s_mpdda,units,ccomp}.spice`,
+  `improvements/sim/tb/tb_mpdda_{dc,loop,step,thd,noise,op}.spice`, `run_bias.py`, results files.
+- `power_down/log.md`, `power_down/sim/{d2s_mpdda_pd,d2s_bias_ref_pd}.spice` (switch plan for the enable).
+- `verification/cace/d2s_miller_biased.yaml` and templates (the original driver's CACE draft).
+
+Targets carried over: bias currents 5 / 5 / 2 / 2 / 5 / 5 µA (vbp vbn vbpc vbnc vabp vabn), I_Q ≈ 212 µA,
+loop T0 ≈ 79 dB / f_c ≈ 1.4 MHz / PM ≈ 72° into 1 kΩ ∥ 100 pF, gain −6 dB (vout − vref = (vinp − vinn)/2).
+
+## 19:55 — plan
+
+Order: diode replicas and bias macros → driver core on the ideal fixture → enable sub-macro → pad wrappers.
+Device family 03v3 (kickoff default; 5 V not decided). IHP sheets are hand drawn; the GF180 FET symbols have
+the IHP pin geometry, so the sheets are ported by symbol and property substitution (as `OgueyAebischerBias`),
+resistors and capacitors re-drawn where their pins differ.
+EOF
+echo ok
+```
+
+</details>
+
+*[Copied 1 files from the cloud container to the computer (1 lines of output).]*
+
+*[Check model include lines from earlier port (in the cloud container; 16 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/repo/macros/OgueyAebischerBias; grep -rn "\.lib\|\.include\|spiceinit" verification/cace/templates/*03v3*dc* testbenches/xschem/*03v3*.sch | head; ls /home/claude/pdk/gf180mcuD/libs.tech/ngspice/; cat ~/.spiceinit 2>/dev/null; echo $PDK_ROOT
+```
+
+</details>
+
+*[Check GF180 FET instance form in netlist (in the cloud container; 30 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/repo/macros/OgueyAebischerBias; head -20 verification/cace/netlist/schematic/OgueyAebischerRef_03v3.spice; grep -n "subckt nfet_03v3\|model nfet_03v3\|subckt pfet_03v3" /home/claude/pdk/gf180mcuD/libs.tech/ngspice/*.ngspice | head
+```
+
+</details>
+
+*[Extract bin limits for 03v3 FET models (in the cloud container; 40 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/pdk/gf180mcuD/libs.tech/ngspice; awk '/^.model (nfet|pfet)_03v3\.[0-9]+ /{m=$2} m && /[lw]m(in|ax) *=/{for(i=1;i<=NF;i++) if($i~/^[lw]m(in|ax)/ || $(i)=="=") ; print m, $0; } /^\.model/ && !/03v3/{m=""}' sm141064.ngspice | grep -oE "^\S+|[lw]m(in|ax) *= *[0-9.e-]+" | paste -sd' ' | sed 's/ \(nfet\|pfet\)/\n\1/g' | sort -u | head -40
+```
+
+</details>
+
+*[Test whether W per finger binning works (in the cloud container; 10 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /home/claude/work/classab/sim && cd /home/claude/work/classab/sim && cat > bintest.sp <<'EOF'
+* bin test
+.include /home/claude/pdk/gf180mcuD/libs.tech/ngspice/design.ngspice
+.lib /home/claude/pdk/gf180mcuD/libs.tech/ngspice/sm141064.ngspice typical
+V1 d 0 3.3
+V2 g 0 1.2
+XM1 d g 0 0 nfet_03v3 L=1u W=400u nf=40
+XM2 d g 0 0 nfet_03v3 L=1u W=10u nf=1
+.control
+op
+print -@n.xm1.m0[id] @n.xm2.m0[id]
+.endc
+.end
+EOF
+ngspice -b bintest.sp 2>&1 | tail -8; grep -n "subckt nfet_03v3 \|subckt pfet_03v3 " /home/claude/pdk/gf180mcuD/libs.tech/ngspice/*.ngspice
+```
+
+</details>
+
+*[Baseline GF180 transliteration of driver, run OP and loop (in the cloud container; 23 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > units_gf.spice <<'EOF'
+* unit_r2 for GF180 03v3: split-tail PMOS pair, ppolyf_u_3k between the sources
+.subckt unit_r2 x y gp gn vdd vss vbp rl=50u
+XTa sa vbp vdd vdd pfet_03v3 W=5u L=6u nf=1
+XTb sb vbp vdd vdd pfet_03v3 W=5u L=6u nf=1
+XR sa sb vss ppolyf_u_3k r_width=1u r_length={rl}
+XMa y gp sa sa pfet_03v3 W=20u L=1u nf=2
+XMb x gn sb sb pfet_03v3 W=20u L=1u nf=2
+.ends unit_r2
+EOF
+cat > bias_lp_gf.spice <<'EOF'
+.subckt d2s_bias_lp vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn iab=5u ibnc=2u
+IBP vbp vss 5u
+XBP vbp vbp vdd vdd pfet_03v3 W=5u L=6u nf=1
+IBN vdd vbn 5u
+XBN vbn vbn vss vss nfet_03v3 W=6u L=6u nf=1
+IBNC vdd vbnc {ibnc}
+XBNC vbnc vbnc vss vss nfet_03v3 W=1u L=8u nf=1
+IBPC vbpc vss 2u
+XBPC vbpc vbpc vdd vdd pfet_03v3 W=1u L=4u nf=1
+IABP vabp vss {iab}
+XRP1 n1 n1 vddo vddo pfet_03v3 W=13.32u L=0.6u nf=2
+XRP2 vabp vabp n1 vdd pfet_03v3 W=6.66u L=0.6u nf=1
+IABN vdd vabn {iab}
+XRN1 n2 n2 vsso vsso nfet_03v3 W=8.8u L=1u nf=2
+XRN2 vabn vabn n2 vss nfet_03v3 W=4.4u L=1u nf=1
+.ends d2s_bias_lp
+EOF
+cat > mpdda_gf.spice <<'EOF'
+.subckt d2s_mpdda vdd vss vddo vsso vinp vinn vref vout vfb vbp vbn vbpc vbnc vabp vabn wc=16u lc=16u rl=50u
+XA x y vinp vref vdd vss vbp unit_r2 rl={rl}
+XB x y vref vinn vdd vss vbp unit_r2 rl={rl}
+XC1 x y vref vfb vdd vss vbp unit_r2 rl={rl}
+XC2 x y vref vfb vdd vss vbp unit_r2 rl={rl}
+XSX x vbn vss vss nfet_03v3 W=36u L=6u nf=4
+XSY y vbn vss vss nfet_03v3 W=36u L=6u nf=4
+XCX l1 vbnc x vss nfet_03v3 W=30u L=3u nf=2
+XCY b vbnc y vss nfet_03v3 W=30u L=3u nf=2
+XPL pl l2 vdd vdd pfet_03v3 W=24u L=4u nf=4
+XPR pr l2 vdd vdd pfet_03v3 W=24u L=4u nf=4
+XPCL l2 vbpc pl vdd pfet_03v3 W=30u L=3u nf=2
+XPCR a vbpc pr vdd pfet_03v3 W=30u L=3u nf=2
+XFPL l1 vabp l2 vdd pfet_03v3 W=6.66u L=0.6u nf=1
+XFNL l2 vabn l1 vss nfet_03v3 W=4.4u L=1u nf=1
+XABP b vabp a vdd pfet_03v3 W=6.66u L=0.6u nf=1
+XABN a vabn b vss nfet_03v3 W=4.4u L=1u nf=1
+XOP vout a vddo vddo pfet_03v3 W=91.02u L=0.6u nf=14 m=6
+XON vout b vsso vsso nfet_03v3 W=96.8u L=1u nf=22 m=3
+XCMA vout a vout vout pfet_03v3 W={wc} L={lc} nf=1
+XCMB b vout b b pfet_03v3 W={wc} L={lc} nf=1
+.ends d2s_mpdda
+EOF
+cat > tb_op.sp <<'EOF'
+* GF180 d2s_mpdda op + loop + dc
+.include /home/claude/pdk/gf180mcuD/libs.tech/ngspice/design.ngspice
+.lib /home/claude/pdk/gf180mcuD/libs.tech/ngspice/sm141064.ngspice typical
+.lib /home/claude/pdk/gf180mcuD/libs.tech/ngspice/sm141064.ngspice res_typical
+.include units_gf.spice
+.include bias_lp_gf.spice
+.include mpdda_gf.spice
+Vdd vdd 0 3.3
+Vddo vddo 0 3.3
+Vsso vsso 0 0
+Vcm vref 0 1.65
+Xb vdd 0 vddo vsso vbp vbn vbpc vbnc vabp vabn d2s_bias_lp
+Vp vinp 0 1.65
+Vn vinn 0 1.65
+Xd vdd 0 vddo vsso vinp vinn vref vout fb vbp vbn vbpc vbnc vabp vabn d2s_mpdda
+Lb vout fb 1G
+Cb fb inj 1
+Vinj inj 0 dc 0 ac 1
+RL vout vref 1k
+CL vout 0 100p
+.control
+op
+print v(vout) v(a) v(b) v(x) v(y) v(l1) v(l2) v(vbp) v(vbn) v(vbpc) v(vbnc) v(vabp) v(vabn)
+print @n.xd.xop.m0[id] @n.xd.xon.m0[id] -i(vdd) -i(vddo)
+ac dec 50 10 1G
+let T=-v(vout)/v(fb)
+meas ac T0 find vdb(T) at=10
+meas ac fc when vdb(T)=0
+meas ac pT find vp(T) when vdb(T)=0
+let pm=180/pi*pT+180
+print T0 fc pm
+.endc
+.end
+EOF
+ngspice -b tb_op.sp 2>&1 | grep -v "^$" | tail -30
+```
+
+</details>
+
+*[Print internal OP nodes and find device names (in the cloud container; 23 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -i 's/^print v(vout) v(a).*/print v(vout) v(xd.a) v(xd.b) v(xd.x) v(xd.y) v(xd.l1) v(xd.l2) v(vbp) v(vbn) v(vbpc) v(vbnc) v(vabp) v(vabn)/; s/^print @n.xd.xop.*/listing devices\nprint -i(vddo) -i(vdd)/' tb_op.sp && sed -i 's/^listing devices$/show all > devs.txt/' tb_op.sp && ngspice -b tb_op.sp 2>&1 | grep -E "^v\(|^-i|= " | head -30; grep -i "xop" devs.txt | head -5
+```
+
+</details>
+
+*[Build GF180 driver harness and run typical and loads (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > run_gf.py <<'EOF'
+#!/usr/bin/env python3
+"""Cloud-only harness: GF180 d2s_mpdda with d2s_bias_lp (ideal fixture). op / dc / loop over corners."""
+import subprocess, re, sys, os, itertools, tempfile
+PDK = "/home/claude/pdk/gf180mcuD/libs.tech/ngspice"
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+def deck(corner="typical", temp=27, vdd=3.3, load="RL vout vref 1k\nCL vout 0 100p", bias="lp", extra="", drv="mpdda_gf.spice"):
+    rescorner = {"typical": "res_typical", "ss": "res_ss", "ff": "res_ff", "sf": "res_typical", "fs": "res_typical"}[corner]
+    b = {"lp": "Xb vdd 0 vddo vsso vbp vbn vbpc vbnc vabp vabn d2s_bias_lp"}.get(bias, bias)
+    return f"""* run_gf
+.include {PDK}/design.ngspice
+.lib {PDK}/sm141064.ngspice {corner}
+.lib {PDK}/sm141064.ngspice {rescorner}
+.lib {PDK}/sm141064.ngspice moscap_typical
+.include {HERE}/units_gf.spice
+.include {HERE}/bias_lp_gf.spice
+.include {HERE}/{drv}
+{extra}
+.temp {temp}
+Vdd vdd 0 {vdd}
+Vddo vddo 0 {vdd}
+Vsso vsso 0 0
+Vcm vref 0 {vdd/2}
+{b}
+Vd dp 0 0
+Ep vinp vref dp 0 0.5
+En vinn vref dp 0 -0.5
+Xd vdd 0 vddo vsso vinp vinn vref vout fb vbp vbn vbpc vbnc vabp vabn d2s_mpdda
+Lb vout fb 1G
+Cb fb inj 1
+Vinj inj 0 dc 0 ac 1
+{load}
+.control
+op
+print v(vout) v(xd.a) v(xd.b) v(xd.x) v(xd.y) v(xd.l1) v(xd.l2)
+let iqp = abs(@m.xd.xop.m0[id])
+let iqn = abs(@m.xd.xon.m0[id])
+let idd = -i(vdd) - i(vddo)
+print iqp iqn idd
+ac dec 50 10 1G
+let T=-v(vout)/v(fb)
+meas ac T0 find vdb(T) at=10
+meas ac fc when vdb(T)=0
+meas ac pT find vp(T) when vdb(T)=0
+let pm=180/pi*pT+180
+print pm
+dc Vd -0.4 0.4 0.01
+let vo = v(vout) - {vdd/2}
+wrdata {{DCOUT}} vo
+.endc
+.end
+"""
+
+def run(**kw):
+    d = tempfile.mkdtemp(dir="/tmp")
+    out = os.path.join(d, "dc.txt")
+    txt = deck(**kw).replace("{DCOUT}", out)
+    p = os.path.join(d, "t.sp"); open(p, "w").write(txt)
+    r = subprocess.run(["ngspice", "-b", p], capture_output=True, text=True, cwd=d)
+    res = {}
+    for k, v in re.findall(r"^(\S+)\s*=\s*([-0-9.e+]+)", r.stdout, re.M):
+        res[k.lower()] = float(v)
+    try:
+        import numpy as np
+        a = np.loadtxt(out)
+        vd, vo = a[:, 0], a[:, 1]
+        m = abs(vd) <= 0.2001
+        g, o = np.polyfit(vd[m], vo[m], 1)
+        res["gain"], res["off_mV"] = g, o * 1e3
+        res["inl_mV"] = 1e3 * max(abs(vo[m] - g * vd[m] - o))
+    except Exception as e:
+        res["err"] = str(e) + r.stdout[-2000:] + r.stderr[-2000:]
+    return res
+
+def fmt(r):
+    keys = ["iqp", "iqn", "idd", "t0", "fc", "pm", "gain", "off_mV", "inl_mV", "v(xd.a)", "v(xd.b)", "v(xd.x)", "v(xd.l1)"]
+    s = []
+    for k in keys:
+        if k in r:
+            v = r[k]
+            if k in ("iqp", "iqn", "idd"): s.append(f"{k}={v*1e6:.1f}u")
+            elif k == "fc": s.append(f"fc={v/1e6:.2f}M")
+            else: s.append(f"{k}={v:.4g}")
+    if "err" in r: s.append("ERR " + r["err"][:300])
+    return " ".join(s)
+
+if __name__ == "__main__":
+    what = sys.argv[1] if len(sys.argv) > 1 else "tt"
+    if what == "tt":
+        print("tt 27 3.3", fmt(run()))
+    elif what == "corners":
+        for c, t, v in [("typical", 27, 3.3), ("typical", -40, 3.3), ("typical", 125, 3.3), ("ss", -40, 3.0), ("ff", 125, 3.6),
+                        ("ss", 27, 3.3), ("ff", 27, 3.3), ("sf", 27, 3.3), ("fs", 27, 3.3), ("ss", 125, 3.0), ("ff", -40, 3.6)]:
+            print(f"{c:7s} {t:4d} {v}", fmt(run(corner=c, temp=t, vdd=v)))
+    elif what == "loads":
+        for name, ld in [("1k||100p", "RL vout vref 1k\nCL vout 0 100p"), ("100p", "CL vout 0 100p"), ("50", "RL vout vref 50\nCL vout 0 10p"), ("1n", "RL vout vref 1k\nCL vout 0 1n")]:
+            print(f"{name:9s}", fmt(run(load=ld)))
+EOF
+python3 run_gf.py tt; python3 run_gf.py loads
+```
+
+</details>
+
+*[Tune class-AB replica widths for I_Q target (in the cloud container; 3 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+for p in "12u 8u" "12.2u 8u" "12u 7.9u"; do set -- $p; sed -e "s/XRP1 n1 n1 vddo vddo pfet_03v3 W=13.32u/XRP1 n1 n1 vddo vddo pfet_03v3 W=$1/" -e "s/XRN1 n2 n2 vsso vsso nfet_03v3 W=8.8u/XRN1 n2 n2 vsso vsso nfet_03v3 W=$2/" bias_lp_gf.spice > bias_lp_try.spice; sed 's/bias_lp_gf.spice/bias_lp_try.spice/' run_gf.py > run_try.py; echo "$p: $(python3 run_try.py tt)"; done
+```
+
+</details>
+
+*[Run driver over PVT corners (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cp bias_lp_try.spice /dev/null; sed -i -e "s/XRP1 n1 n1 vddo vddo pfet_03v3 W=13.32u/XRP1 n1 n1 vddo vddo pfet_03v3 W=12u/" -e "s/XRN1 n2 n2 vsso vsso nfet_03v3 W=8.8u/XRN1 n2 n2 vsso vsso nfet_03v3 W=8u/" bias_lp_gf.spice && rm bias_lp_try.spice run_try.py && python3 run_gf.py corners
+```
+
+</details>
+
+*[Check saturation margins at ss/−40 °C/3.0 V (in the cloud container; 84 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 - <<'EOF'
+import run_gf, subprocess, os, tempfile
+t = run_gf.deck(corner="ss", temp=-40, vdd=3.0).replace("Vd dp 0 0", "Vd dp 0 0.2")
+ctl = """.control
+op
+"""
+for u in ["xa","xb","xc1","xc2"]:
+    for d in ["xta","xma","xtb","xmb"]:
+        ctl += f"print @m.xd.{u}.{d}.m0[vds] @m.xd.{u}.{d}.m0[vdsat] @m.xd.{u}.{d}.m0[id]\n"
+for d in ["xsx","xsy","xcx","xcy","xpl","xpr","xpcl","xpcr","xabp","xabn","xfpl","xfnl"]:
+    ctl += f"print @m.xd.{d}.m0[vds] @m.xd.{d}.m0[vdsat] @m.xd.{d}.m0[id]\n"
+ctl += ".endc\n.end\n"
+t = t[:t.index(".control")] + ctl
+d = tempfile.mkdtemp(); open(d+"/t.sp","w").write(t)
+r = subprocess.run(["ngspice","-b","t.sp"],cwd=d,capture_output=True,text=True)
+import re
+for l in r.stdout.splitlines():
+    if "=" in l and "@m" in l: print(l.strip())
+EOF
+```
+
+</details>
+
+*[Widen DDA tails to fix headroom at ss/cold/3.0 V (in the cloud container; 15 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cp units_gf.spice units_gf.bak; cp bias_lp_gf.spice bias_lp_gf.bak; for w in 10u 15u 20u; do sed "s/pfet_03v3 W=5u L=6u/pfet_03v3 W=$w L=6u/" units_gf.bak > units_gf.spice; sed "s/XBP vbp vbp vdd vdd pfet_03v3 W=5u/XBP vbp vbp vdd vdd pfet_03v3 W=$w/" bias_lp_gf.bak > bias_lp_gf.spice; echo "== $w"; python3 run_gf.py corners | grep -E "^(typical  +27|ss +-40|ss +125|ff +125)"; done
+```
+
+</details>
+
+*[Read IHP run_bias.py measurement approach (in the cloud container; 121 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/improvements/sim; sed -n 1,120p run_bias.py
+```
+
+</details>
+
+*[Check how CACE invokes xschem rcfile (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/venv/lib/python3.12/site-packages/cace; grep -rn "rcfile\|xschemrc" --include=*.py . | head -20
+```
+
+</details>
+
+*[Find CACE DUT netlisting invocation (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/venv/lib/python3.12/site-packages/cace; grep -rn "xschem" --include=*.py common/*.py cace_*.py */*.py | grep -v "^parameter/parameter_ngspice.py:49[0-9]" | grep -i "rcfile\|tcl\|args\|subprocess\|netlist" | head -20
+```
+
+</details>
+
+*[Read CACE xschem path handling (in the cloud container; 45 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/venv/lib/python3.12/site-packages/cace; sed -n 575,620p common/cace_regenerate.py; grep -n "def set_xschem_paths" -A40 common/cace_regenerate.py | head -50
+```
+
+</details>
+
+*[Write GF180 bias in/out netlists and check current accuracy (in the cloud container; 32 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/classab/sim && rm -f units_gf.bak bias_lp_gf.bak && sed -i 's/XTa sa vbp vdd vdd pfet_03v3 W=20u L=6u nf=1/XTa sa vbp vdd vdd pfet_03v3 W=20u L=6u nf=2/; s/XTb sb vbp vdd vdd pfet_03v3 W=20u L=6u nf=1/XTb sb vbp vdd vdd pfet_03v3 W=20u L=6u nf=2/' units_gf.spice && sed -i 's/XBP vbp vbp vdd vdd pfet_03v3 W=20u L=6u nf=1/XBP vbp vbp vdd vdd pfet_03v3 W=20u L=6u nf=2/' bias_lp_gf.spice && cat units_gf.spice bias_lp_gf.spice | grep -E "XT|XBP|XRP1|XRN1" && cat > bias_ref_gf.spice <<'EOF'
+* GF180 03v3 port of d2s_bias_ref.spice (diodes, in, out); sizes re-derived 2026-10-08
+.subckt d2s_bias_diodes vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn
+XBP vbp vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+XBN vbn vbn vss vss nfet_03v3 W=6u L=6u nf=1
+XBNC vbnc vbnc vss vss nfet_03v3 W=1u L=8u nf=1
+XBPC vbpc vbpc vdd vdd pfet_03v3 W=1u L=4u nf=1
+XRP1 n1 n1 vddo vddo pfet_03v3 W=12u L=0.6u nf=2
+XRP2 vabp vabp n1 vdd pfet_03v3 W=6.66u L=0.6u nf=1
+XRN1 n2 n2 vsso vsso nfet_03v3 W=8u L=1u nf=2
+XRN2 vabn vabn n2 vss nfet_03v3 W=4.4u L=1u nf=1
+.ends d2s_bias_diodes
+.subckt d2s_bias_in vdd vss vddo vsso iref vbp vbn vbpc vbnc vabp vabn
+XNI iref iref vss vss nfet_03v3 W=6u L=6u nf=1
+XNBP vbp iref vss vss nfet_03v3 W=6u L=6u nf=1
+XNBPC vbpc iref vss vss nfet_03v3 W=2.4u L=6u nf=1
+XNABP vabp iref vss vss nfet_03v3 W=6u L=6u nf=1
+XPBN vbn vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+XPBNC vbnc vbp vdd vdd pfet_03v3 W=8u L=6u nf=1
+XPABN vabn vbp vdd vdd pfet_03v3 W=20u L=6u nf=2
+Xd vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn d2s_bias_diodes
+.ends d2s_bias_in
+.subckt d2s_bias_out vdd vss vddo vsso iref vbp vbn vbpc vbnc vabp vabn
+XPI iref iref vdd vdd pfet_03v3 W=20u L=6u nf=2
+XPBN vbn iref vdd vdd pfet_03v3 W=20u L=6u nf=2
+XPBNC vbnc iref vdd vdd pfet_03v3 W=8u L=6u nf=1
+XPABN vabn iref vdd vdd pfet_03v3 W=20u L=6u nf=2
+XNBP vbp vbn vss vss nfet_03v3 W=6u L=6u nf=1
+XNBPC vbpc vbn vss vss nfet_03v3 W=2.4u L=6u nf=1
+XNABP vabp vbn vss vss nfet_03v3 W=6u L=6u nf=1
+Xd vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn d2s_bias_diodes
+.ends d2s_bias_out
+EOF
+cat > run_bias_gf.py <<'EOF'
+#!/usr/bin/env python3
+"""Cloud-only: bias currents of the GF180 bias variants (sensed in the diode drains)."""
+import re, subprocess, tempfile, os, sys
+PDK = "/home/claude/pdk/gf180mcuD/libs.tech/ngspice"
+HERE = os.path.dirname(os.path.abspath(__file__))
+NOM = {'bp': 5e-6, 'bn': 5e-6, 'bnc': 2e-6, 'bpc': 2e-6, 'abp': 5e-6, 'abn': 5e-6}
+DRAIN = {'bp': 'XBP', 'bn': 'XBN', 'bnc': 'XBNC', 'bpc': 'XBPC', 'abp': 'XRP2', 'abn': 'XRN2'}
+INST = {'in': "Iref 0 iref 5u\nXb vdd 0 vddo vsso iref vbp vbn vbpc vbnc vabp vabn d2s_bias_in",
+        'out': "Iref iref 0 5u\nXb vdd 0 vddo vsso iref vbp vbn vbpc vbnc vabp vabn d2s_bias_out",
+        'oa': "Xb vdd 0 vddo vsso vbp vbn vbpc vbnc vabp vabn d2s_bias_oa",
+        'bg': "Xb vdd 0 vddo vsso vbp vbn vbpc vbnc vabp vabn d2s_bias_bg"}
+CORN = [('tt 27C', {}), ('ss 27C', dict(c='ss')), ('ff 27C', dict(c='ff')), ('sf 27C', dict(c='sf')), ('fs 27C', dict(c='fs')),
+        ('res ss', dict(r='res_ss')), ('res ff', dict(r='res_ff')),
+        ('tt -40C', dict(temp=-40)), ('tt 125C', dict(temp=125)),
+        ('ss 3.0V -40C', dict(c='ss', vdd=3.0, temp=-40)), ('ff 3.6V 125C', dict(c='ff', vdd=3.6, temp=125))]
+FILES = ['bias_ref_gf.spice']
+def src():
+    s = ''.join(open(os.path.join(HERE, f)).read() for f in FILES)
+    m = re.search(r'\.subckt d2s_bias_diodes.*?\.ends d2s_bias_diodes', s, re.S)
+    body = m.group(0)
+    for k, dev in DRAIN.items():
+        body = re.sub(rf'^{dev} (\S+)', lambda mm: f'Vs{k} {mm.group(1)} s{k} 0\n{dev} s{k}', body, flags=re.M)
+    return s.replace(m.group(0), body)
+def net(var, c='typical', r='res_typical', temp=27, vdd=3.3, extra=''):
+    return (f".include {PDK}/design.ngspice\n.lib {PDK}/sm141064.ngspice {c}\n.lib {PDK}/sm141064.ngspice {r}\n"
+            f".lib {PDK}/sm141064.ngspice moscap_typical\n.lib {PDK}/sm141064.ngspice bjt_typical\n.temp {temp}\n" + src() +
+            f"Vvdd vdd 0 {vdd}\nVvddo vddo 0 {vdd}\nVvsso vsso 0 0\n" + INST[var] + "\n" + extra)
+def sense(var, k):
+    return f"i(v.xb.xt.xd.vs{k})" if var in ('oa', 'bg') else f"i(v.xb.xd.vs{k})"
+def currents(var, **kw):
+    ctl = ".control\nop\n" + ''.join(f"echo R {k} $&{sense(var, k)}\n" for k in NOM) + ".endc\n.end\n"
+    d = tempfile.mkdtemp(dir='/tmp'); open(d + '/b.cir', 'w').write('* b\n' + net(var, **kw) + ctl)
+    o = subprocess.run(['ngspice', '-b', 'b.cir'], cwd=d, capture_output=True, text=True).stdout
+    res = {l.split()[1]: abs(float(l.split()[2])) for l in o.splitlines() if l.startswith('R ')}
+    if len(res) < 6: raise RuntimeError(o[-1500:])
+    return res
+if __name__ == '__main__':
+    for var in sys.argv[1:] or ['in', 'out']:
+        print(f"-- {var}  % deviation from 5/5/2/2/5/5 uA\n  {'corner':15s}" + ''.join(f"{k:>8}" for k in NOM))
+        for name, c in CORN:
+            i = currents(var, **c)
+            print(f"  {name:15s}" + ''.join(f"{100*(i[k]/NOM[k]-1):8.2f}" for k in NOM))
+EOF
+python3 run_bias_gf.py in out
+```
+
+</details>
+
+*[Fix NBPC width; survey symbols used in IHP sheets (in the cloud container; 24 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -i 's/XNBPC vbpc \(\S*\) vss vss nfet_03v3 W=2.4u/XNBPC vbpc \1 vss vss nfet_03v3 W=2.5u/' bias_ref_gf.spice && python3 run_bias_gf.py in | sed -n 1,4p; cd /home/claude/ihpab/improvements/xschem; for f in d2s_mpdda unit_r2 d2s_bias_in d2s_bias_out d2s_bias_lp d2s_mpdda_biased tb_mpdda_dc tb_mpdda_loop tb_mpdda_step tb_mpdda_thd tb_mpdda_noise tb_mpdda_op; do echo "== $f: $(grep -o '^C {[^}]*}' $f.sch | sort | uniq -c | tr '\n' ' ')"; done; cat xschemrc
+```
+
+</details>
+
+*[Read IHP unit_r2 sheet and symbol (in the cloud container; 128 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/improvements/xschem; cat unit_r2.sch; cat unit_r2.sym | head -40
+```
+
+</details>
+
+*[List instance names and symbol pins in IHP sheets (in the cloud container; 57 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/improvements/xschem; for f in d2s_mpdda d2s_bias_in d2s_bias_out d2s_bias_lp d2s_mpdda_biased; do echo "== $f: $(grep -oP '^C \{[^}]*\} \S+ \S+ \S+ \S+ \{name=\K\S+' $f.sch | tr '\n' ' ')"; done; cat d2s_mpdda.sym | grep "B 5"; grep "B 5" d2s_bias_in.sym d2s_bias_lp.sym d2s_mpdda_biased.sym
+```
+
+</details>
+
+*[Inspect labels in d2s_mpdda sheet (in the cloud container; 35 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/improvements/xschem; grep -E "lab_wire|ipin|opin|iopin" d2s_mpdda.sch; grep -E "^T " d2s_mpdda.sch | head; grep -c "" d2s_mpdda.sch
+```
+
+</details>
+
+*[Read IHP testbench code blocks (in the cloud container; 50 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/improvements/xschem; grep -n "code_shown" -A45 tb_mpdda_dc.sch | head -60; grep -n "code_shown" -A12 tb_mpdda_op.sch | head -60
+```
+
+</details>
+
+*[Check OAB testbench code block and xschemrc style (in the cloud container; 139 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/repo/macros/OgueyAebischerBias/testbenches/xschem; grep -n "code" -A8 OgueyAebischerRef_03v3_tb_tran.sch | head -30; cat xschemrc; cat ../../schematic/xschem/xschemrc
+```
+
+</details>
+
+*[Survey annotation texts in IHP sheets (in the cloud container; 53 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/ihpab/improvements/xschem; grep -h "^T {" d2s_mpdda.sch d2s_bias_in.sch unit_r2.sch d2s_bias_lp.sch d2s_mpdda_biased.sch tb_mpdda_dc.sch | cut -c1-200 | sort -u | head -60
+```
+
+</details>
+
+*[Write class-AB porting script and sizing netlist (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /home/claude/work/gf/scripts && cat > /home/claude/work/gf/scripts/port_classab_from_ihp.py <<'PYEOF'
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""
+One-time port of the IHP sg13cmos5l class-AB pad driver sheets (hand-edited xschem drawings in
+sg13cmos5l_..._sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver/improvements/xschem)
+to GF180MCU (gf180mcuD, 03v3 devices).
+
+Every wire and instance position of the IHP drawings is kept. The GF180 FET symbols have the
+sg13_hv pin geometry (D/S at (20,-+30), G at (-20,0), B at (20,0)); rhigh becomes ppolyf_u_3k
+(same P/M pins, plus a bulk pin B at (-20,0), which gets a label with the old body= net).
+Sizes are NOT copied: they come from the GF180 sizing netlists (gf180_sizing.spice next to this
+script), re-derived on 2026-10-08 by simulation (see the macro READMEs).
+
+After this script has run once, the .sch/.sym files are the source of truth.
+
+Usage: port_classab_from_ihp.py <ihp_xschem_dir> <repo_macros_dir>
+"""
+import os, re, sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+HDR = "v {xschem version=3.4.8RC file_version=1.3}\n"
+
+# ---------------------------------------------------------------- sizes from the GF180 netlist
+def size_tables(path):
+    tab, cur = {}, None
+    for l in open(path):
+        t = l.split()
+        if not t: continue
+        if t[0].lower() == '.subckt': cur = t[1]; tab[cur] = {}; continue
+        if t[0].lower() == '.ends': cur = None; continue
+        if cur and t[0][0] in 'Xx' and len(t) > 5 and t[5] in ('nfet_03v3', 'pfet_03v3', 'ppolyf_u_3k'):
+            kv = dict(re.findall(r'(\w+)=(\S+)', l))
+            tab[cur][t[0][1:]] = dict(model=t[5], **kv)
+    return tab
+
+def fet_props(name, d):
+    return (f"name={name}\nL={d['L']}\nW={d['W']}\nnf={d.get('nf', 1)}\nm={d.get('m', 1)}\n"
+            "ad=\"'int((nf+1)/2) * W/nf * 0.18u'\"\n"
+            "pd=\"'2*int((nf+1)/2) * (W/nf + 0.18u)'\"\n"
+            "as=\"'int((nf+2)/2) * W/nf * 0.18u'\"\n"
+            "ps=\"'2*int((nf+2)/2) * (W/nf + 0.18u)'\"\n"
+            "nrd=\"'0.18u / W'\" nrs=\"'0.18u / W'\"\n"
+            f"sa=0 sb=0 sd=0\nmodel={d['model']}\nspiceprefix=X\n")
+
+def res_props(name, d):
+    return f"name={name}\nW={d['r_width']}\nL={d['r_length']}\nmodel={d['model']}\nspiceprefix=X\nm=1\n"
+
+# ---------------------------------------------------------------- xschem record handling
+def split_records(text):
+    recs, cur, depth, i = [], "", 0, 0
+    while i < len(text):
+        c = text[i]
+        if c == "\\" and i + 1 < len(text):
+            cur += text[i:i + 2]; i += 2; continue
+        cur += c
+        if c == "{": depth += 1
+        elif c == "}": depth -= 1
+        elif c == "\n" and depth == 0:
+            if cur.strip(): recs.append(cur)
+            cur = ""
+        i += 1
+    if cur.strip(): recs.append(cur)
+    return recs
+
+def xform(dx, dy, rot, flip):
+    if flip: dx = -dx
+    for _ in range(rot % 4): dx, dy = -dy, dx
+    return dx, dy
+
+CODE_SUBS = [
+    (".lib cornerMOShv.lib mos_tt\n.lib cornerRES.lib res_typ\n.lib cornerCAP.lib cap_typ\n", ""),
+    ("@n.xd.xop.nsg13_hv_pmos[ids]", "@m.xd.xop.m0[id]"),
+    ("@n.xd.xon.nsg13_hv_nmos[ids]", "@m.xd.xon.m0[id]"),
+]
+MODELS_BLOCK = ('C {devices/code_shown.sym} %d %d 0 0 {name=MODELS\nonly_toplevel=true\nformat="tcleval( @value )"\n'
+                'value="\n.include $::180MCU_MODELS/design.ngspice\n.lib $::180MCU_MODELS/sm141064.ngspice typical\n'
+                '.lib $::180MCU_MODELS/sm141064.ngspice res_typical\n.lib $::180MCU_MODELS/sm141064.ngspice moscap_typical\n"}\n')
+
+def code_rewrite(rec):
+    for a, b in CODE_SUBS: rec = rec.replace(a, b)
+    rec = re.sub(r"@n\.(\S+?)\.nsg13_hv_[np]mos\[ids\]", r"@m.\1.m0[id]", rec)
+    rec = re.sub(r"@n\.(\S+?)\.nsg13_hv_[np]mos\[vds\]", r"@m.\1.m0[vds]", rec)
+    rec = re.sub(r"@n\.(\S+?)\.nsg13_hv_[np]mos\[vdss\]", r"@m.\1.m0[vdsat]", rec)
+    return rec
+
+def port_sch(src, dst, sizes, sym_ren, text_subs, note, extra=""):
+    out, models_at = [], None
+    for r in split_records(open(src).read()):
+        if r.startswith("v {"):
+            out.append(HDR); continue
+        m = re.match(r"^C \{([^}]*)\} (\S+) (\S+) (\S+) (\S+) \{(.*)\}\s*$", r, re.S)
+        if m:
+            sym, x, y, rot, flip, props = m.groups()
+            base = os.path.basename(sym)
+            name = re.search(r"name=([^\s}]+)", props).group(1)
+            if base in ("sg13_hv_nmos.sym", "sg13_hv_pmos.sym"):
+                d = sizes[name]
+                out.append(f"C {{symbols/{d['model']}.sym}} {x} {y} {rot} {flip} {{{fet_props(name, d)}}}\n"); continue
+            if base == "rhigh.sym":
+                d = sizes[name]
+                body = re.search(r"body=(\S+)", props).group(1)
+                out.append(f"C {{symbols/{d['model']}.sym}} {x} {y} {rot} {flip} {{{res_props(name, d)}}}\n")
+                bx, by = xform(-20, 0, int(rot), int(flip))
+                out.append(f"C {{devices/lab_pin.sym}} {int(x)+bx} {int(y)+by} 0 0 {{name=lb_{name} sig_type=std_logic lab={body}}}\n")
+                continue
+            if base in sym_ren:
+                out.append(f"C {{{sym_ren[base]}}} {x} {y} {rot} {flip} {{{props}}}\n"); continue
+            if base == "title.sym":
+                out.append(f"C {{devices/title.sym}} {x} {y} {rot} {flip} {{name=l1 author=\"Christoph Maier\"}}\n"); continue
+            if base == "code_shown.sym":
+                models_at = (int(float(x)), int(float(y)))
+                out.append(code_rewrite(r if r.endswith("\n") else r + "\n")); continue
+        if r.startswith("T {"):
+            for a, b in text_subs: r = r.replace(a, b)
+        out.append(r if r.endswith("\n") else r + "\n")
+    if models_at:
+        out.append(MODELS_BLOCK % (models_at[0] + 1100, models_at[1]))
+    out.append(note + "\n")
+    out.append(extra)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    open(dst, "w").write("".join(out))
+    print("wrote", dst)
+
+def port_sym(src, dst, text_subs, extra=""):
+    t = open(src).read()
+    t = re.sub(r"^v \{[^}]*\}\n", HDR, t)
+    for a, b in text_subs: t = t.replace(a, b)
+    t = t + extra
+    open(dst, "w").write(t)
+    print("wrote", dst)
+
+# ---------------------------------------------------------------- the cells
+NAMES = [("d2s_mpdda_biased", "ClassABDriverBiased"), ("d2s_mpdda", "ClassABDriver"), ("unit_r2", "ClassABUnitR"),
+         ("d2s_bias_lp", "ClassABBiasIdeal"), ("d2s_bias_in", "ClassABBiasIn"), ("d2s_bias_out", "ClassABBiasOut")]
+TEXT = NAMES + [
+    ("rhigh body = vss", "ppolyf_u_3k bulk = vss"), ("rhigh", "ppolyf_u_3k"),
+    ("hv PMOS in accumulation", "pfet_03v3 in accumulation"),
+    ("BP 5u/6u", "BP 20u/6u"), ("Ta, Tb (5u/6u", "Ta, Tb (20u/6u"),
+    ("RP1 (2 x ABP)", "RP1 (12u/0.6u)"), ("RN1 (2 x ABN)", "RN1 (8u/1u)"),
+    ("stacked on a 2x diode", "stacked on RP1 12u/0.6u, RN1 8u/1u"),
+    ("rl = 50.6u (in unit_r2.sch)", "R = ppolyf_u_3k 1u x 50u (in ClassABUnitR.sch)"),
+    ("frozen .subckt defaults: lcas = 3", "fixed sizes: lcas = 3"),
+    ("the DDA units at transistor level: d2s_mpdda_flat.sch; with the bias network: d2s_mpdda_bias_flat.sch; block descriptions: README.md",
+     "block descriptions: ../../README.md (IHP original: d2s_mpdda.sch in the IHP notes worktree)"),
+    ("DUT and bias from the schematics in this directory", "DUT and bias from ../../schematic/xschem and ../../../ClassABBias/schematic/xschem"),
+]
+SYMREN = {f"{a}.sym": f"{b}.sym" for a, b in NAMES}
+
+def note(cell, ihp):
+    return (f"T {{GF180MCU (gf180mcuD) 03v3 port of the IHP sheet {ihp}.sch, 2026-10-08. Wires and placement unchanged;\n"
+            f"devices pfet_03v3 / nfet_03v3 / ppolyf_u_3k, sizes re-derived for GF180 (README.md).}} 60 -1420 0 0 0.3 0.3 {{layer=4}}")
+
+def main(ihp, macros):
+    tab = size_tables(os.path.join(HERE, "gf180_sizing.spice"))
+    flat = lambda *cells: {k: v for c in cells for k, v in tab[c].items()}
+    bias_x = os.path.join(macros, "ClassABBias", "schematic", "xschem")
+    drv_x = os.path.join(macros, "ClassABDriver", "schematic", "xschem")
+    drv_tb = os.path.join(macros, "ClassABDriver", "testbenches", "xschem")
+    jobs = [
+        ("d2s_bias_lp", bias_x, "ClassABBiasIdeal", flat("d2s_bias_lp")),
+        ("d2s_bias_in", bias_x, "ClassABBiasIn", flat("d2s_bias_in", "d2s_bias_diodes")),
+        ("d2s_bias_out", bias_x, "ClassABBiasOut", flat("d2s_bias_out", "d2s_bias_diodes")),
+        ("unit_r2", drv_x, "ClassABUnitR", flat("unit_r2")),
+        ("d2s_mpdda", drv_x, "ClassABDriver", flat("d2s_mpdda")),
+        ("d2s_mpdda_biased", drv_x, "ClassABDriverBiased", {}),
+    ]
+    for ihpname, d, cell, sizes in jobs:
+        extra = ""
+        if cell == "ClassABDriver":
+            # a and b (gates of OP / ON) become ports for the enable sub-macro (PadEnable/DriverEnable)
+            extra = ("C {devices/iopin.sym} 2440 -800 0 0 {name=p16 lab=a}\n"
+                     "C {devices/iopin.sym} 2440 -400 0 0 {name=p17 lab=b}\n"
+                     "T {a, b: gates of OP / ON, ports for the enable switches (PadEnable/DriverEnable)} 2200 -840 0 0 0.25 0.25 {layer=10}\n")
+        port_sch(os.path.join(ihp, ihpname + ".sch"), os.path.join(d, cell + ".sch"), sizes, SYMREN, TEXT, note(cell, ihpname), extra)
+        sx = ""
+        if cell == "ClassABDriver":
+            sx = ("L 4 200 -100 220 -100 {}\nT {a} 186 -107 0 1 0.2 0.2 {}\nB 5 217.5 -102.5 222.5 -97.5 {name=a dir=inout}\n"
+                  "L 4 200 -20 220 -20 {}\nT {b} 186 -27 0 1 0.2 0.2 {}\nB 5 217.5 -22.5 222.5 -17.5 {name=b dir=inout}\n")
+        port_sym(os.path.join(ihp, ihpname + ".sym"), os.path.join(d, cell + ".sym"), NAMES, sx)
+    for tb in ["dc", "loop", "step", "thd", "noise", "op"]:
+        port_sch(os.path.join(ihp, f"tb_mpdda_{tb}.sch"), os.path.join(drv_tb, f"ClassABDriver_tb_{tb}.sch"), {}, SYMREN,
+                 TEXT + [(f"tb_mpdda_{tb}", f"ClassABDriver_tb_{tb}")], note(tb, f"tb_mpdda_{tb}"))
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2])
+PYEOF
+cd /home/claude/work/classab/sim && { echo "* GF180MCU 03v3 sizing netlists of the class-AB driver and its bias, 2026-10-08 (source of the port)"; cat units_gf.spice bias_lp_gf.spice mpdda_gf.spice bias_ref_gf.spice; } > /home/claude/work/gf/scripts/gf180_sizing.spice; grep -c subckt /home/claude/work/gf/scripts/gf180_sizing.spice
+```
+
+</details>
+
+*[Fix note placement and run the port (in the cloud container; error).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/scripts && python3 - <<'EOF'
+p='port_classab_from_ihp.py'; s=open(p).read()
+s=s.replace('''    out.append(note + "\\n")''','''    ys = [float(v) for v in re.findall(r"^N \\S+ (\\S+) \\S+ (\\S+)", "".join(out), re.M) for v in v] or [0]
+    ys += [float(m.group(1)) for m in re.finditer(r"^[CT] \\{.*?\\} \\S+ (\\S+) ", "".join(out), re.M)]
+    out.append(note.replace(" 60 -1420 ", f" 60 {int(min(ys)) - 120} ") + "\\n")''')
+open(p,'w').write(s)
+EOF
+grep -n "ys = \|ys +=\|note.replace" port_classab_from_ihp.py; mkdir -p /home/claude/work/gf/macros && python3 port_classab_from_ihp.py /home/claude/ihpab/improvements/xschem /home/claude/work/gf/macros
+```
+
+</details>
+
+*[Fix resistor size parsing and rerun port (in the cloud container; 14 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/scripts && python3 - <<'EOF'
+p='port_classab_from_ihp.py'; s=open(p).read()
+s=s.replace("""        if cur and t[0][0] in 'Xx' and len(t) > 5 and t[5] in ('nfet_03v3', 'pfet_03v3', 'ppolyf_u_3k'):
+            kv = dict(re.findall(r'(\\w+)=(\\S+)', l))
+            tab[cur][t[0][1:]] = dict(model=t[5], **kv)""","""        mods = [x for x in t if x in ('nfet_03v3', 'pfet_03v3', 'ppolyf_u_3k')]
+        if cur and t[0][0] in 'Xx' and mods:
+            kv = dict(re.findall(r'(\\w+)=(\\S+)', l))
+            kv = {k: (v.replace('{rl}', '50u')) for k, v in kv.items()}
+            tab[cur][t[0][1:]] = dict(model=mods[0], **kv)""")
+open(p,'w').write(s)
+EOF
+python3 port_classab_from_ihp.py /home/claude/ihpab/improvements/xschem /home/claude/work/gf/macros 2>&1 | tail -3; grep -A3 "ppolyf" /home/claude/work/gf/macros/ClassABDriver/schematic/xschem/ClassABUnitR.sch | head; grep "lb_R" /home/claude/work/gf/macros/ClassABDriver/schematic/xschem/ClassABUnitR.sch
+```
+
+</details>
+
+*[Review earlier round-trip checker (in the cloud container; 58 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat /home/claude/work/repo/macros/OgueyAebischerBias/scripts/check_port.py
+```
+
+</details>
+
+*[Create macro xschemrc files with sibling paths (in the cloud container; 10 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros && OAB=/home/claude/work/repo/macros/OgueyAebischerBias; python3 - <<'EOF'
+import re
+oab='/home/claude/work/repo/macros/OgueyAebischerBias'
+sch=open(oab+'/schematic/xschem/xschemrc').read()
+tb=open(oab+'/testbenches/xschem/xschemrc').read()
+marker='# Add current directory to xschem library path\n'
+def mk(base, lines):
+    a,b=base.split(marker); rest=b.split('\n\n',1)[1] if '\n\n' in b else ''
+    return a+marker+''.join(f'append_xschem_library_path_unique {l}\n' for l in lines)+'\n'+rest
+D='[file dirname [info script]]'
+J=lambda p: f'[file join {D} {p}]'
+files={
+ 'ClassABBias/schematic/xschem/xschemrc': [D, J('../../testbenches/xschem')],
+ 'ClassABBias/testbenches/xschem/xschemrc': [J('../../schematic/xschem'), D],
+ 'ClassABDriver/schematic/xschem/xschemrc': [D, J('../../testbenches/xschem'), J('../../../ClassABBias/schematic/xschem')],
+ 'ClassABDriver/testbenches/xschem/xschemrc': [J('../../schematic/xschem'), D, J('../../../ClassABBias/schematic/xschem')],
+}
+import os
+for f,l in files.items():
+    os.makedirs(os.path.dirname(f),exist_ok=True); open(f,'w').write(mk(sch if 'schematic' in f else tb, l)); print(f)
+EOF
+sed -n '/Add current/,/Pin the/p' ClassABDriver/testbenches/xschem/xschemrc
+```
+
+</details>
+
+Now the round-trip checker and the first netlisting.
+
+*[Write round-trip checker, netlist ported cells, compare (in the cloud container; error).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > /home/claude/work/gf/scripts/check_classab_port.py <<'PYEOF'
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""Round trip: compare xschem's netlist of a ported cell with its GF180 sizing subckt
+(gf180_sizing.spice), device by device: model, W, L, nf, m and nets. Sub-instances of the
+reference listed in FLATTEN are expanded one level (the bias sheets are drawn flat).
+Ports are compared by name and order; internal nets by a consistent bijection.
+Usage: check_classab_port.py <gf180_sizing.spice> <xschem_netlist.spice> <ref_subckt> <cell> [extra_ports...]
+Exit 1 on any mismatch."""
+import re, sys
+FLATTEN = {'d2s_bias_diodes'}
+def parse(path):
+    txt = open(path).read().replace('\n+', ' ')
+    subs, cur = {}, None
+    for line in txt.splitlines():
+        t = line.split()
+        if not t: continue
+        k = t[0].lower()
+        if k in ('.subckt', '**.subckt'):
+            cur = t[1]; subs[cur] = {'ports': [p for p in t[2:] if '=' not in p], 'dev': {}}; continue
+        if k in ('.ends', '**.ends'): cur = None; continue
+        if cur is None or t[0][0] in '*.': continue
+        mods = [x for x in t if x in ('nfet_03v3', 'pfet_03v3', 'ppolyf_u_3k')]
+        kv = dict(re.findall(r'(\w+)=(\S+)', line))
+        if t[0][0] in 'Xx' and mods:
+            i = t.index(mods[0])
+            subs[cur]['dev'][t[0].upper()] = ('dev', mods[0], t[1:i], kv)
+        elif t[0][0] in 'Xx':
+            pos = [x for x in t[1:] if '=' not in x]
+            subs[cur]['dev'][t[0].upper()] = ('x', pos[-1], pos[:-1], kv)
+        elif t[0][0] in 'VvIiRrCc':
+            subs[cur]['dev'][t[0].upper()] = ('prim', t[0][0].upper(), t[1:3], {})
+    return subs
+def flatten(subs, name):
+    s = subs[name]; out = {}
+    for n, d in s['dev'].items():
+        if d[0] == 'x' and d[1] in FLATTEN:
+            sub = subs[d[1]]; mp = dict(zip(sub['ports'], d[2]))
+            for m, e in sub['dev'].items():
+                out[m] = (e[0], e[1], [mp.get(x, f'{n}.{x}') for x in e[2]], e[3])
+        else:
+            out[n] = d
+    return {'ports': s['ports'], 'dev': out}
+def val(s):
+    s = str(s).strip("'{}").lower(); mult = {'u': 1e-6, 'n': 1e-9, 'p': 1e-12, 'm': 1e-3}
+    return float(s[:-1]) * mult[s[-1]] if s[-1] in mult else float(s)
+def main(refp, netp, ref, cell, *extra):
+    R = flatten(parse(refp), ref); G = parse(netp)
+    if cell not in G: print('MISSING subckt', cell); sys.exit(1)
+    g = G[cell]; bad = 0
+    want = R['ports'] + list(extra)
+    if g['ports'] != want: print('port order', g['ports'], '!=', want); bad += 1
+    if set(R['dev']) != set(g['dev']): print('device set differs:', sorted(set(R['dev']) ^ set(g['dev']))); bad += 1
+    mp, rev = {p: p for p in want}, {p: p for p in want}
+    for n in sorted(set(R['dev']) & set(g['dev'])):
+        a, b = R['dev'][n], g['dev'][n]
+        if a[0] != b[0]: print(n, 'type', a[0], b[0]); bad += 1; continue
+        if len(a[2]) != len(b[2]): print(n, 'pin count', a[2], b[2]); bad += 1; continue
+        for x, y in zip(a[2], b[2]):
+            if mp.setdefault(x, y) != y or rev.setdefault(y, x) != x:
+                print(n, 'nets', a[2], '->', b[2]); bad += 1; break
+        if a[0] == 'dev':
+            if a[1] != b[1]: print(n, 'model', a[1], b[1]); bad += 1
+            ka = {'W': 'W', 'L': 'L', 'nf': 'nf', 'm': 'm'} if a[1] != 'ppolyf_u_3k' else {'r_width': 'r_width', 'r_length': 'r_length'}
+            for k in ka:
+                va, vb = a[3].get(k, '1'), b[3].get(k, '1')
+                if abs(val(va) - val(vb)) > 1e-3 * abs(val(va)):
+                    print(n, k, va, '!=', vb); bad += 1
+        elif a[0] == 'x':
+            if b[1].lower() not in (a[1].lower(), {'unit_r2': 'classabunitr'}.get(a[1].lower(), '')):
+                print(n, 'cell', a[1], b[1]); bad += 1
+    print(f"{cell} vs {ref}: {len(g['dev'])} devices, ports {g['ports']}")
+    print('MISMATCHES:', bad); sys.exit(1 if bad else 0)
+if __name__ == '__main__':
+    main(*sys.argv[1:])
+PYEOF
+cd /home/claude/work/gf/macros; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; XS=/opt/xschem/bin/xschem
+nl() { d=$(cd $(dirname $1) && pwd); rm -f /tmp/nl/$(basename $1 .sch).spice; mkdir -p /tmp/nl; (cd $d && PWD=$d $XS --rcfile $d/xschemrc -n -s -q -x --tcl "set top_is_subckt 1" -o /tmp/nl $d/$(basename $1) >/tmp/nl/$(basename $1 .sch).log 2>&1); echo "netlisted $1 -> $(ls /tmp/nl/$(basename $1 .sch).spice 2>&1)"; }
+C=/home/claude/work/gf/scripts/check_classab_port.py; S=/home/claude/work/gf/scripts/gf180_sizing.spice
+for c in ClassABBias/schematic/xschem/ClassABBiasIdeal ClassABBias/schematic/xschem/ClassABBiasIn ClassABBias/schematic/xschem/ClassABBiasOut ClassABDriver/schematic/xschem/ClassABUnitR ClassABDriver/schematic/xschem/ClassABDriver; do nl $c.sch; done
+python3 $C $S /tmp/nl/ClassABBiasIdeal.spice d2s_bias_lp ClassABBiasIdeal; python3 $C $S /tmp/nl/ClassABBiasIn.spice d2s_bias_in ClassABBiasIn; python3 $C $S /tmp/nl/ClassABBiasOut.spice d2s_bias_out ClassABBiasOut; python3 $C $S /tmp/nl/ClassABUnitR.spice unit_r2 ClassABUnitR; python3 $C $S /tmp/nl/ClassABDriver.spice d2s_mpdda ClassABDriver a b
+```
+
+</details>
+
+*[Freeze parameters and rerun round-trip checks (in the cloud container; error).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/scripts && sed -i 's/r_length={rl}/r_length=50u/; s/W={wc} L={lc}/W=16u L=16u/; s/ rl={rl}//g; s/ wc=16u lc=16u rl=50u$//; s/ rl=50u$//' gf180_sizing.spice && grep -n "subckt\|rl\|wc" gf180_sizing.spice | head; python3 - <<'EOF'
+p='check_classab_port.py'; s=open(p).read()
+s=s.replace("""        for x, y in zip(a[2], b[2]):""","""        pa, pb = list(a[2]), list(b[2])
+        if a[1] == 'ppolyf_u_3k' and a[0] == 'dev' and pa[:2] != pb[:2] and pa[:2] == pb[1::-1]:
+            pa[:2] = pb[:2] = sorted(pa[:2])  # resistor: P and M are interchangeable
+        for x, y in zip(pa, pb):""")
+open(p,'w').write(s)
+EOF
+cd ../macros; C=/home/claude/work/gf/scripts/check_classab_port.py; S=/home/claude/work/gf/scripts/gf180_sizing.spice; python3 $C $S /tmp/nl/ClassABUnitR.spice unit_r2 ClassABUnitR; python3 $C $S /tmp/nl/ClassABDriver.spice d2s_mpdda ClassABDriver a b
+```
+
+</details>
+
+*[Re-port, netlist all cells, round-trip check (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/scripts && python3 port_classab_from_ihp.py /home/claude/ihpab/improvements/xschem /home/claude/work/gf/macros >/dev/null && cd ../macros && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; XS=/opt/xschem/bin/xschem
+cat > /home/claude/work/gf/scripts/nl.sh <<'EOF'
+#!/bin/bash
+# netlist an xschem sheet with its directory's xschemrc into /tmp/nl (cloud helper)
+f=$1; d=$(cd $(dirname $f) && pwd); b=$(basename $f .sch); mkdir -p /tmp/nl; rm -f /tmp/nl/$b.spice
+(cd $d && PWD=$d /opt/xschem/bin/xschem --rcfile $d/xschemrc -n -s -q -x --tcl "set top_is_subckt ${TOPSUB:-1}" -o /tmp/nl $d/$b.sch > /tmp/nl/$b.log 2>&1)
+[ -s /tmp/nl/$b.spice ] && echo "netlisted $b" || { echo "FAILED $b"; tail -5 /tmp/nl/$b.log; }
+EOF
+chmod +x /home/claude/work/gf/scripts/nl.sh; N=/home/claude/work/gf/scripts/nl.sh; C=/home/claude/work/gf/scripts/check_classab_port.py; S=/home/claude/work/gf/scripts/gf180_sizing.spice
+for c in ClassABBias/schematic/xschem/ClassABBiasIdeal ClassABBias/schematic/xschem/ClassABBiasIn ClassABBias/schematic/xschem/ClassABBiasOut ClassABDriver/schematic/xschem/ClassABUnitR ClassABDriver/schematic/xschem/ClassABDriver ClassABDriver/schematic/xschem/ClassABDriverBiased; do $N $c.sch; done
+for p in "ClassABBiasIdeal d2s_bias_lp" "ClassABBiasIn d2s_bias_in" "ClassABBiasOut d2s_bias_out" "ClassABUnitR unit_r2"; do set -- $p; python3 $C $S /tmp/nl/$1.spice $2 $1 | tail -1; done; python3 $C $S /tmp/nl/ClassABDriver.spice d2s_mpdda ClassABDriver a b; grep -i "^x\|subckt" /tmp/nl/ClassABDriverBiased.spice | head -8
+```
+
+</details>
+
+*[Sanity-check the checker with tampered netlists (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/nl && sed 's/^XNBP vbp /XNBP vbn /' ClassABBiasIn.spice > tamper.spice && python3 /home/claude/work/gf/scripts/check_classab_port.py /home/claude/work/gf/scripts/gf180_sizing.spice tamper.spice d2s_bias_in ClassABBiasIn | tail -2; sed 's/W=20u L=6u nf=2/W=21u L=6u nf=2/' ClassABBiasIn.spice > tamper2.spice; python3 /home/claude/work/gf/scripts/check_classab_port.py /home/claude/work/gf/scripts/gf180_sizing.spice tamper2.spice d2s_bias_in ClassABBiasIn | tail -1
+```
+
+</details>
+
+*[Retry size tamper test (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/nl && grep -m1 "^XBP" ClassABBiasIn.spice; sed 's/^\(XBP .*\)W=20u/\1W=21u/' ClassABBiasIn.spice > tamper2.spice; diff ClassABBiasIn.spice tamper2.spice | head -3; python3 /home/claude/work/gf/scripts/check_classab_port.py /home/claude/work/gf/scripts/gf180_sizing.spice tamper2.spice d2s_bias_in ClassABBiasIn | tail -2
+```
+
+</details>
+
+*[Check m on output devices; netlist testbenches (in the cloud container; 47 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep "^XOP\|^XON" /tmp/nl/ClassABDriver.spice | cut -c1-90; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; for t in dc loop step thd noise op; do /home/claude/work/gf/scripts/nl.sh /home/claude/work/gf/macros/ClassABDriver/testbenches/xschem/ClassABDriver_tb_$t.sch; done 2>&1 | tail -6; sed -n 1,40p /tmp/nl/ClassABDriver_tb_loop.spice
+```
+
+</details>
+
+*[Check GF FET symbol format for m (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep -A4 "^format" /home/claude/pdk/gf180mcuD/libs.tech/xschem/symbols/pfet_03v3.sym; grep -A3 "^XOP" /tmp/nl/ClassABDriver.spice
+```
+
+</details>
+
+*[Run the six ported driver testbenches (in the cloud container; 35 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd /tmp/nl; for t in dc loop step thd noise op; do TOPSUB=0 /home/claude/work/gf/scripts/nl.sh /home/claude/work/gf/macros/ClassABDriver/testbenches/xschem/ClassABDriver_tb_$t.sch >/dev/null; echo "== $t"; timeout 600 ngspice -b ClassABDriver_tb_$t.spice 2>&1 | grep -E "^[a-z0-9_]+ *= |rror" | head -12; done
+```
+
+</details>
+
+*[Inspect THD and OP testbench outputs (in the cloud container; 43 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/nl; ngspice -b ClassABDriver_tb_thd.spice 2>&1 | grep -v "^$" | tail -15; ngspice -b ClassABDriver_tb_op.spice 2>&1 | grep -v "^$" | tail -25
+```
+
+</details>
+
+*[Append progress to the running log (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+L=/mnt/user-data/outputs/log1/2026-10-08_opus_classab_port_log.md; cat >> $L <<'EOF'
+
+## 20:05 — GF180 sizing, driver on the ideal fixture (cloud: ngspice-42, gf180mcuD from fd_pr e11a8c9)
+
+Sizing netlists first (cloud scratch, later `macros/ClassABDriver/scripts/gf180_sizing.spice`), started from the
+IHP geometry and changed only where GF180 simulation said so:
+
+- Model limits read from `sm141064.ngspice`: 03v3 bins W 0.22–100 µm **per instance, total W, not W/nf**
+  (W = 400 µm with nf = 40 gives "could not find a valid modelname"), L 0.28–50 µm. So OP and ON are
+  drawn with m: OP 91.02u/0.6u nf=14 m=6 (546.12 µm, as IHP), ON 96.8u/1u nf=22 m=3 (290.4 µm, as IHP).
+- Transliterated first try: I_Q 192 µA, T0 92.4 dB, f_c 1.37 MHz, PM 72.3° (IHP 212 µA, 78.9 dB, 1.37 MHz,
+  72.4°). The GF 03v3 devices behave much like sg13_hv here.
+- I_Q: class-AB replicas RP1 13.32u → 12u/0.6u nf=2 and RN1 8.8u → 8u/1u nf=2 give 212.0 µA.
+- Headroom: at ss/−40 °C/3.0 V the DDA tails (5u/6u) had V_DS 0.35 V < V_DSsat 0.43 V; INL 6 mV, offset
+  −3 mV within |vd| ≤ 0.2 V. Tails Ta/Tb and the vbp diode BP 5u/6u → 20u/6u nf=2: INL 0.37 mV, offset −0.16 mV.
+- Degeneration rhigh 0.5u/50.6u → ppolyf_u_3k 1u/50u (≈ 150 kΩ; TC −0.17 %/K vs rhigh −0.22 %/K).
+- Miller capacitors: pfet_03v3 16u/16u in accumulation, as IHP.
+
+Corners (ideal fixture, 1 kΩ ∥ 100 pF): I_Q 198–222 µA; T0 64 dB (ff/3.6 V/125 °C) … 98 dB; PM 68–75°;
+offset ≤ 0.58 mV (ff/3.6 V/125 °C). Loads: 100 pF only 105.6 dB / 1.77 MHz / 61.9°; 50 Ω 66.8 dB / 0.23 MHz /
+89.2°; 1 kΩ ∥ 1 nF PM 33° (as IHP: the Miller loop is sized for 100 pF).
+
+## 20:20 — bias variants in / out (GF180 netlists)
+
+Same mirror ratios, PMOS sources 20u/6u (copies of BP), NBPC 2.4u → 2.5u (narrow-width error −3.6 % → +0.7 %).
+Current errors over MOS/res corners, −40…125 °C, 3.0…3.6 V: in −0.7…+1.8 %, out −0.5…+1.8 % (IHP: ≈ ±1.2 %).
+
+## 20:35 — xschem port of the hand-drawn IHP sheets
+
+`scripts/port_classab_from_ihp.py` (to go into `macros/ClassABDriver/scripts/`): wires and placement kept,
+sg13_hv → pfet/nfet_03v3, rhigh → ppolyf_u_3k (+ bulk label vss), sizes from `gf180_sizing.spice`,
+code blocks: IHP `.lib` lines → a tcleval MODELS block, `@n.*.nsg13_hv_*[ids]` → `@m.*.m0[id]`.
+
+Cell names: d2s_bias_lp → ClassABBiasIdeal, d2s_bias_in/out → ClassABBiasIn/Out (macro `ClassABBias`);
+unit_r2 → ClassABUnitR, d2s_mpdda → ClassABDriver (ports + `a b`, the OP/ON gates, for the enable switches),
+d2s_mpdda_biased → ClassABDriverBiased (CACE fixture), tb_mpdda_* → ClassABDriver_tb_* (macro `ClassABDriver`).
+
+Round trip (`scripts/check_classab_port.py`, xschem 3.4.8RC netlist vs gf180_sizing.spice, device by device,
+nets by bijection, ports by name and order): MISMATCHES 0 on all five cells. Checker sanity: one moved gate
+and one changed W each give MISMATCHES 1.
+
+Ported testbenches, netlisted by xschem and run: dc gain 0.49999, offset 0.017 mV, nonlin 1.5 mV (±1 V),
+I_Q 212.8 µA, Idd 297 µA; loop 93.1 dB / 1.40 MHz / 72.7°; step ±0.25 V no overshoot, 2.4 V/µs (10–90 %);
+THD 0.145 % (10 kHz, 1 V diff.); noise total 249 µV; op prints all saturation margins.
+EOF
+echo ok
+```
+
+</details>
+
+*[Called mcp__remote-devices__device_list_dir (1 lines of output).  
+Copied 1 files from the cloud container to the computer (1 lines of output).]*
+
+*[Locate chat log export script (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+ls /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/ 2>/dev/null; ls /home/claude/work/*.py /home/claude/work/chatlog 2>/dev/null; find / -name export_chatlog.py -not -path "*/proc/*" 2>/dev/null | head
+```
+
+</details>
+
+*[Check export script usage (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/; head -40 export_chatlog.py | grep -n "argv\|usage\|Usage\|argparse\|add_argument" ; grep -n "add_argument" export_chatlog.py; ls -la /root/.claude/projects/-home-claude/*.jsonl | tail -3
+```
+
+</details>
+
+*[Check existing chat log header (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/; head -3 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md; grep -m3 -n "^# \|Session\|session" 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md | head
+```
+
+</details>
+
+*[Export updated chat log (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/; mkdir -p /mnt/user-data/outputs/chat1; python3 export_chatlog.py /root/.claude/projects/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb.jsonl /mnt/user-data/outputs/chat1/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md "2026-10-06 — GF180 port: bias reference in two variants, CACE suites, IOPad proof of concept; class-AB driver port (from 2026-10-08)" ae2f9665-832e-520c-96fd-494fa4898beb claude-opus-5-5 && wc -c /mnt/user-data/outputs/chat1/*.md && grep -c "^## " /mnt/user-data/outputs/chat1/*.md; tail -5 /mnt/user-data/outputs/chat1/*.md | cut -c1-200
+```
+
+</details>
+
+*[Inspect compaction boundary records in transcript (in the cloud container; 27 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /root/.claude/projects/-home-claude/; python3 - <<'EOF'
+import json
+recs=[json.loads(l) for l in open('ae2f9665-832e-520c-96fd-494fa4898beb.jsonl')]
+print(len(recs))
+for i,r in enumerate(recs):
+    if r.get('type')=='system' or r.get('isCompactSummary') or 'compact' in json.dumps(r)[:400].lower():
+        print(i, r.get('type'), r.get('subtype'), r.get('uuid'), r.get('parentUuid'), r.get('logicalParentUuid'), str(r.get('compactMetadata'))[:100])
+EOF
+grep -n "parentUuid\|def chain\|leaf" /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/export_chatlog.py | head
+```
+
+</details>
+
+*[Inspect new partial export turns (in the cloud container; 56 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep -n "^## \|^### \|^\*\*User" /mnt/user-data/outputs/chat1/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md | head -30; sed -n 1,30p /mnt/user-data/outputs/chat1/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md | cut -c1-250
+```
+
+</details>
+
+*[Inspect first post-compaction records (in the cloud container; 31 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /root/.claude/projects/-home-claude/; python3 - <<'EOF'
+import json
+recs=[json.loads(l) for l in open('ae2f9665-832e-520c-96fd-494fa4898beb.jsonl')]
+for i,r in enumerate(recs[:30]):
+    a=r.get('attachment') or {}
+    m=r.get('message') or {}
+    c=m.get('content')
+    s=c if isinstance(c,str) else (json.dumps(c)[:80] if c else '')
+    print(i, r.get('type'), r.get('isCompactSummary'), r.get('isMeta'), a.get('type') if isinstance(a,dict) else '', str(s)[:80].replace('\n',' '), r.get('timestamp'))
+EOF
+```
+
+</details>
+
+*[Look for the pre-compaction transcript (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+ls -la /root/.claude/projects/-home-claude/ | head; ls -la /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/session.jsonl; tail -c 600 /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/session.jsonl | head -c 300
+```
+
+</details>
+
+*[Read export script (in the cloud container; error).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/; cat export_chatlog.py; diff export_chatlog.py /mnt/user-data/uploads/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/chatlog/export_chatlog.py && echo same-as-staged
+```
+
+</details>
+
+*[Patch export script for compaction; check old export (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/ && cp export_chatlog.py export_chatlog.pre_compact.py && python3 - <<'EOF'
+p='export_chatlog.py'; s=open(p).read()
+s=s.replace('''when the session spans more than one day. All other attachment records stay excluded. Refusal detection looks at the head of a result only."""''','''when the session spans more than one day. All other attachment records stay excluded. Refusal detection looks at the head of a result only.
+2026-10-08 (same session, after an automatic context compaction): the compaction summary is not a user message and
+is not exported. A compaction rewrites the transcript, so the turns before it exist only in an earlier export; for
+appending to that export, environment variables (optional):
+  CHATLOG_TURN_OFFSET   number of turns already in the earlier export (turn numbers continue after it)
+  CHATLOG_BODY_ONLY=1   write the turns only, without the file header
+  CHATLOG_COMPACT_USER  text shown as the user message of the turn the compaction interrupted
+  CHATLOG_COMPACT_TIME  its time label (e.g. "2026-10-08 19:22")"""''')
+s=s.replace('''for r in path:
+    if r.get("isMeta"): continue''','''for r in path:
+    if r.get("isMeta"): continue
+    if r.get("isCompactSummary"):
+        new_turn(r)
+        if os.environ.get("CHATLOG_COMPACT_TIME"): cur["label"] = os.environ["CHATLOG_COMPACT_TIME"]
+        if os.environ.get("CHATLOG_COMPACT_USER"): cur["user"].append(os.environ["CHATLOG_COMPACT_USER"])
+        cur["items"].append(("note", f"[The context was compacted automatically at {stamp(r)}. The record of this turn up to that point "
+                                     "was replaced by a summary, which is not exported; the turn continues below.]"))
+        continue''')
+s=s.replace('''multiday = len({t["day"] for t in turns}) > 1
+for n, t in enumerate(turns, 1):
+    L += [f"## Turn {n} — {t['day'] + ' ' if multiday else ''}{t['time']}", ""]''','''multiday = len({t["day"] for t in turns}) > 1 or bool(os.environ.get("CHATLOG_TURN_OFFSET"))
+if os.environ.get("CHATLOG_BODY_ONLY") == "1": L = []
+for n, t in enumerate(turns, 1 + int(os.environ.get("CHATLOG_TURN_OFFSET", "0"))):
+    L += [f"## Turn {n} — {t.get('label') or ((t['day'] + ' ' if multiday else '') + t['time'])}", ""]''')
+open(p,'w').write(s)
+EOF
+grep -n "Exported through\|^## Turn" 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md | tail -3; md5sum 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md
+```
+
+</details>
+
+*[Ran a command (on the computer; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/chatlog && md5sum 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md export_chatlog.py; stat -c '%Y %s' 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md export_chatlog.py; grep -n "Exported through" 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md
+```
+
+</details>
+
+*[Rebuild combined chat log across compaction (in the cloud container; 50 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/ && md5sum export_chatlog.pre_compact.py && cp 2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md part1_before_compaction.md && cat > rebuild.sh <<'EOF'
+#!/bin/bash
+# Rebuild the session chat log: turns 1-7 from the export made before the 2026-10-08 19:23 compaction,
+# turns 8- from the current (rewritten) transcript.
+set -e
+cd "$(dirname "$0")"
+OUT=/mnt/user-data/outputs/chat1/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md
+mkdir -p $(dirname $OUT)
+J=/root/.claude/projects/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb.jsonl
+export CHATLOG_TURN_OFFSET=7 CHATLOG_BODY_ONLY=1 CHATLOG_COMPACT_TIME="2026-10-08 19:22"
+export CHATLOG_COMPACT_USER="$(cat <<'U'
+*[This message is reconstructed from the compaction summary, which quoted it; "[y]our" is the summary's bracket, not necessarily the original wording.]*
+
+Even though the class AB buffer amplifier and the bias circuits associated with it are in a temporary place in the IHP process, what about porting these circuits, test setups, and CACE characterization sketch to Global Foundries 180, just as proof-of-concept and smoke test of [y]our schematic drawing and verification flow? In which directories would you store the schematics, test bases, figures, results, logs, and chat log?
+U
+)"
+python3 export_chatlog.py $J /tmp/cont.md x ae2f9665-832e-520c-96fd-494fa4898beb claude-opus-5-5 >/dev/null
+LAST=$(grep -o "Exported through the record stamped [0-9-]* [0-9:]*" /dev/null || true)
+python3 - "$OUT" <<'P'
+import sys, re, json, datetime
+from zoneinfo import ZoneInfo
+p1 = open('part1_before_compaction.md').read()
+cont = open('/tmp/cont.md').read()
+recs = [json.loads(l) for l in open('/root/.claude/projects/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb.jsonl')]
+last = [r for r in recs if r.get('type') in ('user', 'assistant')][-1]
+t = datetime.datetime.fromisoformat(last['timestamp'].replace('Z', '+00:00')).astimezone(ZoneInfo('Europe/Berlin')).strftime('%Y-%m-%d %H:%M')
+p1 = p1.replace('# 2026-10-06 — GF180 port: bias reference in two variants, CACE suites, IOPad proof of concept',
+                '# 2026-10-06 — GF180 port: bias reference in two variants, CACE suites, IOPad proof of concept; 2026-10-08: class-AB driver, bias and pad enables')
+p1 = re.sub(r'Exported through the record stamped [0-9-]+ [0-9:]+; later turns are not in this file\.',
+            f'Exported through the record stamped {t}; later turns are not in this file.\n'
+            'An automatic context compaction on 2026-10-08 at 19:23 rewrote the transcript: turns 1–7 come from the export made\n'
+            'before it (2026-10-08 03:07), turns 8 onward from the rewritten transcript.', p1)
+open(sys.argv[1], 'w').write(p1.rstrip() + '\n\n' + cont)
+print('written', sys.argv[1], len(open(sys.argv[1]).read().encode()), 'bytes, through', t)
+P
+EOF
+chmod +x rebuild.sh && ./rebuild.sh && grep -n "^## Turn" /mnt/user-data/outputs/chat1/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md | tail -8; sed -n '/^## Turn 8/,/^## Turn 9/p' /mnt/user-data/outputs/chat1/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md | head -40 | cut -c1-200
+```
+
+</details>
+
+*[Verify no synthetic records leaked into chat log (in the cloud container; 30 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+F=/mnt/user-data/outputs/chat1/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md; grep -c "Called the Read tool\|This session is being continued" $F; cp /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/export_chatlog.py /mnt/user-data/outputs/chat1/; sed -n '/^## Turn 12/,$p' $F | head -30 | cut -c1-160
+```
+
+</details>
+
+*[Copied 2 files from the cloud container to the computer (error).]*
+
+Millisecond precision; the md5 already matched, so I retry with the exact mtimes.
+
+*[Copied 2 files from the cloud container to the computer (1 lines of output).]*
+
+*[Render ported driver sheets to PNG (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; mkdir -p /tmp/rend; cd /home/claude/work/gf/macros/ClassABDriver/schematic/xschem && for c in ClassABDriver ClassABUnitR; do PWD=$(pwd) timeout 60 /usr/bin/xschem --rcfile $(pwd)/xschemrc -q -x --svg --plotfile /tmp/rend/$c.svg $(pwd)/$c.sch >/dev/null 2>&1; python3 -c "import cairosvg; cairosvg.svg2png(url='/tmp/rend/$c.svg', write_to='/tmp/rend/$c.png', output_width=2400, background_color='white')"; done; ls -la /tmp/rend
+```
+
+</details>
+
+*[Read ClassABDriver.png (in the cloud container; image shown to the assistant).]*
+
+*[Fix text substitution order and re-port (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/scripts && python3 - <<'EOF'
+p='port_classab_from_ihp.py'; s=open(p).read()
+s=s.replace("TEXT = NAMES + [","TEXT = [")
+s=s.replace('''     "DUT and bias from ../../schematic/xschem and ../../../ClassABBias/schematic/xschem"),
+]''','''     "DUT and bias from ../../schematic/xschem and ../../../ClassABBias/schematic/xschem"),
+] + NAMES''')
+s=s.replace('T {a, b: gates of OP / ON, ports for the enable switches (PadEnable/DriverEnable)} 2200 -840','T {a, b: gates of OP / ON,\\nports for the enable\\nswitches (PadEnable)} 2300 -900')
+open(p,'w').write(s)
+EOF
+python3 port_classab_from_ihp.py /home/claude/ihpab/improvements/xschem /home/claude/work/gf/macros >/dev/null && grep -h "fixed sizes\|block descriptions" /home/claude/work/gf/macros/ClassABDriver/schematic/xschem/ClassABDriver.sch | cut -c1-200
+```
+
+</details>
+
+*[Ran a command (on the computer; 94 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single/macros && ls -R gf180mcu_IOPadSingle2Diff | head -40; grep -E "^C \{" gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sch | cut -c1-120; ls gf180mcu_IOPadDiff2Single/schematic/xschem gf180mcu_IOPadDiff2Single/testbenches/xschem gf180mcu_IOPadDiff2Single/scripts; cat gf180mcu_IOPadDiff2Single/Makefile | head -30
+```
+
+</details>
+
+*[Write small xschem sheet/symbol helper library (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /home/claude/work/gf/macros/PadEnable/{schematic/xschem,testbenches/xschem,scripts,verification/cace} && cat > /home/claude/work/gf/macros/PadEnable/scripts/xsheet.py <<'PYEOF'
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""Small helpers to write xschem sheets and symbols for GF180MCU (gf180mcuD) cells.
+Device columns: rails are wires (supply at the top, ground at the bottom), sources and bulks are
+wired to their rail, gates and drains get a short stub with a net label. Pins of a block symbol
+get a stub and a label in the parent. Pin offsets are those of the gf180mcuD symbols:
+nfet_03v3: D (20,-30) G (-20,0) S (20,30) B (20,0); pfet_03v3: S (20,-30) G (-20,0) D (20,30) B (20,0)."""
+HDR = "v {xschem version=3.4.8RC file_version=1.3}\nG {}\nK {}\nV {}\nS {}\nF {}\nE {}\n"
+
+def fet_props(name, model, W, L, nf=1, m=1):
+    return (f"name={name}\nL={L}\nW={W}\nnf={nf}\nm={m}\n"
+            "ad=\"'int((nf+1)/2) * W/nf * 0.18u'\"\npd=\"'2*int((nf+1)/2) * (W/nf + 0.18u)'\"\n"
+            "as=\"'int((nf+2)/2) * W/nf * 0.18u'\"\nps=\"'2*int((nf+2)/2) * (W/nf + 0.18u)'\"\n"
+            "nrd=\"'0.18u / W'\" nrs=\"'0.18u / W'\"\nsa=0 sb=0 sd=0\n"
+            f"model={model}\nspiceprefix=X\n")
+
+class Sheet:
+    def __init__(self):
+        self.recs, self.n = [], 0
+    def _id(self, p):
+        self.n += 1; return f"{p}{self.n}"
+    def wire(self, x1, y1, x2, y2, lab=""):
+        self.recs.append(f"N {x1} {y1} {x2} {y2} {{lab={lab}}}")
+    def label(self, x, y, net, right=False):
+        self.recs.append(f"C {{devices/lab_pin.sym}} {x} {y} 0 {1 if right else 0} {{name={self._id('l')} sig_type=std_logic lab={net}}}")
+    def pin(self, kind, x, y, net, right=False):
+        self.recs.append(f"C {{devices/{kind}.sym}} {x} {y} 0 {1 if right else 0} {{name={self._id('p')} lab={net}}}")
+    def text(self, s, x, y, size=0.3, layer=None):
+        self.recs.append(f"T {{{s}}} {x} {y} 0 0 {size} {size} {{{'layer=%d' % layer if layer else ''}}}")
+    def raw(self, s):
+        self.recs.append(s.rstrip("\n"))
+    def fet(self, kind, name, x, y, d, g, s, b, W, L, nf=1, m=1, top_rail=None, bot_rail=None):
+        """kind 'n' or 'p'. Source (and bulk, if it is the same net) wired to the given rail y."""
+        model = "nfet_03v3" if kind == "n" else "pfet_03v3"
+        self.recs.append(f"C {{symbols/{model}.sym}} {x} {y} 0 0 {{{fet_props(name, model, W, L, nf, m)}}}")
+        px = x + 20
+        ytop, ybot = y - 30, y + 30
+        top, bot = (d, s) if kind == "n" else (s, d)
+        # gate: stub and label
+        self.wire(x - 20, y, x - 60, y, g); self.label(x - 60, y, g)
+        # top / bottom terminals
+        for yy, net, rail, sign in ((ytop, top, top_rail, -1), (ybot, bot, bot_rail, 1)):
+            if rail is not None and ((kind == "p" and net == s and sign < 0) or (kind == "n" and net == s and sign > 0)):
+                self.wire(px, yy, px, rail, net)
+            else:
+                self.wire(px, yy, px, yy + sign * 30, net); self.label(px, yy + sign * 30, net, right=True)
+        # bulk
+        rail = top_rail if kind == "p" else bot_rail
+        if rail is not None and b == s:
+            self.wire(px, y, px + 40, y, b); self.wire(px + 40, y, px + 40, rail, b)
+        else:
+            self.wire(px, y, px + 40, y, b); self.label(px + 40, y, b, right=True)
+    def block(self, sym, name, x, y, pins, conns, props=""):
+        """pins: list of (pin, dx, dy) from symbol; conns: pin -> net. Stub of 20 outward, then a label."""
+        self.recs.append(f"C {{{sym}}} {x} {y} 0 0 {{name={name}{(' ' + props) if props else ''}}}")
+        for p, dx, dy in pins:
+            px, py = x + dx, y + dy
+            if dx < 0: ex, ey, right = px - 20, py, False
+            elif dx > 0: ex, ey, right = px + 20, py, True
+            elif dy < 0: ex, ey, right = px, py - 20, True
+            else: ex, ey, right = px, py + 20, True
+            self.wire(px, py, ex, ey, conns[p]); self.label(ex, ey, conns[p], right=right)
+    def write(self, path, title=None):
+        s = HDR + "\n".join(self.recs) + "\n"
+        if title: s += f"C {{devices/title.sym}} 160 40 0 0 {{name=l0 author=\"Christoph Maier\"}}\n"
+        open(path, "w").write(s)
+
+def symbol(path, cellname, left, right, top=(), bottom=(), text=""):
+    """left/right/top/bottom: lists of (pin, dir). Box sized to fit; pins on a 20 grid, 40 apart.
+    Returns the pin list [(pin, dx, dy)] in @pinlist order (left, right, top, bottom)."""
+    nlr = max(len(left), len(right), 1)
+    h = 40 * nlr // 2 + 20
+    nt = max(len(top), len(bottom), 1)
+    w = max(100, 40 * nt // 2 + 40)
+    L = [HDR.replace("K {}", f'K {{type=subcircuit\nformat="@name @pinlist @symname"\ntemplate="name=x1"\n}}')]
+    L.append(f"P 4 5 {-w} {-h} {w} {-h} {w} {h} {-w} {h} {-w} {-h} {{}}")
+    L.append(f"T {{@symname}} {-w + 10} {-h + 6} 0 0 0.25 0.25 {{}}")
+    L.append(f"T {{@name}} {-w + 10} {h - 26} 0 0 0.25 0.25 {{}}")
+    if text: L.append(f"T {{{text}}} {-w + 10} {-h + 26} 0 0 0.15 0.15 {{}}")
+    pins = []
+    def col(lst, x0, xl, sign, txtx, flip):
+        n = len(lst)
+        for i, (p, d) in enumerate(lst):
+            y = -20 * (n - 1) + 40 * i
+            y = y if n % 2 else y
+            L.append(f"L 4 {x0} {y} {xl} {y} {{}}")
+            L.append(f"B 5 {x0 - 2.5} {y - 2.5} {x0 + 2.5} {y + 2.5} {{name={p} dir={d}}}")
+            L.append(f"T {{{p}}} {txtx} {y - 7} 0 {flip} 0.2 0.2 {{}}")
+            pins.append((p, x0, y))
+    def row(lst, y0, yl, txty):
+        n = len(lst)
+        for i, (p, d) in enumerate(lst):
+            x = -20 * (n - 1) + 40 * i
+            L.append(f"L 4 {x} {y0} {x} {yl} {{}}")
+            L.append(f"B 5 {x - 2.5} {y0 - 2.5} {x + 2.5} {y0 + 2.5} {{name={p} dir={d}}}")
+            L.append(f"T {{{p}}} {x - 8} {txty} 0 0 0.2 0.2 {{}}")
+            pins.append((p, x, y0))
+    col(left, -w - 20, -w, -1, -w + 5, 0)
+    col(right, w + 20, w, 1, w - 5, 1)
+    row(top, -h - 20, -h, -h + 4 + 20)
+    row(bottom, h + 20, h, h - 24)
+    open(path, "w").write("\n".join(L) + "\n")
+    return pins
+PYEOF
+echo ok
+```
+
+</details>
+
+*[Rework symbol writer with explicit pin order (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/PadEnable/scripts && python3 - <<'EOF'
+p='xsheet.py'; s=open(p).read()
+i=s.index('def symbol(')
+s=s[:i]+'''def symbol(path, left, right, top=(), bottom=(), order=None, text=""):
+    """left/right/top/bottom: lists of (pin, dir), drawn on a 40 grid. The B 5 lines (= @pinlist order)
+    follow `order` (pin names) if given, else left, right, top, bottom.
+    Returns [(pin, dx, dy)] in @pinlist order."""
+    nlr = max(len(left), len(right), 1)
+    h = 20 * nlr + 20
+    nt = max(len(top), len(bottom), 1)
+    w = max(100, 20 * nt + 40)
+    L = [HDR.replace("K {}", 'K {type=subcircuit\\nformat="@name @pinlist @symname"\\ntemplate="name=x1"\\n}')]
+    L.append(f"P 4 5 {-w} {-h} {w} {-h} {w} {h} {-w} {h} {-w} {-h} {{}}")
+    L.append(f"T {{@symname}} {-w + 30} -14 0 0 0.25 0.25 {{}}")
+    L.append(f"T {{@name}} {-w + 30} 6 0 0 0.25 0.25 {{}}")
+    if text: L.append(f"T {{{text}}} {-w + 30} 26 0 0 0.15 0.15 {{}}")
+    spec = {}
+    def col(lst, x0, xl, txtx, flip):
+        n = len(lst)
+        for i, (p, d) in enumerate(lst):
+            y = -20 * (n - 1) + 40 * i
+            spec[p] = (f"L 4 {x0} {y} {xl} {y} {{}}", f"B 5 {x0 - 2.5} {y - 2.5} {x0 + 2.5} {y + 2.5} {{name={p} dir={d}}}",
+                       f"T {{{p}}} {txtx} {y - 7} 0 {flip} 0.2 0.2 {{}}", (x0, y))
+    def row(lst, y0, yl, txty):
+        n = len(lst)
+        for i, (p, d) in enumerate(lst):
+            x = -20 * (n - 1) + 40 * i
+            spec[p] = (f"L 4 {x} {y0} {x} {yl} {{}}", f"B 5 {x - 2.5} {y0 - 2.5} {x + 2.5} {y0 + 2.5} {{name={p} dir={d}}}",
+                       f"T {{{p}}} {x - 8} {txty} 0 0 0.2 0.2 {{}}", (x, y0))
+    col(left, -w - 20, -w, -w + 5, 0)
+    col(right, w + 20, w, w - 5, 1)
+    row(top, -h - 20, -h, -h + 4)
+    row(bottom, h + 20, h, h - 24)
+    names = order or [p for p, _ in list(left) + list(right) + list(top) + list(bottom)]
+    pins = []
+    for p in names:
+        l, b, t, xy = spec[p]
+        L += [l, b, t]; pins.append((p, xy[0], xy[1]))
+    open(path, "w").write("\\n".join(L) + "\\n")
+    return pins
+
+def sym_pins(path):
+    """[(pin, dx, dy)] in @pinlist order (B 5 line order) of an existing symbol."""
+    import re
+    out = []
+    for m in re.finditer(r"^B 5 (\\S+) (\\S+) (\\S+) (\\S+) \\{[^}]*name=(\\w+)", open(path).read(), re.M):
+        x1, y1, x2, y2 = map(float, m.group(1, 2, 3, 4))
+        out.append((m.group(5), int(round((x1 + x2) / 2)), int(round((y1 + y2) / 2))))
+    return out
+'''
+open(p,'w').write(s)
+EOF
+python3 -c "import xsheet; print('ok')"
+```
+
+</details>
+
+*[Generate PadEnable cells and netlist them (in the cloud container; 25 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > gen_padenable.py <<'PYEOF'
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""Writes the PadEnable cells (GF180MCU gf180mcuD, 03v3 devices) once; afterwards the .sch/.sym are
+the source of truth. Switch plan from the IHP power_down session (2026-10-06, sg13cmos5l notes worktree,
+design_considerations/class_ab_pad_driver/power_down/log.md, 17:10 entry), moved out of the driver and bias
+cells into cells of their own:
+
+  EnableInv      en -> en_b, one per pad (the place for a level shifter when the enable comes from 1.2 V logic)
+  DriverEnable   disabled: a (OP gate) -> vddo, b (ON gate) -> vsso, vabp -> vdd, vabn -> vss
+  BiasRefEnable  transmission gate iin -> iout (enabled); disabled: iout (NMOS input diode's gate line) -> vss
+  InputEnable    transmission gate pin -> pout (enabled); disabled: pout parked on vpark by a second gate
+
+All switches are on while disabled and off while enabled; en is active high (0 / vdd).
+Usage: gen_padenable.py <PadEnable/schematic/xschem>"""
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from xsheet import Sheet, symbol
+
+SW = dict(W="1u", L="0.5u")
+INV_P, INV_N = dict(W="2u", L="0.5u"), dict(W="1u", L="0.5u")
+TG = dict(W="4u", L="0.5u")
+
+def title(s, cell, lines):
+    s.text(cell, 60, -560, 0.5)
+    for i, l in enumerate(lines):
+        s.text(l, 60, -500 + 22 * i, 0.25)
+    s.text("GF180MCU (gf180mcuD), 03v3 devices; written by ../../scripts/gen_padenable.py on 2026-10-08, edit the sheet from now on.", 60, 120, 0.2, 4)
+
+def enable_inv(d):
+    pins = symbol(f"{d}/EnableInv.sym", left=[("en", "in")], right=[("en_b", "out")], top=[("vdd", "inout")],
+                  bottom=[("vss", "inout")], order=["vdd", "vss", "en", "en_b"])
+    s = Sheet()
+    title(s, "EnableInv", ["en_b = not en, on vdd / vss. One per pad.",
+                           "When the enable comes from 1.2 V logic, a level shifter replaces this cell."])
+    s.wire(60, -300, 400, -300, "vdd"); s.wire(60, 0, 400, 0, "vss")
+    s.pin("iopin", 60, -300, "vdd", right=True); s.pin("iopin", 60, 0, "vss", right=True)
+    s.pin("ipin", 60, -150, "en"); s.pin("opin", 400, -150, "en_b")
+    s.fet("p", "MP", 200, -200, "en_b", "en", "vdd", "vdd", top_rail=-300, **INV_P)
+    s.fet("n", "MN", 200, -80, "en_b", "en", "vss", "vss", bot_rail=0, **INV_N)
+    s.write(f"{d}/EnableInv.sch", title=True)
+    return pins
+
+def driver_enable(d):
+    order = ["vdd", "vss", "vddo", "vsso", "en", "en_b", "a", "b", "vabp", "vabn"]
+    pins = symbol(f"{d}/DriverEnable.sym", left=[("en", "in"), ("en_b", "in")],
+                  right=[("a", "inout"), ("vabp", "inout"), ("vabn", "inout"), ("b", "inout")],
+                  top=[("vdd", "inout"), ("vddo", "inout")], bottom=[("vss", "inout"), ("vsso", "inout")], order=order)
+    s = Sheet()
+    title(s, "DriverEnable", ["Disable switches of ClassABDriver, on while en = 0:",
+                              "SA: a (gate of OP) to vddo, SB: b (gate of ON) to vsso -- OP and ON off, gates tied to their own rails as in a clamp;",
+                              "SABP: vabp to vdd, SABN: vabn to vss -- otherwise ABP / ABN conduct from the a pull-up into the b pull-down.",
+                              "SA and SB sit on the output-stage rails vddo / vsso (n-well of SA on vddo, SB in ON's tap ring on vsso)."])
+    s.wire(60, -340, 560, -340, "vddo"); s.wire(60, -320, 560, -320, "vdd")
+    s.wire(60, 0, 560, 0, "vss"); s.wire(60, 20, 560, 20, "vsso")
+    s.pin("iopin", 60, -320, "vdd", right=True); s.pin("iopin", 60, 0, "vss", right=True)
+    s.pin("iopin", 60, -340, "vddo", right=True); s.pin("iopin", 60, 20, "vsso", right=True)
+    for i, (k, n) in enumerate([("ipin", "en"), ("ipin", "en_b")]):
+        s.pin(k, 60, -200 + 40 * i, n)
+    for i, n in enumerate(["a", "b", "vabp", "vabn"]):
+        s.pin("iopin", 640, -220 + 40 * i, n)
+    s.fet("p", "SA", 200, -220, "a", "en", "vddo", "vddo", top_rail=-340, **SW)
+    s.fet("p", "SABP", 400, -220, "vabp", "en", "vdd", "vdd", top_rail=-320, **SW)
+    s.fet("n", "SB", 200, -80, "b", "en_b", "vsso", "vsso", bot_rail=20, **SW)
+    s.fet("n", "SABN", 400, -80, "vabn", "en_b", "vss", "vss", bot_rail=0, **SW)
+    s.write(f"{d}/DriverEnable.sch", title=True)
+    return pins
+
+def bias_ref_enable(d):
+    order = ["vdd", "vss", "en", "en_b", "iin", "iout"]
+    pins = symbol(f"{d}/BiasRefEnable.sym", left=[("iin", "inout"), ("en", "in"), ("en_b", "in")], right=[("iout", "inout")],
+                  top=[("vdd", "inout")], bottom=[("vss", "inout")], order=order)
+    s = Sheet()
+    title(s, "BiasRefEnable", ["Reference-current switch in front of ClassABBiasIn (NMOS input diode NI):",
+                               "TGN / TGP pass iin to iout while en = 1; while en = 0 they open and TDN pulls iout,",
+                               "NI's gate line, to vss. The external reference is not relied on to switch off."])
+    s.wire(60, -300, 560, -300, "vdd"); s.wire(60, 0, 560, 0, "vss")
+    s.pin("iopin", 60, -300, "vdd", right=True); s.pin("iopin", 60, 0, "vss", right=True)
+    s.pin("ipin", 60, -180, "en"); s.pin("ipin", 60, -140, "en_b")
+    s.pin("iopin", 60, -100, "iin", right=True); s.pin("iopin", 640, -100, "iout")
+    s.fet("p", "TGP", 200, -200, "iout", "en_b", "iin", "vdd", top_rail=None, **SW)
+    s.fet("n", "TGN", 200, -80, "iin", "en", "iout", "vss", bot_rail=None, **SW)
+    s.fet("n", "TDN", 400, -80, "iout", "en_b", "vss", "vss", bot_rail=0, **SW)
+    s.write(f"{d}/BiasRefEnable.sch", title=True)
+    return pins
+
+def input_enable(d):
+    order = ["vdd", "vss", "en", "en_b", "pin", "pout", "vpark"]
+    pins = symbol(f"{d}/InputEnable.sym", left=[("pin", "inout"), ("en", "in"), ("en_b", "in")],
+                  right=[("pout", "inout"), ("vpark", "in")], top=[("vdd", "inout")], bottom=[("vss", "inout")], order=order)
+    s = Sheet()
+    title(s, "InputEnable", ["Input switch of an analog input pad, behind the CDM resistor:",
+                             "TGN1 / TGP1 pass pin to pout while en = 1; while en = 0 they open and TGN2 / TGP2 park pout on vpark",
+                             "(the common-mode reference), so the circuit behind the pad sees a defined input when the pad is off."])
+    s.wire(60, -300, 760, -300, "vdd"); s.wire(60, 0, 760, 0, "vss")
+    s.pin("iopin", 60, -300, "vdd", right=True); s.pin("iopin", 60, 0, "vss", right=True)
+    s.pin("ipin", 60, -180, "en"); s.pin("ipin", 60, -140, "en_b")
+    s.pin("iopin", 60, -100, "pin", right=True); s.pin("iopin", 840, -140, "pout"); s.pin("ipin", 840, -100, "vpark")
+    s.fet("p", "TGP1", 200, -200, "pout", "en_b", "pin", "vdd", **TG)
+    s.fet("n", "TGN1", 200, -80, "pin", "en", "pout", "vss", **TG)
+    s.fet("p", "TGP2", 500, -200, "vpark", "en", "pout", "vdd", **TG)
+    s.fet("n", "TGN2", 500, -80, "pout", "en_b", "vpark", "vss", **TG)
+    s.write(f"{d}/InputEnable.sch", title=True)
+    return pins
+
+if __name__ == "__main__":
+    d = sys.argv[1]
+    for f in (enable_inv, driver_enable, bias_ref_enable, input_enable):
+        print(f.__name__, f(d))
+PYEOF
+python3 gen_padenable.py ../schematic/xschem && cp ../../ClassABBias/schematic/xschem/xschemrc ../schematic/xschem/xschemrc && cp ../../ClassABBias/testbenches/xschem/xschemrc ../testbenches/xschem/xschemrc && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD && for c in EnableInv DriverEnable BiasRefEnable InputEnable; do /home/claude/work/gf/scripts/nl.sh ../schematic/xschem/$c.sch; grep -v "^\*\*\|^$\|^\.ends\|^\*\." /tmp/nl/$c.spice | sed 's/ ad=.*m=/ m=/' | grep -v "^+"; done
+```
+
+</details>
+
+*[Fix stub collisions and regenerate enable cells (in the cloud container; 26 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -i 's/self.wire(px, yy, px, yy + sign \* 30, net); self.label(px, yy + sign \* 30, net, right=True)/self.wire(px, yy, px, yy + sign * 20, net); self.label(px, yy + sign * 20, net, right=True)/' xsheet.py && sed -i 's/, 200, -200, /, 200, -220, /; s/, 400, -220, /, 400, -220, /; s/, 500, -200, /, 500, -220, /; s/, 200, -80, /, 200, -60, /; s/, 400, -80, /, 400, -60, /; s/, 500, -80, /, 500, -60, /' gen_padenable.py && grep -n "s.fet" gen_padenable.py | cut -c1-80 && python3 gen_padenable.py ../schematic/xschem >/dev/null && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD && for c in EnableInv DriverEnable BiasRefEnable InputEnable; do /home/claude/work/gf/scripts/nl.sh ../schematic/xschem/$c.sch >/dev/null; grep "^X" /tmp/nl/$c.spice | awk '{print $1,$2,$3,$4,$5,$6}'; done
+```
+
+</details>
+
+*[Round-trip check enable cells and render two (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > padenable_reference.spice <<'EOF'
+* PadEnable reference netlists (GF180MCU 03v3), 2026-10-08: the switch plan of the IHP power_down session
+.subckt EnableInv vdd vss en en_b
+XMP en_b en vdd vdd pfet_03v3 W=2u L=0.5u nf=1
+XMN en_b en vss vss nfet_03v3 W=1u L=0.5u nf=1
+.ends
+.subckt DriverEnable vdd vss vddo vsso en en_b a b vabp vabn
+XSA a en vddo vddo pfet_03v3 W=1u L=0.5u nf=1
+XSB b en_b vsso vsso nfet_03v3 W=1u L=0.5u nf=1
+XSABP vabp en vdd vdd pfet_03v3 W=1u L=0.5u nf=1
+XSABN vabn en_b vss vss nfet_03v3 W=1u L=0.5u nf=1
+.ends
+.subckt BiasRefEnable vdd vss en en_b iin iout
+XTGN iin en iout vss nfet_03v3 W=1u L=0.5u nf=1
+XTGP iout en_b iin vdd pfet_03v3 W=1u L=0.5u nf=1
+XTDN iout en_b vss vss nfet_03v3 W=1u L=0.5u nf=1
+.ends
+.subckt InputEnable vdd vss en en_b pin pout vpark
+XTGN1 pin en pout vss nfet_03v3 W=4u L=0.5u nf=1
+XTGP1 pout en_b pin vdd pfet_03v3 W=4u L=0.5u nf=1
+XTGN2 pout en_b vpark vss nfet_03v3 W=4u L=0.5u nf=1
+XTGP2 vpark en pout vdd pfet_03v3 W=4u L=0.5u nf=1
+.ends
+EOF
+for c in EnableInv DriverEnable BiasRefEnable InputEnable; do python3 /home/claude/work/gf/scripts/check_classab_port.py padenable_reference.spice /tmp/nl/$c.spice $c $c | tail -1; done; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd ../schematic/xschem; for c in DriverEnable InputEnable; do PWD=$(pwd) timeout 60 /usr/bin/xschem --rcfile $(pwd)/xschemrc -q -x --svg --plotfile /tmp/rend/$c.svg $(pwd)/$c.sch >/dev/null 2>&1; python3 -c "import cairosvg; cairosvg.svg2png(url='/tmp/rend/$c.svg', write_to='/tmp/rend/$c.png', output_width=1600, background_color='white')"; done
+```
+
+</details>
+
+*[Read DriverEnable.png (in the cloud container; image shown to the assistant).]*
+
+*[Move title block below the rails (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/PadEnable/scripts && sed -i 's/C {{devices\/title.sym}} 160 40 0 0/C {{devices\/title.sym}} 160 220 0 0/' xsheet.py && sed -i 's/edit the sheet from now on.", 60, 120, 0.2, 4)/edit the sheet from now on.", 60, 120, 0.2, 4)/' gen_padenable.py && python3 gen_padenable.py ../schematic/xschem >/dev/null && grep -c title ../schematic/xschem/DriverEnable.sch
+```
+
+</details>
+
+*[Ran a command (on the computer; 36 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && find macros/gf180mcu_IOPadDiff2Single macros/gf180mcu_IOPadSingle2Diff -type f -not -path "*/simulations/*" -not -path "*/_runs/*" -not -path "*/_docs/*" -not -path "*/netlist/*" | sort; ls schematic/xschem docs; ls render 2>/dev/null | head
+```
+
+</details>
+
+*[Copied 25 files from the computer to the cloud container (1 lines of output).]*
+
+*[Read pad sheets/symbols and xschemrc chains (in the cloud container; 132 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; cat $U/macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sym; cat $U/macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sch $U/macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sym; sed -n '/Add current/,/Pin the/p' $U/schematic/xschem/xschemrc $U/macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc
+```
+
+</details>
+
+*[Read Single2Diff CACE template and testbench (in the cloud container; 63 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; cat $U/macros/gf180mcu_IOPadSingle2Diff/verification/cace/templates/gf180mcu_IOPadSingle2Diff_tb_input.sch | head -60; grep -n "gf180mcu_IOPadSingle2Diff.sym" -A2 $U/macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/gf180mcu_IOPadSingle2Diff_tb_dc.sch
+```
+
+</details>
+
+*[Generate Diff2Single pad sheet and netlist it (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/scripts && cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/scripts && cat > gen_iopad_d2s.py <<'PYEOF'
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""Writes gf180mcu_IOPadDiff2Single.sch/.sym once (2026-10-08); afterwards the sheet is the source of truth.
+Block level: ClassABBiasIn (bias tree, fed by iref through BiasRefEnable), ClassABDriver (vfb = out),
+DriverEnable and EnableInv (PadEnable macro). Pins of the blocks get a stub and a net label.
+Usage: gen_iopad_d2s.py <macros dir>"""
+import os, sys
+M = sys.argv[1]
+sys.path.insert(0, os.path.join(M, "PadEnable", "scripts"))
+from xsheet import Sheet, symbol, sym_pins
+
+def P(macro, cell):
+    return sym_pins(os.path.join(M, macro, "schematic", "xschem", cell + ".sym"))
+
+d = os.path.join(M, "gf180mcu_IOPadDiff2Single", "schematic", "xschem")
+order = ["vdd", "vss", "vddo", "vsso", "inp", "inn", "vref", "out", "iref", "en"]
+symbol(os.path.join(d, "gf180mcu_IOPadDiff2Single.sym"),
+       left=[("inp", "in"), ("inn", "in"), ("vref", "in"), ("iref", "inout"), ("en", "in")], right=[("out", "inout")],
+       top=[("vdd", "inout"), ("vddo", "inout")], bottom=[("vss", "inout"), ("vsso", "inout")], order=order,
+       text="class-AB, vout - vref = (inp - inn)/2")
+s = Sheet()
+s.text("gf180mcu_IOPadDiff2Single: class-AB differential -> single-ended pad driver with enable (PROOF OF CONCEPT, 2026-10-08)", 60, -1160, 0.5)
+for i, l in enumerate([
+    "Blocks: ClassABBiasIn (macros/ClassABBias): bias tree and the six diodes, fed by iref (5 uA into the pad) through BiasRefEnable.",
+    "ClassABDriver (macros/ClassABDriver): matched-pair DDA, folded cascode, class-AB output OP / ON, Miller compensation; vfb = out, so out - vref = (inp - inn)/2.",
+    "DriverEnable, EnableInv (macros/PadEnable): en = 0 -> OP / ON gates tied to vddo / vsso, vabp / vabn to vdd / vss, iref cut off and NI's gate line to vss.",
+    "Bias enters as a current (iref), never as a voltage. vddo / vsso: output-stage rails (OP, ON and their replicas RP1, RN1).",
+    "Not included yet: CDM / ESD network at out (OP and ON are meant to double as the pad clamps, IHP case (a)); a level shifter for a 1.2 V enable."]):
+    s.text(l, 60, -1100 + 24 * i, 0.25)
+for i, n in enumerate(["vdd", "vss", "vddo", "vsso"]):
+    s.pin("iopin", 60, -900 + 20 * i, n, right=True)
+for i, n in enumerate(["inp", "inn", "vref"]):
+    s.pin("ipin", 60, -800 + 20 * i, n)
+s.pin("iopin", 60, -720, "iref", right=True); s.pin("ipin", 60, -700, "en")
+s.pin("iopin", 1800, -800, "out")
+rails = dict(vdd="vdd", vss="vss", vddo="vddo", vsso="vsso")
+bias = ["vbp", "vbn", "vbpc", "vbnc", "vabp", "vabn"]
+s.block("ClassABBiasIn.sym", "xbias", 800, -500, P("ClassABBias", "ClassABBiasIn"), dict(rails, iref="iref_en", **{b: b for b in bias}))
+s.block("BiasRefEnable.sym", "xref", 360, -500, P("PadEnable", "BiasRefEnable"),
+        dict(vdd="vdd", vss="vss", en="en", en_b="en_b", iin="iref", iout="iref_en"))
+s.block("ClassABDriver.sym", "xdrv", 1400, -560, P("ClassABDriver", "ClassABDriver"),
+        dict(rails, vinp="inp", vinn="inn", vref="vref", vout="out", vfb="out", a="a", b="b", **{b: b for b in bias}))
+s.block("DriverEnable.sym", "xen", 1400, -160, P("PadEnable", "DriverEnable"),
+        dict(rails, en="en", en_b="en_b", a="a", b="b", vabp="vabp", vabn="vabn"))
+s.block("EnableInv.sym", "xinv", 360, -160, P("PadEnable", "EnableInv"), dict(vdd="vdd", vss="vss", en="en", en_b="en_b"))
+s.write(os.path.join(d, "gf180mcu_IOPadDiff2Single.sch"), title=True)
+print("wrote", d)
+PYEOF
+python3 gen_iopad_d2s.py /home/claude/work/gf/macros && U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single/macros/gf180mcu_IOPadDiff2Single; python3 - <<'EOF'
+import re
+oab='/home/claude/work/gf/macros/ClassABDriver/schematic/xschem/xschemrc'
+s=open(oab).read()
+marker='# Add current directory to xschem library path\n'
+a,b=s.split(marker); rest=b.split('\n\n',1)[1]
+D='[file dirname [info script]]'; J=lambda p: f'[file join {D} {p}]'
+def mk(lines): return a+marker+''.join(f'append_xschem_library_path_unique {l}\n' for l in lines)+'\n'+rest
+sibs=[J('../../../ClassABDriver/schematic/xschem'), J('../../../ClassABBias/schematic/xschem'), J('../../../PadEnable/schematic/xschem')]
+base='/home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/'
+import os
+os.makedirs(base+'testbenches/xschem',exist_ok=True)
+open(base+'schematic/xschem/xschemrc','w').write(mk([D, J('../../testbenches/xschem')]+sibs))
+open(base+'testbenches/xschem/xschemrc','w').write(mk([J('../../schematic/xschem'), D]+sibs))
+EOF
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; /home/claude/work/gf/scripts/nl.sh /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch; grep -v "^\*\|^+\|^$" /tmp/nl/gf180mcu_IOPadDiff2Single.spice | grep -B1 -A6 "subckt gf180"
+```
+
+</details>
+
+*[Copy pad macros into work tree, generate D2S sheet, netlist (in the cloud container; 34 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single/macros; cd /home/claude/work/gf/macros && for m in gf180mcu_IOPadDiff2Single gf180mcu_IOPadSingle2Diff; do (cd $U && find $m -type f) | while read f; do mkdir -p $(dirname $f); cp -n $U/$f $f; done; done; mkdir -p /home/claude/work/gf/orig && cp -r $U/gf180mcu_IOPadDiff2Single $U/gf180mcu_IOPadSingle2Diff /home/claude/work/gf/orig/; cd gf180mcu_IOPadDiff2Single/scripts && python3 gen_iopad_d2s.py /home/claude/work/gf/macros && python3 - <<'EOF'
+oab='/home/claude/work/gf/macros/ClassABDriver/schematic/xschem/xschemrc'
+s=open(oab).read()
+marker='# Add current directory to xschem library path\n'
+a,b=s.split(marker); rest=b.split('\n\n',1)[1]
+D='[file dirname [info script]]'; J=lambda p: f'[file join {D} {p}]'
+def mk(lines): return a+marker+''.join(f'append_xschem_library_path_unique {l}\n' for l in lines)+'\n'+rest
+sibs=[J('../../../ClassABDriver/schematic/xschem'), J('../../../ClassABBias/schematic/xschem'), J('../../../PadEnable/schematic/xschem')]
+for m in ['gf180mcu_IOPadDiff2Single','gf180mcu_IOPadSingle2Diff']:
+    base=f'/home/claude/work/gf/macros/{m}/'
+    sb = sibs if 'Diff2' in m else [J('../../../PadEnable/schematic/xschem')]
+    open(base+'schematic/xschem/xschemrc','w').write(mk([D, J('../../testbenches/xschem')]+sb))
+    open(base+'testbenches/xschem/xschemrc','w').write(mk([J('../../schematic/xschem'), D]+sb))
+EOF
+diff /home/claude/work/gf/orig/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; /home/claude/work/gf/scripts/nl.sh /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch; grep -v "^\*\|^+\|^$" /tmp/nl/gf180mcu_IOPadDiff2Single.spice | grep -A6 "subckt gf180"
+```
+
+</details>
+
+*[Restore Single2Diff xschemrc and add PadEnable path (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff && for f in schematic/xschem/xschemrc testbenches/xschem/xschemrc; do python3 - /home/claude/work/gf/orig/gf180mcu_IOPadSingle2Diff/$f $f <<'EOF'
+import sys
+s=open(sys.argv[1]).read()
+key='append_xschem_library_path_unique [file dirname [info script]]\n'
+assert key in s
+s=s.replace(key, key+'append_xschem_library_path_unique [file join [file dirname [info script]] ../../../PadEnable/schematic/xschem]\n',1)
+open(sys.argv[2],'w').write(s)
+EOF
+diff /home/claude/work/gf/orig/gf180mcu_IOPadSingle2Diff/$f $f; done; head -c 3 schematic/xschem/xschemrc | xxd | head -1
+```
+
+</details>
+
+*[Add input enable to Single2Diff pad and netlist (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > scripts/add_input_enable.py <<'PYEOF'
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""One-time edit (2026-10-08): adds the enable to gf180mcu_IOPadSingle2Diff. InputEnable (PadEnable macro) behind
+the CDM network: in_prot -> in_en while en = 1, in_en parked on vcm while en = 0; EnableInv makes en_b.
+New port en, last in the port list. Afterwards the sheet is the source of truth.
+Usage: add_input_enable.py <macros dir>"""
+import os, sys
+M = sys.argv[1]
+sys.path.insert(0, os.path.join(M, "PadEnable", "scripts"))
+from xsheet import Sheet, sym_pins
+d = os.path.join(M, "gf180mcu_IOPadSingle2Diff", "schematic", "xschem")
+P = lambda cell: sym_pins(os.path.join(M, "PadEnable", "schematic", "xschem", cell + ".sym"))
+s = Sheet(); s.n = 100
+s.pin("ipin", 60, -200, "en")
+s.block("InputEnable.sym", "xinen", 900, -300, P("InputEnable"),
+        dict(vdd="vdd", vss="vss", en="en", en_b="en_b", pin="in_prot", pout="in_en", vpark="vcm"))
+s.block("EnableInv.sym", "xinv", 1300, -300, P("EnableInv"), dict(vdd="vdd", vss="vss", en="en", en_b="en_b"))
+s.text("2026-10-08: enable added. InputEnable (macros/PadEnable) passes in_prot to in_en while en = 1 and parks in_en on vcm\n"
+       "while en = 0; EnableInv makes en_b. in_en is where the single-ended -> differential buffer will connect.", 700, -520, 0.25, 4)
+sch = os.path.join(d, "gf180mcu_IOPadSingle2Diff.sch")
+t = open(sch).read().rstrip("\n")
+t = t.replace("The single-ended -> differential buffer is NOT designed yet: in_prot, vcm, outp, outn\nare unconnected",
+              "The single-ended -> differential buffer is NOT designed yet: in_en (behind InputEnable), outp, outn\nare unconnected")
+open(sch, "w").write(t + "\n" + "\n".join(s.recs) + "\n")
+sym = os.path.join(d, "gf180mcu_IOPadSingle2Diff.sym")
+t = open(sym).read().rstrip("\n")
+t += "\nL 4 -60 -20 -40 -20 {}\nB 5 -62.5 -22.5 -57.5 -17.5 {name=en dir=in }\nT {en} -35 -26 0 0 0.2 0.2 {}\n"
+open(sym, "w").write(t)
+print("edited", sch, sym)
+PYEOF
+python3 scripts/add_input_enable.py /home/claude/work/gf/macros && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD && /home/claude/work/gf/scripts/nl.sh $(pwd)/schematic/xschem/gf180mcu_IOPadSingle2Diff.sch && grep -v "^\*\|^+\|^$" /tmp/nl/gf180mcu_IOPadSingle2Diff.spice | grep -A8 "subckt gf180"
+```
+
+</details>
+
+*[Show full Single2Diff netlist (in the cloud container; 32 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -n 1,60p /tmp/nl/gf180mcu_IOPadSingle2Diff.spice | cut -c1-150
+```
+
+</details>
+
+*[Check xschem log for Single2Diff netlisting (in the cloud container; 3 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+head -20 /tmp/nl/gf180mcu_IOPadSingle2Diff.log; head -c 200 /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc | od -c | head -3
+```
+
+</details>
+
+*[Test netlisting of the original Single2Diff sheet (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; /home/claude/work/gf/scripts/nl.sh /home/claude/work/gf/orig/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sch; grep -c MISSING /tmp/nl/gf180mcu_IOPadSingle2Diff.spice; cd /home/claude/work/gf/orig/gf180mcu_IOPadSingle2Diff/schematic/xschem && PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -n -s -q -x -o /tmp/nl $(pwd)/gf180mcu_IOPadSingle2Diff.sch 2>&1 | head; ls -la
+```
+
+</details>
+
+*[Test whether the BOM breaks xschem 3.4.8 (in the cloud container; 3 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /tmp/bomtest && cp /home/claude/work/gf/orig/gf180mcu_IOPadSingle2Diff/schematic/xschem/* /tmp/bomtest/ && chmod u+w /tmp/bomtest/* && cd /tmp/bomtest && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD && PWD=/tmp/bomtest /opt/xschem/bin/xschem --rcfile /tmp/bomtest/xschemrc -n -s -q -x -o /tmp/bomtest/o gf180mcu_IOPadSingle2Diff.sch >/tmp/bomtest/log1 2>&1; grep -c MISSING o/*.spice; sed -i '1s/^\xEF\xBB\xBF//' xschemrc; rm -rf o; PWD=/tmp/bomtest /opt/xschem/bin/xschem --rcfile /tmp/bomtest/xschemrc -n -s -q -x -o /tmp/bomtest/o gf180mcu_IOPadSingle2Diff.sch >/tmp/bomtest/log2 2>&1; grep -c MISSING o/*.spice; cat log1 | head -5
+```
+
+</details>
+
+*[Make netlist helper BOM-safe via mirror; retry (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > /home/claude/work/gf/scripts/nl.sh <<'EOF'
+#!/bin/bash
+# netlist an xschem sheet with its directory's xschemrc into /tmp/nl (cloud helper).
+# The cloud xschem/Tcl rejects the UTF-8 BOM some project xschemrc files start with, so the macro tree
+# is mirrored to /tmp/gfm with BOMs stripped, and the sheet is netlisted from the mirror.
+f=$(readlink -f $1); src=/home/claude/work/gf/macros
+rsync -a --delete $src/ /tmp/gfm/macros/
+find /tmp/gfm/macros -name xschemrc -exec sed -i '1s/^\xEF\xBB\xBF//' {} +
+f=${f/$src//tmp/gfm/macros}
+d=$(dirname $f); b=$(basename $f .sch); mkdir -p /tmp/nl; rm -f /tmp/nl/$b.spice
+(cd $d && PWD=$d /opt/xschem/bin/xschem --rcfile $d/xschemrc -n -s -q -x --tcl "set top_is_subckt ${TOPSUB:-1}" -o /tmp/nl $d/$b.sch > /tmp/nl/$b.log 2>&1)
+if [ -s /tmp/nl/$b.spice ] && ! grep -q "IS MISSING" /tmp/nl/$b.spice; then echo "netlisted $b"; else echo "FAILED $b"; grep -m3 "MISSING" /tmp/nl/$b.spice; tail -3 /tmp/nl/$b.log; fi
+EOF
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; /home/claude/work/gf/scripts/nl.sh /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sch && grep -v "^\*\|^+\|^$" /tmp/nl/gf180mcu_IOPadSingle2Diff.spice | grep -A8 "subckt gf180" | cut -c1-120
+```
+
+</details>
+
+*[Use cp mirror instead of rsync; retry (in the cloud container; 10 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -i 's|^rsync -a --delete $src/ /tmp/gfm/macros/|rm -rf /tmp/gfm/macros; mkdir -p /tmp/gfm; cp -a $src /tmp/gfm/macros|' /home/claude/work/gf/scripts/nl.sh; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; /home/claude/work/gf/scripts/nl.sh /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sch && grep -v "^\*\|^+\|^$" /tmp/nl/gf180mcu_IOPadSingle2Diff.spice | grep -A8 "subckt gf180" | cut -c1-120
+```
+
+</details>
+
+*[Review OAB CACE generator structure (in the cloud container; 140 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -n 1,140p /home/claude/work/repo/macros/OgueyAebischerBias/scripts/gen_cace.py
+```
+
+</details>
+
+*[Review OAB yaml generator and example datasheet (in the cloud container; 181 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -n 300,420p /home/claude/work/repo/macros/OgueyAebischerBias/scripts/gen_cace.py; head -60 /home/claude/work/repo/macros/OgueyAebischerBias/verification/cace/OgueyAebischerRef_03v3.yaml
+```
+
+</details>
+
+*[Move shared sheet helper to repo-level scripts (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /home/claude/work/gf/topscripts && cd /home/claude/work/gf && mv macros/PadEnable/scripts/xsheet.py topscripts/xsheet.py && sed -i 's|sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))|sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "scripts"))|' macros/PadEnable/scripts/gen_padenable.py && sed -i 's|sys.path.insert(0, os.path.join(M, "PadEnable", "scripts"))|sys.path.insert(0, os.path.join(M, "..", "scripts"))|' macros/gf180mcu_IOPadDiff2Single/scripts/gen_iopad_d2s.py macros/gf180mcu_IOPadSingle2Diff/scripts/add_input_enable.py && grep -n "sys.path" macros/*/scripts/*.py; ln -sfn /home/claude/work/gf/topscripts /home/claude/work/gf/scripts_top; ls /home/claude/work/gf
+```
+
+</details>
+
+*[Reorganize work tree to mirror repo layout (in the cloud container; 28 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+rm scripts_top && mv scripts cloud && mv topscripts scripts && mkdir -p macros/ClassABDriver/scripts macros/ClassABBias/scripts && mv cloud/port_classab_from_ihp.py cloud/check_classab_port.py cloud/gf180_sizing.spice macros/ClassABDriver/scripts/ && mv macros/PadEnable/scripts/padenable_reference.spice macros/PadEnable/scripts/ 2>/dev/null; sed -i 's|/home/claude/work/gf/scripts/|/home/claude/work/gf/cloud/|g' cloud/nl.sh; ls -R cloud scripts macros/*/scripts | head -30; python3 macros/gf180mcu_IOPadDiff2Single/scripts/gen_iopad_d2s.py /home/claude/work/gf/macros >/dev/null && echo gen-ok
+```
+
+</details>
+
+*[Add CACE template helpers to shared sheet library (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat >> /home/claude/work/gf/scripts/xsheet.py <<'PYEOF'
+
+# ---------------------------------------------------------------- CACE templates
+def esc(s):
+    """CACE{...} -> CACE\\{...\\} as xschem needs it inside a property string."""
+    import re
+    return re.sub(r"CACE\{([^}]*)\}", r"CACE\\{\1\\}", s)
+
+def vsrc(sheet, name, x, y, value, plus, minus="0", kind="vsource"):
+    """vsource / isource symbol at (x, y), pins p (0,-30) and m (0,30), each with a stub and a label."""
+    sheet.raw(f"C {{devices/{kind}.sym}} {x} {y} 0 0 {{name={name} value=\"{value}\"}}")
+    sheet.wire(x, y - 30, x, y - 50, plus); sheet.label(x, y - 50, plus, right=True)
+    sheet.wire(x, y + 30, x, y + 50, minus); sheet.label(x, y + 50, minus, right=True)
+
+def cace_template(path, title, notes, dut_sym, dut_pins, conns, sources, body, extra_models="", dut_xy=(700, -400)):
+    """sources: list of (name, value, plus, minus[, kind]). body: the ngspice .control section and options,
+    with CACE{...} written plainly (escaped here)."""
+    s = Sheet()
+    s.text(title, 60, -1000, 0.45)
+    s.text(notes, 60, -950, 0.25)
+    s.block(dut_sym, "x1", dut_xy[0], dut_xy[1], dut_pins, conns)
+    for i, src in enumerate(sources):
+        name, value, plus, minus = src[:4]
+        kind = src[4] if len(src) > 4 else "vsource"
+        vsrc(s, name, 160 + 120 * i, -100, value, plus, minus, kind)
+    s.raw('C {devices/code_shown.sym} 1200 -760 0 0 {name=NGSPICE\nsimulator=ngspice\nonly_toplevel=false\nvalue="\n'
+          + esc(".include CACE{DUT_path}\n.temp CACE{temp}\n" + body) + '"}')
+    s.raw('C {devices/code_shown.sym} 1200 -900 0 0 {name=MODEL\nonly_toplevel=true\nformat="tcleval( @value )"\nvalue="\n'
+          '.include $::180MCU_MODELS/design.ngspice\n'
+          + esc(".lib $::180MCU_MODELS/sm141064.ngspice CACE{corner_mos}\n"
+                ".lib $::180MCU_MODELS/sm141064.ngspice CACE{corner_res=res_typical}\n"
+                ".lib $::180MCU_MODELS/sm141064.ngspice moscap_typical\n"
+                ".param sw_stat_mismatch=CACE{mm=0}\n" + extra_models) + '"}')
+    s.write(path, title=True)
+PYEOF
+python3 -c "import sys; sys.path.insert(0,'/home/claude/work/gf/scripts'); import xsheet; print(xsheet.esc('a CACE{x} b CACE{y=1}'))"
+```
+
+</details>
+
+*[List library sections in the GF180 model file (in the cloud container; 30 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep -n "^\.lib\|^\.LIB" /home/claude/pdk/gf180mcuD/libs.tech/ngspice/sm141064.ngspice | head -30
+```
+
+</details>
+
+*[List all top-level section names (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep -n "^\.lib [a-z]" /home/claude/pdk/gf180mcuD/libs.tech/ngspice/sm141064.ngspice | awk '{print $2}' | sort -u | tr '\n' ' '
+```
+
+</details>
+
+*[Check OAB mismatch parameter setup (in the cloud container; 49 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep -n "mm_params" -A40 /home/claude/work/repo/macros/OgueyAebischerBias/verification/cace/OgueyAebischerRef_03v3.yaml | head -50; grep -n "OPTS\b\|OPTS =" -A3 /home/claude/work/repo/macros/OgueyAebischerBias/scripts/gen_cace.py | head
+```
+
+</details>
+
+*[Write bias CACE generator and generate suites (in the cloud container; 13 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > /home/claude/work/gf/macros/ClassABBias/scripts/gen_cace.py <<'PYEOF'
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""Writes the CACE datasheets and templates of ClassABBiasIn and ClassABBiasOut (GF180MCU, 2026-10-08), proof of
+concept subsets of the IHP run_bias.py checks (improvements/bias.md): bias-current accuracy over PVT, DC line
+sensitivity, local mismatch. After the first run, edit the generated files, not this script.
+Usage: gen_cace.py <ClassABBias macro dir>"""
+import os, sys
+MAC = os.path.abspath(sys.argv[1])
+sys.path.insert(0, os.path.join(MAC, "..", "..", "scripts"))
+from xsheet import cace_template, sym_pins
+
+OPTS = (".options savecurrents klu method=gear reltol=1e-4 abstol=1e-15 gmin=1e-15 "
+        "SEED=CACE[CACE{seed=12345} + CACE{iterations=0}]\n")
+LINES = [("bp", "xbp", 5e-6), ("bn", "xbn", 5e-6), ("bpc", "xbpc", 2e-6), ("bnc", "xbnc", 2e-6), ("abp", "xrp2", 5e-6), ("abn", "xrn2", 5e-6)]
+OUT = "echo {vals} > CACE{{simpath}}/CACE{{filename}}_CACE{{N}}.data\n"
+
+def errs():
+    s = ""
+    for k, dev, nom in LINES:
+        s += f"let e_{k} = 100*(abs(@m.x1.{dev}.m0[id])/{nom} - 1)\n"
+    return s
+
+def templates(cell, iref_plus, iref_minus, tdir):
+    pins = sym_pins(os.path.join(MAC, "schematic", "xschem", cell + ".sym"))
+    conns = dict(vdd="vdd", vss="0", vddo="vdd", vsso="0", iref="iref",
+                 **{p: p for p in ["vbp", "vbn", "vbpc", "vbnc", "vabp", "vabn"]})
+    src = [("Vvdd", "CACE{vdd}", "vdd", "0"), ("Iref", "CACE{iref}", iref_plus, iref_minus, "isource")]
+    note = (f"{cell} with an ideal reference current CACE{{iref}} {'into' if iref_minus == 'iref' else 'out of'} iref; vddo tied to vdd, vsso to vss.\n"
+            "Bias currents are the drain currents of the six diodes inside the DUT: XBP, XBN, XBPC, XBNC, XRP2, XRN2\n"
+            "(@m.x1.<dev>.m0[id]); errors in % of 5 / 5 / 2 / 2 / 5 / 5 uA.")
+    v = " ".join(f"$&e_{k}" for k, _, _ in LINES)
+    cace_template(os.path.join(tdir, f"{cell}_tb_dc.sch"), f"Template: bias currents - {cell}", note, f"{cell}.sym", pins, conns, src,
+                  OPTS + ".control\nsave all\nop\n" + errs() + "let Idd = -i(Vvdd)\n" + OUT.format(vals=v + " $&Idd") + ".endc\n")
+    line = ".control\nsave all\ndc Vvdd 3.0 3.6 0.3\n"
+    for k, dev, nom in [LINES[1], LINES[4]]:
+        line += f"let i_{k} = abs(@m.x1.{dev}.m0[id])\nlet s_{k} = 100*(i_{k}[2] - i_{k}[0])/i_{k}[1]/0.6\n"
+    cace_template(os.path.join(tdir, f"{cell}_tb_line.sch"), f"Template: DC line sensitivity - {cell}",
+                  note + "\nvdd = vddo swept 3.0 ... 3.6 V; sensitivity = (I(3.6) - I(3.0)) / I(3.3) / 0.6 V, in %/V.", f"{cell}.sym", pins, conns,
+                  src, OPTS + line + OUT.format(vals="$&s_bn $&s_abp") + ".endc\n")
+
+def spec(name, disp, desc, unit, mn, typ, mx):
+    f = lambda x: "{value: %s}" % x
+    return (f"      {name}:\n        display: {disp}\n        description: {desc}\n        unit: '{unit}'\n"
+            f"        minimum: {f(mn)}\n        typical: {f(typ)}\n        maximum: {f(mx)}\n")
+
+def yaml(cell, desc, iref_desc):
+    errspec = "".join(spec(f"e_{k}", f"Error of {k}", f"Deviation of the v{k} diode current from {nom*1e6:g} uA. Limits are placeholders.",
+                           "%", -5, 0, 5) for k, _, nom in LINES)
+    mmspec = "".join(spec(f"e_{k}", f"Error of {k} - Mismatch", f"Deviation of the v{k} diode current under local mismatch. Limits are placeholders.",
+                          "%", -10, 0, 10) for k, _, nom in LINES)
+    v6 = ", ".join(f"e_{k}" for k, _, _ in LINES)
+    return f"""# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+#--------------------------------------------------------------
+# CACE circuit characterization file, proof of concept (2026-10-08)
+# Port of the IHP improvements/sim/run_bias.py checks (accuracy, supply, mc) to gf180mcuD.
+# Generated by ../../scripts/gen_cace.py; edit this file from now on.
+#--------------------------------------------------------------
+
+name:           {cell}
+description:    {desc}
+PDK:            gf180mcuD
+
+cace_format:    5.2
+
+authorship:
+  designer:         Christoph Maier
+  creation_date:    October 8, 2026
+  license:          Apache-2.0
+
+paths:
+  root:             ..
+  schematic:        ../schematic/xschem
+  netlist:          cace/netlist
+  documentation:    cace/_docs
+  runs:             cace/_runs
+
+pins:
+  vdd:
+    description: Analog supply (bias and front end)
+    type: power
+    direction: inout
+    Vmin: 3.0
+    Vmax: 3.6
+  vss:
+    description: Analog ground
+    type: ground
+    direction: inout
+  vddo:
+    description: Output-stage supply (rail of OP and its replica RP1)
+    type: power
+    direction: inout
+  vsso:
+    description: Output-stage ground (rail of ON and its replica RN1)
+    type: ground
+    direction: inout
+  iref:
+    description: {iref_desc}
+    type: signal
+    direction: inout
+  vbp:
+    description: PMOS gate line, 5 uA diode BP (unit tails)
+    type: signal
+    direction: output
+  vbn:
+    description: NMOS gate line, 5 uA diode BN (fold sinks)
+    type: signal
+    direction: output
+  vbpc:
+    description: PMOS cascode gate line, 2 uA diode BPC
+    type: signal
+    direction: output
+  vbnc:
+    description: NMOS cascode gate line, 2 uA diode BNC
+    type: signal
+    direction: output
+  vabp:
+    description: class-AB P line, 5 uA into RP2 on RP1
+    type: signal
+    direction: output
+  vabn:
+    description: class-AB N line, 5 uA into RN2 on RN1
+    type: signal
+    direction: output
+
+default_conditions:
+  vdd:
+    description: Analog supply voltage (vddo = vdd)
+    display: VDD
+    unit: V
+    typical: 3.3
+  iref:
+    description: Reference current
+    display: Iref
+    unit: A
+    typical: 5e-6
+  corner_mos:
+    description: Process corner MOSFET (sm141064.ngspice section)
+    display: Corner MOSFET
+    typical: typical
+  corner_res:
+    description: Process corner resistors (sm141064.ngspice section)
+    display: Corner resistor
+    typical: res_typical
+  mm:
+    description: Local mismatch switch (sw_stat_mismatch)
+    display: Mismatch
+    typical: 0
+  temp:
+    description: Ambient temperature
+    display: Temperature
+    unit: °C
+    typical: 27
+
+parameters:
+  dc_params:
+    spec:
+{errspec}      Idd:
+        display: Supply current
+        description: Current from vdd (vddo tied to vdd), the reference current not included
+        unit: uA
+        minimum: {{value: any}}
+        typical: {{value: any}}
+        maximum: {{value: any}}
+    tool:
+      ngspice:
+        template: {cell}_tb_dc.sch
+        format: ascii
+        suffix: .data
+        variables: [{v6}, Idd]
+    plot:
+      e_bp_vs_temp:
+        type: xyplot
+        xaxis: temp
+        yaxis: e_bp
+        limits: auto
+      e_abp_vs_vdd:
+        type: xyplot
+        xaxis: vdd
+        yaxis: e_abp
+        limits: auto
+      e_bpc_vs_corner_mos:
+        type: xyplot
+        xaxis: corner_mos
+        yaxis: e_bpc
+        limits: auto
+    conditions:
+      vdd:
+        enumerate: [3.0, 3.3, 3.6]
+      corner_mos:
+        enumerate: [typical, ss, sf, fs, ff]
+      temp:
+        enumerate: [-40, 27, 125]
+
+  line_params:
+    spec:
+{spec("s_bn", "Line sensitivity of vbn", "DC change of the vbn diode current per volt of vdd = vddo, 3.0 ... 3.6 V. Limits are placeholders.", "%/V", -3, 0, 3)}{spec("s_abp", "Line sensitivity of vabp", "DC change of the vabp diode current per volt of vdd = vddo, 3.0 ... 3.6 V. Limits are placeholders.", "%/V", -3, 0, 3)}    tool:
+      ngspice:
+        template: {cell}_tb_line.sch
+        format: ascii
+        suffix: .data
+        variables: [s_bn, s_abp]
+    conditions:
+      corner_mos:
+        enumerate: [typical, ss, sf, fs, ff]
+      temp:
+        enumerate: [-40, 27, 125]
+
+  mm_params:
+    spec:
+{mmspec}      Idd:
+        display: Supply current - Mismatch
+        description: Current from vdd under local mismatch
+        unit: uA
+        minimum: {{value: any}}
+        typical: {{value: any}}
+        maximum: {{value: any}}
+    tool:
+      ngspice:
+        template: {cell}_tb_dc.sch
+        collate: iterations
+        format: ascii
+        suffix: .data
+        variables: [{v6}, Idd]
+    conditions:
+      iterations:
+        description: Iterations to run
+        display: Iterations
+        minimum: 1
+        maximum: 100
+        step: linear
+        stepsize: 1
+      mm:
+        typical: 1
+"""
+
+if __name__ == "__main__":
+    tdir = os.path.join(MAC, "verification", "cace", "templates"); os.makedirs(tdir, exist_ok=True)
+    for cell, desc, ird, plus, minus in [
+        ("ClassABBiasIn", "Bias of the class-AB driver, variant 1: reference current INTO iref (external PMOS source), GF180MCU 03v3",
+         "Reference current input, 5 uA flowing into the pin (NMOS input diode NI)", "0", "iref"),
+        ("ClassABBiasOut", "Bias of the class-AB driver, variant 2: reference current OUT of iref (external NMOS sink), GF180MCU 03v3",
+         "Reference current output, 5 uA flowing out of the pin (PMOS input diode PI)", "iref", "0")]:
+        templates(cell, plus, minus, tdir)
+        open(os.path.join(MAC, "verification", "cace", cell + ".yaml"), "w").write(yaml(cell, desc, ird))
+        print("wrote", cell)
+PYEOF
+cd /home/claude/work/gf/macros/ClassABBias && python3 scripts/gen_cace.py . && cp schematic/xschem/xschemrc verification/cace/templates/xschemrc && ls verification/cace verification/cace/templates
+```
+
+</details>
+
+*[Run CACE for ClassABBiasIn (in the cloud container; 45 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros && python3 - <<'EOF'
+s=open('ClassABBias/schematic/xschem/xschemrc').read()
+marker='# Add current directory to xschem library path\n'
+a,b=s.split(marker); rest=b.split('\n\n',1)[1]
+D='[file dirname [info script]]'; J=lambda p: f'[file join {D} {p}]'
+for m,extra in [('ClassABBias',[]),('ClassABDriver',[J('../../../../ClassABBias/schematic/xschem')]),('gf180mcu_IOPadDiff2Single',[J('../../../../ClassABDriver/schematic/xschem'),J('../../../../ClassABBias/schematic/xschem'),J('../../../../PadEnable/schematic/xschem')])]:
+    import os; os.makedirs(f'{m}/verification/cace/templates',exist_ok=True)
+    open(f'{m}/verification/cace/templates/xschemrc','w').write(a+marker+''.join(f'append_xschem_library_path_unique {l}\n' for l in [J('../../schematic/xschem'), D]+extra)+'\n'+rest)
+EOF
+cd ClassABBias/verification/cace && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD && source /home/claude/venv/bin/activate && export PATH=/opt/xschem/bin:$PATH && which xschem && (time timeout 1200 cace ClassABBiasIn.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_biasin.out 2>&1); tail -40 /tmp/cace_biasin.out
+```
+
+</details>
+
+*[Quote YAML descriptions and rerun CACE (in the cloud container; 36 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias && sed -i 's/^description:    {desc}$/description:    "{desc}"/; s/        description: {desc}\\n        unit/        description: \x27{desc}\x27\\n        unit/' scripts/gen_cace.py && grep -n 'description:    "{desc}"\|description: .{desc}.\\n' scripts/gen_cace.py && python3 scripts/gen_cace.py . >/dev/null && cd verification/cace && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && (time timeout 1200 cace ClassABBiasIn.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_biasin.out 2>&1); tail -30 /tmp/cace_biasin.out
+```
+
+</details>
+
+*[Read CACE summary for ClassABBiasIn (in the cloud container; 22 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); cat $R/summary.md | sed 's/  */ /g' | head -40
+```
+
+</details>
+
+*[Inspect generated CACE testbench netlist (in the cloud container; 41 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); ls $R/parameters/dc_params/ | head; f=$(ls $R/parameters/mm_params/*/*.spice 2>/dev/null | head -1); [ -z "$f" ] && f=$(find $R -name "*.spice" | head -1); echo $f; grep -v "^\*\*" $f | head -40; find $R/parameters/dc_params -name "*.log" | head -2 | xargs tail -5
+```
+
+</details>
+
+*[Rename iref condition, pin conditions, rerun CACE (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias && python3 - <<'EOF'
+p='scripts/gen_cace.py'; s=open(p).read()
+s=s.replace('"CACE{iref}"','"CACE{i_ref}"').replace('ideal reference current CACE{{iref}}','ideal reference current CACE{{i_ref}}')
+s=s.replace('''  iref:
+    description: Reference current
+    display: Iref''','''  i_ref:
+    description: Reference current
+    display: Iref''')
+s=s.replace('''    conditions:
+      corner_mos:
+        enumerate: [typical, ss, sf, fs, ff]
+      temp:
+        enumerate: [-40, 27, 125]
+
+  mm_params:''','''    conditions:
+      i_ref:
+        typical: 5e-6
+      corner_mos:
+        enumerate: [typical, ss, sf, fs, ff]
+      temp:
+        enumerate: [-40, 27, 125]
+
+  mm_params:''')
+s=s.replace('''    conditions:
+      vdd:
+        enumerate: [3.0, 3.3, 3.6]''','''    conditions:
+      i_ref:
+        typical: 5e-6
+      vdd:
+        enumerate: [3.0, 3.3, 3.6]''')
+s=s.replace('''      mm:
+        typical: 1
+"""''','''      mm:
+        typical: 1
+      vdd:
+        typical: 3.3
+      i_ref:
+        typical: 5e-6
+      corner_mos:
+        typical: typical
+      temp:
+        typical: 27
+"""''')
+open(p,'w').write(s)
+EOF
+grep -c "i_ref" scripts/gen_cace.py; python3 scripts/gen_cace.py . >/dev/null; cd verification/cace && rm -rf _runs _docs netlist && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && timeout 1200 cace ClassABBiasIn.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_biasin.out 2>&1; R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -17; grep "^Iref\|^Vvdd" $(find $R -name "*.spice" | grep mm_params | head -1)
+```
+
+</details>
+
+*[Inspect template source values (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias/verification/cace; grep -n "Iref\|Vvdd" templates/ClassABBiasIn_tb_dc.sch; ls -la _runs; grep -n "i_ref" ClassABBiasIn.yaml | head
+```
+
+</details>
+
+*[Escape CACE placeholders in source values; rerun (in the cloud container; 18 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf && sed -i 's|    sheet.raw(f"C {{devices/{kind}.sym}} {x} {y} 0 0 {{name={name} value=\\"{value}\\"}}")|    sheet.raw(f"C {{devices/{kind}.sym}} {x} {y} 0 0 {{name={name} value=\\"{esc(value)}\\"}}")|' scripts/xsheet.py && grep -n 'esc(value)' scripts/xsheet.py && cd macros/ClassABBias && python3 scripts/gen_cace.py . >/dev/null && grep -n "name=Iref" verification/cace/templates/ClassABBiasIn_tb_dc.sch && cd verification/cace && rm -rf _runs _docs netlist && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && timeout 1200 cace ClassABBiasIn.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_biasin.out 2>&1; R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -17
+```
+
+</details>
+
+*[Debug device current readout in CACE netlist (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); f=$(find $R/parameters/dc_params -name "*.spice" | head -1); grep "^Vvdd\|^Iref\|^.temp" $f; sed 's/^echo.*/print e_bp e_bn @m.x1.xbp.m0[id] @m.x1.xbn.m0[id] @m.x1.xbp.m0[gm]\nshow m.x1.xbn.m0 : id ids/' $f > /tmp/t.spice; cd /tmp && ngspice -b t.spice 2>&1 | grep -E "^e_|^@|id |ids" | head
+```
+
+</details>
+
+*[Inspect CACE .data outputs (in the cloud container; 15 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); for d in $(ls -d $R/parameters/dc_params/run_* | head -3); do cat $d/*.data; grep "^Vvdd\|^.temp\|sm141064.ngspice [tsf]" $d/*.spice | tr '\n' ' '; echo; done; ls $R/parameters/dc_params/run_00
+```
+
+</details>
+
+*[Echo fractions for % units; rerun both bias suites (in the cloud container; 38 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias && sed -i 's/let e_{k} = 100\*(abs/let e_{k} = (abs/; s/let s_{k} = 100\*(i_{k}/let s_{k} = (i_{k}/' scripts/gen_cace.py && sed -i 's|"Bias currents are the drain currents of the six diodes inside the DUT: XBP, XBN, XBPC, XBNC, XRP2, XRN2\\n"|"Bias currents are the drain currents of the six diodes inside the DUT: XBP, XBN, XBPC, XBNC, XRP2, XRN2\\n"\n            "(echoed as fractions: CACE shows a unit of % as 100 x the value)\\n"|' scripts/gen_cace.py && grep -n "let e_\|let s_\|fractions" scripts/gen_cace.py && python3 scripts/gen_cace.py . >/dev/null && cd verification/cace && rm -rf _runs _docs netlist && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && for c in ClassABBiasIn ClassABBiasOut; do timeout 1200 cace $c.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_$c.out 2>&1; R=$(ls -d _runs/RUN_* | tail -1); echo "== $c"; sed 's/  */ /g' $R/summary.md | tail -17 | cut -d'|' -f2,5-11; done
+```
+
+</details>
+
+*[Write results collector; list runs (in the cloud container; 15 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > /home/claude/work/gf/cloud/collect.sh <<'EOF'
+#!/bin/bash
+# copy the newest CACE run of <cell> (summary.md, plots, csv) into results/<cell>/ (cloud helper)
+cd $1; cell=$2; R=$(ls -d _runs/RUN_* | tail -1); out=results/$cell; rm -rf $out; mkdir -p $out
+cp $R/summary.md $out/
+find $R -maxdepth 3 \( -name "*.png" -o -name "*.csv" \) -exec cp {} $out/ \;
+sed -i "1i <!-- CACE run $(basename $R) in Claude's cloud container: CACE 2.13, ngspice-42, xschem 3.4.8RC ce52727, gf180mcuD from gf180mcu_fd_pr e11a8c9. -->" $out/summary.md
+ls $out | tr '\n' ' '; echo
+EOF
+chmod +x /home/claude/work/gf/cloud/collect.sh; cd /home/claude/work/gf/macros/ClassABBias/verification/cace; ls -d _runs/*; for c in ClassABBiasIn ClassABBiasOut; do :; done; ls _runs/*/
+```
+
+</details>
+
+*[Collect bias CACE results (in the cloud container; 18 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias/verification/cace; R1=_runs/RUN_2026-10-08_20-11-55; R2=_runs/RUN_2026-10-08_20-12-58; head -1 $R1/summary.md $R2/summary.md; for p in "$R1 ClassABBiasIn" "$R2 ClassABBiasOut"; do set -- $p; out=results/$2; rm -rf $out; mkdir -p $out; cp $1/summary.md $out/; find $1 -maxdepth 3 \( -name "*.png" -o -name "*.csv" \) -exec cp {} $out/ \; ; sed -i "1i <!-- CACE run $(basename $1) in Claude's cloud container: CACE 2.13, ngspice-42, xschem 3.4.8RC ce52727, gf180mcuD from gf180mcu_fd_pr e11a8c9. -->" $out/summary.md; ls $out; done; cp /tmp/cace_ClassABBiasIn.out /tmp/cace_ClassABBiasOut.out /mnt/user-data/outputs/log1/ 2>/dev/null; ls /mnt/user-data/outputs/log1
+```
+
+</details>
+
+*[Verify results mapping (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABBias/verification/cace; grep -h "Summary for" results/*/summary.md; find _runs -name simulation_summary.csv | head;
+```
+
+</details>
+
+*[Fix collector and re-collect bias results (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > /home/claude/work/gf/cloud/collect.sh <<'EOF'
+#!/bin/bash
+# collect.sh <cace dir> <cell> <run dir>: summary.md, plots and per-parameter CSVs into results/<cell>/ (cloud helper)
+cd $1; cell=$2; R=$3; out=results/$cell; rm -rf $out; mkdir -p $out
+cp $R/summary.md $out/
+for p in $R/parameters/*/; do pn=$(basename $p); cp $p/*.png $out/ 2>/dev/null; [ -f $p/simulation_summary.csv ] && cp $p/simulation_summary.csv $out/${pn}.csv; done
+sed -i "1i <!-- CACE run $(basename $R) in Claude's cloud container: CACE 2.13, ngspice-42, xschem 3.4.8RC ce52727, gf180mcuD from gf180mcu_fd_pr e11a8c9. -->" $out/summary.md
+echo "$cell: $(ls $out | tr '\n' ' ')"
+EOF
+C=/home/claude/work/gf/macros/ClassABBias/verification/cace; /home/claude/work/gf/cloud/collect.sh $C ClassABBiasIn _runs/RUN_2026-10-08_20-11-55; /home/claude/work/gf/cloud/collect.sh $C ClassABBiasOut _runs/RUN_2026-10-08_20-12-58
+```
+
+</details>
+
+*[Read IHP noise deck control section (in the cloud container; 15 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat /home/claude/ihpab/improvements/sim/tb/tb_mpdda_noise.spice | sed -n '/control/,/endc/p'; grep "B 5" /home/claude/work/gf/macros/ClassABDriver/schematic/xschem/ClassABDriverBiased.sym | wc -l
+```
+
+</details>
+
+*[Write driver CACE generator and run the suite (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat > /home/claude/work/gf/macros/ClassABDriver/scripts/gen_cace.py <<'PYEOF'
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""Writes the CACE datasheet and templates of ClassABDriverBiased (ClassABDriver on the ideal bias fixture
+ClassABBiasIdeal), GF180MCU, 2026-10-08. Proof-of-concept subset of the IHP decks tb_mpdda_{dc,loop,step,noise}
+and of the d2s_miller_biased CACE draft. After the first run, edit the generated files, not this script.
+Stimulus and load are element lines in the NGSPICE block: vinp - vref = +vd/2, vinn - vref = -vd/2 (E sources),
+load CACE{rload} to vref || CACE{cload} to vss. Values are echoed in SI units (CACE scales to the unit shown);
+quantities in % are echoed as fractions.
+Usage: gen_cace.py <ClassABDriver macro dir>"""
+import os, sys
+MAC = os.path.abspath(sys.argv[1])
+sys.path.insert(0, os.path.join(MAC, "..", "..", "scripts"))
+from xsheet import cace_template, sym_pins
+
+CELL = "ClassABDriverBiased"
+OPTS = ".options savecurrents klu method=gear reltol=1e-4 abstol=1e-15 gmin=1e-15\n"
+OUT = "echo {vals} > CACE{{simpath}}/CACE{{filename}}_CACE{{N}}.data\n"
+STIM = ("Ep vinp vref dp 0 0.5\nEn vinn vref dp 0 -0.5\nRL vout vref CACE{rload}\nCL vout 0 CACE{cload}\n")
+IQ = ("let iqp = abs(@m.x1.xd.xop.m0[id])\nlet iqn = abs(@m.x1.xd.xon.m0[id])\nlet idd = -i(Vvdd) - i(Vvddo)\n")
+
+def templates(tdir):
+    pins = sym_pins(os.path.join(MAC, "schematic", "xschem", CELL + ".sym"))
+    base = dict(vdd="vdd", vss="0", vddo="vddo", vsso="0", vinp="vinp", vinn="vinn", vref="vref", vout="vout",
+                **{p: p for p in ["vbp", "vbn", "vbpc", "vbnc", "vabp", "vabn"]})
+    src = [("Vvdd", "CACE{vdd}", "vdd", "0"), ("Vvddo", "CACE{vdd}", "vddo", "0"), ("Vref", "CACE[CACE{vdd}/2]", "vref", "0")]
+    note = ("ClassABDriver (x1.xd) on the ideal bias fixture ClassABBiasIdeal (x1.xb): 5 / 5 / 2 / 2 / 5 / 5 uA into the six diodes.\n"
+            "vddo = vdd from its own source, vsso = vss. vref = vdd/2. Stimulus and load: element lines in the NGSPICE block.\n"
+            "Iq: drain currents of OP (x1.xd.xop) and ON (x1.xd.xon) at vd = 0; Idd = vdd + vddo.")
+    # dc: vfb = vout
+    dc = (OPTS + "Vd dp 0 0\n" + STIM + ".control\nsave all\nop\n" + IQ +
+          "dc Vd -1 1 0.01\nlet vo = v(vout) - v(vref)\n"
+          "meas dc vop find vo at=0.2\nmeas dc von find vo at=-0.2\nmeas dc off find vo at=0\n"
+          "let gain = (vop - von)/0.4\n"
+          "let inrange = abs(v(dp)) le 0.4001\nlet inl = vecmax(abs(vo - gain*v(dp) - off) * inrange)\n"
+          + OUT.format(vals="$&gain $&off $&inl $&iqp $&iqn $&idd") + ".endc\n")
+    cace_template(os.path.join(tdir, f"{CELL}_tb_dc.sch"), f"Template: DC transfer - {CELL}",
+                  note + "\nGain = (vo(+0.2) - vo(-0.2))/0.4 with vo = vout - vref; INL = max deviation from that line for |vd| <= 0.4 V (vo = +-0.2 V).",
+                  f"{CELL}.sym", pins, dict(base, vfb="vout"), src, dc)
+    loop = (OPTS + "Vd dp 0 0\n" + STIM + "Lb vout fb 1G\nCb fb inj 1\nVinj inj 0 dc 0 ac 1\n.control\nsave all\n"
+            "ac dec 50 10 1G\nlet T = -v(vout)/v(fb)\nmeas ac T0 find vdb(T) at=10\nmeas ac fc when vdb(T)=0\n"
+            "meas ac pT find vp(T) when vdb(T)=0\nlet pm = 180/pi*pT + 180\n" + OUT.format(vals="$&T0 $&fc $&pm") + ".endc\n")
+    cace_template(os.path.join(tdir, f"{CELL}_tb_loop.sch"), f"Template: loop gain - {CELL}",
+                  note + "\nLoop broken at vfb: DC closed through 1 GH, AC injected through 1 F; T = -v(vout)/v(fb) (vfb only drives gates).",
+                  f"{CELL}.sym", pins, dict(base, vfb="fb"), src, loop)
+    step = (OPTS + "Vd dp 0 pulse(-0.5 0.5 1u 1n 1n 4u 8u)\n" + STIM + ".control\nsave all\n"
+            "tran 2n 5u 0 5n\nmeas tran vlo find v(vout) at=0.99u\nmeas tran vhi find v(vout) at=4.9u\n"
+            "meas tran vmax max v(vout) from=1u to=5u\nlet overshoot = (vmax - vhi)/(vhi - vlo)\n"
+            "let v10 = vlo + 0.1*(vhi - vlo)\nlet v90 = vlo + 0.9*(vhi - vlo)\n"
+            "meas tran t10 when v(vout)=v10 rise=1\nmeas tran t90 when v(vout)=v90 rise=1\nlet slew = 0.8*(vhi - vlo)/(t90 - t10)\n"
+            "let outside = abs(v(vout) - vhi) gt 0.01*(vhi - vlo)\nlet t_settle = vecmax(time * outside) - 1u\n"
+            + OUT.format(vals="$&overshoot $&slew $&t_settle") + ".endc\n")
+    cace_template(os.path.join(tdir, f"{CELL}_tb_step.sch"), f"Template: step response - {CELL}",
+                  note + "\nvd steps -0.5 -> +0.5 V at 1 us (vout vref - 0.25 -> vref + 0.25 V). Settling: last time outside +-1 % of the step.",
+                  f"{CELL}.sym", pins, dict(base, vfb="vout"), src, step)
+    noise = (OPTS + "Vd dp 0 0 ac 1\n" + STIM + ".control\nsave all\nnoise v(vout) Vd dec 20 10 10meg\nsetplot noise2\n"
+             "let vn_total = onoise_total\n" + OUT.format(vals="$&vn_total") + ".endc\n")
+    cace_template(os.path.join(tdir, f"{CELL}_tb_noise.sch"), f"Template: output noise - {CELL}",
+                  note + "\nOutput noise integrated 10 Hz ... 10 MHz.", f"{CELL}.sym", pins, dict(base, vfb="vout"), src, noise)
+
+def spec(name, disp, desc, unit, mn, typ, mx):
+    f = lambda x: "{value: %s}" % x
+    return (f"      {name}:\n        display: {disp}\n        description: '{desc}'\n        unit: '{unit}'\n"
+            f"        minimum: {f(mn)}\n        typical: {f(typ)}\n        maximum: {f(mx)}\n")
+
+def tool(t, variables, collate=False):
+    return (f"    tool:\n      ngspice:\n        template: {CELL}_tb_{t}.sch\n" + ("        collate: iterations\n" if collate else "")
+            + f"        format: ascii\n        suffix: .data\n        variables: [{', '.join(variables)}]\n")
+
+def conds(**kw):
+    s = "    conditions:\n"
+    for k, v in kw.items():
+        s += f"      {k}:\n" + (f"        enumerate: [{', '.join(map(str, v))}]\n" if isinstance(v, list) else f"        typical: {v}\n")
+    return s
+
+def plot(name, x, y):
+    return f"      {name}:\n        type: xyplot\n        xaxis: {x}\n        yaxis: {y}\n        limits: auto\n"
+
+def yaml():
+    pins = ""
+    for p, d, t in [("vdd", "Front-end and bias supply", "power"), ("vss", "Ground", "ground"), ("vddo", "Output-stage supply (OP, RP1)", "power"),
+                    ("vsso", "Output-stage ground (ON, RN1)", "ground"), ("vinp", "Positive input", "signal"), ("vinn", "Negative input", "signal"),
+                    ("vref", "Output reference (vout - vref = (vinp - vinn)/2)", "signal"), ("vout", "Output", "signal"),
+                    ("vfb", "Feedback input (tied to vout in normal use)", "signal")] + \
+                   [(b, "Bias line of the ideal fixture, exposed for perturbation", "signal") for b in ["vbp", "vbn", "vbpc", "vbnc", "vabp", "vabn"]]:
+        pins += f"  {p}:\n    description: {d}\n    type: {t}\n    direction: inout\n" + ("    Vmin: 3.0\n    Vmax: 3.6\n" if p == "vdd" else "")
+    std = dict(vdd=3.3, corner_mos="typical", temp=27, rload=1000, cload="100e-12")
+    pvt = dict(std, vdd=[3.0, 3.3, 3.6], corner_mos=["typical", "ss", "sf", "fs", "ff"], temp=[-40, 27, 125])
+    return f"""# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+#--------------------------------------------------------------
+# CACE circuit characterization file, proof of concept (2026-10-08)
+# ClassABDriver on the ideal bias fixture. Port of the IHP decks tb_mpdda_{{dc,loop,step,noise}} to gf180mcuD.
+# Generated by ../../scripts/gen_cace.py; edit this file from now on. Limits: IHP d2s_miller_biased draft
+# where it had one, otherwise placeholders.
+#--------------------------------------------------------------
+
+name:           {CELL}
+description:    "ClassABDriver (matched-pair DDA, folded cascode, class-AB output, Miller compensation) on the ideal bias fixture, GF180MCU 03v3"
+PDK:            gf180mcuD
+
+cace_format:    5.2
+
+authorship:
+  designer:         Christoph Maier
+  creation_date:    October 8, 2026
+  license:          Apache-2.0
+
+paths:
+  root:             ..
+  schematic:        ../schematic/xschem
+  netlist:          cace/netlist
+  documentation:    cace/_docs
+  runs:             cace/_runs
+
+pins:
+{pins}
+default_conditions:
+  vdd:
+    description: Supply voltage (vdd = vddo)
+    display: VDD
+    unit: V
+    typical: 3.3
+  corner_mos:
+    description: Process corner MOSFET (sm141064.ngspice section)
+    display: Corner MOSFET
+    typical: typical
+  corner_res:
+    description: Process corner resistors
+    display: Corner resistor
+    typical: res_typical
+  mm:
+    description: Local mismatch switch (sw_stat_mismatch)
+    display: Mismatch
+    typical: 0
+  temp:
+    description: Ambient temperature
+    display: Temperature
+    unit: °C
+    typical: 27
+  rload:
+    description: Load resistor to vref
+    display: R load
+    unit: Ohm
+    typical: 1000
+  cload:
+    description: Load capacitor to vss
+    display: C load
+    unit: F
+    typical: 100e-12
+
+parameters:
+  dc_params:
+    spec:
+{spec("gain", "Gain", "(vo(+0.2 V) - vo(-0.2 V)) / 0.4 V, vo = vout - vref; nominal 0.5", "", 0.495, 0.5, 0.505)}{spec("off", "Output offset", "vout - vref at vd = 0", "mV", -5, 0, 5)}{spec("inl", "Integral nonlinearity", "max deviation from the gain line, vo within +-0.2 V", "mV", "any", "any", 2)}{spec("iqp", "OP quiescent current", "drain current of OP at vd = 0 (target 212 uA)", "uA", 100, 212, 500)}{spec("iqn", "ON quiescent current", "drain current of ON at vd = 0", "uA", 100, 212, 500)}{spec("idd", "Supply current", "vdd + vddo at vd = 0", "uA", "any", "any", 600)}{tool("dc", ["gain", "off", "inl", "iqp", "iqn", "idd"])}    plot:
+{plot("iqp_vs_temp", "temp", "iqp")}{plot("off_vs_corner_mos", "corner_mos", "off")}{plot("inl_vs_vdd", "vdd", "inl")}{conds(**pvt)}
+  loop_params:
+    spec:
+{spec("T0", "DC loop gain", "loop gain at 10 Hz", "dB", 40, "any", "any")}{spec("fc", "Loop crossover frequency", "unity loop gain", "MHz", 1, "any", "any")}{spec("pm", "Phase margin", "180 deg + phase of T at fc", "°", 45, 60, "any")}{tool("loop", ["T0", "fc", "pm"])}    plot:
+{plot("pm_vs_temp", "temp", "pm")}{plot("T0_vs_corner_mos", "corner_mos", "T0")}{conds(**dict(pvt, vdd=3.3))}
+  loop_load_params:
+    spec:
+{spec("T0", "DC loop gain vs load", "loop gain at 10 Hz", "dB", "any", "any", "any")}{spec("fc", "Crossover vs load", "unity loop gain", "MHz", "any", "any", "any")}{spec("pm", "Phase margin vs load", "180 deg + phase of T at fc", "°", 45, "any", "any")}{tool("loop", ["T0", "fc", "pm"])}    plot:
+{plot("pm_vs_cload", "cload", "pm")}{conds(**dict(std, rload=[50, 1000, 1e9], cload=["10e-12", "100e-12", "1e-9"]))}
+  step_params:
+    spec:
+{spec("overshoot", "Overshoot", "step -0.25 -> +0.25 V at the output", "%", "any", 0, 10)}{spec("slew", "Rise rate", "10 - 90 % of the step over its time", "V/us", "any", "any", "any")}{spec("t_settle", "1 % settling time", "after the input step", "ns", "any", "any", 1000)}{tool("step", ["overshoot", "slew", "t_settle"])}{conds(**dict(std, corner_mos=["typical", "ss", "sf", "fs", "ff"], temp=[-40, 27, 125]))}
+  noise_params:
+    spec:
+{spec("vn_total", "Output noise", "integrated 10 Hz ... 10 MHz", "uV", "any", "any", "any")}{tool("noise", ["vn_total"])}{conds(**dict(std, corner_mos=["typical", "ss", "ff"]))}
+"""
+
+if __name__ == "__main__":
+    tdir = os.path.join(MAC, "verification", "cace", "templates"); os.makedirs(tdir, exist_ok=True)
+    templates(tdir)
+    open(os.path.join(MAC, "verification", "cace", CELL + ".yaml"), "w").write(yaml())
+    print("wrote", CELL)
+PYEOF
+cd /home/claude/work/gf/macros/ClassABDriver && python3 scripts/gen_cace.py . && python3 -c "import yaml; d=yaml.safe_load(open('verification/cace/ClassABDriverBiased.yaml')); print(list(d['parameters']))" && cd verification/cace && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && (time timeout 2400 cace ClassABDriverBiased.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_ClassABDriverBiased.out 2>&1); R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -20 | cut -d'|' -f2,5-11
+```
+
+</details>
+
+*[Read CACE error (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+tail -20 /tmp/cace_ClassABDriverBiased.out
+```
+
+</details>
+
+*[Rename offset variable and rerun driver CACE (in the cloud container; 25 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABDriver && sed -i 's/meas dc off find vo at=0/meas dc vos find vo at=0/; s/vo - gain\*v(dp) - off)/vo - gain*v(dp) - vos)/; s/\$&gain \$&off \$&inl/$\&gain $\&vos $\&inl/; s/spec("off", "Output offset"/spec("vos", "Output offset"/; s/\["gain", "off", "inl"/["gain", "vos", "inl"/; s/plot("off_vs_corner_mos", "corner_mos", "off")/plot("vos_vs_corner_mos", "corner_mos", "vos")/' scripts/gen_cace.py && grep -c "vos" scripts/gen_cace.py && python3 scripts/gen_cace.py . && cd verification/cace && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && (time timeout 2400 cace ClassABDriverBiased.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_ClassABDriverBiased.out 2>&1); R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -20 | cut -d'|' -f2,5-11
+```
+
+</details>
+
+*[Debug failing driver CACE templates (in the cloud container; 69 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABDriver/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); for p in dc_params step_params noise_params; do d=$(ls -d $R/parameters/$p/run_* | head -1); echo "== $p"; ls $d; tail -8 $d/ngspice_stdout.out; tail -5 $d/ngspice_stderr.out; done
+```
+
+</details>
+
+*[Run failing step and noise netlists manually (in the cloud container; 43 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABDriver/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); for p in step_params noise_params; do d=$(ls -d $R/parameters/$p/run_* | head -1); cp $d/*.spice /tmp/$p.spice; (cd /tmp && ngspice -b $p.spice 2>&1 | grep -iv "^$\|reference value" | head -30); done
+```
+
+</details>
+
+*[See tail of step run output (in the cloud container; 26 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp && ngspice -b step_params.spice 2>&1 | grep -v "^x1\|^v\|^ *$\|Reference" | tail -25
+```
+
+</details>
+
+*[Find tran abort reason (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp && ngspice -b step_params.spice 2>&1 | grep -i -B3 "aborted\|timestep\|singular" | head -20
+```
+
+</details>
+
+*[Relax solver options; reference op-plot vectors (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABDriver && python3 - <<'EOF'
+p='scripts/gen_cace.py'; s=open(p).read()
+s=s.replace('OPTS = ".options savecurrents klu method=gear reltol=1e-4 abstol=1e-15 gmin=1e-15\\n"',
+ 'OPTS = ".options savecurrents reltol=1e-4 abstol=1e-12 gmin=1e-15\\n"  # sparse solver: ngspice noise does not run with KLU')
+s=s.replace('''          "let inrange = abs(v(dp)) le 0.4001\\nlet inl = vecmax(abs(vo - gain*v(dp) - off) * inrange)\\n"
+          + OUT.format(vals="$&gain $&vos $&inl $&iqp $&iqn $&idd") + ".endc\\n")''','''          "let inrange = abs(v(dp)) le 0.4001\\nlet inl = vecmax(abs(vo - gain*v(dp) - vos) * inrange)\\n"
+          + OUT.format(vals="$&gain $&vos $&inl $&op1.iqp $&op1.iqn $&op1.idd") + ".endc\\n")''')
+open(p,'w').write(s)
+EOF
+grep -n "op1\|OPTS =" scripts/gen_cace.py; grep -n "vecmax(abs(vo" scripts/gen_cace.py
+```
+
+</details>
+
+*[Show dc template code lines (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -n 30,40p scripts/gen_cace.py
+```
+
+</details>
+
+*[Test plot-qualified op vectors in dc template (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 - <<'EOF'
+p='scripts/gen_cace.py'; s=open(p).read()
+s=s.replace('''          + OUT.format(vals="$&gain $&vos $&inl $&iqp $&iqn $&idd") + ".endc\\n")''','''          "let iq_p = op1.iqp\\nlet iq_n = op1.iqn\\nlet i_dd = op1.idd\\n"
+          + OUT.format(vals="$&gain $&vos $&inl $&iq_p $&iq_n $&i_dd") + ".endc\\n")''')
+open(p,'w').write(s)
+EOF
+python3 scripts/gen_cace.py . >/dev/null; R=$(ls -d verification/cace/_runs/RUN_* | tail -1); d=$(ls -d $R/parameters/dc_params/run_* | head -1); python3 - $d/ClassABDriverBiased_tb_dc.spice <<'EOF'
+import sys,re
+s=open(sys.argv[1]).read()
+s=s.replace(".options savecurrents klu method=gear reltol=1e-4 abstol=1e-15 gmin=1e-15",".options savecurrents reltol=1e-4 abstol=1e-12 gmin=1e-15")
+s=re.sub(r"echo .*", "let iq_p = op1.iqp\nlet iq_n = op1.iqn\nlet i_dd = op1.idd\necho $&gain $&vos $&inl $&iq_p $&iq_n $&i_dd", s)
+open('/tmp/dc_t.spice','w').write(s)
+EOF
+cd /tmp && ngspice -b dc_t.spice 2>&1 | tail -3
+```
+
+</details>
+
+*[Rerun driver CACE suite (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABDriver/verification/cace && rm -rf _runs _docs netlist && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && (time timeout 2400 cace ClassABDriverBiased.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_ClassABDriverBiased.out 2>&1); R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -18 | cut -d'|' -f2,5-11
+```
+
+</details>
+
+*[Find worst INL condition; collect driver results (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABDriver/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); head -1 $R/parameters/dc_params/simulation_summary.csv; sort -t, -k4 -g $R/parameters/dc_params/simulation_summary.csv 2>/dev/null | tail -3; /home/claude/work/gf/cloud/collect.sh $(pwd) ClassABDriverBiased $R; cp /tmp/cace_ClassABDriverBiased.out /mnt/user-data/outputs/log1/
+```
+
+</details>
+
+*[Identify worst INL and PM conditions (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/ClassABDriver/verification/cace; sort -t, -k7 -g results/ClassABDriverBiased/dc_params.csv | tail -3; sort -t, -k10 -g results/ClassABDriverBiased/loop_load_params.csv 2>/dev/null| head -3; head -1 results/ClassABDriverBiased/loop_load_params.csv; sort -t, -k7 -g results/ClassABDriverBiased/loop_load_params.csv | head -4
+```
+
+</details>
+
+*[Append progress to the running log (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+L=/mnt/user-data/outputs/log1/2026-10-08_opus_classab_port_log.md; cat >> $L <<'EOF'
+
+## 20:40 — chat log across the compaction
+
+The automatic compaction at 19:23 rewrote the transcript; the turns before it are only in the 03:07 export.
+`chatlog/export_chatlog.py` now skips the compaction summary (not a user message), marks the cut, and can append
+to an earlier export (CHATLOG_TURN_OFFSET, CHATLOG_BODY_ONLY, CHATLOG_COMPACT_USER/TIME). The chat log file keeps
+turns 1–7 from the earlier export; turn 8 (19:22) has its user message reconstructed from the compaction summary
+and says so.
+
+## 20:55 — PadEnable cells (new macro `macros/PadEnable`)
+
+The IHP power_down switch plan, moved into cells of their own (`scripts/gen_padenable.py`, devices 03v3):
+
+- `EnableInv` en → en_b (2u/0.5u, 1u/0.5u). One per pad; a 1.2 V → 3.3 V level shifter would replace it.
+- `DriverEnable` SA a→vddo, SB b→vsso, SABP vabp→vdd, SABN vabn→vss (1u/0.5u), on while en = 0.
+  ClassABDriver got the ports `a b` (gates of OP / ON) for this.
+- `BiasRefEnable` transmission gate iin→iout, TDN pulls iout (NI's gate line) to vss while disabled.
+- `InputEnable` transmission gate pin→pout, second gate parks pout on vpark while disabled (4u/0.5u).
+
+Sheets: rails as wires, sources and bulks wired, gates and drains by stub + label. The first draft had the PMOS
+drain stub and the NMOS drain stub meet at one point, which merged iin with iout and pin with pout; the round trip
+against `scripts/padenable_reference.spice` caught it (XTGN "iout en iout"). Rows moved apart: MISMATCHES 0 on
+all four.
+
+Repo-level `scripts/xsheet.py`: the sheet/symbol/CACE-template helpers shared by the generators.
+
+## 21:00 — pads
+
+- `gf180mcu_IOPadDiff2Single` (was ports only): xbias ClassABBiasIn ← xref BiasRefEnable ← iref; xdrv
+  ClassABDriver with vfb = out; xen DriverEnable; xinv EnableInv. Ports `vdd vss vddo vsso inp inn vref out iref en`.
+  Bias enters as a current. Block level, pins by stub + label (`scripts/gen_iopad_d2s.py`).
+- `gf180mcu_IOPadSingle2Diff`: InputEnable behind the CDM network (in_prot → in_en, parked on vcm), EnableInv;
+  new port `en`, last (`scripts/add_input_enable.py`, a one-time edit of the existing sheet and symbol).
+- macro xschemrc files append the sibling macros they instantiate (`../../../<Macro>/schematic/xschem`).
+- Cloud note: the xschem / Tcl here rejects the UTF-8 BOM at the start of the IOPad and top-level xschemrc files
+  (every symbol "IS MISSING", netlist empty). The cloud netlisting runs from a BOM-stripped mirror; the files on
+  the computer keep their BOM. (The 2026-10-06 note that 3.4.8 accepts the BOM was wrong for this build.)
+
+## 21:05 — CACE: ClassABBiasIn, ClassABBiasOut (`macros/ClassABBias/verification/cace`)
+
+Three parameters each: bias-current errors over 5 MOS corners × −40/27/125 °C × 3.0/3.3/3.6 V; DC line
+sensitivity (vdd = vddo 3.0 → 3.6 V); local mismatch, 100 iterations. All pass the placeholder limits:
+
+| | In | Out |
+|---|---|---|
+| errors over PVT | −1.7 … +2.9 % | −1.5 … +3.4 % |
+| line sensitivity vbn / vabp | 0.8–1.3 / 0.6–1.1 %/V | 0.19–0.23 / 0.8–1.3 %/V |
+| mismatch, 100 runs, extremes | −1.7 … +3.6 % | −1.7 … +3.8 % |
+| Idd (vdd + vddo, without iref) | 24.0–24.4 µA | 29.0–29.3 µA |
+
+CACE lessons (worth keeping): a condition named like a pin (`iref`) took a value of its own (1 mA) — renamed
+`i_ref`; every parameter must state the conditions it does not sweep (vdd defaulted to 3.0 V, the pin's Vmin);
+`CACE{...}` in a symbol's `value=` must be brace-escaped or xschem eats it; for a unit of `%` CACE shows
+100 × the echoed value, so fractions are echoed; `off` is YAML for false.
+
+## 21:20 — CACE: ClassABDriverBiased (`macros/ClassABDriver/verification/cace`)
+
+DUT = ClassABDriver + ClassABBiasIdeal (the IHP d2s_mpdda_biased fixture). 45 + 15 + 9 + 15 + 3 runs, 6 min:
+
+- DC over PVT: gain 0.49943–0.50007, offset 0.013–0.72 mV, I_Q 205–223 µA, Idd 289–307 µA. INL 0.02–3.5 mV,
+  fails the 2 mV placeholder only at ss/3.0 V/−40 °C (input pairs out of headroom at vref ± 0.2 V, as on IHP).
+- Loop over corners and temperature: T0 59–97 dB, f_c 1.31–1.47 MHz, PM 68–76°.
+- Loop vs load (50 Ω / 1 kΩ / open × 10 p / 100 p / 1 nF): PM 24.9° at 1 nF fails, as on IHP.
+- Step ±0.25 V: overshoot ≤ 0.3 %, 2.0–2.8 V/µs, 1 % settling 250–415 ns. Noise 10 Hz–10 MHz 245–251 µV.
+- ngspice noise does not run with `option KLU` (the OAB template options); the driver templates use the sparse
+  solver. Vectors of an earlier plot are read as `op1.<vec>` after a later analysis.
+EOF
+echo ok
+```
+
+</details>
+
+*[Called mcp__remote-devices__device_list_dir (1 lines of output).]*
+
+*[Name CACE output logs for the notes folder (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /mnt/user-data/outputs/log1 && for f in cace_ClassABBiasIn cace_ClassABBiasOut cace_ClassABDriverBiased; do cp $f.out 2026-10-08_opus_$f.out; done; ls -la
+```
+
+</details>
+
+*[Check the two bias CACE logs differ (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /mnt/user-data/outputs/log1 && cmp cace_ClassABBiasIn.out cace_ClassABBiasOut.out && echo SAME; grep -m2 "ClassABBias" cace_ClassABBiasIn.out cace_ClassABBiasOut.out | head; rm cace_*.out; ls; wc -c 2026-10-08_opus_classab_port_log.md
+```
+
+</details>
+
+*[Copied 4 files from the cloud container to the computer (1 lines of output).]*
+
+*[Write pad CACE generator and run the suite (in the cloud container; 19 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace/templates && cat > /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/scripts/gen_cace.py <<'PYEOF'
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+"""Writes the CACE datasheet and templates of gf180mcu_IOPadDiff2Single (driver + bias tree + enables), GF180MCU,
+2026-10-08, proof of concept: enabled DC transfer, disabled state, enable transient (subset of the IHP power_down
+checks, power_down/log.md 20:45). After the first run, edit the generated files, not this script.
+The reference current comes from a behavioural source between vdd and iref that loses its compliance near vdd
+(Bref: I = CACE{i_ref} * tanh(V(vdd, iref) / 0.1 V)), a stand-in for an external PMOS source; with the pad
+disabled the transmission gate is open and Bref runs out of compliance instead of forcing the node.
+Usage: gen_cace.py <gf180mcu_IOPadDiff2Single macro dir>"""
+import os, sys
+MAC = os.path.abspath(sys.argv[1])
+sys.path.insert(0, os.path.join(MAC, "..", "..", "scripts"))
+from xsheet import cace_template, sym_pins
+
+CELL = "gf180mcu_IOPadDiff2Single"
+OPTS = ".options savecurrents reltol=1e-4 abstol=1e-12 gmin=1e-15\n"
+OUT = "echo {vals} > CACE{{simpath}}/CACE{{filename}}_CACE{{N}}.data\n"
+STIM = ("Bref vdd iref I=CACE{i_ref}*tanh(max(v(vdd,iref),0)/0.1)\n"
+        "Ep inp vref dp 0 0.5\nEn inn vref dp 0 -0.5\nRL out vref CACE{rload}\nCL out 0 CACE{cload}\n")
+
+def templates(tdir):
+    pins = sym_pins(os.path.join(MAC, "schematic", "xschem", CELL + ".sym"))
+    conns = dict(vdd="vdd", vss="0", vddo="vddo", vsso="0", inp="inp", inn="inn", vref="vref", out="out", iref="iref", en="en")
+    src = [("Vvdd", "CACE{vdd}", "vdd", "0"), ("Vvddo", "CACE{vdd}", "vddo", "0"), ("Vref", "CACE[CACE{vdd}/2]", "vref", "0")]
+    note = ("gf180mcu_IOPadDiff2Single (x1): bias tree x1.xbias fed through x1.xref from iref, driver x1.xdrv (vfb = out),\n"
+            "enable switches x1.xen, inverter x1.xinv. vddo = vdd from its own source, vsso = vss, vref = vdd/2.\n"
+            "Bref (NGSPICE block): reference current CACE{i_ref} into iref from vdd, compliance lost near vdd.\n"
+            "Stimulus inp - vref = vd/2, inn - vref = -vd/2; load CACE{rload} to vref || CACE{cload}.")
+    en_src = ("Ven en 0 CACE{en_v}\n")
+    dc = (OPTS + en_src + "Vd dp 0 0\n" + STIM + ".control\nsave all\nop\n"
+          "let iqp = abs(@m.x1.xdrv.xop.m0[id])\nlet idd = -i(Vvdd) - i(Vvddo)\n"
+          "dc Vd -0.4 0.4 0.01\nlet vo = v(out) - v(vref)\n"
+          "meas dc vop find vo at=0.2\nmeas dc von find vo at=-0.2\nmeas dc vos find vo at=0\nlet gain = (vop - von)/0.4\n"
+          "let iq_p = op1.iqp\nlet i_dd = op1.idd\n" + OUT.format(vals="$&gain $&vos $&iq_p $&i_dd") + ".endc\n")
+    cace_template(os.path.join(tdir, f"{CELL}_tb_on.sch"), f"Template: enabled DC transfer - {CELL}",
+                  note + "\nen = CACE{en_v} (vdd). Idd = vdd + vddo, including the 5 uA reference current.", f"{CELL}.sym", pins, conns, src, dc)
+    off = (OPTS + en_src + "Vd dp 0 0\n" + STIM + ".control\nsave all\nop\n"
+           "let idd_off = -i(Vvdd) - i(Vvddo)\nlet va_off = v(vddo) - v(x1.a)\nlet vb_off = v(x1.b)\n"
+           "let vout_off = v(out) - v(vref)\nlet iref_n = v(x1.iref_en)\n"
+           + OUT.format(vals="$&idd_off $&va_off $&vb_off $&vout_off $&iref_n") + ".endc\n")
+    cace_template(os.path.join(tdir, f"{CELL}_tb_off.sch"), f"Template: disabled state - {CELL}",
+                  note + "\nen = 0: OP / ON gates a, b held at vddo / vsso; Idd = vdd + vddo (Bref included, out of compliance).",
+                  f"{CELL}.sym", pins, conns, src, off)
+    ena = (OPTS + "Ven en 0 pwl(0 0 1u 0 1.01u CACE{vdd})\nVd dp 0 0\n" + STIM + ".control\nsave all\n"
+           "tran 5n 31u 0 20n\nlet vo = v(out) - v(vref)\n"
+           "meas tran glitch_max max vo from=1u to=31u\nmeas tran glitch_min min vo from=1u to=31u\n"
+           "let glitch = max(abs(glitch_max), abs(glitch_min))\n"
+           "let outside = abs(vo) gt 1e-3\nlet t_on = vecmax(time * outside) - 1u\n"
+           "meas tran iq_on find @m.x1.xdrv.xop.m0[id] at=30u\nlet iqp = abs(iq_on)\n"
+           + OUT.format(vals="$&glitch $&t_on $&iqp") + ".endc\n")
+    cace_template(os.path.join(tdir, f"{CELL}_tb_enable.sch"), f"Template: enable transient - {CELL}",
+                  note + "\nen rises at 1 us (10 ns edge), vd = 0. glitch = max |out - vref| after the edge; t_on = time after the edge\n"
+                  "until out stays within 1 mV of vref. OP's current is saved for the end value.",
+                  f"{CELL}.sym", pins, conns, src, ena.replace(".control\nsave all\n", ".save all @m.x1.xdrv.xop.m0[id]\n.control\n"))
+
+def spec(name, disp, desc, unit, mn, typ, mx):
+    f = lambda x: "{value: %s}" % x
+    return (f"      {name}:\n        display: {disp}\n        description: '{desc}'\n        unit: '{unit}'\n"
+            f"        minimum: {f(mn)}\n        typical: {f(typ)}\n        maximum: {f(mx)}\n")
+
+def tool(t, variables):
+    return (f"    tool:\n      ngspice:\n        template: {CELL}_tb_{t}.sch\n        format: ascii\n        suffix: .data\n"
+            f"        variables: [{', '.join(variables)}]\n")
+
+def conds(**kw):
+    s = "    conditions:\n"
+    for k, v in kw.items():
+        s += f"      {k}:\n" + (f"        enumerate: [{', '.join(map(str, v))}]\n" if isinstance(v, list) else f"        typical: {v}\n")
+    return s
+
+def plot(name, x, y):
+    return f"      {name}:\n        type: xyplot\n        xaxis: {x}\n        yaxis: {y}\n        limits: auto\n"
+
+def yaml():
+    pins = ""
+    for p, d, t in [("vdd", "Analog supply (front end, bias, enables)", "power"), ("vss", "Ground", "ground"),
+                    ("vddo", "Output-stage supply (OP, RP1, SA)", "power"), ("vsso", "Output-stage ground (ON, RN1, SB)", "ground"),
+                    ("inp", "Positive input", "signal"), ("inn", "Negative input", "signal"), ("vref", "Output reference", "signal"),
+                    ("out", "Pad output, out - vref = (inp - inn)/2", "signal"), ("iref", "Reference current input, 5 uA into the pin", "signal"),
+                    ("en", "Enable, active high, 0 / vdd", "digital")]:
+        pins += f"  {p}:\n    description: {d}\n    type: {t}\n    direction: inout\n" + ("    Vmin: 3.0\n    Vmax: 3.6\n" if p == "vdd" else "")
+    std = dict(vdd=3.3, corner_mos="typical", temp=27, rload=1000, cload="100e-12", i_ref="5e-6")
+    ct = dict(corner_mos=["typical", "ss", "sf", "fs", "ff"], temp=[-40, 27, 125])
+    return f"""# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+#--------------------------------------------------------------
+# CACE circuit characterization file, proof of concept (2026-10-08)
+# Class-AB output pad: ClassABDriver + ClassABBiasIn + PadEnable cells. Subset of the IHP power_down checks.
+# Generated by ../../scripts/gen_cace.py; edit this file from now on. Limits are placeholders.
+#--------------------------------------------------------------
+
+name:           {CELL}
+description:    "Class-AB differential to single-ended pad driver with bias tree and enable, GF180MCU 03v3"
+PDK:            gf180mcuD
+
+cace_format:    5.2
+
+authorship:
+  designer:         Christoph Maier
+  creation_date:    October 8, 2026
+  license:          Apache-2.0
+
+paths:
+  root:             ..
+  schematic:        ../schematic/xschem
+  netlist:          cace/netlist
+  documentation:    cace/_docs
+  runs:             cace/_runs
+
+pins:
+{pins}
+default_conditions:
+  vdd:
+    description: Supply voltage (vdd = vddo)
+    display: VDD
+    unit: V
+    typical: 3.3
+  en_v:
+    description: Enable level
+    display: en
+    unit: V
+    typical: 3.3
+  i_ref:
+    description: Reference current into iref
+    display: Iref
+    unit: A
+    typical: 5e-6
+  corner_mos:
+    description: Process corner MOSFET (sm141064.ngspice section)
+    display: Corner MOSFET
+    typical: typical
+  corner_res:
+    description: Process corner resistors
+    display: Corner resistor
+    typical: res_typical
+  mm:
+    description: Local mismatch switch (sw_stat_mismatch)
+    display: Mismatch
+    typical: 0
+  temp:
+    description: Ambient temperature
+    display: Temperature
+    unit: °C
+    typical: 27
+  rload:
+    description: Load resistor to vref
+    display: R load
+    unit: Ohm
+    typical: 1000
+  cload:
+    description: Load capacitor to vss
+    display: C load
+    unit: F
+    typical: 100e-12
+
+parameters:
+  on_params:
+    spec:
+{spec("gain", "Gain - enabled", "(vo(+0.2 V) - vo(-0.2 V)) / 0.4 V, vo = out - vref", "", 0.495, 0.5, 0.505)}{spec("vos", "Output offset - enabled", "out - vref at vd = 0", "mV", -5, 0, 5)}{spec("iq_p", "OP quiescent current - enabled", "drain current of OP, real bias tree (target 212 uA)", "uA", 100, 212, 500)}{spec("i_dd", "Supply current - enabled", "vdd + vddo, 5 uA reference included", "uA", "any", "any", 600)}{tool("on", ["gain", "vos", "iq_p", "i_dd"])}    plot:
+{plot("iq_p_vs_temp", "temp", "iq_p")}{conds(**dict(std, en_v=3.3, vdd=[3.0, 3.3, 3.6], **ct))}
+  off_params:
+    spec:
+{spec("idd_off", "Supply current - disabled", "vdd + vddo with en = 0", "nA", "any", "any", 100)}{spec("va_off", "OP gate below vddo - disabled", "vddo - v(a)", "mV", -1, 0, 1)}{spec("vb_off", "ON gate above vsso - disabled", "v(b)", "mV", -1, 0, 1)}{spec("vout_off", "Output - disabled", "out - vref (load to vref)", "mV", "any", "any", "any")}{spec("iref_n", "NI gate line - disabled", "v(iref_en), pulled to vss", "mV", "any", "any", 10)}{tool("off", ["idd_off", "va_off", "vb_off", "vout_off", "iref_n"])}    plot:
+{plot("idd_off_vs_temp", "temp", "idd_off")}{conds(**dict(std, en_v=0, **ct))}
+  enable_params:
+    spec:
+{spec("glitch", "Output glitch at enable", "max |out - vref| after en rises, vd = 0", "mV", "any", "any", "any")}{spec("t_on", "Enable time", "en edge until out stays within 1 mV of vref", "us", "any", "any", 20)}{spec("iqp", "OP current after enable", "at 30 us", "uA", 100, 212, 500)}{tool("enable", ["glitch", "t_on", "iqp"])}    plot:
+{plot("t_on_vs_temp", "temp", "t_on")}{conds(**dict(std, **ct))}
+"""
+
+if __name__ == "__main__":
+    tdir = os.path.join(MAC, "verification", "cace", "templates"); os.makedirs(tdir, exist_ok=True)
+    templates(tdir)
+    open(os.path.join(MAC, "verification", "cace", CELL + ".yaml"), "w").write(yaml())
+    print("wrote", CELL)
+PYEOF
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single && python3 scripts/gen_cace.py . && grep -n "save all @m" verification/cace/templates/*enable.sch | head -2; cd verification/cace && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && (time timeout 2400 cace gf180mcu_IOPadDiff2Single.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_d2s.out 2>&1); R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -14 | cut -d'|' -f2,5-11
+```
+
+</details>
+
+*[Show disabled-state results per condition (in the cloud container; 16 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); cat $R/parameters/off_params/simulation_summary.csv
+```
+
+</details>
+
+*[Separate reference supply; rerun pad suite (in the cloud container; 37 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single && python3 - <<'EOF'
+p='scripts/gen_cace.py'; s=open(p).read()
+s=s.replace('STIM = ("Bref vdd iref I=CACE{i_ref}*tanh(max(v(vdd,iref),0)/0.1)\\n"',
+ 'STIM = ("Vsup vsup 0 CACE{vdd}\\nBref vsup iref I=CACE{i_ref}*tanh(max(v(vsup,iref),0)/0.1)\\nRref vsup iref 100Meg\\n"')
+s=s.replace('(Bref: I = CACE{i_ref} * tanh(V(vdd, iref) / 0.1 V)), a stand-in for an external PMOS source; with the pad\ndisabled the transmission gate is open and Bref runs out of compliance instead of forcing the node.',
+ '(Bref: I = CACE{i_ref} * tanh(V(vsup, iref) / 0.1 V), with 100 MOhm output resistance Rref), a stand-in for an external\nPMOS source on its own supply vsup = vdd, so that Idd does not include it. With the pad disabled the transmission gate\nis open and the source runs out of compliance instead of forcing the node.')
+s=s.replace('"Bref (NGSPICE block): reference current CACE{i_ref} into iref from vdd, compliance lost near vdd.\\n"',
+ '"Bref, Rref, Vsup (NGSPICE block): reference current CACE{i_ref} into iref from a separate vsup = vdd, compliance lost near vsup.\\n"')
+s=s.replace('"let vout_off = v(out) - v(vref)\\nlet iref_n = v(x1.iref_en)\\n"\n           + OUT.format(vals="$&idd_off $&va_off $&vb_off $&vout_off $&iref_n")',
+ '"let vout_off = v(out) - v(vref)\\nlet iref_n = v(x1.iref_en)\\nlet iref_off = -i(Vsup)\\n"\n           + OUT.format(vals="$&idd_off $&va_off $&vb_off $&vout_off $&iref_n $&iref_off")')
+s=s.replace('{tool("off", ["idd_off", "va_off", "vb_off", "vout_off", "iref_n"])}',
+ '{spec("iref_off", "Reference current - disabled", "what the external source still delivers into iref", "nA", "any", "any", "any")}{tool("off", ["idd_off", "va_off", "vb_off", "vout_off", "iref_n", "iref_off"])}')
+s=s.replace('"vdd + vddo, 5 uA reference included"','"vdd + vddo; the 5 uA reference comes from its own supply"')
+s=s.replace('"vdd + vddo with en = 0"','"vdd + vddo with en = 0, reference source excluded"')
+s=s.replace('\\nen = CACE{en_v} (vdd). Idd = vdd + vddo, including the 5 uA reference current.','\\nen = CACE{en_v} (vdd). Idd = vdd + vddo (the reference current has its own supply vsup).')
+s=s.replace('Idd = vdd + vddo (Bref included, out of compliance).','Idd = vdd + vddo; iref_off = current still delivered by the reference source.')
+open(p,'w').write(s)
+EOF
+grep -c "vsup" scripts/gen_cace.py; python3 scripts/gen_cace.py . && cd verification/cace && rm -rf _runs _docs netlist && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && (time timeout 2400 cace gf180mcu_IOPadDiff2Single.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_d2s.out 2>&1); R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -15 | cut -d'|' -f2,5-11; cat $R/parameters/off_params/simulation_summary.csv | cut -d, -f1-4,9
+```
+
+</details>
+
+*[Debug disabled-state supply current (in the cloud container; 10 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); f=$R/parameters/off_params/run_01/*.spice; cp $f /tmp/off.spice; python3 - <<'EOF'
+s=open('/tmp/off.spice').read()
+import re
+s=re.sub(r"echo .*\n", "print -i(Vvdd) -i(Vvddo) i(Vref) i(Ven) i(Vsup)\nprint v(vbp) v(vbn) v(vbpc) v(vbnc) v(vabp) v(vabn) v(x1.a) v(x1.b) v(x1.en_b) v(en) v(x1.iref_en) v(iref) v(out)\nprint v(x1.xdrv.x) v(x1.xdrv.y) v(x1.xdrv.l1) v(x1.xdrv.l2)\n", s)
+open('/tmp/off2.spice','w').write(s)
+EOF
+cd /tmp && ngspice -b off2.spice 2>&1 | grep "= " | head -30
+```
+
+</details>
+
+*[Dump device currents in disabled state (in the cloud container; 121 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp && python3 - <<'EOF'
+s=open('/tmp/off2.spice').read()
+import re
+s=re.sub(r"print -i\(Vvdd\).*?\.endc", """let a1 = -i(Vvdd)
+let a2 = -i(Vvddo)
+print a1 a2
+print v(vbp) v(vbn)
+print v(x1.vbpc) v(x1.vbnc) v(x1.vabp) v(x1.vabn)
+print v(x1.a) v(x1.b) v(x1.en_b) v(en) v(x1.iref_en) v(iref) v(out)
+show m : id vgs vds
+.endc""", s, flags=re.S)
+open('/tmp/off3.spice','w').write(s)
+EOF
+ngspice -b off3.spice 2>&1 | grep -v "^ *$" | grep -A400 "a1 =" | head -120
+```
+
+</details>
+
+*[Find largest junction/gate currents (in the cloud container; 13 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp && sed 's/^show m : id vgs vds/show m : ibd ibs igidl igisl igs igd igb/' off3.spice > off4.spice && ngspice -b off4.spice 2>&1 | python3 -c "
+import sys,re
+lines=sys.stdin.read().splitlines()
+devs=[];best=[]
+for l in lines:
+    t=l.split()
+    if not t: continue
+    if t[0]=='device': devs=t[1:]
+    elif t[0] in ('ibd','ibs','igidl','igisl','igs','igd','igb') and devs:
+        for d,v in zip(devs,t[1:]):
+            try: best.append((abs(float(v)),t[0],d))
+            except: pass
+best.sort(reverse=True)
+for b in best[:12]: print(b)
+"
+```
+
+</details>
+
+*[Show resistor and B-source currents (in the cloud container; 30 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp && python3 - <<'EOF'
+s=open('/tmp/off3.spice').read()
+s=s.replace("show m : id vgs vds","op\nlet all = 0\nprint all > /dev/null\nwrite /tmp/off_op.raw all\nshow r : i\nshow b : i")
+open('/tmp/off5.spice','w').write(s)
+EOF
+ngspice -b off5.spice 2>&1 | grep -A12 "Resistor\|Behav" | head -60; grep -c "" /tmp/off_op.raw 2>/dev/null
+```
+
+</details>
+
+*[Test numerical sensitivity of disabled Idd (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp && for o in ".options reltol=1e-4 abstol=1e-12 gmin=1e-15" ".options gmin=1e-12" ".options reltol=1e-6 abstol=1e-15 gmin=1e-15 itl1=500"; do sed "s/^\.options savecurrents reltol=1e-4 abstol=1e-12 gmin=1e-15/$o/" off3.spice | sed 's/^show m : id vgs vds//' > off6.spice; echo "$o: $(ngspice -b off6.spice 2>&1 | grep -E '^a1|^a2' | tr '\n' ' ')"; done
+```
+
+</details>
+
+*[Use gmin 1e-12 for the disabled test; rerun pad suite in background (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single && python3 - <<'EOF'
+p='scripts/gen_cace.py'; s=open(p).read()
+s=s.replace('''    off = (OPTS + en_src''','''    # gmin = 1e-12 here: with every current root switched off, most nodes float; at gmin = 1e-15 the operating
+    # point leaves KCL residues of tens of uA on the supplies (checked 2026-10-08: 17 uA, sign changing with the
+    # tolerances), at 1e-12 the supply current is the leakage (tens of pA at 27 C)
+    off = (OPTS.replace("gmin=1e-15", "gmin=1e-12") + en_src''')
+open(p,'w').write(s)
+EOF
+python3 scripts/gen_cace.py . && grep -c "gmin=1e-12" verification/cace/templates/*off.sch && cd verification/cace && rm -rf _runs _docs netlist && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && nohup sh -c "timeout 2400 cace gf180mcu_IOPadDiff2Single.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_d2s.out 2>&1" > /dev/null 2>&1 &
+echo started
+```
+
+</details>
+
+*[Confirm template change and run started (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single; grep -c "gmin=1e-12" verification/cace/templates/*_tb_off.sch verification/cace/templates/*_tb_on.sch; sleep 5; tail -3 /tmp/cace_d2s.out
+```
+
+</details>
+
+*[Tie the new en pin high in Single2Diff testbench and template (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff && for f in verification/cace/templates/gf180mcu_IOPadSingle2Diff_tb_input.sch testbenches/xschem/gf180mcu_IOPadSingle2Diff_tb_dc.sch; do grep -n "gf180mcu_IOPadSingle2Diff.sym\|560 -320\|540 -320" $f; printf 'N 560 -320 520 -320 {lab=vdd}\nC {devices/lab_pin.sym} 520 -320 0 0 {name=l40 sig_type=std_logic lab=vdd}\nT {en tied to vdd (pad enabled); added 2026-10-08} 380 -350 0 0 0.2 0.2 {}\n' >> $f; done; grep -n "l40\|name=l4 \|540 -280" testbenches/xschem/gf180mcu_IOPadSingle2Diff_tb_dc.sch | head
+```
+
+</details>
+
+*[Netlist and run updated Single2Diff testbench (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; TOPSUB=0 /home/claude/work/gf/cloud/nl.sh /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/gf180mcu_IOPadSingle2Diff_tb_dc.sch; grep -i "^xdut" /tmp/nl/gf180mcu_IOPadSingle2Diff_tb_dc.spice; cd /tmp/nl && timeout 300 ngspice -b gf180mcu_IOPadSingle2Diff_tb_dc.spice 2>&1 | grep -iE "error|= " | head
+```
+
+</details>
+
+*[Write ClassABBias README (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+~~~~sh
+mkdir -p /home/claude/work/gf/macros/ClassABBias/testbenches/xschem /home/claude/work/gf/macros/PadEnable/testbenches/xschem; cat > /home/claude/work/gf/macros/ClassABBias/README.md <<'EOF'
+<!--
+SPDX-FileCopyrightText: 2026 Christoph Maier
+SPDX-License-Identifier: Apache-2.0
+-->
+# ClassABBias (GF180MCU)
+
+Bias of the class-AB pad driver (`../ClassABDriver`): six bias lines, generated by diode-connected devices on the
+rail of the devices they bias, so that bias crosses from block to block as currents only.
+
+| line | current | diode | biases (in ClassABDriver) |
+|---|---|---|---|
+| vbp | 5 µA out of | BP 20u/6u nf=2 | DDA unit tails Ta, Tb |
+| vbn | 5 µA into | BN 6u/6u | fold sinks SX, SY |
+| vbpc | 2 µA out of | BPC 1u/4u | mirror cascodes PCL, PCR |
+| vbnc | 2 µA into | BNC 1u/8u | fold cascodes CX, CY |
+| vabp | 5 µA out of | RP2 6.66u/0.6u on RP1 12u/0.6u nf=2 | class-AB control ABP, FPL |
+| vabn | 5 µA into | RN2 4.4u/1u on RN1 8u/1u nf=2 | class-AB control ABN, FNL |
+
+RP1 and RN1 are the replicas of the output devices OP and ON and sit on the output-stage rails vddo / vsso, like
+OP and ON: any voltage between vdd and vddo adds to the translinear loop and moves the quiescent current. In layout,
+RP1's source is taken from OP's source rail and RN1's from ON's (Kelvin). RP2's n-well stays on vdd, like ABP's.
+
+**Status: proof of concept (2026-10-08).** Schematics, symbols and CACE suites; no layout. Port of the IHP
+sg13cmos5l design notes (`sg13cmos5l_..._sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver/improvements/`:
+`bias.md`, `sim/d2s_bias_ref.spice`, `xschem/d2s_bias_*.sch`), 03v3 devices at 3.3 V.
+
+## Cells
+
+| cell | IHP sheet | ports | content |
+|---|---|---|---|
+| `ClassABBiasIn` | `d2s_bias_in` | vdd vss vddo vsso iref vbp vbn vbpc vbnc vabp vabn | variant 1: 5 µA **into** iref (external PMOS source) → NMOS input diode NI 6u/6u; NI's gate line drives the sinks out of the PMOS diodes, BP's gate line the sources into the NMOS diodes |
+| `ClassABBiasOut` | `d2s_bias_out` | same | variant 2: 5 µA **out of** iref (external NMOS sink) → PMOS input diode PI 20u/6u |
+| `ClassABBiasIdeal` | `d2s_bias_lp` | vdd vss vddo vsso + six lines | test fixture: ideal currents into the same six diodes (used by `ClassABDriverBiased`) |
+
+Each sheet is flat at transistor level, as on IHP: reference [R], mirror tree and the six diodes [8]. The two
+self-contained IHP variants (Oguey–Aebischer `d2s_bias_oa`, bandgap `d2s_bias_bg`) are not ported yet; both need
+a real re-design for GF180 (weak-inversion sizing; the bandgap's PTAT/CTAT balance relied on rhigh's TC, and the
+vertical PNPs of GF180 have fixed geometry).
+
+The pad (`../gf180mcu_IOPadDiff2Single`) uses `ClassABBiasIn` behind `PadEnable/BiasRefEnable`.
+
+## Sizing (re-derived for GF180, 2026-10-08)
+
+Started from the IHP geometry; changed where GF180 simulation required it (details: notes worktree,
+`logs/main/2026-10-08_opus_classab_port_log.md`):
+
+- vbp diode BP and its copies 5u/6u → 20u/6u nf=2, together with the DDA unit tails: at ss/3.0 V/−40 °C the
+  5u/6u tails had V_DS 0.35 V below V_DSsat 0.43 V.
+- RP1 13.32u → 12u/0.6u, RN1 8.8u → 8u/1u: quiescent current of the driver 212 µA, as on IHP.
+- NBPC 2.4u → 2.5u/6u: narrow-width error of the 2 µA line −3.6 % → +0.7 %.
+
+The source of the port is `../ClassABDriver/scripts/gf180_sizing.spice`; `port_classab_from_ihp.py` and
+`check_classab_port.py` there drew the sheets from the IHP drawings and compare xschem's netlists with it
+(MISMATCHES 0 on 2026-10-08).
+
+## CACE (`verification/cace/`, results in `verification/cace/results/<cell>/`)
+
+```
+cd verification/cace
+cace ClassABBiasIn.yaml -s schematic --nofail -j 4 --parallel-parameters 1
+```
+
+Three parameters per cell, about 1 min each: bias-current errors over 5 MOS corners × −40/27/125 °C × 3.0/3.3/3.6 V,
+DC line sensitivity (vdd = vddo 3.0 → 3.6 V), local mismatch (100 iterations). Limits are placeholders.
+
+| | ClassABBiasIn | ClassABBiasOut |
+|---|---|---|
+| current errors over PVT | −1.7 … +2.9 % | −1.5 … +3.4 % |
+| line sensitivity vbn / vabp | 0.8–1.3 / 0.6–1.1 %/V | 0.19–0.23 / 0.8–1.3 %/V |
+| mismatch, 100 runs, extremes | −1.7 … +3.6 % | −1.7 … +3.8 % |
+| supply current (without iref) | 24 µA | 29 µA |
+
+Generated by `scripts/gen_cace.py`; edit the yaml and templates from now on. Currents are read as
+`@m.x1.<device>.m0[id]` of the diodes inside the DUT; errors are echoed as fractions because CACE shows a unit of
+`%` as 100 × the value.
+
+## Open points
+
+- Enable: the switches live in `../PadEnable` (BiasRefEnable cuts iref and pulls NI's gate line low).
+  `ClassABBiasOut` would need the mirror image of BiasRefEnable (pull PI's gate line to vdd); not drawn yet.
+- Which reference feeds iref, and how many pads share it, is not decided; the bias tree is meant to sit in each pad.
+- No layout. RP1 / RN1 need the Kelvin connection to OP's / ON's source rails.
+EOF
+echo ok
+~~~~
+
+</details>
+
+*[Write ClassABDriver and PadEnable READMEs (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+~~~~sh
+cat > /home/claude/work/gf/macros/ClassABDriver/README.md <<'EOF'
+<!--
+SPDX-FileCopyrightText: 2026 Christoph Maier
+SPDX-License-Identifier: Apache-2.0
+-->
+# ClassABDriver (GF180MCU)
+
+Class-AB differential → single-ended driver for an analog output pad: matched-pair DDA input (four identical
+units), folded cascode, class-AB output OP / ON with a floating class-AB control, Miller compensation with MOS
+capacitors. With vfb tied to vout: **vout − vref = (vinp − vinn)/2** for any matched, odd unit law.
+
+**Status: proof of concept (2026-10-08).** Port of the IHP sg13cmos5l design `d2s_mpdda`
+(`sg13cmos5l_..._sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver/improvements/`: `log.md`,
+`proposed_improvements.md`, `sim/d2s_mpdda.spice`, `xschem/d2s_mpdda.sch`), 03v3 devices at 3.3 V. No layout.
+
+## Cells
+
+| cell | IHP sheet | ports | content |
+|---|---|---|---|
+| `ClassABDriver` | `d2s_mpdda` | vdd vss vddo vsso vinp vinn vref vout vfb vbp vbn vbpc vbnc vabp vabn **a b** | the driver; `a`, `b` (gates of OP / ON) are ports for the enable switches (`../PadEnable/DriverEnable`) |
+| `ClassABUnitR` | `unit_r2` | x y gp gn vdd vss vbp | DDA unit: split-tail PMOS pair, ppolyf_u_3k between the sources |
+| `ClassABDriverBiased` | `d2s_mpdda_biased` | as ClassABDriver without a, b | CACE fixture: ClassABDriver + `../ClassABBias/ClassABBiasIdeal`; bias lines are pins for perturbation |
+
+Blocks ([1]–[7] on the sheet, as on IHP): [1] DDA units A, B, C1, C2; [2] fold sinks SX, SY and cascodes CX, CY;
+[3] cascoded PMOS mirror; [4] class-AB control ABP / ABN; [5] its copy FPL / FNL; [6] output devices; [7] Miller
+capacitors. The output devices sit on their own rails vddo / vsso.
+
+## Sizing (re-derived for GF180, 2026-10-08)
+
+| | IHP sg13_hv | GF180 03v3 | why |
+|---|---|---|---|
+| unit tails Ta, Tb | 5u/6u | 20u/6u nf=2 | headroom at ss/3.0 V/−40 °C (V_DS 0.35 V < V_DSsat 0.43 V; INL 6 mV → 0.37 mV) |
+| degeneration R | rhigh 0.5u/50.6u | ppolyf_u_3k 1u/50u (≈ 150 kΩ) | GF180 high-R poly; TC −0.17 %/K instead of −0.22 %/K |
+| OP | 546.12u/0.6u ng=82 | 91.02u/0.6u nf=14 **m=6** | GF180 model bins end at W = 100 µm per instance (total W, not W/nf) |
+| ON | 290.4u/1u ng=66 | 96.8u/1u nf=22 **m=3** | same |
+| CMA, CMB | hv PMOS 16u/16u | pfet_03v3 16u/16u (accumulation) | — |
+| everything else | | unchanged | GF180 03v3 behaves much like sg13_hv here |
+
+The replicas RP1 / RN1 in the bias were trimmed for I_Q = 212 µA (see `../ClassABBias`).
+
+`scripts/port_classab_from_ihp.py` drew the GF180 sheets from the hand-edited IHP drawings (wires and placement
+kept; GF180 FET symbols have the sg13_hv pin geometry), with the sizes from `scripts/gf180_sizing.spice`.
+`scripts/check_classab_port.py` compares xschem's netlist of each sheet with that file device by device:
+
+```sh
+xschem --rcfile schematic/xschem/xschemrc -n -s -q -x --tcl "set top_is_subckt 1" -o /tmp schematic/xschem/ClassABDriver.sch
+python3 scripts/check_classab_port.py scripts/gf180_sizing.spice /tmp/ClassABDriver.spice d2s_mpdda ClassABDriver a b
+```
+
+MISMATCHES 0 for all ported cells on 2026-10-08 (bias cells: reference subckts `d2s_bias_lp`, `d2s_bias_in`,
+`d2s_bias_out`). After this port, the sheets are the source of truth.
+
+## Testbenches (`testbenches/xschem/`, ported IHP decks)
+
+| sheet | result (tt, 27 °C, 3.3 V, 1 kΩ ∥ 100 pF) |
+|---|---|
+| `ClassABDriver_tb_dc` | gain 0.49999, offset 0.017 mV, nonlinearity 1.5 mV over ±1 V, I_Q 212.8 µA, Idd 297 µA |
+| `ClassABDriver_tb_loop` | T0 93.1 dB, f_c 1.40 MHz, PM 72.7° (IHP 78.9 dB, 1.37 MHz, 72.4°) |
+| `ClassABDriver_tb_step` | ±0.25 V step: no overshoot, 2.4 V/µs |
+| `ClassABDriver_tb_thd` | 0.145 % at 10 kHz, 1 V differential (IHP 0.119 %) |
+| `ClassABDriver_tb_noise` | 249 µV, 10 Hz … 10 MHz |
+| `ClassABDriver_tb_op` | operating point and saturation margins of every device |
+
+The decks' IHP `.lib` lines are replaced by a MODELS block (`$::180MCU_MODELS/sm141064.ngspice typical`,
+`res_typical`, `moscap_typical`).
+
+## CACE (`verification/cace/`, results in `verification/cace/results/ClassABDriverBiased/`)
+
+DUT `ClassABDriverBiased`; 87 runs, about 6 min on two cores. Limits: IHP d2s_miller_biased draft where it had
+one, otherwise placeholders.
+
+| parameter | conditions | result |
+|---|---|---|
+| gain | 5 corners × −40/27/125 °C × 3.0/3.3/3.6 V | 0.49943 … 0.50007 |
+| offset | same | 0.013 … 0.72 mV |
+| INL (vout − vref within ±0.2 V) | same | 0.02 … 3.5 mV; **fails 2 mV at ss/3.0 V/−40 °C** (input-pair headroom, as on IHP) |
+| I_Q (OP / ON) | same | 205 … 223 µA |
+| loop T0 / f_c / PM | 5 corners × 3 temperatures | 59–97 dB / 1.31–1.47 MHz / 68–76° |
+| PM vs load | 50 Ω, 1 kΩ, open × 10 p, 100 p, 1 nF | **24.9° at 1 nF fails**, as on IHP (Miller loop sized for 100 pF) |
+| step | 5 corners × 3 temperatures | overshoot ≤ 0.3 %, 2.0–2.8 V/µs, 1 % settling 250–415 ns |
+| output noise | typical, ss, ff | 245–251 µV |
+
+```
+cd verification/cace
+cace ClassABDriverBiased.yaml -s schematic --nofail -j 4 --parallel-parameters 1
+```
+
+Generated by `scripts/gen_cace.py`; edit the yaml and templates from now on. Stimulus and load are element lines
+in the NGSPICE block. The templates use ngspice's sparse solver: noise analysis does not run with `option KLU`.
+
+## Open points (from the IHP notes, unchanged by the port)
+
+- Supply rejection of the output-stage rails is only the loop gain (Miller capacitors tie a / b to vout).
+- FPL carries only ~10 nA (IHP: ~1 nA): the copy of the class-AB control in the mirror input branch.
+- Input common-mode headroom at 3.0 V, cold, slow corner.
+- Whether OP / ON double as the pad's ESD clamps (IHP case (a)) depends on the GF180 pad frame; not modelled.
+EOF
+cat > /home/claude/work/gf/macros/PadEnable/README.md <<'EOF'
+<!--
+SPDX-FileCopyrightText: 2026 Christoph Maier
+SPDX-License-Identifier: Apache-2.0
+-->
+# PadEnable (GF180MCU)
+
+Enable circuits of the analog pads, as cells of their own instead of switches spread through the driver and bias
+cells (as in the IHP `power_down/` study, 2026-10-06, whose switch plan they implement). `en` is active high,
+0 / vdd; every switch is **on while disabled** and off while enabled.
+
+**Status: proof of concept (2026-10-08).** Schematics and symbols; tested inside the pads
+(`../gf180mcu_IOPadDiff2Single` CACE `off_params`, `enable_params`). No layout.
+
+| cell | ports | devices (03v3) | function |
+|---|---|---|---|
+| `EnableInv` | vdd vss en en_b | MP 2u/0.5u, MN 1u/0.5u | en_b for the other cells, one per pad. A 1.2 V → 3.3 V level shifter replaces it when the enable comes from 1.2 V logic |
+| `DriverEnable` | vdd vss vddo vsso en en_b a b vabp vabn | SA, SABP (pfet), SB, SABN (nfet), 1u/0.5u | disabled: a (gate of OP) → vddo, b (gate of ON) → vsso, so OP / ON are off with their gates tied to their own rails as in a clamp; vabp → vdd, vabn → vss, otherwise ABP / ABN would conduct from the a pull-up into the b pull-down |
+| `BiasRefEnable` | vdd vss en en_b iin iout | TGN, TGP, TDN 1u/0.5u | transmission gate iin → iout (the bias tree's iref) while enabled; disabled: open, and TDN pulls iout (gate line of the NMOS input diode NI) to vss. The external reference is not relied on to switch off |
+| `InputEnable` | vdd vss en en_b pin pout vpark | TGN1/TGP1, TGN2/TGP2 4u/0.5u | input switch behind the CDM network: pin → pout while enabled; disabled: pout parked on vpark (the common-mode reference) |
+
+SA and SB sit on the output-stage rails: SA's n-well on vddo, SB in ON's tap ring on vsso.
+
+`scripts/gen_padenable.py` wrote the sheets and symbols (rails as wires, sources and bulks wired to them, gates
+and drains by stub and label); `scripts/padenable_reference.spice` is the reference netlist, checked with
+`../ClassABDriver/scripts/check_classab_port.py` (MISMATCHES 0). The first draft had a PMOS and an NMOS drain stub
+meet at one point, which merged iin with iout; the round trip caught it.
+
+## What the IHP study found that carries over (not re-simulated here unless stated)
+
+- The bias lines without a switch (vbp, vbpc, vbn, vbnc) only carry leakage once the roots are off.
+- Unpowered (no supply, en floating or 0): the pull-ups have no gate drive; ESD protection has to come from the
+  pad's own network. Not modelled in GF180 yet.
+- At enable, a and b are released at once while the bias is still coming up: an output glitch. GF180 pad CACE:
+  170–490 mV, settled within 1 mV after 1.3–1.5 µs.
+EOF
+echo ok; tail -3 /tmp/cace_d2s.out
+~~~~
+
+</details>
+
+*[Read current pad READMEs (in the cloud container; 51 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/README.md; cat /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/README.md
+```
+
+</details>
+
+*[Read top-level README macro sections and CLAUDE.md (in the cloud container; 96 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; grep -n "macros\|OgueyAebischer\|IOPad" $U/README.md | head -40; echo ----; cat $U/CLAUDE.md | sed -n 1,80p
+```
+
+</details>
+
+*[Copy top-level docs into work tree and read sections to edit (in the cloud container; 153 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; W=/home/claude/work/gf; mkdir -p $W/schematic/xschem $W/docs; cp $U/schematic/xschem/xschemrc $W/schematic/xschem/; cp $U/README.md $U/CLAUDE.md $U/HANDOVER_gf180_migration.md $W/; cp $U/docs/IHP_TO_GF180_PORT_MAP.md $U/docs/OPERATING_LIMITS.md $W/docs/; chmod u+w -R $W/schematic $W/docs $W/*.md; sed -n 70,96p $W/README.md; sed -n 145,200p $W/README.md; cat $W/docs/IHP_TO_GF180_PORT_MAP.md | tail -30; tail -40 $W/HANDOVER_gf180_migration.md
+```
+
+</details>
+
+Now the top-level edits.
+
+*[Edit top-level xschemrc, README, CLAUDE.md, port map, handover (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf && python3 - <<'EOF'
+import re
+def edit(p, pairs):
+    s = open(p, encoding='utf-8').read()
+    for a, b in pairs:
+        assert a in s, (p, a[:60])
+        s = s.replace(a, b, 1)
+    open(p, 'w', encoding='utf-8').write(s)
+
+edit('schematic/xschem/xschemrc', [(
+ "source [file dirname [info script]]/../../macros/OgueyAebischerBias/schematic/xschem/xschemrc\n",
+ "source [file dirname [info script]]/../../macros/OgueyAebischerBias/schematic/xschem/xschemrc\n"
+ "source [file dirname [info script]]/../../macros/ClassABBias/schematic/xschem/xschemrc\n"
+ "source [file dirname [info script]]/../../macros/ClassABDriver/schematic/xschem/xschemrc\n"
+ "source [file dirname [info script]]/../../macros/PadEnable/schematic/xschem/xschemrc\n")])
+
+edit('README.md', [
+ ("│  └─ 📁 gf180mcu_IOPadDiff2Single/  # D2S class-AB driver + analog output pad, same structure\n",
+  "│  ├─ 📁 gf180mcu_IOPadDiff2Single/  # D2S class-AB driver + analog output pad, same structure\n"
+  "│  ├─ 📁 ClassABDriver/  📁 ClassABBias/  📁 PadEnable/   # building blocks of the pads (2026-10-08)\n"
+  "│  └─ 📁 OgueyAebischerBias/         # resistor-free bias reference\n"),
+ ("Has `sim-cace` / `sim-cace-all` targets. Not yet part of `build-macros`.\n",
+  "Has `sim-cace` / `sim-cace-all` targets. Not yet part of `build-macros`.\n"
+  "- **[`macros/ClassABDriver/`](macros/ClassABDriver/README.md)**: the class-AB driver core (matched-pair DDA, folded cascode, class-AB output, Miller compensation) and its CACE fixture `ClassABDriverBiased`; ported from the IHP design notes, re-sized for GF180 (2026-10-08).\n"
+  "- **[`macros/ClassABBias/`](macros/ClassABBias/README.md)**: the driver's bias trees `ClassABBiasIn` / `ClassABBiasOut` (reference current into / out of `iref`) and the ideal fixture `ClassABBiasIdeal`, each with its own CACE suite.\n"
+  "- **[`macros/PadEnable/`](macros/PadEnable/README.md)**: enable cells of the analog pads (`EnableInv`, `DriverEnable`, `BiasRefEnable`, `InputEnable`).\n"
+  "  These three have no Makefile yet (the bridge cannot write Makefiles); run CACE directly in `verification/cace/`.\n"),
+ ("| [`macros/OgueyAebischerBias/testbenches/xschem/xschemrc`](macros/OgueyAebischerBias/testbenches/xschem/xschemrc) | bias macro testbenches |\n",
+  "| [`macros/OgueyAebischerBias/testbenches/xschem/xschemrc`](macros/OgueyAebischerBias/testbenches/xschem/xschemrc) | bias macro testbenches |\n"
+  "| `macros/{ClassABDriver,ClassABBias,PadEnable}/{schematic,testbenches}/xschem/xschemrc` | building blocks of the pads; each also appends the sibling macros it instantiates |\n"),
+ ("   └─ source macros/OgueyAebischerBias/schematic/xschem/xschemrc\n",
+  "   ├─ source macros/OgueyAebischerBias/schematic/xschem/xschemrc\n"
+  "   ├─ source macros/ClassABBias/schematic/xschem/xschemrc\n"
+  "   ├─ source macros/ClassABDriver/schematic/xschem/xschemrc\n"
+  "   └─ source macros/PadEnable/schematic/xschem/xschemrc\n"),
+ ("The macro files do not source each other or the top level, so a macro can be opened and simulated on its own.",
+  "The macro files do not source each other or the top level, so a macro can be opened and simulated on its own. A macro that instantiates cells of another macro (the pads, `ClassABDriver`) appends that macro's `schematic/xschem` folder with a relative path instead (`../../../<Macro>/schematic/xschem`)."),
+])
+
+edit('CLAUDE.md', [(
+ "port-only skeleton of `macros/gf180mcu_IOPadDiff2Single`. **No layout exists**;",
+ "port-only skeleton of `macros/gf180mcu_IOPadDiff2Single`.\n"
+ "**2026-10-08:** class-AB driver port, proof of concept: `macros/ClassABDriver` (driver core + CACE fixture),\n"
+ "`macros/ClassABBias` (bias trees In/Out + ideal fixture), `macros/PadEnable` (enable cells); the output pad\n"
+ "`gf180mcu_IOPadDiff2Single` now instantiates them, the input pad got `InputEnable` and an `en` port. CACE suites run\n"
+ "in the cloud for all of them (results in each `verification/cace/results/`). Running log:\n"
+ "`_sudelbuecher/sudelbuecher/logs/main/2026-10-08_opus_classab_port_log.md`. **No layout exists**;")])
+
+edit('docs/IHP_TO_GF180_PORT_MAP.md', [(
+ "| KPEX | supported for IHP |",
+ "| Class-AB driver | `d2s_mpdda` + `unit_r2` (IHP notes worktree `design_considerations/class_ab_pad_driver/improvements/`) | `macros/ClassABDriver`: `ClassABDriver`, `ClassABUnitR`, fixture `ClassABDriverBiased` | 2026-10-08: hand-drawn IHP sheets ported (wires kept), sizes re-derived: tails 20u/6u, OP/ON split with `m` (bin limit), rhigh → `ppolyf_u_3k`; ports `a b` added for the enable |\n"
+ "| Driver bias | `d2s_bias_in`, `_out`, `d2s_bias_lp` (+ `_oa`, `_bg`) | `macros/ClassABBias`: `ClassABBiasIn`, `ClassABBiasOut`, `ClassABBiasIdeal` | 2026-10-08; `_oa` and `_bg` not ported (need a GF180 re-design) |\n"
+ "| Enable / power-down | switches inside every `_pd` cell (`power_down/`) | `macros/PadEnable`: `EnableInv`, `DriverEnable`, `BiasRefEnable`, `InputEnable` | 2026-10-08: same switch plan, as cells of their own; `en` 0 / vdd |\n"
+ "| Degeneration resistor | `rhigh` (body = attribute) | `ppolyf_u_3k` (v), bulk is a pin (M P B) | TC −0.17 %/K vs −0.22 %/K |\n"
+ "| KPEX | supported for IHP |")])
+print("edited")
+EOF
+cat >> HANDOVER_gf180_migration.md <<'EOF'
+
+## 8. 2026-10-08: class-AB driver, its bias and the pad enables (proof of concept)
+
+Requested by Christoph as a smoke test of the schematic and verification flow; the IHP design stays the
+reference and is re-migrated later. Running log with every number and decision:
+`_sudelbuecher/sudelbuecher/logs/main/2026-10-08_opus_classab_port_log.md`.
+
+- New macros: `ClassABDriver` (driver core `ClassABDriver` with ports `a b` for the enable, unit `ClassABUnitR`,
+  CACE fixture `ClassABDriverBiased`, six ported IHP testbenches), `ClassABBias` (`ClassABBiasIn`, `ClassABBiasOut`,
+  fixture `ClassABBiasIdeal`), `PadEnable` (`EnableInv`, `DriverEnable`, `BiasRefEnable`, `InputEnable`).
+- `gf180mcu_IOPadDiff2Single`: block-level sheet (bias tree fed by `iref` through `BiasRefEnable`, driver with
+  vfb = out, `DriverEnable`, `EnableInv`); ports `vdd vss vddo vsso inp inn vref out iref en`.
+- `gf180mcu_IOPadSingle2Diff`: `InputEnable` behind the CDM network (`in_prot` → `in_en`, parked on `vcm`),
+  `EnableInv`, new last port `en`; its testbench and CACE template tie `en` to vdd.
+- CACE suites with results: `ClassABBiasIn`, `ClassABBiasOut`, `ClassABDriverBiased`, `gf180mcu_IOPadDiff2Single`;
+  `gf180mcu_IOPadSingle2Diff` rerun with the enable. All in a cloud container (same tools as §7); **not yet
+  reproduced in IIC-OSIC-TOOLS**.
+- Round trip: every ported or generated sheet netlisted by xschem and compared device by device with its reference
+  netlist (`ClassABDriver/scripts/check_classab_port.py`), MISMATCHES 0.
+
+Not delivered: Makefiles for the three new macros (the bridge refuses Makefiles); not ported: the self-contained
+bias variants `_oa` (Oguey–Aebischer) and `_bg` (bandgap), which need a GF180 re-design; no layout.
+
+Traps found:
+
+- The cloud xschem / Tcl rejects the UTF-8 BOM at the start of the IOPad and top-level `xschemrc` files (every symbol
+  "IS MISSING"). §7 said 3.4.8 accepts it; that was wrong for the cloud build. Netlisting there runs from a
+  BOM-stripped copy; the files in the repo are unchanged.
+- CACE: a condition named like a pin takes a value of its own (`iref` → 1 mA; renamed `i_ref`); state every
+  condition a parameter does not sweep, or a pin's `Vmin` is used; brace-escape `CACE{...}` in symbol `value=`;
+  a unit of `%` is shown as 100 × the echoed value; `off` in a variable list is YAML for false.
+- ngspice: noise analysis refuses `option KLU`; with all current roots switched off (pad disabled), `gmin=1e-15`
+  leaves KCL residues of ~17 µA on the supplies, `gmin=1e-12` gives the real leakage.
+- GF180 03v3 bins: W ≤ 100 µm per instance counts the total W, not W/nf; large devices need `m`.
+EOF
+grep -c "ClassAB" README.md CLAUDE.md docs/IHP_TO_GF180_PORT_MAP.md schematic/xschem/xschemrc HANDOVER_gf180_migration.md; tail -3 /tmp/cace_d2s.out
+```
+
+</details>
+
+*[Wait for pad CACE run (in the cloud container; 3 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sleep 240; tail -2 /tmp/cace_d2s.out; ls /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace/_runs/*/summary.md 2>/dev/null
+```
+
+</details>
+
+*[Read pad CACE results and collect them (in the cloud container; 31 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -14 | cut -d'|' -f2,5-11; cut -d, -f1-4,9 $R/parameters/off_params/simulation_summary.csv; /home/claude/work/gf/cloud/collect.sh $(pwd) gf180mcu_IOPadDiff2Single $R; cp /tmp/cace_d2s.out /mnt/user-data/outputs/log1/2026-10-08_opus_cace_IOPadDiff2Single.out
+```
+
+</details>
+
+*[Test rshunt to stabilize the disabled operating point (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); for r in run_10 run_01 run_14; do f=$R/parameters/off_params/$r/*.spice; for o in "gmin=1e-12" "gmin=1e-12 rshunt=1e14" "gmin=1e-13 rshunt=1e13"; do sed "s/gmin=1e-12/$o/; s/^echo .*/print idd_off/" $f > /tmp/o.spice; echo "$r $o: $(cd /tmp && ngspice -b o.spice 2>&1 | grep '^idd_off')"; done; done
+```
+
+</details>
+
+*[Look for non-MOS current paths in the bad solution (in the cloud container; 14 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); f=$R/parameters/off_params/run_10/*.spice; sed "s/^echo .*/print idd_off\nshow d : id\nshow e : i\nshow v : i\nshow i : i/" $f > /tmp/o.spice; cd /tmp && ngspice -b o.spice 2>&1 | grep -v "^ *$" | grep -A40 "^idd_off" | head -60
+```
+
+</details>
+
+*[Try transient settling for the disabled supply current (in the cloud container; 3 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); for r in run_10 run_01 run_14; do f=$R/parameters/off_params/$r/*.spice; python3 - $f <<'EOF'
+import sys,re
+s=open(sys.argv[1]).read()
+s=re.sub(r"\.control.*?\.endc", """.control
+save all
+tran 10n 5u
+meas tran i1 find i(Vvdd) at=5u
+meas tran i2 find i(Vvddo) at=5u
+let idd_t = -i1 - i2
+print idd_t
+.endc""", s, flags=re.S)
+open('/tmp/o.spice','w').write(s)
+EOF
+echo "$r: $(cd /tmp && timeout 300 ngspice -b o.spice 2>&1 | grep '^idd_t')"; done
+```
+
+</details>
+
+*[Read disabled state after a transient; rerun pad suite (in the cloud container; 22 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single && python3 - <<'EOF'
+p='scripts/gen_cace.py'; s=open(p).read()
+a=s.index('    # gmin = 1e-12 here'); b=s.index('    cace_template(os.path.join(tdir, f"{CELL}_tb_off.sch")')
+s=s[:a]+'''    # With every current root switched off most nodes float, and the DC operating point is not reliable: at
+    # gmin = 1e-15 (and in one of 15 runs at 1e-12) ngspice accepted solutions whose supply currents broke KCL by
+    # ~17 uA (checked 2026-10-08). A 5 us transient from that point settles to the leakage; the values are read
+    # at its end.
+    m = lambda n, e: f"meas tran {n} find {e} at=5u\\n"
+    off = (OPTS.replace("gmin=1e-15", "gmin=1e-12") + en_src + "Vd dp 0 0\\n" + STIM + ".control\\nsave all\\ntran 10n 5u\\n"
+           + m("i1", "i(Vvdd)") + m("i2", "i(Vvddo)") + m("va", "v(vddo,x1.a)") + m("vb", "v(x1.b)")
+           + m("vo", "v(out,vref)") + m("vn", "v(x1.iref_en)") + m("ir", "i(Vsup)")
+           + "let idd_off = -i1 - i2\\nlet va_off = va\\nlet vb_off = vb\\nlet vout_off = vo\\nlet iref_n = vn\\nlet iref_off = -ir\\n"
+           + OUT.format(vals="$&idd_off $&va_off $&vb_off $&vout_off $&iref_n $&iref_off") + ".endc\\n")
+'''+s[b:]
+s=s.replace("Idd = vdd + vddo; iref_off = current still delivered by the reference source.","Read at the end of a 5 us transient (the DC operating point of the switched-off circuit is not reliable).\\nIdd = vdd + vddo; iref_off = current still delivered by the reference source.")
+open(p,'w').write(s)
+EOF
+python3 scripts/gen_cace.py . && cd verification/cace && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && rm -rf _runs _docs netlist && (time timeout 2400 cace gf180mcu_IOPadDiff2Single.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_d2s.out 2>&1); R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -14 | cut -d'|' -f2,5-11; cut -d, -f1-4,9 $R/parameters/off_params/simulation_summary.csv | sort -t, -k4 -g | tail -3
+```
+
+</details>
+
+*[Debug missing disabled-state values (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); grep -iE "error|vn |ir |failed" $R/parameters/off_params/run_00/ngspice_std*.out | head; cat $R/parameters/off_params/run_00/*.data
+```
+
+</details>
+
+*[Fix differential measures; rerun pad suite (in the cloud container; 21 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single && python3 - <<'EOF'
+p='scripts/gen_cace.py'; s=open(p).read()
+s=s.replace('+ m("va", "v(vddo,x1.a)") + m("vb", "v(x1.b)")\n           + m("vo", "v(out,vref)")',
+            '+ m("vo1", "v(vddo)") + m("va1", "v(x1.a)") + m("vb", "v(x1.b)")\n           + m("vout1", "v(out)") + m("vref1", "v(vref)")')
+s=s.replace('"let idd_off = -i1 - i2\\nlet va_off = va\\n','"let idd_off = -i1 - i2\\nlet va_off = vo1 - va1\\n')
+s=s.replace('let vout_off = vo\\n','let vout_off = vout1 - vref1\\n')
+open(p,'w').write(s)
+EOF
+grep -n "vo1\|vout1" scripts/gen_cace.py | head; python3 scripts/gen_cace.py . && cd verification/cace && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate && rm -rf _runs _docs netlist && (time timeout 2400 cace gf180mcu_IOPadDiff2Single.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_d2s.out 2>&1); R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -14 | cut -d'|' -f2,5-11
+```
+
+</details>
+
+*[Collect pad results; rerun Single2Diff CACE in a BOM-free mirror (in the cloud container; 16 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf/macros/gf180mcu_IOPadDiff2Single/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); /home/claude/work/gf/cloud/collect.sh $(pwd) gf180mcu_IOPadDiff2Single $R; cp /tmp/cace_d2s.out /mnt/user-data/outputs/log1/2026-10-08_opus_cace_IOPadDiff2Single.out; cd /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/verification/cace && ls; mkdir -p /tmp/s2dorig && cp -r /home/claude/work/gf/orig/gf180mcu_IOPadSingle2Diff/verification/cace/results /tmp/s2dorig/ 2>/dev/null; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:$PATH && source /home/claude/venv/bin/activate; rm -rf /tmp/gfm; cp -a /home/claude/work/gf/macros /tmp/gfm_s2d; find /tmp/gfm_s2d -name xschemrc -exec sed -i '1s/^\xEF\xBB\xBF//' {} +; cd /tmp/gfm_s2d/gf180mcu_IOPadSingle2Diff/verification/cace && ls ../../../ | head; (time timeout 1800 cace gf180mcu_IOPadSingle2Diff.yaml -s schematic --nofail -j 4 --parallel-parameters 1 > /tmp/cace_s2d.out 2>&1); R=$(ls -d _runs/RUN_* | tail -1); sed 's/  */ /g' $R/summary.md | tail -4 | cut -d'|' -f2,5-11
+```
+
+</details>
+
+*[Compare Single2Diff input results before and after the enable (in the cloud container; 13 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/gfm_s2d/gf180mcu_IOPadSingle2Diff/verification/cace; R=$(ls -d _runs/RUN_* | tail -1); head -2 $R/parameters/*/simulation_summary.csv; python3 - $R/parameters/*/simulation_summary.csv /tmp/s2dorig/results/gf180mcu_IOPadSingle2Diff/input_params_summary.csv <<'EOF'
+import csv,sys,collections
+def load(p):
+    r=list(csv.DictReader(open(p)))
+    return r
+new=load(sys.argv[1]); 
+try: old=load(sys.argv[2])
+except Exception as e: old=[]; print(e)
+print(new[0].keys(), (old[0].keys() if old else ''))
+def agg(rows):
+    d=collections.defaultdict(list)
+    for x in rows: d[float(x['vin'])].append((float(x['Iin']),float(x['Vprot'])))
+    return {k:(min(a for a,b in v),max(a for a,b in v),max(b for a,b in v)) for k,v in sorted(d.items())}
+n=agg(new); o=agg(old) if old else {}
+for k in n: print(k, 'new Iin %.3g..%.3g Vprot %.3f'%n[k], ' old %.3g..%.3g %.3f'%o[k] if k in o else '')
+EOF
+```
+
+</details>
+
+*[Store rerun Single2Diff results (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/tmp/gfm_s2d/gf180mcu_IOPadSingle2Diff/verification/cace; R=$(ls -d $S/_runs/RUN_* | tail -1); O=/home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff; mkdir -p $O; cp $R/summary.md $O/summary.md; cp $R/parameters/input_params/*.png $O/; cp $R/parameters/input_params/simulation_summary.csv $O/input_params_summary.csv; sed -i "1i <!-- CACE run $(basename $R) in Claude's cloud container (2026-10-08, after the enable was added): CACE 2.13, ngspice-42, xschem 3.4.8RC ce52727, gf180mcuD from gf180mcu_fd_pr e11a8c9. -->" $O/summary.md; ls $O; cp /tmp/cace_s2d.out /mnt/user-data/outputs/log1/2026-10-08_opus_cace_IOPadSingle2Diff.out
+```
+
+</details>
+
+*[Write pad READMEs with CACE results (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+~~~~sh
+cd /home/claude/work/gf/macros && cat > gf180mcu_IOPadDiff2Single/README.md <<'EOF'
+# gf180mcu_IOPadDiff2Single
+
+Class-AB differential → single-ended driver for the analog output pad, with its bias tree and enable.
+IHP counterpart: `sg13cmos5l_IOPadDiff2Single` (ESD clamps `sg13cmos5l_ClampN15N15`/`ClampP15N15` only, no GF180
+equivalent; dropped for now) and the driver of the IHP design notes (`d2s_mpdda`).
+
+**Status (2026-10-08): proof of concept.** Block-level schematic, symbol and CACE suite; no layout.
+
+## Schematic
+
+`schematic/xschem/gf180mcu_IOPadDiff2Single.sch` (written by `scripts/gen_iopad_d2s.py`; edit the sheet from now on):
+
+| instance | cell (macro) | connection |
+|---|---|---|
+| xref | `BiasRefEnable` (`PadEnable`) | iref → iref_en while enabled; iref_en pulled to vss while disabled |
+| xbias | `ClassABBiasIn` (`ClassABBias`) | bias tree and the six diodes, fed by iref_en (5 µA into the pin) |
+| xdrv | `ClassABDriver` (`ClassABDriver`) | vinp = inp, vinn = inn, vref, vout = vfb = out: out − vref = (inp − inn)/2 |
+| xen | `DriverEnable` (`PadEnable`) | disabled: OP / ON gates to vddo / vsso, vabp / vabn to vdd / vss |
+| xinv | `EnableInv` (`PadEnable`) | en_b |
+
+Ports: `vdd vss vddo vsso inp inn vref out iref en`. vddo / vsso are the output-stage rails (OP, ON and their
+replicas RP1, RN1); tie them to vdd / vss when the output stage shares the supply. Bias enters as a current (iref),
+never as a voltage, so each pad has its own bias tree.
+
+Not included yet: the CDM / ESD network at `out` (on IHP, OP and ON double as the pad's clamps, case (a)); a level
+shifter if `en` comes from 1.2 V logic.
+
+## CACE (`verification/cace/`, results in `verification/cace/results/gf180mcu_IOPadDiff2Single/`)
+
+Reference current from a behavioural source on its own supply (5 µA, compliance lost near vdd, 100 MΩ output
+resistance), load 1 kΩ to vref ∥ 100 pF. Limits are placeholders. 75 runs, about 8 min on two cores.
+
+| parameter | conditions | result |
+|---|---|---|
+| gain, enabled | 5 corners × −40/27/125 °C × 3.0/3.3/3.6 V | 0.49934 … 0.50007 |
+| offset, enabled | same | 0.013 … 0.78 mV |
+| I_Q (OP), enabled, real bias tree | same | 203 … 223 µA |
+| Idd (vdd + vddo), enabled | same | 289 … 310 µA (reference current not included) |
+| Idd, disabled | 5 corners × 3 temperatures | 0.08 … 2.9 nA |
+| OP / ON gate vs its rail, disabled | same | ≤ 1 µV |
+| reference current still flowing, disabled | same | ≤ 0.08 nA |
+| output glitch at enable (vd = 0) | same | 171 … 489 mV |
+| enable time (out within 1 mV) | same | 1.27 … 1.52 µs |
+
+```
+cd verification/cace
+cace gf180mcu_IOPadDiff2Single.yaml -s schematic --nofail -j 4 --parallel-parameters 1
+```
+
+`scripts/gen_cace.py` wrote the yaml and templates. The disabled state is read at the end of a 5 µs transient: with
+every current root off most nodes float, and ngspice accepted DC operating points whose supply currents broke KCL
+by ~17 µA (in one of 15 runs even at `gmin=1e-12`).
+
+The enable glitch comes from releasing a and b at once while the bias tree is still coming up, as on IHP
+(power_down study: 69–300 mV). Staggering the release (bias first, then the output gates) would be the fix.
+EOF
+python3 - <<'EOF'
+p='/home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/README.md'
+s=open(p,encoding='utf-8').read()
+s=s.replace("**Status (2026-10-06): proof of concept, input side only.**","**Status (2026-10-06): proof of concept, input side only. 2026-10-08: enable added (see below).**")
+s=s.rstrip("\n")+"""
+
+## Enable (2026-10-08)
+
+`scripts/add_input_enable.py` added, as a one-time edit of the sheet and symbol:
+
+- `InputEnable` (macro `PadEnable`) behind the CDM network: transmission gate `in_prot` → `in_en` while `en` = 1;
+  while `en` = 0 it opens and a second gate parks `in_en` on `vcm`. `in_en` is where the single-ended →
+  differential buffer will connect (still not designed).
+- `EnableInv` for `en_b`; new port **`en`**, last in the port list (`vdd outp vcm in outn vss en`).
+- The testbench and the CACE template tie `en` to vdd.
+
+The CACE input deck, rerun with the enable (results above replaced; the 2026-10-06 numbers are in the git history):
+
+| Pad voltage | Current into `in` | `in_prot` (max over corners) |
+| --- | --- | --- |
+| −0.3 V | −42 nA … −0.08 nA | −0.3 V |
+| 0 … 3.6 V | ≤ 5.3 nA | follows the pad |
+| 4.0 V | 12 … 72 µA | 4.0 V |
+| 5.0 V | 2.3 … 4.8 mA | 4.29 V |
+| 5.5 V | 3.8 … 7.5 mA | 4.30 V |
+
+The input transmission gate adds junctions on `in_prot`: its PMOS drain to the n-well on vdd is one more diode to
+vdd (more current above vdd + 0.6 V, slightly lower `in_prot`), its NMOS drain one more to vss (−42 nA at −0.3 V,
+hot). The conclusion is unchanged: the input is not 5 V tolerant with these diodes and a 3.3 V vdd.
+"""
+open(p,'w',encoding='utf-8').write(s+"\n")
+EOF
+echo ok
+~~~~
+
+</details>
+
+*[Final netlisting and round-trip checks of all cells (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -i 's/The CACE input deck, rerun with the enable (results above replaced; the 2026-10-06 numbers are in the git history):/The CACE input deck, rerun with the enable. The files in `verification\/cace\/results\/` now hold this run; the table above is the 2026-10-06 run without the enable:/' /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/README.md; grep -n "now hold this run" /home/claude/work/gf/macros/gf180mcu_IOPadSingle2Diff/README.md; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; M=/home/claude/work/gf/macros; N=/home/claude/work/gf/cloud/nl.sh; C=$M/ClassABDriver/scripts/check_classab_port.py; S=$M/ClassABDriver/scripts/gf180_sizing.spice; P=$M/PadEnable/scripts/padenable_reference.spice
+for c in ClassABBias/schematic/xschem/ClassABBiasIdeal ClassABBias/schematic/xschem/ClassABBiasIn ClassABBias/schematic/xschem/ClassABBiasOut ClassABDriver/schematic/xschem/ClassABUnitR ClassABDriver/schematic/xschem/ClassABDriver ClassABDriver/schematic/xschem/ClassABDriverBiased PadEnable/schematic/xschem/EnableInv PadEnable/schematic/xschem/DriverEnable PadEnable/schematic/xschem/BiasRefEnable PadEnable/schematic/xschem/InputEnable gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff; do $N $M/$c.sch; done 2>&1 | grep -v "^netlisted" ; echo "--- round trip"; for p in "ClassABBiasIdeal d2s_bias_lp $S" "ClassABBiasIn d2s_bias_in $S" "ClassABBiasOut d2s_bias_out $S" "ClassABUnitR unit_r2 $S" "EnableInv EnableInv $P" "DriverEnable DriverEnable $P" "BiasRefEnable BiasRefEnable $P" "InputEnable InputEnable $P"; do set -- $p; echo "$1: $(python3 $C $3 /tmp/nl/$1.spice $2 $1 | tail -1)"; done; echo "ClassABDriver: $(python3 $C $S /tmp/nl/ClassABDriver.spice d2s_mpdda ClassABDriver a b | tail -1)"
+```
+
+</details>
+
+*[Check the top-level xschemrc chain finds all new cells (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -i 's/handover file §7\./handover file §7–8./' /home/claude/work/gf/CLAUDE.md; rm -rf /tmp/gftop && mkdir -p /tmp/gftop && cp -a /home/claude/work/gf/macros /home/claude/work/gf/schematic /tmp/gftop/ && cp -a /home/claude/work/repo/macros/OgueyAebischerBias /tmp/gftop/macros/ 2>/dev/null; find /tmp/gftop -name xschemrc -exec sed -i '1s/^\xEF\xBB\xBF//' {} +; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd /tmp/gftop/schematic/xschem && PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -n -s -q -x --tcl "set top_is_subckt 1" -o /tmp/gftop/out /tmp/gftop/macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch > /tmp/gftop/log 2>&1; grep -c "MISSING" /tmp/gftop/out/*.spice; grep "^.subckt" /tmp/gftop/out/*.spice; tail -3 /tmp/gftop/log
+```
+
+</details>
+
+*[See which cells are missing via top-level rc (in the cloud container; 15 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep "MISSING" /tmp/gftop/out/*.spice; grep -n "IOPadSingle2Diff/schematic\|source" /tmp/gftop/schematic/xschem/xschemrc | head; ls /tmp/gftop/macros
+```
+
+</details>
+
+*[Print library path assembled by the top-level xschemrc (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd /tmp/gftop/schematic/xschem && PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -n -s -q -x --command 'puts "LIB=$XSCHEM_LIBRARY_PATH"' 2>&1 | grep LIB= | tr ':' '\n'; ls /tmp/gftop/macros/ClassABDriver/schematic/xschem/
+```
+
+</details>
+
+*[Inspect XSCHEM_LIBRARY_PATH from top-level rc (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd /tmp/gftop/schematic/xschem && cat > /tmp/p.tcl <<'EOF'
+puts stderr "LIB=$XSCHEM_LIBRARY_PATH"
+EOF
+PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -q -x --script /tmp/p.tcl 2>&1 | grep -o "LIB=.*" | tr ':' '\n' | sed 's|/home/claude/pdk/gf180mcuD/libs.tech/xschem.*|PDK...|' | sort | uniq -c
+```
+
+</details>
+
+*[Print library path via script (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd /tmp/gftop/schematic/xschem && printf 'puts "LIB=$XSCHEM_LIBRARY_PATH"\nexit\n' > /tmp/p.tcl; PWD=$(pwd) timeout 60 /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -x --script /tmp/p.tcl > /tmp/p.out 2>&1; grep -o "LIB=.*" /tmp/p.out | tr ':' '\n'; tail -5 /tmp/p.out
+```
+
+</details>
+
+*[Debug library path by appending a print to the rc (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd /tmp/gftop/schematic/xschem && cp xschemrc xschemrc.bak && echo 'puts stderr "LIB=$XSCHEM_LIBRARY_PATH"' >> xschemrc && PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -n -s -q -x -o /tmp/gftop/out /tmp/gftop/macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch > /tmp/p.out 2>&1; grep -o "LIB=.*" /tmp/p.out | tr ':' '\n' | grep -v "^/home/claude/pdk"; mv xschemrc.bak xschemrc
+```
+
+</details>
+
+*[Show xschem output (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+head -c 1500 /tmp/p.out; echo; wc -l /tmp/p.out
+```
+
+</details>
+
+*[Trace sourcing progress in the top-level rc (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd /tmp/gftop/schematic/xschem && cp xschemrc xschemrc.bak && python3 - <<'EOF'
+s=open('xschemrc').read()
+out=[]
+for l in s.splitlines():
+    out.append(l)
+    if l.startswith('source [file dirname'):
+        out.append('puts "AFTER %s :: [llength [split $XSCHEM_LIBRARY_PATH :]]"' % l.split('/')[-4])
+out.insert(0,'puts "RC START"')
+open('xschemrc','w').write("\n".join(out)+"\n")
+EOF
+PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -n -s -q -x -o /tmp/gftop/out /tmp/gftop/macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch; mv xschemrc.bak xschemrc
+```
+
+</details>
+
+*[Trace rc sourcing to a file (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; rm -f /tmp/trace; cd /tmp/gftop/schematic/xschem && cp xschemrc xschemrc.bak && python3 - <<'EOF'
+s=open('xschemrc').read()
+out=['set _f [open /tmp/trace a]; puts $_f "RC START"; close $_f']
+for l in s.splitlines():
+    out.append(l)
+    if l.startswith('source [file dirname'):
+        out.append('set _f [open /tmp/trace a]; puts $_f "AFTER %s :: $XSCHEM_LIBRARY_PATH"; close $_f' % l.split('/')[-4])
+open('xschemrc','w').write("\n".join(out)+"\n")
+EOF
+PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -n -s -q -x -o /tmp/gftop/out /tmp/gftop/macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch; mv xschemrc.bak xschemrc; sed 's|/home/claude/pdk/gf180mcuD/libs.tech/xschem[^:]*:||g; s|/tmp/gftop/||g' /tmp/trace
+```
+
+</details>
+
+*[Check whether PDK xschemrc sets the PDK variable (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep -n "PDK\b\|set PDK\|XSCHEM_LIBRARY_PATH" /home/claude/pdk/gf180mcuD/libs.tech/xschem/xschemrc | head -20
+```
+
+</details>
+
+*[Find PDK guard blocks in xschemrc files (in the cloud container; 12 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf && grep -rn -A2 "info exists PDK\]" --include=xschemrc . | head -12
+```
+
+</details>
+
+*[Ran a command (on the computer; 12 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && grep -rl "info exists PDK\]" --include=xschemrc . | grep -v "/simulations/\|_runs" | sort; md5sum testbenches/xschem/xschemrc macros/OgueyAebischerBias/schematic/xschem/xschemrc
+```
+
+</details>
+
+*[Copied 4 files from the computer to the cloud container (1 lines of output).]*
+
+*[Make the PDK guard effective in all project xschemrc files (in the cloud container; 30 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; W=/home/claude/work/gf; mkdir -p $W/testbenches/xschem $W/macros/OgueyAebischerBias/{schematic/xschem,testbenches/xschem,verification/cace/templates} $W/macros/gf180mcu_IOPadSingle2Diff/verification/cace/templates; cp $U/testbenches/xschem/xschemrc $W/testbenches/xschem/; for f in schematic/xschem testbenches/xschem verification/cace/templates; do cp $U/macros/OgueyAebischerBias/$f/xschemrc $W/macros/OgueyAebischerBias/$f/; done; chmod -R u+w $W; cd $W && python3 - <<'EOF'
+import re, glob
+files = [f for f in glob.glob('**/xschemrc', recursive=True) if 'simulations' not in f]
+pat = re.compile(r"(if \{!\[info exists PDK\]\} \{\n(\s*)source \$env\(PDK_ROOT\)/\$env\(PDK\)/libs\.tech/xschem/xschemrc\n)(\})")
+for f in sorted(files):
+    s = open(f, encoding='utf-8').read()
+    if 'set PDK $env(PDK)' in s: print('already', f); continue
+    n = 0
+    def rep(m):
+        return m.group(1) + m.group(2) + "# the gf180mcuD PDK xschemrc does not set PDK; without this, every chained project\n" + m.group(2) + "# xschemrc re-sources it, which resets XSCHEM_LIBRARY_PATH (found 2026-10-08)\n" + m.group(2) + "set PDK $env(PDK)\n" + m.group(3)
+    s2, n = pat.subn(rep, s)
+    print(n, f)
+    if n: open(f, 'w', encoding='utf-8').write(s2)
+EOF
+grep -n -B1 -A4 "info exists PDK\]" schematic/xschem/xschemrc
+```
+
+</details>
+
+*[Recheck top-level xschemrc chain after the guard fix (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single/macros; rm -rf /home/claude/work/gf/orig && mkdir -p /home/claude/work/gf/orig && cp -r $U/gf180mcu_IOPadDiff2Single $U/gf180mcu_IOPadSingle2Diff /home/claude/work/gf/orig/; rm -rf /tmp/gftop && mkdir -p /tmp/gftop && cp -a /home/claude/work/gf/macros /home/claude/work/gf/schematic /home/claude/work/gf/testbenches /tmp/gftop/ && cp -an /home/claude/work/repo/macros/OgueyAebischerBias/schematic/xschem/*.s* /tmp/gftop/macros/OgueyAebischerBias/schematic/xschem/; find /tmp/gftop -name xschemrc -exec sed -i '1s/^\xEF\xBB\xBF//' {} +; export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; cd /tmp/gftop/schematic/xschem && rm -rf /tmp/gftop/out; PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -n -s -q -x --tcl "set top_is_subckt 1" -o /tmp/gftop/out /tmp/gftop/macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch >/dev/null 2>&1; echo "missing: $(grep -c MISSING /tmp/gftop/out/*.spice)"; grep "^.subckt" /tmp/gftop/out/*.spice | awk '{print $2}' | tr '\n' ' '; echo; cd /tmp/gftop/testbenches/xschem && rm -rf /tmp/gftop/out2; PWD=$(pwd) /opt/xschem/bin/xschem --rcfile $(pwd)/xschemrc -n -s -q -x -o /tmp/gftop/out2 /tmp/gftop/macros/ClassABDriver/testbenches/xschem/ClassABDriver_tb_loop.sch >/dev/null 2>&1; echo "tb via top testbench rc, missing: $(grep -c MISSING /tmp/gftop/out2/*.spice)"; ls /tmp/gftop/out2
+```
+
+</details>
+
+*[Note xschemrc fix in handover; list files to deliver (in the cloud container; 130 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/gf && python3 - <<'EOF'
+p='HANDOVER_gf180_migration.md'; s=open(p,encoding='utf-8').read()
+s=s.replace("- GF180 03v3 bins: W ≤ 100 µm per instance counts the total W, not W/nf; large devices need `m`.\n",
+"- GF180 03v3 bins: W ≤ 100 µm per instance counts the total W, not W/nf; large devices need `m`.\n"
+"- The gf180mcuD PDK `xschemrc` does not set the Tcl variable `PDK` (IHP's does), so the guard\n"
+"  `if {![info exists PDK]}` in the project files never fired: every chained `xschemrc` re-sourced the PDK file,\n"
+"  which resets `XSCHEM_LIBRARY_PATH`, and a top-level session saw only the last macro's folders. All project\n"
+"  `xschemrc` files now `set PDK $env(PDK)` right after sourcing it; checked by netlisting a pad and a driver\n"
+"  testbench through the top-level files (all cells found).\n")
+open(p,'w',encoding='utf-8').write(s)
+EOF
+find . -name __pycache__ -prune -exec rm -rf {} +; find macros scripts schematic testbenches docs *.md -type f -not -path "*/_runs/*" -not -path "*/_docs/*" -not -path "*/netlist/*" -not -path "*/simulations/*" | sort > /tmp/deliver_list.txt; wc -l /tmp/deliver_list.txt; cat /tmp/deliver_list.txt
+```
+
+</details>
+
+*[Classify deliverables as new or changed (in the cloud container; 43 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; rm -rf /mnt/user-data/outputs/deliver; : > /tmp/new.txt; : > /tmp/changed.txt; while read f; do if [ -f $U/$f ]; then cmp -s $f $U/$f || echo $f >> /tmp/changed.txt; else echo $f >> /tmp/new.txt; fi; done < /tmp/deliver_list.txt; echo "new $(wc -l < /tmp/new.txt), changed $(wc -l < /tmp/changed.txt)"; cat /tmp/changed.txt; grep -v "^macros/Class\|^macros/PadEnable" /tmp/new.txt
+```
+
+</details>
+
+*[Called mcp__remote-devices__device_list_dir (1 lines of output).  
+Copied 4 files from the computer to the cloud container (1 lines of output).]*
+
+*[List files that will be overwritten on the computer (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+{ cat /tmp/changed.txt; ls macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/* ; } | sort -u > /tmp/overwrite.txt; wc -l < /tmp/overwrite.txt; tr '\n' ' ' < /tmp/overwrite.txt > /tmp/overwrite_line.txt; cat /tmp/overwrite_line.txt | head -c 300
+```
+
+</details>
+
+*[Ran a command (on the computer; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && B=$HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/backups/2026-10-08_before_classab_port && mkdir -p $B && for f in CLAUDE.md HANDOVER_gf180_migration.md README.md docs/IHP_TO_GF180_PORT_MAP.md macros/OgueyAebischerBias/schematic/xschem/xschemrc macros/OgueyAebischerBias/testbenches/xschem/xschemrc macros/OgueyAebischerBias/verification/cace/templates/xschemrc macros/gf180mcu_IOPadDiff2Single/README.md macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sym macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc macros/gf180mcu_IOPadDiff2Single/testbenches/xschem/xschemrc macros/gf180mcu_IOPadSingle2Diff/README.md macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sch macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sym macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/gf180mcu_IOPadSingle2Diff_tb_dc.sch macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc macros/gf180mcu_IOPadSingle2Diff/verification/cace/templates/gf180mcu_IOPadSingle2Diff_tb_input.sch macros/gf180mcu_IOPadSingle2Diff/verification/cace/templates/xschemrc macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/Iin_vs_vin.png macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/Vprot_vs_vin.png macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/input_params_summary.csv macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/summary.md schematic/xschem/xschemrc testbenches/xschem/xschemrc; do mkdir -p $B/$(dirname $f); cp -p $f $B/$f; done; find $B -type f | wc -l; md5sum CLAUDE.md $B/CLAUDE.md | awk '{print $1}' | uniq | wc -l
+```
+
+</details>
+
+*[Stage deliverables and build commit batches (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+D=/mnt/user-data/outputs/deliver; rm -rf $D; while read f; do mkdir -p $D/$(dirname $f); cp $f $D/$f; done < <(cat /tmp/new.txt /tmp/changed.txt; ls macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/*); find $D -type f | wc -l; python3 - <<'EOF'
+import json, os
+mt = {}
+# mtimes of existing files on the computer (from staging / listing)
+for l in """macros/gf180mcu_IOPadDiff2Single/README.md 1791318883099
+macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sch 1791318883508
+macros/gf180mcu_IOPadDiff2Single/schematic/xschem/gf180mcu_IOPadDiff2Single.sym 1791318883870
+macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc 1791311743633
+macros/gf180mcu_IOPadDiff2Single/testbenches/xschem/xschemrc 1791311743636
+macros/gf180mcu_IOPadSingle2Diff/README.md 1791318884261
+macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sch 1791318884661
+macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/gf180mcu_IOPadSingle2Diff.sym 1791318885088
+macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc 1791311743627
+macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/gf180mcu_IOPadSingle2Diff_tb_dc.sch 1791318885481
+macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/xschemrc 1791318885900
+macros/gf180mcu_IOPadSingle2Diff/verification/cace/templates/gf180mcu_IOPadSingle2Diff_tb_input.sch 1791318888851
+macros/gf180mcu_IOPadSingle2Diff/verification/cace/templates/xschemrc 1791318889645
+macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/Iin_vs_vin.png 1791318886949
+macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/input_params_summary.csv 1791318888026
+macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/summary.md 1791318888437
+macros/gf180mcu_IOPadSingle2Diff/verification/cace/results/gf180mcu_IOPadSingle2Diff/Vprot_vs_vin.png 1791318887576
+schematic/xschem/xschemrc 1791318899039
+README.md 1791318946188
+CLAUDE.md 1791318946186
+HANDOVER_gf180_migration.md 1791318975399
+docs/IHP_TO_GF180_PORT_MAP.md 1791318932788
+testbenches/xschem/xschemrc 1791311760103
+macros/OgueyAebischerBias/schematic/xschem/xschemrc 1791318813654
+macros/OgueyAebischerBias/testbenches/xschem/xschemrc 1791318816849
+macros/OgueyAebischerBias/verification/cace/templates/xschemrc 1791318882748""".splitlines():
+    p, m = l.split(); mt[p] = int(m)
+D = '/mnt/user-data/outputs/deliver'
+files = sorted(os.path.relpath(os.path.join(r, f), D) for r, _, fs in os.walk(D) for f in fs)
+items = []
+for f in files:
+    it = {"stagedPath": f"{D}/{f}", "devicePath": f"~/mnt/gf180_cm_ip__single2diff2single/{f}"}
+    if f in mt: it["expectedMtimeMs"] = mt[f]
+    items.append(it)
+assert all(f in files for f in mt), [f for f in mt if f not in files]
+for i in range(0, len(items), 45):
+    json.dump(items[i:i+45], open(f'/tmp/batch{i//45}.json', 'w'))
+print(len(items), [len(items[i:i+45]) for i in range(0, len(items), 45)], sum(1 for x in items if 'expectedMtimeMs' in x))
+EOF
+```
+
+</details>
+
+*[Print first commit batch (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat /tmp/batch0.json
+```
+
+</details>
+
+*[Copied 45 files from the cloud container to the computer (1 lines of output).]*
+
+*[Print second batch compactly (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -c "
+import json; b=json.load(open('/tmp/batch1.json')); print(json.dumps(b))" | sed 's|/mnt/user-data/outputs/deliver/|@S@|g; s|~/mnt/gf180_cm_ip__single2diff2single/|@D@|g' | head -c 100000
+```
+
+</details>
+
+*[Copied 45 files from the cloud container to the computer (1 lines of output).]*
+
+*[Print third batch (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -c "
+import json; b=json.load(open('/tmp/batch2.json')); print(json.dumps(b))"
+```
+
+</details>
+
+*[Copied 33 files from the cloud container to the computer (1 lines of output).]*
+
+*[Compute checksums of delivered files (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /mnt/user-data/outputs/deliver && find . -type f | sort | xargs md5sum > /tmp/deliver.md5; wc -l < /tmp/deliver.md5; cp /tmp/deliver.md5 /mnt/user-data/outputs/deliver.md5
+```
+
+</details>
+
+*[Size of compressed checksum list (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+awk '{print $1"  "$2}' /tmp/deliver.md5 | gzip -9 | base64 -w0 | wc -c
+```
+
+</details>
+
+*[Ran a command (on the computer; 125 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && md5sum CLAUDE.md HANDOVER_gf180_migration.md README.md docs/IHP_TO_GF180_PORT_MAP.md schematic/xschem/xschemrc testbenches/xschem/xschemrc scripts/xsheet.py $(find macros/ClassABBias macros/ClassABDriver macros/PadEnable -type f -not -path "*/simulations/*" | sort) macros/OgueyAebischerBias/schematic/xschem/xschemrc macros/OgueyAebischerBias/testbenches/xschem/xschemrc macros/OgueyAebischerBias/verification/cace/templates/xschemrc $(find macros/gf180mcu_IOPadDiff2Single macros/gf180mcu_IOPadSingle2Diff -type f \( -name "*.sch" -o -name "*.sym" -o -name xschemrc -o -name "*.md" -o -name "*.yaml" -o -name "*.csv" -o -name "*.png" -o -name "gen_*.py" -o -name "add_*.py" \) -not -path "*/simulations/*" | sort) | sed 's|  |  ./|'
+```
+
+</details>
+
+*[Copied 1 files from the cloud container to the computer (1 lines of output).]*
+
+*[Ran a command (on the computer; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && md5sum -c $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs/main/2026-10-08_opus_classab_delivery.md5 2>&1 | grep -v ": OK$"; echo "checked: $(wc -l < $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs/main/2026-10-08_opus_classab_delivery.md5)"; python3 -c "
+import sys
+try:
+    from PIL import Image; print('PIL ok')
+except Exception as e: print('no PIL', e)"
+```
+
+</details>
+
+*[Pixel hashes of delivered PNGs (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /mnt/user-data/outputs/deliver && python3 -c "
+import glob,hashlib
+from PIL import Image
+for f in sorted(glob.glob('**/*.png', recursive=True)):
+    im=Image.open(f).convert('RGBA'); print(hashlib.md5(im.tobytes()).hexdigest()[:12], im.size, f.split('/')[-1])
+" | md5sum;
+```
+
+</details>
+
+*[Ran a command (on the computer; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && python3 -c "
+import glob,hashlib
+from PIL import Image
+fs=sorted(f for f in glob.glob('macros/**/*.png', recursive=True) if any(k in f for k in ['ClassABBias/verification','ClassABDriver/verification','IOPadDiff2Single/verification','IOPadSingle2Diff/verification']))
+for f in fs:
+    im=Image.open(f).convert('RGBA'); print(hashlib.md5(im.tobytes()).hexdigest()[:12], im.size, f.split('/')[-1])
+" | tee /dev/stderr | md5sum
+```
+
+</details>
+
+*[Called mcp__claude_ai__current_time (1 lines of output).]*
+
+*[List tool-call times to correct the log timestamps (in the cloud container; 174 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 - <<'EOF'
+import json, datetime
+from zoneinfo import ZoneInfo
+recs=[json.loads(l) for l in open('/root/.claude/projects/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb.jsonl')]
+for r in recs:
+    if r.get('type')!='assistant': continue
+    for b in r['message'].get('content',[]):
+        if isinstance(b,dict) and b.get('type')=='tool_use' and b['name'] in ('Bash',):
+            d=b['input'].get('description','')
+            t=datetime.datetime.fromisoformat(r['timestamp'].replace('Z','+00:00')).astimezone(ZoneInfo('Europe/Berlin')).strftime('%H:%M')
+            print(t, d[:80])
+EOF
+```
+
+</details>
+
+*[Correct log times and add final entries (in the cloud container; 21 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+L=/mnt/user-data/outputs/log1/2026-10-08_opus_classab_port_log.md; python3 - $L <<'EOF'
+import sys
+p=sys.argv[1]; s=open(p,encoding='utf-8').read()
+for a,b in [("## 19:55 — plan","## 19:50 — plan"),
+            ("## 20:05 — GF180 sizing, driver on the ideal fixture","## 19:53 — GF180 sizing, driver on the ideal fixture"),
+            ("## 20:20 — bias variants in / out","## 19:54 — bias variants in / out"),
+            ("## 20:35 — xschem port of the hand-drawn IHP sheets","## 19:57 — xschem port of the hand-drawn IHP sheets"),
+            ("## 20:40 — chat log across the compaction","## 20:00 — chat log across the compaction"),
+            ("## 20:55 — PadEnable cells","## 20:03 — PadEnable cells"),
+            ("## 21:00 — pads","## 20:05 — pads"),
+            ("## 21:05 — CACE: ClassABBiasIn","## 20:14 — CACE: ClassABBiasIn"),
+            ("## 21:20 — CACE: ClassABDriverBiased","## 20:26 — CACE: ClassABDriverBiased")]:
+    assert a in s, a; s=s.replace(a,b)
+s=s.replace("Written to preempt context compaction;","Written to preempt context compaction. Times corrected at 21:17 from the transcript (the first\nversions of the entries 19:53–20:26 carried later, wrong times);")
+s+='''
+## 20:52 — CACE: gf180mcu_IOPadDiff2Single (`macros/gf180mcu_IOPadDiff2Single/verification/cace`)
+
+DUT = the pad (bias tree + driver + enables). Reference current from a behavioural source on its own supply vsup
+(5 µA, tanh compliance near vsup, 100 MΩ), so that Idd excludes it. Three parameters, 75 runs, 8 min:
+
+- enabled, PVT (45): gain 0.49934–0.50007, offset 0.013–0.78 mV, I_Q 203–223 µA, Idd 289–310 µA.
+- disabled (15): Idd 0.08–2.9 nA; OP / ON gates within 1 µV of their rails; reference current ≤ 0.08 nA.
+- enable transient (15): output glitch 171–489 mV, out within 1 mV after 1.27–1.52 µs, I_Q back to 207–219 µA.
+
+The disabled state first gave Idd of ±17 µA in some runs. The device currents were all fA–pA and the source currents
+did not satisfy KCL: with every current root off most nodes float, and ngspice accepted DC operating points with large
+residues (at gmin = 1e-15; at 1e-12 still in 1 of 15 runs; rshunt did not help). A 5 µs transient from that point
+settles to the leakage (fs/27 °C: 17 µA → 0.24 nA). The template reads the disabled state at the end of the transient.
+
+## 21:09 — CACE: gf180mcu_IOPadSingle2Diff rerun with the enable
+
+en tied to vdd in the testbench and the template. The transmission gate adds junctions on in_prot: −0.3 V up to −42 nA
+(hot), 0…3.6 V ≤ 5.3 nA, 5.0 V 2.3–4.8 mA at in_prot 4.29 V, 5.5 V 3.8–7.5 mA (before: 2.0–3.9 mA / 4.34 V and
+3.4–6.4 mA / 4.38 V). Not 5 V tolerant, as before. Results in the repo replaced; the old ones are in the backup below.
+
+## 21:12 — xschemrc chain of the whole project
+
+Netlisting the output pad through the top-level `schematic/xschem/xschemrc` lost ClassABBiasIn and ClassABDriver.
+Cause: the gf180mcuD PDK xschemrc does not set the Tcl variable `PDK` (IHP's does), so the guard
+`if {![info exists PDK]}` never fired and every chained project xschemrc re-sourced the PDK file, which resets
+`XSCHEM_LIBRARY_PATH`. Every project xschemrc now does `set PDK $env(PDK)` after sourcing it (24 files incl. the
+OgueyAebischerBias and IOPad ones). After the fix the pad and a driver testbench netlist through the top-level files
+with every cell found.
+
+## 21:17 — delivery
+
+- Backup of the 26 files that were overwritten (as found on the computer before the delivery):
+  `sudelbuecher/backups/2026-10-08_before_classab_port/` (copied on the computer, checksums identical).
+- 123 files written to the main repo with device_commit_files, mtime guards on the 26 existing ones; none rejected.
+- `logs/main/2026-10-08_opus_classab_delivery.md5`: `md5sum -c` on the computer: 106 OK, the 17 PNGs differ
+  (provenance stamp in transit); their decoded pixels are identical (hash of all 17 decoded images matches).
+- Not delivered: Makefiles for the three new macros (the bridge refuses Makefiles). The bias variants `_oa` and `_bg`
+  are not ported (need a GF180 re-design).
+- No git commands were run.
+'''
+open(p,'w',encoding='utf-8').write(s)
+EOF
+grep -n "^## " $L; cp /tmp/cace_s2d.out /mnt/user-data/outputs/log1/2026-10-08_opus_cace_IOPadSingle2Diff.out 2>/dev/null; ls /mnt/user-data/outputs/log1
+```
+
+</details>
+
+*[Fix count; rebuild chat log (in the cloud container).]*
+
+<details><summary>command</summary>
+
+```sh
+L=/mnt/user-data/outputs/log1/2026-10-08_opus_classab_port_log.md; sed -i 's/(24 files incl. the/(19 files incl. the/' $L; grep -n "19 files" $L; /tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/rebuild.sh && grep -c "^## Turn" /mnt/user-data/outputs/chat1/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md
 ```
 
 </details>
