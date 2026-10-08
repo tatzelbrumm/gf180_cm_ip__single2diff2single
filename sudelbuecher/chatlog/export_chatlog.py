@@ -5,7 +5,11 @@ Excludes: thinking/redacted_thinking blocks (never read), system reminders, meta
 (skill bodies, image-size notes), tool results (only their outcome is reported).
 Usage: export_chatlog.py <session.jsonl> <out.md> <title> <session-id> <configured-model>
 Derived from the 2026-10-06 export_chatlog.py: header made a parameter, isMeta records skipped,
-more tool kinds summarized, refused tool calls reported as such."""
+more tool kinds summarized, refused tool calls reported as such.
+2026-10-08 (Opus session): user messages sent while the assistant was working (attachment records of
+type queued_command, humanTurn) are exported where they arrived; text files the user attached
+(attachment type file) are exported verbatim under the user's message; turn headers carry the date
+when the session spans more than one day. All other attachment records stay excluded. Refusal detection looks at the head of a result only."""
 import json, re, sys, datetime, os
 from zoneinfo import ZoneInfo
 src, out, title, sid, model = sys.argv[1:6]
@@ -33,7 +37,7 @@ def outcome(tid):
     if not b: return None
     c = b.get("content")
     s = c if isinstance(c, str) else "".join(x.get("text", "") for x in c if isinstance(x, dict))
-    if "doesn't want to proceed" in s: return "refused by the user"
+    if "doesn't want to proceed" in s[:200]: return "refused by the user"   # only the head: output that merely quotes the phrase is not a refusal
     if b.get("is_error"): return "error"
     if isinstance(c, list) and any(x.get("type") == "image" for x in c if isinstance(x, dict)):
         return "image shown to the assistant"
@@ -62,9 +66,26 @@ def summ(b):
 turns, cur = [], None
 def new_turn(r):
     global cur
-    cur = {"time": stamp(r), "user": [], "items": []}; turns.append(cur)
+    cur = {"time": stamp(r), "day": stamp(r, "%Y-%m-%d"), "user": [], "items": []}; turns.append(cur)
+def block_texts(c):
+    if isinstance(c, str): return [c]
+    return [b.get("text", "") for b in c if isinstance(b, dict) and b.get("type") == "text"]
 for r in path:
     if r.get("isMeta"): continue
+    if r["type"] == "attachment":
+        a = r.get("attachment", {})
+        if a.get("type") == "queued_command" and a.get("humanTurn") and (a.get("origin") or {}).get("kind") == "human":
+            t = "\n".join(x for x in (RE_REM.sub("", y).strip() for y in block_texts(a.get("prompt", ""))) if x)
+            if t:
+                if cur is None: new_turn(r)
+                cur["items"].append(("queued", t, stamp(r)))
+        elif a.get("type") == "file":
+            f = (a.get("content") or {}).get("file") or {}
+            body = f.get("content", "")
+            if body and cur is not None and not cur["items"]:
+                fence = "~~~~" if "```" in body else "```"
+                cur["user"].append(f"*[Attached file `{os.path.basename(a.get('filename', ''))}`, verbatim:]*\n\n{fence}text\n{body.rstrip()}\n{fence}")
+        continue
     m = r.get("message", {}); c = m.get("content")
     if r["type"] == "user":
         texts = []
@@ -104,8 +125,9 @@ L = ["<!--", "SPDX-FileCopyrightText: 2026 Christoph Maier", "SPDX-License-Ident
      "tool calls as `*[ ]*` summaries (actions and observable results only); shell commands verbatim in collapsed blocks, their output omitted.",
      "The internal reasoning trace is not included.",
      f"Times are Europe/Berlin. Exported through the record stamped {stamp(last, '%Y-%m-%d %H:%M')}; later turns are not in this file.", ""]
+multiday = len({t["day"] for t in turns}) > 1
 for n, t in enumerate(turns, 1):
-    L += [f"## Turn {n} — {t['time']}", ""]
+    L += [f"## Turn {n} — {t['day'] + ' ' if multiday else ''}{t['time']}", ""]
     for u in t["user"]:
         L += ["**User:**", "", u, ""]
     if t["items"]:
@@ -128,6 +150,7 @@ for n, t in enumerate(turns, 1):
         elif it[0] == "ask":
             L += ["*[Question card shown to the user:]*", ""] + [f"- {q}" for q in it[1]] + ["", f"*[Result: {it[2] or 'declined by the user'}.]*", ""]
         elif it[0] == "note": L += [f"*[{it[1].strip('[]')}]*", ""]
+        elif it[0] == "queued": L += [f"**User (sent at {it[2]} while the assistant was working):**", "", it[1], ""]
     flush()
 open(out, "w").write("\n".join(L).rstrip() + "\n")
 print("turns", len(turns), "bytes", len(open(out).read().encode()))
