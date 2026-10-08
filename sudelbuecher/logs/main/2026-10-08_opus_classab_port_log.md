@@ -219,3 +219,13 @@ changes to the four existing files.
   files (all replaced, all checks OK) and a second run (all "already installed").
 - `README.md` and `HANDOVER_gf180_migration.md` now point to the package (so their checksums in
   `2026-10-08_opus_classab_delivery.md5` are superseded: a5e740cb… and edd6d62f…).
+
+## 22:45 — hand-off for the reference redesign
+
+`sudelbuecher/kickoffs/2026-10-08_reference_redesign/`: `kickoff_reference_redesign.md` (task, sources, open
+questions with defaults, GF180 facts incl. resistor TCs and PNPs, cloud tools, verification flow, pitfalls, rules,
+order) and `tools/` (the plain-ngspice sizing harness of this port, made PDK_ROOT-relative, tested).
+
+Token use of this session (from the transcripts, all claude-opus-5-5): whole session since 2026-10-06 21:30 about
+498 model calls and 238 M tokens processed, of which 234 M cache reads, 3.3 M cache writes, 0.49 M output; the
+class-AB port 19:20–21:20 alone 220 calls, 94 M tokens (93 M cache reads, 0.24 M output).

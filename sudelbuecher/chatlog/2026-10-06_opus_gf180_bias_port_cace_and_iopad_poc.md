@@ -8,7 +8,7 @@ Session `ae2f9665-832e-520c-96fd-494fa4898beb`, Claude (configured model `claude
 Verbatim export of the displayed conversation: user messages, visible replies and `SendUserMessage` texts as written;
 tool calls as `*[ ]*` summaries (actions and observable results only); shell commands verbatim in collapsed blocks, their output omitted.
 The internal reasoning trace is not included.
-Times are Europe/Berlin. Exported through the record stamped 2026-10-08 21:17; later turns are not in this file.
+Times are Europe/Berlin. Exported through the record stamped 2026-10-08 22:39; later turns are not in this file.
 An automatic context compaction on 2026-10-08 at 19:23 rewrote the transcript: turns 1–7 come from the export made
 before it (2026-10-08 03:07), turns 8 onward from the rewritten transcript.
 
@@ -8521,7 +8521,7 @@ grep -n "^## " $L; cp /tmp/cace_s2d.out /mnt/user-data/outputs/log1/2026-10-08_o
 
 </details>
 
-*[Fix count; rebuild chat log (in the cloud container).]*
+*[Fix count; rebuild chat log (in the cloud container; 3 lines of output).]*
 
 <details><summary>command</summary>
 
@@ -8530,3 +8530,1038 @@ L=/mnt/user-data/outputs/log1/2026-10-08_opus_classab_port_log.md; sed -i 's/(24
 ```
 
 </details>
+
+*[Ran a command (on the computer; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher && stat -c '%n %Y %s' logs/main/2026-10-08_opus_classab_port_log.md chatlog/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md; python3 -c "
+import os
+for f in ['logs/main/2026-10-08_opus_classab_port_log.md','chatlog/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md']: print(f, int(os.stat(f).st_mtime*1000))"
+```
+
+</details>
+
+*[Copied 4 files from the cloud container to the computer (1 lines of output).  
+Called TaskList (11 lines of output).  
+Set task 7 to completed.  
+Set task 8 to completed.  
+Set task 9 to completed.  
+Set task 10 to completed.  
+Set task 11 to completed.]*
+
+The macro hierarchy is in the GF180 repo. Every schematic was netlisted by xschem and matched its reference netlist device by device, and every macro has a CACE suite that ran. This was all in my cloud container; none of it has been rerun in your IIC-OSIC-TOOLS container yet.
+
+**New macros**
+- **`ClassABDriver`**: the driver core, ported from your hand-drawn `d2s_mpdda` sheet (wires and placement kept). It has new ports `a b` (the gates of the output transistors) for the enable. Also here: the six IHP testbenches, and a CACE fixture that runs the driver on ideal bias currents.
+- **`ClassABBias`**: the two bias variants that take a reference current (into or out of `iref`), plus the ideal-current fixture. Each variant has its own CACE suite.
+- **`PadEnable`**: the IHP power-down switches, now as cells of their own: an enable inverter, the driver switches, the reference-current switch and an input switch.
+
+**Pads**
+- **`gf180mcu_IOPadDiff2Single`**: now bias tree + driver + enable cells. Ports are `vdd vss vddo vsso inp inn vref out iref en`. Bias enters as a current, so the answer to my earlier question became one bias tree per pad.
+- **`gf180mcu_IOPadSingle2Diff`**: got the input switch behind the CDM network and a new last port `en`. Its CACE input sweep was rerun.
+
+**Re-sizing for GF180**
+- GF180 03v3 devices behave much like IHP's sg13_hv here; the unchanged sizes gave 192 µA quiescent current instead of 212 µA. Narrower replicas in the bias restored 212 µA.
+- The input-stage tails had to be four times wider: at ss / 3.0 V / −40 °C they ran out of headroom.
+- The output transistors are split with `m`, because GF180 allows at most 100 µm total width per transistor.
+- The degeneration resistor is now `ppolyf_u_3k`.
+
+**Results**
+
+| | Result |
+|---|---|
+| Loop, typical | 93 dB, 1.40 MHz, 72.7° phase margin (IHP: 79 dB, 1.37 MHz, 72.4°) |
+| Driver over 45 PVT points | gain 0.4994–0.5001, offset ≤ 0.78 mV, quiescent current 205–223 µA |
+| Bias currents over PVT and mismatch | within −1.7…+3.8 % |
+| Pad disabled | 0.08–2.9 nA supply current, output gates at their rails |
+| Pad at enable | 171–489 mV output glitch, settled within 1.5 µs |
+
+**Expected failures (same as IHP)**
+- Nonlinearity of 3.5 mV at ss / 3.0 V / −40 °C.
+- Phase margin 25° with a 1 nF load.
+
+**Problems found on the way**
+- **Library-path bug (project-wide):** the PDK guard in our `xschemrc` files never worked with gf180mcuD. Every chained file reset the library path, so a top-level session lost macro cells. I fixed it in all 19 project `xschemrc` files (one line each), including the OgueyAebischerBias and pad ones.
+- **Disabled-pad simulation:** ngspice's operating point for the disabled pad was unreliable (supply currents off by ~17 µA). The test now reads its values at the end of a short transient.
+
+**Not done**
+- The Oguey–Aebischer and bandgap bias variants. Both need a real GF180 re-design, not a port.
+- Makefiles for the three new macros; the bridge refuses to write Makefiles.
+- No layout.
+
+**Where things are**
+- The 26 files I overwrote are backed up in `sudelbuecher/backups/2026-10-08_before_classab_port/`.
+- The running log, with every number and decision, is `sudelbuecher/logs/main/2026-10-08_opus_classab_port_log.md`; the CACE outputs are next to it.
+- The chat log is updated through 21:17. The automatic context compaction at 19:23 cut the transcript, so your 19:22 message is reconstructed from the compaction summary, and the log says so.
+- All 123 delivered files were checked by checksum on your computer. The 17 PNG plots differ in bytes from my copies but have identical pixels.
+- No git commands were run.
+
+A good first step on your side: run `cace` in the four new `verification/cace` folders in the IIC-OSIC-TOOLS container, to confirm the numbers there.
+
+## Turn 13 — 2026-10-08 21:42
+
+**User:**
+
+Several Makefiles need to be modified and created from scratch. If you're not allowed to write them, drop me a zip file into the _sudelbuecher with instructions where to put them.
+
+**Assistant:**
+
+*[Copied 4 files from the computer to the cloud container (1 lines of output).]*
+
+*[Compare macro Makefiles and list targets (in the cloud container; 79 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; diff $U/macros/gf180mcu_IOPadDiff2Single/Makefile $U/macros/OgueyAebischerBias/Makefile; diff $U/macros/gf180mcu_IOPadDiff2Single/Makefile $U/macros/gf180mcu_IOPadSingle2Diff/Makefile && echo PADS-IDENTICAL-EXCEPT-TOP?; grep -n "^[a-zA-Z_-]*:" $U/macros/gf180mcu_IOPadDiff2Single/Makefile | head -60
+```
+
+</details>
+
+*[Read macro Makefile sim/clean recipes and top-level macro targets (in the cloud container; 121 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; sed -n 60,130p $U/macros/gf180mcu_IOPadDiff2Single/Makefile; sed -n 380,410p $U/macros/gf180mcu_IOPadDiff2Single/Makefile; grep -n "macro\|MACRO" $U/Makefile | head -40
+```
+
+</details>
+
+*[Read .gitignore and top-level macro targets (in the cloud container; 78 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cat /mnt/user-data/uploads/gf180_cm_ip__single2diff2single/.gitignore; sed -n 120,150p /mnt/user-data/uploads/gf180_cm_ip__single2diff2single/Makefile; sed -n 425,450p /mnt/user-data/uploads/gf180_cm_ip__single2diff2single/Makefile
+```
+
+</details>
+
+*[Generate new and modified Makefiles and show diffs (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /home/claude/work/mk && cd /home/claude/work/mk && U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single && python3 - <<'PYEOF'
+import os, re
+U='/mnt/user-data/uploads/gf180_cm_ip__single2diff2single'
+pad=open(f'{U}/macros/gf180mcu_IOPadDiff2Single/Makefile').read()
+oab=open(f'{U}/macros/OgueyAebischerBias/Makefile').read()
+top=open(f'{U}/Makefile').read()
+HDR_OLD='# SPDX-FileCopyrightText: 2026 Tim Edwards and Simon Dorrer\n'
+HDR_NEW='# SPDX-FileCopyrightText: 2026 Tim Edwards, Simon Dorrer and Christoph Maier\n'
+SIMALL_OLD='''sim-all: ## Simulate the macro
+	$(MAKE) sim-xschem TB=$(TOP)_tb_tran
+.PHONY: sim-all
+'''
+CLEAN_OLD='''	rm -rf $(SCRIPTS_DIR)/__pycache__
+.PHONY: clean
+'''
+CLEAN_NEW='''	rm -rf $(SCRIPTS_DIR)/__pycache__
+	rm -rf $(CACE_DIR)/_runs $(CACE_DIR)/_docs $(CACE_DIR)/netlist
+	rm -rf $(CACE_DIR)/templates/simulations
+.PHONY: clean
+'''
+def cace_block(cells, default):
+    return f'''
+# CACE (verification/cace/<datasheet>.yaml; results worth keeping go to verification/cace/results/)
+CACE_DIR := verification/cace
+# Datasheet(s) of this macro; sim-cace runs CACE_TOP, sim-cace-all runs all of them
+CACE_CELLS := {cells}
+CACE_TOP ?= {default}
+# Parameter groups to run (default: all). Override with: make sim-cace CACE_PARAMS="dc_params loop_params"
+CACE_PARAMS ?=
+CACE_JOBS ?= 4
+# --nofail: exit 0 and write the documentation (_docs) even when parameters fail; CACE_OPTS= to stop on failures
+CACE_OPTS ?= --nofail
+
+sim-cace: ## Run the CACE suite of CACE_TOP (usage: make sim-cace [CACE_TOP=<datasheet>] [CACE_PARAMS="<groups>"])
+	cd $(CACE_DIR) && cace $(CACE_TOP).yaml -s schematic $(if $(CACE_PARAMS),-p $(CACE_PARAMS),) -j $(CACE_JOBS) --parallel-parameters 1 $(CACE_OPTS)
+.PHONY: sim-cace
+
+sim-cace-all: ## Run the CACE suites of all datasheets of this macro (CACE_CELLS)
+	for c in $(CACE_CELLS); do $(MAKE) sim-cace CACE_TOP=$$c || exit 1; done
+.PHONY: sim-cace-all
+'''
+def mk(top, simall, cace, extra_top=''):
+    s = pad.replace(HDR_OLD, HDR_NEW).replace('TOP = gf180mcu_IOPadDiff2Single\n', f'{extra_top}TOP = {top}\n')
+    assert SIMALL_OLD in s and CLEAN_OLD in s
+    s = s.replace(SIMALL_OLD, simall + cace)
+    s = s.replace(CLEAN_OLD, CLEAN_NEW if cace else CLEAN_OLD)
+    s = s.replace('clean: ## Delete all generated files and folders (final, netlists, render, DRC/LVS reports, simulation outputs)',
+                  'clean: ## Delete all generated files and folders (final, netlists, render, DRC/LVS reports, simulation and CACE outputs)' if cace else
+                  'clean: ## Delete all generated files and folders (final, netlists, render, DRC/LVS reports, simulation outputs)')
+    return s
+
+out = {}
+out['macros/ClassABBias/Makefile'] = mk('ClassABBiasIn',
+ '''sim-all: ## Simulate the macro (the CACE suites of both bias variants; there are no separate testbenches)
+	$(MAKE) sim-cace-all
+.PHONY: sim-all
+''', cace_block('ClassABBiasIn ClassABBiasOut', '$(TOP)'),
+ '# Cells: ClassABBiasIn (reference current into iref), ClassABBiasOut (out of iref), ClassABBiasIdeal (test fixture).\n# Override with: make <target> TOP=<cell>\n').replace('TOP = ClassABBiasIn\n', 'TOP ?= ClassABBiasIn\n')
+out['macros/ClassABDriver/Makefile'] = mk('ClassABDriver',
+ '''# Ported IHP testbenches (testbenches/xschem/ClassABDriver_tb_<name>.sch)
+DRIVER_TBS := dc loop step thd noise op
+
+sim-all: ## Simulate the macro (all six testbenches, then the CACE suite)
+	for t in $(DRIVER_TBS); do $(MAKE) sim-xschem TB=$(TOP)_tb_$$t || exit 1; done
+	$(MAKE) sim-cace
+.PHONY: sim-all
+''', cace_block('ClassABDriverBiased', 'ClassABDriverBiased'),
+ '# CACE DUT: ClassABDriverBiased (ClassABDriver on the ideal bias fixture ClassABBiasIdeal from ../ClassABBias)\n')
+out['macros/PadEnable/Makefile'] = mk('DriverEnable',
+ '''sim-all: ## Simulate the macro (no stand-alone testbenches: the cells are tested inside the pads)
+	@echo 'PadEnable has no testbenches of its own; run: make -C ../gf180mcu_IOPadDiff2Single sim-cace'
+.PHONY: sim-all
+''', '',
+ '# Cells: EnableInv, DriverEnable, BiasRefEnable, InputEnable. Override with: make <target> TOP=<cell>\n').replace('TOP = DriverEnable\n','TOP ?= DriverEnable\n')
+out['macros/gf180mcu_IOPadDiff2Single/Makefile'] = mk('gf180mcu_IOPadDiff2Single',
+ '''sim-all: ## Simulate the macro (CACE suite: enabled DC, disabled state, enable transient)
+	$(MAKE) sim-cace
+.PHONY: sim-all
+''', cace_block('gf180mcu_IOPadDiff2Single', '$(TOP)'))
+s2d = mk('gf180mcu_IOPadDiff2Single',
+ '''sim-all: ## Simulate the macro (pad-in-the-loop DC testbench, then the CACE input-range suite)
+	$(MAKE) sim-xschem TB=$(TOP)_tb_dc
+	$(MAKE) sim-cace
+.PHONY: sim-all
+''', cace_block('gf180mcu_IOPadSingle2Diff', '$(TOP)')).replace('TOP = gf180mcu_IOPadDiff2Single\n', 'TOP = gf180mcu_IOPadSingle2Diff\n')
+out['macros/gf180mcu_IOPadSingle2Diff/Makefile'] = s2d
+# OgueyAebischerBias: only the --nofail option
+o = oab.replace('CACE_JOBS ?= 4\n', 'CACE_JOBS ?= 4\n# --nofail: exit 0 and write the documentation (_docs) even when parameters fail; CACE_OPTS= to stop on failures\nCACE_OPTS ?= --nofail\n')
+o = o.replace('-j $(CACE_JOBS) --parallel-parameters 1\n', '-j $(CACE_JOBS) --parallel-parameters 1 $(CACE_OPTS)\n')
+assert o != oab and o.count('$(CACE_OPTS)') == 1
+out['macros/OgueyAebischerBias/Makefile'] = o
+# top level: new macros in clean-macros, and a CACE target over all macros
+t = top
+t = t.replace('''#	ToDo: further macros
+.PHONY: build-macros
+''', '''#	ToDo: further macros (ClassABBias, ClassABDriver, PadEnable, OgueyAebischerBias have no layout yet; see sim-cace-macros)
+.PHONY: build-macros
+
+sim-cace-macros: ## Run the CACE suites of all macros that have one
+	$(MAKE) -C $(MACROS_DIR)/OgueyAebischerBias sim-cace-all
+	$(MAKE) -C $(MACROS_DIR)/ClassABBias sim-cace-all
+	$(MAKE) -C $(MACROS_DIR)/ClassABDriver sim-cace-all
+	$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadDiff2Single sim-cace
+	$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadSingle2Diff sim-cace
+.PHONY: sim-cace-macros
+''')
+t = t.replace('''clean-macros: ## Delete all generated files and folders of all macros
+	$(MAKE) clean-single2diff
+	$(MAKE) clean-diff2single
+#	ToDo: further macros
+''', '''clean-macros: ## Delete all generated files and folders of all macros
+	$(MAKE) clean-single2diff
+	$(MAKE) clean-diff2single
+	@$(MAKE) -C $(MACROS_DIR)/OgueyAebischerBias clean
+	@$(MAKE) -C $(MACROS_DIR)/ClassABBias clean
+	@$(MAKE) -C $(MACROS_DIR)/ClassABDriver clean
+	@$(MAKE) -C $(MACROS_DIR)/PadEnable clean
+''')
+assert t.count('sim-cace-macros') == 2 and 'ClassABBias clean' in t
+out['Makefile'] = t
+for p, s in out.items():
+    os.makedirs(os.path.join('tree', os.path.dirname(p)) or 'tree', exist_ok=True)
+    open(os.path.join('tree', p), 'w').write(s)
+    print(p, len(s))
+PYEOF
+for f in $(cd tree && find . -name Makefile); do echo "== $f"; orig=$U/${f#./}; [ -f $orig ] && diff $orig tree/$f | head -60 || echo NEW; done 2>&1 | head -150
+```
+
+</details>
+
+*[Inspect exact whitespace of top-level ToDo lines (in the cloud container; 16 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+grep -n "ToDo\|clean-macros" -A3 /mnt/user-data/uploads/gf180_cm_ip__single2diff2single/Makefile | cat -A | head -30
+```
+
+</details>
+
+*[No-op (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+fc -ln 0 >/dev/null 2>&1; history | tail -1 >/dev/null; echo skip
+```
+
+</details>
+
+*[Generate Makefiles and diff against originals (in the cloud container; 119 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /home/claude/work/mk && cd /home/claude/work/mk && cat > gen_makefiles.py <<'PYEOF'
+import os
+U='/mnt/user-data/uploads/gf180_cm_ip__single2diff2single'
+pad=open(f'{U}/macros/gf180mcu_IOPadDiff2Single/Makefile').read()
+oab=open(f'{U}/macros/OgueyAebischerBias/Makefile').read()
+top=open(f'{U}/Makefile').read()
+T='\t'
+HDR_OLD='# SPDX-FileCopyrightText: 2026 Tim Edwards and Simon Dorrer\n'
+HDR_NEW='# SPDX-FileCopyrightText: 2026 Tim Edwards, Simon Dorrer and Christoph Maier\n'
+SIMALL_OLD=f'sim-all: ## Simulate the macro\n{T}$(MAKE) sim-xschem TB=$(TOP)_tb_tran\n.PHONY: sim-all\n'
+CLEAN_OLD=f'{T}rm -rf $(SCRIPTS_DIR)/__pycache__\n.PHONY: clean\n'
+CLEAN_NEW=(f'{T}rm -rf $(SCRIPTS_DIR)/__pycache__\n{T}rm -rf $(CACE_DIR)/_runs $(CACE_DIR)/_docs $(CACE_DIR)/netlist\n'
+           f'{T}rm -rf $(CACE_DIR)/templates/simulations\n.PHONY: clean\n')
+def cace_block(cells, default):
+    return f'''
+# CACE (verification/cace/<datasheet>.yaml; results worth keeping go to verification/cace/results/)
+CACE_DIR := verification/cace
+# Datasheet(s) of this macro; sim-cace runs CACE_TOP, sim-cace-all runs all of them
+CACE_CELLS := {cells}
+CACE_TOP ?= {default}
+# Parameter groups to run (default: all). Override with: make sim-cace CACE_PARAMS="dc_params loop_params"
+CACE_PARAMS ?=
+CACE_JOBS ?= 4
+# --nofail: exit 0 and write the documentation (_docs) even when parameters fail; CACE_OPTS= to stop on failures
+CACE_OPTS ?= --nofail
+
+sim-cace: ## Run the CACE suite of CACE_TOP (usage: make sim-cace [CACE_TOP=<datasheet>] [CACE_PARAMS="<groups>"])
+{T}cd $(CACE_DIR) && cace $(CACE_TOP).yaml -s schematic $(if $(CACE_PARAMS),-p $(CACE_PARAMS),) -j $(CACE_JOBS) --parallel-parameters 1 $(CACE_OPTS)
+.PHONY: sim-cace
+
+sim-cace-all: ## Run the CACE suites of all datasheets of this macro (CACE_CELLS)
+{T}for c in $(CACE_CELLS); do $(MAKE) sim-cace CACE_TOP=$$c || exit 1; done
+.PHONY: sim-cace-all
+'''
+def mk(top, simall, cace, extra_top=''):
+    s = pad.replace(HDR_OLD, HDR_NEW).replace('TOP = gf180mcu_IOPadDiff2Single\n', f'{extra_top}TOP = {top}\n')
+    assert SIMALL_OLD in s and CLEAN_OLD in s
+    s = s.replace(SIMALL_OLD, simall + cace)
+    if cace:
+        s = s.replace(CLEAN_OLD, CLEAN_NEW).replace(
+            'clean: ## Delete all generated files and folders (final, netlists, render, DRC/LVS reports, simulation outputs)',
+            'clean: ## Delete all generated files and folders (final, netlists, render, DRC/LVS reports, simulation and CACE outputs)')
+    return s
+out = {}
+out['macros/ClassABBias/Makefile'] = mk('ClassABBiasIn',
+ f'sim-all: ## Simulate the macro (the CACE suites of both bias variants; there are no separate testbenches)\n{T}$(MAKE) sim-cace-all\n.PHONY: sim-all\n',
+ cace_block('ClassABBiasIn ClassABBiasOut', '$(TOP)'),
+ '# Cells: ClassABBiasIn (reference current into iref), ClassABBiasOut (out of iref), ClassABBiasIdeal (test fixture).\n# Override with: make <target> TOP=<cell>\n').replace('TOP = ClassABBiasIn\n', 'TOP ?= ClassABBiasIn\n')
+out['macros/ClassABDriver/Makefile'] = mk('ClassABDriver',
+ f'# Ported IHP testbenches (testbenches/xschem/ClassABDriver_tb_<name>.sch)\nDRIVER_TBS := dc loop step thd noise op\n\n'
+ f'sim-all: ## Simulate the macro (all six testbenches, then the CACE suite)\n{T}for t in $(DRIVER_TBS); do $(MAKE) sim-xschem TB=$(TOP)_tb_$$t || exit 1; done\n{T}$(MAKE) sim-cace\n.PHONY: sim-all\n',
+ cace_block('ClassABDriverBiased', 'ClassABDriverBiased'),
+ '# CACE DUT: ClassABDriverBiased (ClassABDriver on the ideal bias fixture ClassABBiasIdeal from ../ClassABBias)\n')
+out['macros/PadEnable/Makefile'] = mk('DriverEnable',
+ f"sim-all: ## Simulate the macro (no stand-alone testbenches: the cells are tested inside the pads)\n{T}@echo 'PadEnable has no testbenches of its own; run: make -C ../gf180mcu_IOPadDiff2Single sim-cace'\n.PHONY: sim-all\n",
+ '', '# Cells: EnableInv, DriverEnable, BiasRefEnable, InputEnable. Override with: make <target> TOP=<cell>\n').replace('TOP = DriverEnable\n', 'TOP ?= DriverEnable\n')
+out['macros/gf180mcu_IOPadDiff2Single/Makefile'] = mk('gf180mcu_IOPadDiff2Single',
+ f'sim-all: ## Simulate the macro (CACE suite: enabled DC, disabled state, enable transient)\n{T}$(MAKE) sim-cace\n.PHONY: sim-all\n',
+ cace_block('gf180mcu_IOPadDiff2Single', '$(TOP)'))
+out['macros/gf180mcu_IOPadSingle2Diff/Makefile'] = mk('gf180mcu_IOPadSingle2Diff',
+ f'sim-all: ## Simulate the macro (pad-in-the-loop DC testbench, then the CACE input-range suite)\n{T}$(MAKE) sim-xschem TB=$(TOP)_tb_dc\n{T}$(MAKE) sim-cace\n.PHONY: sim-all\n',
+ cace_block('gf180mcu_IOPadSingle2Diff', '$(TOP)'))
+o = oab.replace('CACE_JOBS ?= 4\n', 'CACE_JOBS ?= 4\n# --nofail: exit 0 and write the documentation (_docs) even when parameters fail; CACE_OPTS= to stop on failures\nCACE_OPTS ?= --nofail\n')
+o = o.replace('-j $(CACE_JOBS) --parallel-parameters 1\n', '-j $(CACE_JOBS) --parallel-parameters 1 $(CACE_OPTS)\n')
+assert o.count('$(CACE_OPTS)') == 1
+out['macros/OgueyAebischerBias/Makefile'] = o
+t = top
+a = f'#{T}ToDo: further macros\n.PHONY: build-macros\n'
+assert a in t
+t = t.replace(a, f'''#{T}ToDo: further macros (OgueyAebischerBias, ClassABBias, ClassABDriver, PadEnable have no layout yet; see sim-cace-macros)
+.PHONY: build-macros
+
+sim-cace-macros: ## Run the CACE suites of all macros that have one
+{T}$(MAKE) -C $(MACROS_DIR)/OgueyAebischerBias sim-cace-all
+{T}$(MAKE) -C $(MACROS_DIR)/ClassABBias sim-cace-all
+{T}$(MAKE) -C $(MACROS_DIR)/ClassABDriver sim-cace-all
+{T}$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadDiff2Single sim-cace
+{T}$(MAKE) -C $(MACROS_DIR)/gf180mcu_IOPadSingle2Diff sim-cace
+.PHONY: sim-cace-macros
+''')
+b = f'{T}$(MAKE) clean-diff2single\n#{T}ToDo: further macros\n.PHONY: clean-macros\n'
+assert b in t
+t = t.replace(b, f'''{T}$(MAKE) clean-diff2single
+{T}@$(MAKE) -C $(MACROS_DIR)/OgueyAebischerBias clean
+{T}@$(MAKE) -C $(MACROS_DIR)/ClassABBias clean
+{T}@$(MAKE) -C $(MACROS_DIR)/ClassABDriver clean
+{T}@$(MAKE) -C $(MACROS_DIR)/PadEnable clean
+.PHONY: clean-macros
+''')
+out['Makefile'] = t
+for p, s in out.items():
+    d = os.path.join('tree', os.path.dirname(p)); os.makedirs(d, exist_ok=True)
+    open(os.path.join('tree', p), 'w').write(s)
+    print(p, len(s))
+PYEOF
+rm -rf tree; python3 gen_makefiles.py && U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single; for f in $(cd tree && find . -name Makefile | sort); do echo "== $f"; o=$U/${f#./}; if [ -f "$o" ]; then diff "$o" tree/$f; else echo NEW; fi; done 2>&1 | head -170
+```
+
+</details>
+
+*[Test generated Makefiles with help and dry runs (in the cloud container; 72 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+rm -rf /tmp/mktest && mkdir -p /tmp/mktest && cp -a /home/claude/work/gf/macros /home/claude/work/gf/schematic /home/claude/work/gf/testbenches /home/claude/work/gf/scripts /tmp/mktest/ && cp -a /home/claude/work/repo/macros/OgueyAebischerBias/* /tmp/mktest/macros/OgueyAebischerBias/ 2>/dev/null; cp -a tree/. /tmp/mktest/; find /tmp/mktest -name xschemrc -exec sed -i '1s/^\xEF\xBB\xBF//' {} +; find /tmp/mktest -name "_runs" -prune -exec rm -rf {} +; cd /tmp/mktest && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:/home/claude/venv/bin:$PATH; for m in ClassABBias ClassABDriver PadEnable gf180mcu_IOPadDiff2Single gf180mcu_IOPadSingle2Diff OgueyAebischerBias; do echo "== $m"; make -C macros/$m help | grep -E "sim-|clean"; make -n -C macros/$m sim-all | grep -v "^make" | head -4; done; make help | grep -E "cace|clean-macros"
+```
+
+</details>
+
+*[Run Makefile targets for real in a test copy (in the cloud container; 13 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/mktest && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:/home/claude/venv/bin:$PATH; (for t in dc loop step thd noise op; do make -C macros/ClassABDriver sim-xschem TB=ClassABDriver_tb_$t > /tmp/mk_$t.out 2>&1; echo "tb_$t exit $? $(grep -E '^(gain|t0|os|pm|onoise_total|vlo) ' /tmp/mk_$t.out | head -2 | tr '\n' ' ') $(grep -c THD /tmp/mk_$t.out)"; done); make -C macros/gf180mcu_IOPadSingle2Diff sim-xschem TB=gf180mcu_IOPadSingle2Diff_tb_dc > /tmp/mk_s2d.out 2>&1; echo "s2d exit $? $(grep -E '^(iin_5v0|vprot_5v0)' /tmp/mk_s2d.out | tr '\n' ' ')"; make -C macros/ClassABBias sim-cace CACE_PARAMS=line_params > /tmp/mk_cace.out 2>&1; echo "cace exit $?"; grep -E "Line sens" /tmp/mk_cace.out | head -4; make -C macros/ClassABBias clean >/dev/null && ls macros/ClassABBias/verification/cace
+```
+
+</details>
+
+*[Inspect Single2Diff testbench failure (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+tail -15 /tmp/mk_s2d.out; grep -i "line\|Pass\|Fail" /tmp/mk_cace.out | tail -5
+```
+
+</details>
+
+*[Check why xschem returns 10 for the input-pad testbench (in the cloud container; 12 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+ls -la /tmp/mktest/macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem/simulations/; cd /tmp/mktest/macros/gf180mcu_IOPadSingle2Diff/testbenches/xschem && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; /opt/xschem/bin/xschem -r -x -q --rcfile xschemrc -n -o /tmp/s2dnl gf180mcu_IOPadSingle2Diff_tb_dc.sch 2>&1 | tail -5; echo "exit $?"; grep -i "warn\|error\|not found\|missing" /tmp/s2dnl/*.spice | head
+```
+
+</details>
+
+*[Make the input-pad sim-all tolerate the undriven-pin status; test (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work/mk && python3 - <<'EOF'
+p='gen_makefiles.py'; s=open(p).read()
+old="""f'sim-all: ## Simulate the macro (pad-in-the-loop DC testbench, then the CACE input-range suite)\\n{T}$(MAKE) sim-xschem TB=$(TOP)_tb_dc\\n{T}$(MAKE) sim-cace\\n.PHONY: sim-all\\n',"""
+assert old in s
+new="""('# xschem exits with status 10 on "undriven node: outp" (the single-ended -> differential buffer is not designed yet,\\n'
+  '# outp/outn have no driver) although the netlist is complete; sim-all then runs ngspice on that netlist itself.\\n'
+  f'sim-all: ## Simulate the macro (pad-in-the-loop DC testbench, then the CACE input-range suite)\\n'
+  f'{T}rm -f $(XSCHEM_TB_DIR)/simulations/$(TOP)_tb_dc.spice\\n'
+  f'{T}$(MAKE) sim-xschem TB=$(TOP)_tb_dc || (test -s $(XSCHEM_TB_DIR)/simulations/$(TOP)_tb_dc.spice && cd $(XSCHEM_TB_DIR)/simulations && ngspice -b $(TOP)_tb_dc.spice)\\n'
+  f'{T}$(MAKE) sim-cace\\n.PHONY: sim-all\\n'),"""
+s=s.replace(old,new); open(p,'w').write(s)
+EOF
+rm -rf tree && python3 gen_makefiles.py >/dev/null && cp tree/macros/gf180mcu_IOPadSingle2Diff/Makefile /tmp/mktest/macros/gf180mcu_IOPadSingle2Diff/Makefile && cd /tmp/mktest && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:/home/claude/venv/bin:$PATH && make -C macros/gf180mcu_IOPadSingle2Diff sim-all > /tmp/mk_s2d.out 2>&1; echo "exit $?"; grep -E "^(iin|vprot)_5v0|Completed|undriven" /tmp/mk_s2d.out | head
+```
+
+</details>
+
+*[Dry-run top-level CACE target and run clean-macros (in the cloud container; 17 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/mktest && export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD PATH=/opt/xschem/bin:/home/claude/venv/bin:$PATH && make -n sim-cace-macros | grep -E "^make|cace " | head -12; make clean-macros > /tmp/mk_clean.out 2>&1; echo "clean-macros exit $?"; tail -3 /tmp/mk_clean.out
+```
+
+</details>
+
+*[Assemble Makefile package with checksums and diff (in the cloud container; 12 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+P=/home/claude/work/mk/pkg; rm -rf $P && mkdir -p $P/2026-10-08_opus_makefiles/repo && cd /home/claude/work/mk && cp -a tree/. $P/2026-10-08_opus_makefiles/repo/ && U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single && cd $P/2026-10-08_opus_makefiles && { for f in Makefile macros/OgueyAebischerBias/Makefile macros/gf180mcu_IOPadDiff2Single/Makefile macros/gf180mcu_IOPadSingle2Diff/Makefile; do md5sum < $U/$f | sed "s|-|$f|"; done; } > expected_originals.md5 && (cd repo && find . -name Makefile | sort | sed 's|^\./||' | xargs md5sum) > new.md5 && { for f in Makefile macros/OgueyAebischerBias/Makefile macros/gf180mcu_IOPadDiff2Single/Makefile macros/gf180mcu_IOPadSingle2Diff/Makefile; do diff -u --label a/$f --label b/$f $U/$f repo/$f; done; } > changes_to_existing_makefiles.diff; cat expected_originals.md5 new.md5; wc -l changes_to_existing_makefiles.diff
+```
+
+</details>
+
+*[Write install script and README, zip, test the installer (in the cloud container; 45 lines of output).]*
+
+<details><summary>command</summary>
+
+~~~~sh
+cat > install.sh <<'EOF'
+#!/bin/sh
+# SPDX-FileCopyrightText: 2026 Christoph Maier
+# SPDX-License-Identifier: Apache-2.0
+# Installs the Makefiles of this package into the design repository.
+#   sh install.sh [<repo>]        default <repo>: ~/EDA/gf180_cm_ip__single2diff2single
+# An existing Makefile is replaced only if it is still the version this package was made from
+# (expected_originals.md5); otherwise it is left alone and reported. FORCE=1 replaces it anyway.
+# Every replaced Makefile is kept next to it as Makefile.orig-2026-10-08 (delete those once you are happy).
+set -e
+HERE=$(cd "$(dirname "$0")" && pwd)
+REPO=${1:-$HOME/EDA/gf180_cm_ip__single2diff2single}
+[ -f "$REPO/submission.yaml" ] || { echo "not the design repository: $REPO"; exit 1; }
+status=0
+cd "$HERE/repo"
+for f in $(find . -name Makefile | sed 's|^\./||' | sort); do
+  dst="$REPO/$f"
+  if [ -f "$dst" ]; then
+    want=$(grep "  $f\$" "$HERE/expected_originals.md5" | cut -d' ' -f1)
+    have=$(md5sum < "$dst" | cut -d' ' -f1)
+    if [ "$have" = "$(grep "  $f\$" "$HERE/new.md5" | cut -d' ' -f1)" ]; then echo "already installed: $f"; continue; fi
+    if [ "$have" != "$want" ] && [ "${FORCE:-0}" != 1 ]; then
+      echo "SKIPPED (changed since 2026-10-08, see changes_to_existing_makefiles.diff): $f"; status=2; continue
+    fi
+    cp -p "$dst" "$dst.orig-2026-10-08"
+    echo "replaced: $f (old one kept as $f.orig-2026-10-08)"
+  else
+    mkdir -p "$(dirname "$dst")"
+    echo "new:      $f"
+  fi
+  cp "$f" "$dst"
+done
+cd "$REPO" && md5sum -c "$HERE/new.md5" 2>&1 | sed 's/^/check: /'
+exit $status
+EOF
+cat > README.md <<'EOF'
+<!--
+SPDX-FileCopyrightText: 2026 Christoph Maier
+SPDX-License-Identifier: Apache-2.0
+-->
+# Makefiles for the class-AB port (2026-10-08)
+
+The bridge refuses to write Makefiles, so they come as this package. `repo/` mirrors the design repository
+`~/EDA/gf180_cm_ip__single2diff2single`; each file goes to the same path there.
+
+| file | status | change |
+|---|---|---|
+| `macros/ClassABBias/Makefile` | new | from the IOPad template; `TOP ?= ClassABBiasIn`; `sim-cace`, `sim-cace-all` (In and Out); `sim-all` = `sim-cace-all` (no separate testbenches) |
+| `macros/ClassABDriver/Makefile` | new | `TOP = ClassABDriver`; `sim-all` runs the six testbenches `ClassABDriver_tb_{dc,loop,step,thd,noise,op}`, then `sim-cace` (DUT `ClassABDriverBiased`) |
+| `macros/PadEnable/Makefile` | new | `TOP ?= DriverEnable`; `sim-all` only prints that the cells are tested in the output pad |
+| `macros/gf180mcu_IOPadDiff2Single/Makefile` | changed | `sim-all` = `sim-cace` (it pointed at a `_tb_tran` testbench that does not exist); CACE targets; CACE outputs in `clean` |
+| `macros/gf180mcu_IOPadSingle2Diff/Makefile` | changed | `sim-all` runs `_tb_dc` (was the non-existent `_tb_tran`) and `sim-cace`; tolerates xschem's exit status 10 for the undriven `outp`/`outn` when the netlist is complete; CACE targets and clean |
+| `macros/OgueyAebischerBias/Makefile` | changed | `CACE_OPTS ?= --nofail` added to `sim-cace` (report even when parameters fail; `make sim-cace CACE_OPTS=` restores stop-on-fail) |
+| `Makefile` (top level) | changed | new `sim-cace-macros` (all CACE suites); `clean-macros` also cleans OgueyAebischerBias, ClassABBias, ClassABDriver, PadEnable; `build-macros` unchanged (the new macros have no layout) |
+
+All macro Makefiles keep the template's layout targets (DRC, LVS, PEX, LEF, …) unchanged; for the new macros they
+have nothing to work on until there is a layout. The CACE targets are the same in every macro:
+
+```
+make sim-cace [CACE_TOP=<datasheet>] [CACE_PARAMS="<groups>"] [CACE_JOBS=4] [CACE_OPTS=--nofail]
+make sim-cace-all
+```
+
+`changes_to_existing_makefiles.diff` shows every change to the four existing files.
+
+## Install
+
+```sh
+unzip 2026-10-08_opus_makefiles.zip -d /tmp
+sh /tmp/2026-10-08_opus_makefiles/install.sh ~/EDA/gf180_cm_ip__single2diff2single
+```
+
+`install.sh` replaces an existing Makefile only if it is unchanged since this package was made (checksums in
+`expected_originals.md5`), keeps the old one as `Makefile.orig-2026-10-08`, and checks the installed files against
+`new.md5`. A file you edited in the meantime is skipped and reported; merge it by hand from the diff, or run with
+`FORCE=1`. Or copy by hand: `cp -r /tmp/2026-10-08_opus_makefiles/repo/. ~/EDA/gf180_cm_ip__single2diff2single/`.
+
+## Tested (cloud container, copy of the repository)
+
+- `make help` in every macro and at the top; `make -n sim-all` / `sim-cace-macros`.
+- `ClassABDriver`: the six testbenches through `sim-xschem` (loop 93.1 dB, gain 0.49999, THD and noise as in the README).
+- `gf180mcu_IOPadSingle2Diff`: `sim-all` (testbench, then CACE with `--nofail`; exit 0, input_params fails as expected).
+- `ClassABBias`: `sim-cace CACE_PARAMS=line_params`; `make clean-macros` at the top.
+EOF
+chmod +x install.sh; cd .. && rm -f 2026-10-08_opus_makefiles.zip && zip -qr 2026-10-08_opus_makefiles.zip 2026-10-08_opus_makefiles && unzip -l 2026-10-08_opus_makefiles.zip; rm -rf /tmp/insttest && mkdir -p /tmp/insttest && cp -a /tmp/mktest /tmp/insttest/repo && for f in Makefile macros/OgueyAebischerBias/Makefile macros/gf180mcu_IOPadDiff2Single/Makefile macros/gf180mcu_IOPadSingle2Diff/Makefile; do cp /mnt/user-data/uploads/gf180_cm_ip__single2diff2single/$f /tmp/insttest/repo/$f; done; rm -f /tmp/insttest/repo/macros/Class*/Makefile /tmp/insttest/repo/macros/PadEnable/Makefile; touch /tmp/insttest/repo/submission.yaml; cd /tmp && unzip -qo /home/claude/work/mk/pkg/2026-10-08_opus_makefiles.zip -d /tmp/insttest && sh /tmp/insttest/2026-10-08_opus_makefiles/install.sh /tmp/insttest/repo; echo "exit $?"; sh /tmp/insttest/2026-10-08_opus_makefiles/install.sh /tmp/insttest/repo | head -3
+~~~~
+
+</details>
+
+*[Point README and handover at the Makefile package (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+mkdir -p /mnt/user-data/outputs/mk && cp /home/claude/work/mk/pkg/2026-10-08_opus_makefiles.zip /mnt/user-data/outputs/mk/ && cd /home/claude/work/gf && python3 - <<'EOF'
+def edit(p, a, b):
+    s=open(p,encoding='utf-8').read(); assert a in s, (p,a[:50]); open(p,'w',encoding='utf-8').write(s.replace(a,b,1))
+edit('README.md', "  These three have no Makefile yet (the bridge cannot write Makefiles); run CACE directly in `verification/cace/`.\n",
+ "  Their Makefiles (and the changes to the existing ones: `sim-cace`, `sim-cace-all`, `make sim-cace-macros` at the top) come as a package, because the bridge cannot write Makefiles: `_sudelbuecher/sudelbuecher/deliveries/2026-10-08_opus_makefiles.zip`, installed with its `install.sh`.\n")
+edit('HANDOVER_gf180_migration.md', "Not delivered: Makefiles for the three new macros (the bridge refuses Makefiles);",
+ "Makefiles (three new, four changed) come as `_sudelbuecher/sudelbuecher/deliveries/2026-10-08_opus_makefiles.zip`\n(the bridge refuses Makefiles); its `install.sh` copies them and keeps the old ones as `Makefile.orig-2026-10-08`.\n")
+print('ok')
+EOF
+grep -n "deliveries" README.md HANDOVER_gf180_migration.md | cut -c1-120; grep -n -A2 "deliveries" HANDOVER_gf180_migration.md | head
+```
+
+</details>
+
+*[Fix sentence start; stage edited docs (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -i '174s/^ not ported: the self-contained/Not ported: the self-contained/' HANDOVER_gf180_migration.md && sed -n 170,176p HANDOVER_gf180_migration.md && mkdir -p /mnt/user-data/outputs/mk/repo && cp README.md HANDOVER_gf180_migration.md /mnt/user-data/outputs/mk/repo/
+```
+
+</details>
+
+*[Ran a command (on the computer; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && python3 -c "
+import os
+for f in ['README.md','HANDOVER_gf180_migration.md']: print(f, int(os.stat(f).st_mtime*1000))"; md5sum README.md HANDOVER_gf180_migration.md
+```
+
+</details>
+
+*[Copied 3 files from the cloud container to the computer (1 lines of output).]*
+
+*[Ran a command (on the computer; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/deliveries && md5sum 2026-10-08_opus_makefiles.zip && unzip -tq 2026-10-08_opus_makefiles.zip; cd $HOME/mnt/gf180_cm_ip__single2diff2single && md5sum README.md HANDOVER_gf180_migration.md Makefile macros/OgueyAebischerBias/Makefile macros/gf180mcu_IOPadDiff2Single/Makefile macros/gf180mcu_IOPadSingle2Diff/Makefile
+```
+
+</details>
+
+*[Compare checksums with the computer (in the cloud container; 3 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+md5sum /mnt/user-data/outputs/mk/2026-10-08_opus_makefiles.zip /mnt/user-data/outputs/mk/repo/*.md
+```
+
+</details>
+
+*[Log the Makefile package; rebuild chat log (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+L=/mnt/user-data/outputs/log1/2026-10-08_opus_classab_port_log.md; cat >> $L <<'EOF'
+
+## 21:46 — Makefiles as a package (Christoph, 21:42: "drop me a zip file into the _sudelbuecher")
+
+`sudelbuecher/deliveries/2026-10-08_opus_makefiles.zip` (md5 558bde3f…): `repo/` mirrors the design repository,
+`README.md` lists every file and change, `install.sh` installs, `changes_to_existing_makefiles.diff` shows the
+changes to the four existing files.
+
+- New: `macros/ClassABBias/Makefile` (sim-cace, sim-cace-all for In/Out; sim-all = sim-cace-all),
+  `macros/ClassABDriver/Makefile` (sim-all = six testbenches + sim-cace on ClassABDriverBiased),
+  `macros/PadEnable/Makefile` (sim-all only points to the pad's CACE).
+- Changed: both IOPad Makefiles (their sim-all called a non-existent `<TOP>_tb_tran`; now CACE, and for Single2Diff
+  the `_tb_dc` testbench, tolerating xschem's exit status 10 for the undriven outp/outn); OgueyAebischerBias
+  (`CACE_OPTS ?= --nofail`); top level (`sim-cace-macros`, `clean-macros` covers all macros).
+- `install.sh` replaces an existing Makefile only if its checksum is still the 2026-10-08 one (all four were, checked on
+  the computer at 21:47), keeps it as `Makefile.orig-2026-10-08`, and checks the result.
+- Tested in a copy of the repository in the cloud: help and dry runs everywhere; the six driver testbenches through
+  sim-xschem; Single2Diff sim-all (exit 0); a ClassABBias CACE parameter; clean-macros; install.sh on the original
+  files (all replaced, all checks OK) and a second run (all "already installed").
+- `README.md` and `HANDOVER_gf180_migration.md` now point to the package (so their checksums in
+  `2026-10-08_opus_classab_delivery.md5` are superseded: a5e740cb… and edd6d62f…).
+EOF
+/tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/rebuild.sh
+```
+
+</details>
+
+*[Ran a command (on the computer; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher && python3 -c "
+import os
+for f in ['logs/main/2026-10-08_opus_classab_port_log.md','chatlog/2026-10-06_opus_gf180_bias_port_cace_and_iopad_poc.md']: print(f, int(os.stat(f).st_mtime*1000))"
+```
+
+</details>
+
+*[Copied 2 files from the cloud container to the computer (1 lines of output).]*
+
+I couldn't write the Makefiles into the repo, so they're in a zip with an install script. It's at `_sudelbuecher/sudelbuecher/deliveries/2026-10-08_opus_makefiles.zip`; the copy on your computer matches mine by checksum.
+
+To install:
+
+```sh
+unzip ~/EDA/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/deliveries/2026-10-08_opus_makefiles.zip -d /tmp
+sh /tmp/2026-10-08_opus_makefiles/install.sh ~/EDA/gf180_cm_ip__single2diff2single
+```
+
+- **Safety:** `install.sh` only overwrites a Makefile you haven't edited since today; an edited one is skipped and listed. Your four current Makefiles are unedited, so all will be replaced. Each replaced file is kept next to it as `Makefile.orig-2026-10-08`. Delete those once you're happy, since git would otherwise show them as new files.
+- **Copy by hand instead:** `cp -r /tmp/2026-10-08_opus_makefiles/repo/. ~/EDA/gf180_cm_ip__single2diff2single/` (this keeps no backups).
+
+What's in it:
+- **New Makefiles in `ClassABBias`, `ClassABDriver` and `PadEnable`.** They're built from the pad Makefile template.
+  - `ClassABBias`: `sim-all` runs the CACE suites of both bias variants.
+  - `ClassABDriver`: `sim-all` runs the six testbenches, then the CACE suite.
+  - `PadEnable`: `sim-all` only says the cells are tested inside the output pad.
+- **Both pad Makefiles were broken:** their `sim-all` called a `_tb_tran` testbench that doesn't exist. Now:
+  - `gf180mcu_IOPadDiff2Single`: `sim-all` runs its CACE suite.
+  - `gf180mcu_IOPadSingle2Diff`: `sim-all` runs the `_tb_dc` testbench, then CACE. Xschem stops there with exit status 10 because `outp`/`outn` have no driver yet (the buffer isn't designed), even though the netlist is complete. `sim-all` runs ngspice on that netlist anyway.
+- **CACE targets in every macro:** `make sim-cace` and `make sim-cace-all`, reporting even when a parameter fails. `make sim-cace CACE_OPTS=` stops at the first failure instead. `OgueyAebischerBias` gets the same option.
+- **Top-level Makefile:** a new `make sim-cace-macros` runs every CACE suite, and `clean-macros` now covers all macros. I left `build-macros` alone: the new macros have no layout, so its DRC/LVS steps would fail on them.
+
+In a copy of the repo in my cloud container, the six driver testbenches, the input-pad `sim-all`, one bias CACE parameter, `clean-macros` and the installer all ran without errors. The installer was tested on unchanged originals and on a second run, not on a file you've edited. Nothing has been run in your container yet.
+
+I also pointed the top-level README and the handover file at the zip, and added an entry to the running log; the chat log is updated through 21:46.
+
+## Turn 14 — 2026-10-08 22:09
+
+**User:**
+
+Concerning
+Not done
+
+* The Oguey–Aebischer and bandgap bias variants. Both need a real GF180 re-design, not a port.
+
+Is this a task better left to Fable or to Opus with extra effort?
+
+**Assistant:**
+
+I'd split it: the Oguey–Aebischer core is fine for Opus, and I'd give the bandgap to Fable if you have it. I can't benchmark the two against each other on this kind of work, so this is a judgment about where each task is hard, not a measured comparison.
+
+**Oguey–Aebischer core: Opus, normal or high effort.** It's the same procedure I already ran for `OgueyAebischerBias`:
+- read the device data off the GF180 models;
+- set M10/M11 into weak inversion;
+- size the composite pair for the target current;
+- check mismatch by Monte Carlo;
+- rework the start-up.
+
+The open points are known in advance: `MS1` at L = 100 µm exceeds GF180's 50 µm limit, and the T^1.3 temperature drift is inherent to the topology. Errors in that kind of work are caught by the simulations, not by more reasoning.
+
+**Bandgap: Fable, or Opus at the highest effort if not.** This is a real design problem with coupled choices:
+- **Resistor temperature coefficient.** The IHP version leaned on rhigh's −0.22 %/K, which almost cancels V_BE by itself. GF180's `ppolyf_u_1k` is −0.094 %/K and `ppolyf_u_3k` −0.167 %/K, so the PTAT/CTAT balance has to be rebuilt. One option worth trying is mixing in a positive-TC resistor such as `ppolyf_s`.
+- **PNPs.** GF180's vertical PNPs come in fixed geometries (5×5 or 10×10 µm), so the area ratio can only be set with `m`. That changes the ln(N) term and the layout.
+- **False operating point and start-up.** The R1A/R1B asymmetry that stopped the core from resting with both PNPs off has to be re-derived, and start-up re-checked at all corners.
+- **Headroom.** The stacked cascodes at 3.0 V, slow corner, −40 °C.
+
+That's the kind of multi-variable trade-off where a stronger model is more likely to find a good topology on the first pass. The simulation loop catches mistakes either way, but not a weak design choice.
+
+**What matters more than the model choice is the brief.** Either model will do better with:
+- your targets: current, allowed drift over temperature, allowed spread over corners, area budget, supply range;
+- whether 06v0 devices or a 5 V supply are on the table;
+- which of the two variants you actually need. If the reference current comes from elsewhere on the chip, maybe only one.
+
+Today's pitfalls (CACE quirks, the disabled-state convergence problem, the xschemrc library-path bug) are written up in the running log, so the next session won't repeat them.
+
+I can write a kickoff file for that session into `_sudelbuecher`, covering scope, the facts the redesign starts from, and the verification setup to reuse.
+
+## Turn 15 — 2026-10-08 22:36
+
+**User:**
+
+ok set up a hand-off for a side (or main) quest to redesign the reference circuits. I might have some more questions in addition. Tell me how to set up the cowork session. Give me an estimate how much of my (as of 2 days ago, Max) token budget I'm going to burn, in particular if I tell Fable to get at the task.
+
+**Assistant:**
+
+*[Loaded skill "product-self-knowledge".  
+Searched the web for "site:support.claude.com Max plan usage limits Fable".  
+Searched the web for "site:support.claude.com Claude desktop app cloud session link computer folders model selection effort" (6 lines of output).  
+Fetched https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan.  
+Fetched https://support.claude.com/en/articles/15811196-what-to-expect-with-claude-cowork-in-the-cloud (9 lines of output).]*
+
+*[Measure this session's token usage by phase (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 - <<'EOF'
+import json, datetime
+from zoneinfo import ZoneInfo
+TZ=ZoneInfo('Europe/Berlin')
+def load(p):
+    out={}
+    for l in open(p):
+        r=json.loads(l)
+        if r.get('type')!='assistant': continue
+        m=r.get('message',{}); u=m.get('usage'); mid=m.get('id')
+        if not u or not mid: continue
+        t=datetime.datetime.fromisoformat(r['timestamp'].replace('Z','+00:00')).astimezone(TZ)
+        out[mid]=(t,u,m.get('model'))
+    return out
+a=load('/tmp/claude-0/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb/scratchpad/chatlog/session.jsonl')
+b=load('/root/.claude/projects/-home-claude/ae2f9665-832e-520c-96fd-494fa4898beb.jsonl')
+a.update(b)
+def agg(f):
+    s=dict(n=0,inp=0,cw=0,cr=0,out=0)
+    for t,u,mo in a.values():
+        if f(t):
+            s['n']+=1; s['inp']+=u.get('input_tokens',0); s['cw']+=u.get('cache_creation_input_tokens',0); s['cr']+=u.get('cache_read_input_tokens',0); s['out']+=u.get('output_tokens',0)
+    return s
+d=lambda s: datetime.datetime.fromisoformat(s).replace(tzinfo=TZ)
+print('models', {mo for _,_,mo in a.values()})
+for name,f in [('whole session 10-06 21:30 .. now',lambda t:True),
+               ('bias port + IOPad (10-06/07)',lambda t:t<d('2026-10-08T03:10')),
+               ('class-AB port 10-08 19:22-21:20',lambda t:d('2026-10-08T19:20')<=t<d('2026-10-08T21:20')),
+               ('Makefiles 21:42-21:50',lambda t:d('2026-10-08T21:40')<=t<d('2026-10-08T21:55'))]:
+    s=agg(f); print(name, s, 'total M', round((s['inp']+s['cw']+s['cr']+s['out'])/1e6,1))
+EOF
+```
+
+</details>
+
+*[Collect GF180 resistor TCs and PNP facts for the kickoff (in the cloud container; 24 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+P=/home/claude/pdk/gf180mcuD/libs.tech/ngspice/sm141064.ngspice; for r in nplus_u pplus_u npolyf_u ppolyf_s ppolyf_u; do echo "$r: $(sed -n "/^\.subckt $r /,/^\.ends/p" $P | grep -m2 -o "r_tc1=[-0-9.e]*\|rsh_$r[ =]*[^ ]*" | tr '\n' ' ')"; done; grep -n "^\.param rsh_\(nplus_u\|pplus_u\|ppolyf_s\|ppolyf_u\|npolyf_u\)=" $P | head; grep -n "^\.lib bjt_statistical" -A3 $P | head; grep -n "subckt pnp_05p00x05p00" -A3 $P | head -5; grep -c "mc_.*pnp\|pnp.*mc_" $P
+```
+
+</details>
+
+*[Package the sizing harness for the next session and test it (in the cloud container; 14 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/mnt/user-data/outputs/kick/2026-10-08_reference_redesign; rm -rf $K; mkdir -p $K/tools; cd /home/claude/work/classab/sim && cp bias_ref_gf.spice run_bias_gf.py run_gf.py units_gf.spice bias_lp_gf.spice mpdda_gf.spice $K/tools/ && cd $K/tools && sed -i 's|^PDK = "/home/claude/pdk/gf180mcuD/libs.tech/ngspice"|PDK = os.path.join(os.environ.get("PDK_ROOT", "/foss/pdks"), os.environ.get("PDK", "gf180mcuD"), "libs.tech", "ngspice")|' run_gf.py run_bias_gf.py && grep -n "^PDK\|^import" run_gf.py run_bias_gf.py && python3 - <<'EOF'
+for f in ['run_gf.py','run_bias_gf.py']:
+    s=open(f).read()
+    hdr='#!/usr/bin/env python3\n# SPDX-FileCopyrightText: 2026 Christoph Maier\n# SPDX-License-Identifier: Apache-2.0\n'
+    if not s.startswith('#!'): s=hdr+s
+    else: s=s.replace('#!/usr/bin/env python3\n',hdr,1)
+    open(f,'w').write(s)
+EOF
+export PDK_ROOT=/home/claude/pdk PDK=gf180mcuD; python3 run_bias_gf.py in | head -3; python3 run_gf.py tt
+```
+
+</details>
+
+*[Write the kickoff file and tools README (in the cloud container; 12 lines of output).]*
+
+<details><summary>command</summary>
+
+~~~~sh
+K=/mnt/user-data/outputs/kick/2026-10-08_reference_redesign; cat > $K/tools/README.md <<'EOF'
+<!--
+SPDX-FileCopyrightText: 2026 Christoph Maier
+SPDX-License-Identifier: Apache-2.0
+-->
+# Sizing harness of the 2026-10-08 class-AB port (copied as a starting point)
+
+Plain ngspice decks and two Python drivers, used to size the GF180 class-AB driver and bias before drawing
+schematics. Needs `PDK_ROOT` (and `PDK`, default `gf180mcuD`) and ngspice on the path.
+
+| file | content |
+|---|---|
+| `bias_ref_gf.spice` | `d2s_bias_diodes`, `d2s_bias_in`, `d2s_bias_out` with the GF180 sizes (= the `ClassABBias` sheets) |
+| `units_gf.spice`, `mpdda_gf.spice`, `bias_lp_gf.spice` | DDA unit, driver, ideal bias fixture (= the `ClassABDriver` sheets) |
+| `run_bias_gf.py` | the six bias currents (0 V sources in the diode drains) over MOS/res corners, temperature, supply. Variant keys `in out oa bg`: `oa`/`bg` expect subckts `d2s_bias_oa` / `d2s_bias_bg` with an `Xt` instance of `d2s_bias_in` (IHP structure); add their netlist file to `FILES` |
+| `run_gf.py` | driver on the ideal fixture: op, loop gain, DC transfer; `tt`, `corners`, `loads` |
+
+```
+python3 run_bias_gf.py in out          # current errors, % of 5/5/2/2/5/5 uA
+python3 run_gf.py corners
+```
+EOF
+cat > $K/kickoff_reference_redesign.md <<'EOF'
+<!--
+SPDX-FileCopyrightText: 2026 Christoph Maier
+SPDX-License-Identifier: Apache-2.0
+-->
+# Kickoff: GF180 redesign of the self-contained bias references of the class-AB driver
+
+Written 2026-10-08 22:40 by the session that ported the class-AB driver (Claude, configured model `claude-opus-5-5`),
+for a new session. Christoph decides scope and targets; confirm the open questions (§3) with him first.
+
+## 1. Task
+
+The class-AB pad driver of `gf180_cm_ip__single2diff2single` takes its six bias currents from the bias tree
+`ClassABBiasIn`, fed by a 5 µA reference current into `iref`. On IHP there were two self-contained references
+that make that current on chip; on GF180 they do not exist yet. **Re-design them for GF180MCU (gf180mcuD) — do not
+transliterate the IHP sizes:**
+
+1. `ClassABBiasOA`: resistor-free Oguey–Aebischer core (IHP `oa_core`), output 5 µA into the `ClassABBiasIn` tree.
+2. `ClassABBiasBG`: current-mode (Banba) bandgap core with vertical PNPs (IHP `bg_core`), same output.
+
+Each as cells in `macros/ClassABBias/` (schematic, symbol, CACE suite like `ClassABBiasIn`), with start-up, and with
+a disable (see §3.5). The IHP design stays the reference and is not changed.
+
+## 2. Where things are
+
+| what | where |
+|---|---|
+| design repo (write) | `~/EDA/gf180_cm_ip__single2diff2single` — macros `ClassABBias`, `ClassABDriver`, `PadEnable`, the two pads, `OgueyAebischerBias` |
+| notes worktree (write) | `~/EDA/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/` — `logs/main/`, `chatlog/`, `backups/`, `deliveries/`, this folder |
+| IHP notes (read only) | `~/EDA/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver/` |
+
+Read first:
+
+- IHP `improvements/bias.md` (design, results, open points of all four variants), `improvements/sim/d2s_bias_ref.spice`
+  (`oa_core`, `bg_core`, the source netlists), `improvements/sim/run_bias.py` and `results_bias.txt` (the IHP checks and
+  numbers; do not rerun IHP), `improvements/xschem/d2s_bias_oa.sch`, `d2s_bias_bg.sch` (Christoph's hand-edited
+  drawings, layout conventions in `improvements/xschem/README.md`).
+- IHP `power_down/log.md`, entry 17:10 and 20:45: the switch plan for the cores (MS1 gated, vpg pulled to vdd, ks to vss).
+- GF180 repo: `macros/ClassABBias/README.md`, `macros/ClassABDriver/README.md`, `macros/PadEnable/README.md`,
+  `HANDOVER_gf180_migration.md` §7–8, `macros/OgueyAebischerBias/README.md` (the earlier GF180 resistor-free reference at
+  100 nA: sizing method, I_spec / A_VT table, PSRR problem).
+- Running log of the port: `sudelbuecher/logs/main/2026-10-08_opus_classab_port_log.md` (every number and pitfall).
+- `tools/` next to this file: the plain-ngspice sizing harness of the port (README there).
+
+## 3. Open questions for Christoph (ask at the start; defaults in brackets)
+
+1. Which of the two (or both)? The pads take iref from outside; maybe one chip-level reference feeds all pads.
+   [both, OA first]
+2. Targets: output current [5 µA into the tree], allowed drift −40…125 °C [bandgap: ±3 %; OA: whatever the topology
+   gives, report it], process spread [report], mismatch σ [≤ 2 % bandgap, ≤ 5 % OA], line sensitivity [≤ 1 %/V],
+   start-up from 0 V with 1 µs and 1 ms ramps at all corners [required], area budget [report].
+3. Device family and supply: 03v3 at 3.0–3.6 V [default], or 06v0 / 5 V (`docs/OPERATING_LIMITS.md`).
+4. Relation to `macros/OgueyAebischerBias` (100 nA, PSRR 31 dB, cascoding not done): merge, replace or leave alone?
+   [leave alone]
+5. Disable: the cores have internal nodes that need switches (MS1's gate, vpg, ks). Ports `en`, `en_b` on the core cells
+   with the switches inside, or a `PadEnable`-style sub-cell? [a sub-cell `RefCoreEnable` in `macros/PadEnable`,
+   instantiated in the core cell, so the enable stays its own sub-macro]
+
+## 4. GF180 facts the redesign starts from (checked 2026-10-06/08 in gf180mcuD from gf180mcu_fd_pr e11a8c9)
+
+- MOS 03v3 bins: L 0.28–50 µm, **W ≤ 100 µm per instance counting the total W, not W/nf** (W = 400 µm with nf = 40 fails
+  "could not find a valid modelname"). IHP `oa_core` MS1 is 0.5/100 µm → needs a different solution (L ≤ 50 µm).
+- Mismatch: `.param sw_stat_mismatch=1`; `fets_mm` draws one sample per instance with σ from that instance's own W·L and
+  **ignores `m`**: draw matched multi-unit devices as one instance with nf = units. A_VT ≈ 7.1 (n) / 6.7 (p) mV·µm;
+  I_spec per square at IC = 1 ≈ 360 nA (n, slope 1.41) / 97 nA (p, 1.46) (`OgueyAebischerBias/README.md`).
+- Corners: `sm141064.ngspice` sections `typical ss ff sf fs`, `res_typical res_ss res_ff`, `bjt_typical bjt_ss bjt_ff`,
+  `moscap_*`, `mimcap_*`, `bjt_statistical`, `res_statistical`. (06v0 devices use `_t` in every MOS corner in this file.)
+- Resistors (first-order body TC `r_tc1` from the model cards; the terminal resistances have their own TC, so simulate the
+  effective TC): `ppolyf_u_1k` 1 kΩ/sq −0.094 %/K; `ppolyf_u_2k`; `ppolyf_u_3k` −0.167 %/K; `ppolyf_u` 350 Ω/sq
+  −0.009 %/K; `npolyf_u` 310 Ω/sq −0.14 %/K; `ppolyf_s` 7.3 Ω/sq +0.32 %/K; `nplus_u` 60 Ω/sq +0.136 %/K; `pplus_u`
+  185 Ω/sq +0.138 %/K. Symbols: pins M P B (bulk is a pin). IHP rhigh was −0.22 %/K and nearly cancelled V_BE by itself;
+  that balance has to be rebuilt (a series mix of negative- and positive-TC resistors is one option).
+- PNPs: `pnp_05p00x05p00`, `pnp_10p00x10p00` (and the 0.42 µm strips), pins C B E, **geometry fixed, ratios only via m**;
+  they have mismatch parameters (`mis_is_*`, `mis_bf_*`, agauss); check whether `sw_stat_mismatch` turns them on.
+- MIM option 2 fF/µm² (`cap_mim_2f0fF`); MOS caps `cap_pmos_03v3` etc. (moscap sections).
+
+## 5. Verification flow (reuse; it works)
+
+1. Size in plain ngspice first (`tools/`), then draw: start from the IHP sheets `d2s_bias_oa.sch` / `d2s_bias_bg.sch`
+   with `macros/ClassABDriver/scripts/port_classab_from_ihp.py` (symbol/property substitution keeps Christoph's
+   drawing; extend its tables for the new devices, PNPs and resistors whose pins differ) or with `scripts/xsheet.py`.
+2. Round trip: `macros/ClassABDriver/scripts/check_classab_port.py <reference.spice> <xschem netlist> <subckt> <cell>`,
+   MISMATCHES 0, and sanity-check it once with a deliberate error.
+3. CACE: copy `macros/ClassABBias/scripts/gen_cace.py` (currents of the six diodes, line sensitivity, mismatch) and add
+   start-up (supply ramps, `t_startup` measured as in `OgueyAebischerBias`: last time outside ±10 % of the final value)
+   and temperature sweeps. `make sim-cace` once the Makefile package (`deliveries/2026-10-08_opus_makefiles.zip`) is
+   installed; add the new datasheets to `CACE_CELLS` in `macros/ClassABBias/Makefile`.
+4. Then the driver with the real reference: an `iref`-free pad variant, or a CACE fixture `ClassABBiasOA` → driver.
+
+Pitfalls already paid for (details in the running log):
+
+- CACE 2.13: a condition named like a pin takes its own value (use `i_ref`, not `iref`); state every condition a
+  parameter does not sweep (else a pin's Vmin is used); brace-escape `CACE{…}` inside symbol `value=` strings; unit `%`
+  shows 100 × the echoed value (echo fractions); `off` in a YAML list is false; templates are netlisted with the PDK
+  xschemrc + templates folder only, the DUT with its own folder's xschemrc.
+- ngspice: noise refuses `option KLU`; read earlier plots as `op1.<vec>` after a later analysis; with all current roots
+  off (disabled state) the DC operating point is unreliable — read leakage at the end of a short transient.
+- Transients: `abstol=1e-13` and an explicit tmax, or cold corners take minutes.
+- xschem: in a cloud container the UTF-8 BOM at the start of some project `xschemrc` files breaks loading (netlist from a
+  BOM-stripped copy there; leave the files alone); xschem exits 10 on undriven output pins while writing a complete netlist.
+- Self-biased references can have a zero-current or a false operating point: check start-up from 0 V without `.nodeset`,
+  and the IHP bandgap's R1A/R1B asymmetry trick.
+
+## 6. Rules (Christoph's standing orders)
+
+- **No git commands** without asking first (even `status`/`log` can leave an `index.lock` on the bridge). Never
+  `git switch sudel_buecher` in the main directory.
+- Write to the computer only with `device_commit_files` from a staged folder under `/mnt/user-data/outputs/`, with
+  `expectedMtimeMs` guards on existing files; verify checksums afterwards (PNG/SVG get a provenance stamp: compare
+  decoded pixels). Before overwriting anything, copy the old version into `sudelbuecher/backups/<date>_<topic>/` on the
+  computer. Never overwrite Christoph's hand edits.
+- Makefiles cannot be written by the bridge: deliver them as a zip in `sudelbuecher/deliveries/` with an installer.
+- No Microsoft formats; never suggest a spreadsheet. Index external sources, don't copy them.
+- Memory: never add inferences about Christoph's habits or views to persistent memory without asking.
+- Keep a running log `sudelbuecher/logs/main/<date>_<model>_reference_redesign_log.md`, updated after each milestone
+  (context compaction happens); export the chat log with `sudelbuecher/chatlog/export_chatlog.py` (it handles compaction).
+- Results go to the macro READMEs and `verification/cace/results/<cell>/`; update `HANDOVER_gf180_migration.md`.
+
+## 7. Suggested order and checkpoints
+
+1. Confirm §3 with Christoph. 2. OA core: size (tools), start-up, PVT, mismatch → sheet → round trip → CACE → log.
+3. Checkpoint with Christoph (numbers, area, usage so far). 4. Bandgap: TC balance with GF180 resistors, PNP ratio via
+m, false operating point, start-up, headroom at ss/3.0 V/−40 °C → sheet → round trip → CACE → log. 5. Driver with each
+reference over PVT (I_Q, loop, offset), compare with the ideal fixture as on IHP (`bias.md`, "Results, driver").
+EOF
+ls -R $K
+~~~~
+
+</details>
+
+*[Copied 8 files from the cloud container to the computer (1 lines of output).]*
+
+*[Ran a command (on the computer).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/kickoffs/2026-10-08_reference_redesign && find . -type f | sort | xargs md5sum
+```
+
+</details>
+
+*[Checksums of staged kickoff files (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /mnt/user-data/outputs/kick/2026-10-08_reference_redesign && find . -type f | sort | xargs md5sum
+```
+
+</details>
+
+*[Ran a command (on the computer; 23 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher && ls cloud_environment.md && grep -n "gf180\|^#" cloud_environment.md | head -30; wc -l cloud_environment.md
+```
+
+</details>
+
+*[Add cloud setup section to the kickoff (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/mnt/user-data/outputs/kick/2026-10-08_reference_redesign/kickoff_reference_redesign.md; python3 - $K <<'EOF'
+import sys
+p=sys.argv[1]; s=open(p).read()
+a="## 5. Verification flow (reuse; it works)\n"
+b="""## 5. Cloud tools (the new session's container starts empty)
+
+Follow `sg13cmos5l_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/cloud_environment.md` (IHP notes): it builds
+xschem 3.4.8RC and ngspice-47 as in Christoph's IIC-OSIC-TOOLS image and installs gf180mcuD from the image's open_pdks
+build (`1689ac3`, ciel release asset). The IHP PDK and OpenVAF are not needed for this task. Add CACE in a venv
+(`pip install cace`, 2.13 was used) and `PDK_ROOT`/`PDK=gf180mcuD`.
+The 2026-10-08 numbers came from a different setup (ngspice-42, gf180mcuD assembled from gf180mcu_fd_pr `e11a8c9`):
+rerun `ClassABBiasIn` and `ClassABDriverBiased` CACE once first and note any differences in the log before designing.
+
+## 6. Verification flow (reuse; it works)
+"""
+assert a in s; s=s.replace(a,b)
+s=s.replace("## 6. Rules (Christoph's standing orders)","## 7. Rules (Christoph's standing orders)").replace("## 7. Suggested order and checkpoints","## 8. Suggested order and checkpoints")
+open(p,'w').write(s)
+EOF
+grep -n "^## " $K; md5sum $K
+```
+
+</details>
+
+*[Ran a command (on the computer; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -c "
+import os; print(int(os.stat(os.path.expanduser('~/mnt/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/kickoffs/2026-10-08_reference_redesign/kickoff_reference_redesign.md')).st_mtime*1000))"
+```
+
+</details>
+
+*[Copied 1 files from the cloud container to the computer (1 lines of output).]*
