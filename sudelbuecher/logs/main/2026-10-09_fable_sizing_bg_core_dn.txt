@@ -1,0 +1,22 @@
+== bg_core_dn corners: iout uA, deviation from 5 uA, Idd uA, node voltages
+  tt 27C         iout  5.0824 ( +1.65 %)  Idd  10.55  g 1.435 ea 0.656 eb 0.657 vpc 2.033 vpg 2.432 cb 2.992 ks 0.000
+  ss 27C         iout  5.0764 ( +1.53 %)  Idd  10.46  g 1.549 ea 0.656 eb 0.656 vpc 1.905 vpg 2.304 cb 2.996 ks 0.000
+  ff 27C         iout  5.0884 ( +1.77 %)  Idd  10.64  g 1.321 ea 0.656 eb 0.657 vpc 2.160 vpg 2.560 cb 2.988 ks 0.000
+  sf 27C         iout  5.0826 ( +1.65 %)  Idd  10.60  g 1.517 ea 0.656 eb 0.657 vpc 2.125 vpg 2.524 cb 2.990 ks 0.000
+  fs 27C         iout  5.0823 ( +1.65 %)  Idd  10.50  g 1.353 ea 0.656 eb 0.657 vpc 1.941 vpg 2.340 cb 2.994 ks 0.000
+  res ss         iout  4.0387 (-19.23 %)  Idd   8.46  g 1.409 ea 0.650 eb 0.651 vpc 2.052 vpg 2.449 cb 2.996 ks 0.000
+  res ff         iout  6.8349 (+36.70 %)  Idd  14.05  g 1.471 ea 0.664 eb 0.664 vpc 2.006 vpg 2.409 cb 2.986 ks 0.000
+  bjt ss         iout  5.1366 ( +2.73 %)  Idd  10.65  g 1.445 ea 0.665 eb 0.665 vpc 2.028 vpg 2.431 cb 2.989 ks 0.000
+  bjt ff         iout  5.0450 ( +0.90 %)  Idd  10.47  g 1.428 ea 0.650 eb 0.650 vpc 2.036 vpg 2.433 cb 2.994 ks 0.000
+  tt -40C        iout  4.9452 ( -1.10 %)  Idd  10.36  g 1.602 ea 0.778 eb 0.779 vpc 1.935 vpg 2.374 cb 2.971 ks 0.000
+  tt 125C        iout  4.9433 ( -1.13 %)  Idd  10.19  g 1.181 ea 0.473 eb 0.473 vpc 2.187 vpg 2.526 cb 3.026 ks 0.001
+  ss 3.0V -40C   iout  4.9335 ( -1.33 %)  Idd  10.16  g 1.715 ea 0.778 eb 0.778 vpc 1.509 vpg 1.947 cb 2.675 ks 0.000
+  ff 3.6V 125C   iout  4.9594 ( -0.81 %)  Idd  10.37  g 1.066 ea 0.473 eb 0.474 vpc 2.615 vpg 2.955 cb 3.323 ks 0.001
+  ss 3.0V 125C   iout  4.9275 ( -1.45 %)  Idd  10.05  g 1.296 ea 0.472 eb 0.473 vpc 1.759 vpg 2.097 cb 2.730 ks 0.000
+  ff 3.6V -40C   iout  4.9568 ( -0.86 %)  Idd  10.63  g 1.490 ea 0.778 eb 0.779 vpc 2.361 vpg 2.801 cb 3.266 ks 0.000
+== bg_core_dn mismatch MC, 100 seeds (sw_stat_mismatch=1: MOS, PNP; the PDK has no resistor mismatch)
+  mean 5.0857 uA  sigma 1.05 %  min -3.06 %  max +2.40 %
+== bg_core_dn line sensitivity (3.0 -> 3.6 V) %/V, and AC |di/dvdd| / I, %/V
+  tt 27C     dc +0.480 %/V   ac 10Hz/1k/100k/1M/10M: 0.48 0.48 0.58 7.36 56.61
+  ss -40C    dc +0.437 %/V   ac 10Hz/1k/100k/1M/10M: 0.43 0.43 0.55 7.58 58.56
+  ff 125C    dc +0.580 %/V   ac 10Hz/1k/100k/1M/10M: 0.57 0.57 0.86 7.51 58.67

@@ -1,0 +1,71 @@
+* GF180 03v3 re-design of the IHP bg_core (current-mode Banba bandgap, vertical PNPs), 2026-10-08/09
+* Differences from the IHP core: (1) the PMOS mirror is a wide-swing cascode: the diode connection of the
+* input branch closes around the cascode (vpg = drain of PBC) and the cascode gate line vpc comes from its own
+* resistor RC between the two gate lines (vpc = vpg - I*RC, self-biased wide-swing mirror), because with
+* pfet_03v3's higher |V_T| the IHP stacked-diode cascode leaves NB no headroom at ss / 3.0 V / -40 C. (2) The start-up pulls the mirror gate line vpg, not vpc. (3) MS1 is 0.22/50 (L <= 50 um).
+* Two variants: bg_core (NMOS pair NA/NB on the common substrate, bulk vss) and bg_core_dn (NA/NB each in
+* its own isolated p-well inside one deep n-well on vdd, bulk tied to the source; well junctions as diodes).
+* Parameters are the sizing knobs; the harness overrides them with .param lines after this file.
+.param rw=1u r1a=118.1u r1b=107.4u r0=32.8u
+.param rctype=3k
+.param wp=48u lp=4u nfp=4 wpc=48u lpc=2u nfpc=4 rc=50u
+.param wn=20u lnn=12u nfn=2
+.param mq2=8
+.param ws1=0.22u ls1=50u
+.param apw=360p pjpw=84u adn=1800p pjdn=180u
+
+.subckt bg_core vdd vss iout
+XPB cb vpg vdd vdd pfet_03v3 W={wp} L={lp} nf={nfp}
+XPBC vpg vpc cb vdd pfet_03v3 W={wpc} L={lpc} nf={nfpc}
+XPA ca vpg vdd vdd pfet_03v3 W={wp} L={lp} nf={nfp}
+XPAC g vpc ca vdd pfet_03v3 W={wpc} L={lpc} nf={nfpc}
+XPO co vpg vdd vdd pfet_03v3 W={2*wp} L={lp} nf={2*nfp}
+XPOC iout vpc co vdd pfet_03v3 W={2*wpc} L={lpc} nf={2*nfpc}
+XRC vpg vpc vss ppolyf_u_3k r_width={rw} r_length={rc}
+XNA g g ea vss nfet_03v3 W={wn} L={lnn} nf={nfn}
+XNB vpc g eb vss nfet_03v3 W={wn} L={lnn} nf={nfn}
+XQ1 vss vss ea pnp_05p00x05p00
+XR1A ea vss vss ppolyf_u_3k r_width={rw} r_length={r1a}
+XR0 eb e2 vss ppolyf_u_3k r_width={rw} r_length={r0}
+XQ2 vss vss e2 pnp_05p00x05p00 m={mq2}
+XR1B eb vss vss ppolyf_u_3k r_width={rw} r_length={r1b}
+XMS1 ks vss vdd vdd pfet_03v3 W={ws1} L={ls1} nf=1
+XMS2 ks g vss vss nfet_03v3 W=10u L=1u nf=1
+XMS3 vpg ks vss vss nfet_03v3 W=0.5u L=2u nf=1
+.ends bg_core
+
+* Deep n-well variant: NA in p-well pwa (bulk = ea), NB in p-well pwb (bulk = eb), both inside one DNW on vdd.
+* Junction diodes with estimated layout areas: each p-well 30 x 12 um, the DNW 60 x 30 um.
+.subckt bg_core_dn vdd vss iout
+XPB cb vpg vdd vdd pfet_03v3 W={wp} L={lp} nf={nfp}
+XPBC vpg vpc cb vdd pfet_03v3 W={wpc} L={lpc} nf={nfpc}
+XPA ca vpg vdd vdd pfet_03v3 W={wp} L={lp} nf={nfp}
+XPAC g vpc ca vdd pfet_03v3 W={wpc} L={lpc} nf={nfpc}
+XPO co vpg vdd vdd pfet_03v3 W={2*wp} L={lp} nf={2*nfp}
+XPOC iout vpc co vdd pfet_03v3 W={2*wpc} L={lpc} nf={2*nfpc}
+XRC vpg vpc vss ppolyf_u_3k r_width={rw} r_length={rc}
+XNA g g ea ea nfet_03v3 W={wn} L={lnn} nf={nfn}
+XNB vpc g eb eb nfet_03v3 W={wn} L={lnn} nf={nfn}
+DPWA ea dnw diode_pw2dw area={apw} pj={pjpw}
+DPWB eb dnw diode_pw2dw area={apw} pj={pjpw}
+DDNW vss dnw diode_dw2ps area={adn} pj={pjdn}
+Rdnw dnw vdd 1
+XQ1 vss vss ea pnp_05p00x05p00
+XR1A ea vss vss ppolyf_u_3k r_width={rw} r_length={r1a}
+XR0 eb e2 vss ppolyf_u_3k r_width={rw} r_length={r0}
+XQ2 vss vss e2 pnp_05p00x05p00 m={mq2}
+XR1B eb vss vss ppolyf_u_3k r_width={rw} r_length={r1b}
+XMS1 ks vss vdd vdd pfet_03v3 W={ws1} L={ls1} nf=1
+XMS2 ks g vss vss nfet_03v3 W=10u L=1u nf=1
+XMS3 vpg ks vss vss nfet_03v3 W=0.5u L=2u nf=1
+.ends bg_core_dn
+
+* with the class-AB bias tree (IHP structure, for run_bias_gf.py variant 'bg')
+.subckt d2s_bias_bg vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn
+Xc vdd vss iref bg_core
+Xt vdd vss vddo vsso iref vbp vbn vbpc vbnc vabp vabn d2s_bias_in
+.ends d2s_bias_bg
+.subckt d2s_bias_bgdn vdd vss vddo vsso vbp vbn vbpc vbnc vabp vabn
+Xc vdd vss iref bg_core_dn
+Xt vdd vss vddo vsso iref vbp vbn vbpc vbnc vabp vabn d2s_bias_in
+.ends d2s_bias_bgdn

@@ -229,3 +229,22 @@ order) and `tools/` (the plain-ngspice sizing harness of this port, made PDK_ROO
 Token use of this session (from the transcripts, all claude-opus-5-5): whole session since 2026-10-06 21:30 about
 498 model calls and 238 M tokens processed, of which 234 M cache reads, 3.3 M cache writes, 0.49 M output; the
 class-AB port 19:20–21:20 alone 220 calls, 94 M tokens (93 M cache reads, 0.24 M output).
+
+## 2026-10-09 00:58 — second compaction; chat log rebuilt
+
+- 00:54 automatic compaction rewrote the transcript again. Records 22:39–22:44 are lost (end of turn 15, the 22:43 question
+  and its web research); the 22:43 question is reconstructed from the summary's verbatim quote, the 22:44 reply survived.
+- `chatlog/export_chatlog.py`: follows `logicalParentUuid` across compact boundaries; new env vars CHATLOG_HEAD_USER/
+  HEAD_TIME/HEAD_NOTE (transcript starting with an assistant record) and CHATLOG_COMPACT_INLINE. Chat log now turns 1–18,
+  through 2026-10-09 00:56 (md5 7af08b33…). Previous versions in `backups/2026-10-09_before_chatlog_update/`.
+- Bridge pitfall: re-committing from the same staged path wrote the old content (stale cache); stage under a fresh path.
+- Open: Christoph hand-edited schematics, asks whether they are still equivalent and for a test script.
+
+## 2026-10-09 01:10 — equivalence check of Christoph's hand edits
+
+- Edited since delivery: PadEnable EnableInv, BiasRefEnable, DriverEnable, InputEnable; ClassABDriver, ClassABUnitR.
+- New `scripts/check_schematics.sh` (netlist with each folder's xschemrc + `check_classab_port.py` against the reference
+  subckts; 8 cells incl. ClassABBiasIn/Out). `check_classab_port.py` now accepts MOSFET drain/source swaps (noted, not counted).
+- Result: equivalent — EnableInv, DriverEnable, ClassABUnitR; BiasRefEnable (XTGN D/S swapped), InputEnable (XTGN1, XTGP2 D/S
+  swapped). NOT equivalent — ClassABDriver: XABN bulk floating (net1, should be vss); XCY drain on net2, disconnected from b.
+  Delivered versions all pass (control). Old checker in `backups/2026-10-09_before_chatlog_update/`.

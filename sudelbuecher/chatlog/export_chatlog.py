@@ -16,7 +16,12 @@ appending to that export, environment variables (optional):
   CHATLOG_TURN_OFFSET   number of turns already in the earlier export (turn numbers continue after it)
   CHATLOG_BODY_ONLY=1   write the turns only, without the file header
   CHATLOG_COMPACT_USER  text shown as the user message of the turn the compaction interrupted
-  CHATLOG_COMPACT_TIME  its time label (e.g. "2026-10-08 19:22")"""
+  CHATLOG_COMPACT_TIME  its time label (e.g. "2026-10-08 19:22")
+2026-10-09 (second compaction): it removed records instead of a turn's beginning only, so the surviving transcript
+can start with an assistant record:
+  CHATLOG_HEAD_USER     user message (reconstructed) for that headless first turn
+  CHATLOG_HEAD_TIME     its time label;  CHATLOG_HEAD_NOTE  a note placed before its first surviving reply
+  CHATLOG_COMPACT_INLINE=1  a compaction summary only adds a note to the current turn (no new turn)"""
 import json, re, sys, datetime, os
 from zoneinfo import ZoneInfo
 src, out, title, sid, model = sys.argv[1:6]
@@ -26,7 +31,7 @@ by = {r["uuid"]: r for r in recs if r.get("uuid")}
 last = [r for r in recs if r.get("type") in ("user", "assistant")][-1]
 path, r = [], last
 while r:
-    path.append(r); r = by.get(r.get("parentUuid"))
+    path.append(r); r = by.get(r.get("parentUuid")) or by.get(r.get("logicalParentUuid"))  # across compact boundaries
 path.reverse()
 RE_REM = re.compile(r"<system-reminder>.*?</system-reminder>", re.S)
 def stamp(r, fmt="%H:%M"):
@@ -79,6 +84,9 @@ def block_texts(c):
     return [b.get("text", "") for b in c if isinstance(b, dict) and b.get("type") == "text"]
 for r in path:
     if r.get("isMeta"): continue
+    if r.get("isCompactSummary") and os.environ.get("CHATLOG_COMPACT_INLINE") == "1" and cur is not None:
+        cur["items"].append(("note", f"[The context was compacted automatically at {stamp(r)}; the summary is not exported. The turn continues below.]"))
+        continue
     if r.get("isCompactSummary"):
         new_turn(r)
         if os.environ.get("CHATLOG_COMPACT_TIME"): cur["label"] = os.environ["CHATLOG_COMPACT_TIME"]
@@ -114,7 +122,11 @@ for r in path:
             new_turn(r)
         cur["user"] += texts
     elif r["type"] == "assistant" and isinstance(c, list):
-        if cur is None: new_turn(r)
+        if cur is None:
+            new_turn(r)
+            if os.environ.get("CHATLOG_HEAD_TIME"): cur["label"] = os.environ["CHATLOG_HEAD_TIME"]
+            if os.environ.get("CHATLOG_HEAD_USER"): cur["user"].append(os.environ["CHATLOG_HEAD_USER"])
+            if os.environ.get("CHATLOG_HEAD_NOTE"): cur["items"].append(("note", os.environ["CHATLOG_HEAD_NOTE"]))
         for b in c:
             t = b.get("type")
             if t == "text" and b["text"].strip(): cur["items"].append(("text", b["text"].strip()))

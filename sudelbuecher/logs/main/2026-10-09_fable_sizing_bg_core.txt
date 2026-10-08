@@ -1,0 +1,43 @@
+== bg_core corners: iout uA, deviation from 5 uA, Idd uA, node voltages
+  tt 27C         iout  5.0737 ( +1.47 %)  Idd  10.53  g 1.663 ea 0.656 eb 0.656 vpc 2.033 vpg 2.432 cb 2.993 ks 0.000
+  ss 27C         iout  5.0694 ( +1.39 %)  Idd  10.45  g 1.789 ea 0.656 eb 0.656 vpc 1.906 vpg 2.304 cb 2.996 ks 0.000
+  ff 27C         iout  5.0781 ( +1.56 %)  Idd  10.62  g 1.538 ea 0.656 eb 0.656 vpc 2.161 vpg 2.560 cb 2.989 ks 0.000
+  sf 27C         iout  5.0737 ( +1.47 %)  Idd  10.58  g 1.752 ea 0.656 eb 0.656 vpc 2.126 vpg 2.524 cb 2.991 ks 0.000
+  fs 27C         iout  5.0737 ( +1.47 %)  Idd  10.48  g 1.575 ea 0.656 eb 0.656 vpc 1.941 vpg 2.340 cb 2.994 ks 0.000
+  res ss         iout  4.0314 (-19.37 %)  Idd   8.44  g 1.636 ea 0.650 eb 0.650 vpc 2.053 vpg 2.449 cb 2.997 ks 0.000
+  res ff         iout  6.8240 (+36.48 %)  Idd  14.03  g 1.701 ea 0.663 eb 0.664 vpc 2.006 vpg 2.409 cb 2.987 ks 0.000
+  bjt ss         iout  5.1279 ( +2.56 %)  Idd  10.64  g 1.676 ea 0.665 eb 0.665 vpc 2.028 vpg 2.432 cb 2.989 ks 0.000
+  bjt ff         iout  5.0363 ( +0.73 %)  Idd  10.45  g 1.655 ea 0.650 eb 0.650 vpc 2.037 vpg 2.433 cb 2.995 ks 0.000
+  tt -40C        iout  4.9390 ( -1.22 %)  Idd  10.35  g 1.867 ea 0.778 eb 0.778 vpc 1.936 vpg 2.374 cb 2.971 ks 0.000
+  tt 125C        iout  4.9308 ( -1.38 %)  Idd  10.16  g 1.352 ea 0.472 eb 0.473 vpc 2.188 vpg 2.526 cb 3.027 ks 0.000
+  ss 3.0V -40C   iout  4.9311 ( -1.38 %)  Idd  10.16  g 1.993 ea 0.778 eb 0.778 vpc 1.510 vpg 1.947 cb 2.676 ks 0.000
+  ff 3.6V 125C   iout  4.9430 ( -1.14 %)  Idd  10.34  g 1.228 ea 0.473 eb 0.473 vpc 2.616 vpg 2.956 cb 3.324 ks 0.001
+  ss 3.0V 125C   iout  4.9195 ( -1.61 %)  Idd  10.03  g 1.476 ea 0.472 eb 0.472 vpc 1.759 vpg 2.097 cb 2.730 ks 0.000
+  ff 3.6V -40C   iout  4.9470 ( -1.06 %)  Idd  10.61  g 1.741 ea 0.778 eb 0.779 vpc 2.362 vpg 2.801 cb 3.267 ks 0.000
+== bg_core mismatch MC, 100 seeds (sw_stat_mismatch=1: MOS, PNP; the PDK has no resistor mismatch)
+  mean 5.0768 uA  sigma 0.98 %  min -2.84 %  max +2.15 %
+== bg_core line sensitivity (3.0 -> 3.6 V) %/V, and AC |di/dvdd| / I, %/V
+  tt 27C     dc +0.329 %/V   ac 10Hz/1k/100k/1M/10M: 0.33 0.33 2.88 11.91 56.45
+  ss -40C    dc +0.288 %/V   ac 10Hz/1k/100k/1M/10M: 0.29 0.29 2.91 13.43 58.09
+  ff 125C    dc +0.430 %/V   ac 10Hz/1k/100k/1M/10M: 0.41 0.42 3.15 10.83 58.63
+== bg_core start-up from 0 V (all nodes 0, uic), ramps 1 us and 1 ms; iout 1 ms after the ramp vs op; t_startup = last time outside +-10 %
+  tt 27C         t_r      1 us: iout  5.0737 uA ( +0.00 % vs op)  t_startup      0.7 us after ramp
+  tt 27C         t_r   1000 us: iout  5.0737 uA ( +0.00 % vs op)  t_startup   -414.9 us after ramp
+  ss 3.0V -40C   t_r      1 us: iout  4.9311 uA ( +0.00 % vs op)  t_startup      0.7 us after ramp
+  ss 3.0V -40C   t_r   1000 us: iout  4.9311 uA ( +0.00 % vs op)  t_startup   -250.7 us after ramp
+  ff 3.6V 125C   t_r      1 us: iout  4.9430 uA ( +0.00 % vs op)  t_startup      0.8 us after ramp
+  ff 3.6V 125C   t_r   1000 us: iout  4.9430 uA ( +0.00 % vs op)  t_startup   -581.9 us after ramp
+  sf -40C        t_r      1 us: iout  4.9390 uA ( +0.00 % vs op)  t_startup      0.6 us after ramp
+  sf -40C        t_r   1000 us: iout  4.9390 uA ( +0.00 % vs op)  t_startup   -382.1 us after ramp
+  fs 125C        t_r      1 us: iout  4.9309 uA ( +0.00 % vs op)  t_startup      1.0 us after ramp
+  fs 125C        t_r   1000 us: iout  4.9309 uA ( +0.00 % vs op)  t_startup   -477.0 us after ramp
+  tt -40C        t_r      1 us: iout  4.9390 uA ( +0.00 % vs op)  t_startup      0.6 us after ramp
+  tt -40C        t_r   1000 us: iout  4.9390 uA ( +0.00 % vs op)  t_startup   -357.3 us after ramp
+  tt 125C        t_r      1 us: iout  4.9308 uA ( +0.00 % vs op)  t_startup      0.9 us after ramp
+  tt 125C        t_r   1000 us: iout  4.9308 uA ( +0.00 % vs op)  t_startup   -504.6 us after ramp
+  ss 3.0V 125C   t_r      1 us: iout  4.9195 uA ( +0.00 % vs op)  t_startup      1.1 us after ramp
+  ss 3.0V 125C   t_r   1000 us: iout  4.9195 uA ( +0.00 % vs op)  t_startup   -411.7 us after ramp
+  res ff -40C    t_r      1 us: iout  6.6255 uA ( +0.00 % vs op)  t_startup      0.4 us after ramp
+  res ff -40C    t_r   1000 us: iout  6.6255 uA ( +0.00 % vs op)  t_startup   -346.1 us after ramp
+  res ss 125C    t_r      1 us: iout  3.9022 uA ( +0.00 % vs op)  t_startup      1.1 us after ramp
+  res ss 125C    t_r   1000 us: iout  3.9022 uA ( +0.00 % vs op)  t_startup   -517.7 us after ramp

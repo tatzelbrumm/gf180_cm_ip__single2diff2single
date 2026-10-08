@@ -1,0 +1,66 @@
+ClassABDriver (d2s_mpdda GF180) with each bias, 1k || 100p, over PVT
+typical   27 3.3 ideal iqp=212.8u iqn=212.8u idd=297.0u t0=93.09 fc=1.41M pm=72.78 gain=0.5 off_mV=0.0108 inl_mV=0.01232 v(xd.a)=2.432 v(xd.b)=0.7411 v(xd.x)=0.32 v(xd.l1)=0.6865
+typical   27 3.3 in    iqp=211.5u iqn=211.4u idd=296.6u t0=92.65 fc=1.40M pm=72.86 gain=0.5 off_mV=0.01168 inl_mV=0.0126 v(xd.a)=2.432 v(xd.b)=0.7407 v(xd.x)=0.321 v(xd.l1)=0.6863
+typical   27 3.3 bg    iqp=214.5u iqn=214.4u idd=311.4u t0=92.59 fc=1.41M pm=72.9 gain=0.5 off_mV=0.01171 inl_mV=0.01303 v(xd.a)=2.431 v(xd.b)=0.7417 v(xd.x)=0.3232 v(xd.l1)=0.687
+typical   27 3.3 bgdn  iqp=214.8u iqn=214.8u idd=312.0u t0=92.58 fc=1.41M pm=72.91 gain=0.5 off_mV=0.01171 inl_mV=0.01308 v(xd.a)=2.431 v(xd.b)=0.7418 v(xd.x)=0.3235 v(xd.l1)=0.6871
+typical  -40 3.3 ideal iqp=214.4u iqn=214.4u idd=298.8u t0=93.36 fc=1.35M pm=75.47 gain=0.5 off_mV=0.005482 inl_mV=0.01823 v(xd.a)=2.365 v(xd.b)=0.7991 v(xd.x)=0.2636 v(xd.l1)=0.7547
+typical  -40 3.3 in    iqp=212.8u iqn=212.8u idd=298.2u t0=92.8 fc=1.35M pm=75.54 gain=0.5 off_mV=0.006961 inl_mV=0.01866 v(xd.a)=2.366 v(xd.b)=0.7987 v(xd.x)=0.2645 v(xd.l1)=0.7545
+typical  -40 3.3 bg    iqp=210.3u iqn=210.3u idd=305.0u t0=92.78 fc=1.35M pm=75.5 gain=0.5 off_mV=0.007061 inl_mV=0.01818 v(xd.a)=2.367 v(xd.b)=0.798 v(xd.x)=0.263 v(xd.l1)=0.7541
+typical  -40 3.3 bgdn  iqp=210.5u iqn=210.5u idd=305.4u t0=92.78 fc=1.35M pm=75.51 gain=0.5 off_mV=0.007051 inl_mV=0.01823 v(xd.a)=2.367 v(xd.b)=0.7981 v(xd.x)=0.2632 v(xd.l1)=0.7541
+typical  125 3.3 ideal iqp=211.5u iqn=211.4u idd=295.5u t0=79.26 fc=1.43M pm=69.67 gain=0.4999 off_mV=0.05154 inl_mV=0.007047 v(xd.a)=2.532 v(xd.b)=0.6597 v(xd.x)=0.3975 v(xd.l1)=0.5915
+typical  125 3.3 in    iqp=210.5u iqn=210.4u idd=295.5u t0=77.96 fc=1.43M pm=69.77 gain=0.4999 off_mV=0.05668 inl_mV=0.007082 v(xd.a)=2.532 v(xd.b)=0.6593 v(xd.x)=0.3987 v(xd.l1)=0.5913
+typical  125 3.3 bg    iqp=207.7u iqn=207.6u idd=301.6u t0=78.51 fc=1.42M pm=69.75 gain=0.4999 off_mV=0.05359 inl_mV=0.00687 v(xd.a)=2.534 v(xd.b)=0.6582 v(xd.x)=0.3961 v(xd.l1)=0.5905
+typical  125 3.3 bgdn  iqp=208.2u iqn=208.1u idd=302.4u t0=78.41 fc=1.42M pm=69.75 gain=0.4999 off_mV=0.05413 inl_mV=0.006908 v(xd.a)=2.533 v(xd.b)=0.6584 v(xd.x)=0.3966 v(xd.l1)=0.5907
+ss       -40 3.0 ideal iqp=205.5u iqn=205.4u idd=289.8u t0=92.09 fc=1.26M pm=75.38 gain=0.5 off_mV=-0.162 inl_mV=0.3719 v(xd.a)=1.942 v(xd.b)=0.9087 v(xd.x)=0.2705 v(xd.l1)=0.8628
+ss       -40 3.0 in    iqp=202.6u iqn=202.6u idd=287.5u t0=91.61 fc=1.26M pm=75.47 gain=0.5 off_mV=-0.1642 inl_mV=0.38 v(xd.a)=1.943 v(xd.b)=0.9079 v(xd.x)=0.2707 v(xd.l1)=0.8625
+ss       -40 3.0 bg    iqp=160.5u iqn=160.5u idd=235.3u t0=90.75 fc=1.17M pm=74.77 gain=0.5 off_mV=-0.06722 inl_mV=0.166 v(xd.a)=1.957 v(xd.b)=0.8947 v(xd.x)=0.2427 v(xd.l1)=0.853
+ss       -40 3.0 bgdn  iqp=160.6u iqn=160.6u idd=235.4u t0=90.75 fc=1.17M pm=74.77 gain=0.5 off_mV=-0.06735 inl_mV=0.1663 v(xd.a)=1.957 v(xd.b)=0.8947 v(xd.x)=0.2427 v(xd.l1)=0.853
+ff       125 3.6 ideal iqp=218.3u iqn=217.7u idd=302.3u t0=64.5 fc=1.54M pm=69.23 gain=0.4997 off_mV=0.5783 inl_mV=0.006527 v(xd.a)=2.958 v(xd.b)=0.5481 v(xd.x)=0.3756 v(xd.l1)=0.4822
+ff       125 3.6 in    iqp=217.9u iqn=217.2u idd=303.4u t0=62.44 fc=1.54M pm=69.35 gain=0.4996 off_mV=0.6589 inl_mV=0.007293 v(xd.a)=2.958 v(xd.b)=0.5479 v(xd.x)=0.3768 v(xd.l1)=0.4821
+ff       125 3.6 bg    iqp=289.2u iqn=287.2u idd=417.0u t0=51.65 fc=1.68M pm=70.11 gain=0.4987 off_mV=1.975 inl_mV=0.01299 v(xd.a)=2.933 v(xd.b)=0.571 v(xd.x)=0.4112 v(xd.l1)=0.4973
+ff       125 3.6 bgdn  iqp=290.1u iqn=288.1u idd=418.3u t0=51.57 fc=1.68M pm=70.12 gain=0.4987 off_mV=1.996 inl_mV=0.01296 v(xd.a)=2.933 v(xd.b)=0.5713 v(xd.x)=0.4115 v(xd.l1)=0.4974
+ss       125 3.0 ideal iqp=204.9u iqn=204.9u idd=288.9u t0=87.33 fc=1.34M pm=69.71 gain=0.5 off_mV=-0.01911 inl_mV=0.08307 v(xd.a)=2.107 v(xd.b)=0.7711 v(xd.x)=0.4093 v(xd.l1)=0.7006
+ss       125 3.0 in    iqp=203.3u iqn=203.2u idd=287.8u t0=86.95 fc=1.33M pm=69.83 gain=0.5 off_mV=-0.01943 inl_mV=0.08466 v(xd.a)=2.107 v(xd.b)=0.7705 v(xd.x)=0.4097 v(xd.l1)=0.7002
+ss       125 3.0 bg    iqp=159.5u iqn=159.5u idd=233.4u t0=88.8 fc=1.20M pm=69.62 gain=0.5 off_mV=-0.001546 inl_mV=0.03386 v(xd.a)=2.128 v(xd.b)=0.751 v(xd.x)=0.3629 v(xd.l1)=0.6872
+ss       125 3.0 bgdn  iqp=159.8u iqn=159.8u idd=233.8u t0=88.79 fc=1.20M pm=69.62 gain=0.5 off_mV=-0.001615 inl_mV=0.03407 v(xd.a)=2.128 v(xd.b)=0.7512 v(xd.x)=0.3632 v(xd.l1)=0.6872
+ff       -40 3.6 ideal iqp=222.9u iqn=222.9u idd=307.3u t0=83.16 fc=1.50M pm=75.02 gain=0.5 off_mV=0.02679 inl_mV=0.004703 v(xd.a)=2.789 v(xd.b)=0.6893 v(xd.x)=0.2567 v(xd.l1)=0.6462
+ff       -40 3.6 in    iqp=222.2u iqn=222.1u idd=308.3u t0=83.43 fc=1.51M pm=75.09 gain=0.5 off_mV=0.03087 inl_mV=0.004885 v(xd.a)=2.789 v(xd.b)=0.6891 v(xd.x)=0.2584 v(xd.l1)=0.6463
+ff       -40 3.6 bg    iqp=291.2u iqn=291.2u idd=419.3u t0=88.29 fc=1.62M pm=76.14 gain=0.5 off_mV=0.0416 inl_mV=0.00752 v(xd.a)=2.773 v(xd.b)=0.7051 v(xd.x)=0.2944 v(xd.l1)=0.6574
+ff       -40 3.6 bgdn  iqp=291.8u iqn=291.7u idd=420.0u t0=88.33 fc=1.62M pm=76.14 gain=0.5 off_mV=0.04168 inl_mV=0.007542 v(xd.a)=2.773 v(xd.b)=0.7052 v(xd.x)=0.2946 v(xd.l1)=0.6575
+typical 27 3.3 bg res_ss: ERR /tmp/tmp3xczhse1/dc.txt not found.
+Note: No compatibility mode selected!
+
+
+Circuit: * run_gf
+
+318:
+
+Cannot compute substitute
+Error in netlist line no. 715, new internal line no. 1319:
+
+Undefined parameter [r_l]
+Error in netlist line no. 715, new internal line no. 1319:
+
+ Expression err: r_l/2} w={r
+typical 27 3.3 bg res_ff: ERR /tmp/tmpkmu4a8ny/dc.txt not found.
+Note: No compatibility mode selected!
+
+
+Circuit: * run_gf
+
+318:
+
+Cannot compute substitute
+Error in netlist line no. 715, new internal line no. 1319:
+
+Undefined parameter [r_l]
+Error in netlist line no. 715, new internal line no. 1319:
+
+ Expression err: r_l/2} w={r
+-- bandgap with the resistor corner separated (MOS corner, res_typical) and resistor corners at tt:
+ss       -40 3.0 res_typical iqp=199.9u iqn=199.9u idd=293.8u t0=93.23 fc=1.51M pm=72.4 gain=0.5 off_mV=-0.1195 inl_mV=0.2778 v(xd.a)=1.944 v(xd.b)=0.9071 v(xd.x)=0.269 v(xd.l1)=0.8619
+ff       125 3.6 res_typical iqp=215.5u iqn=214.7u idd=310.4u t0=61.19 fc=1.24M pm=73.15 gain=0.4996 off_mV=0.7738 inl_mV=0.009717 v(xd.a)=2.959 v(xd.b)=0.547 v(xd.x)=0.3753 v(xd.l1)=0.4815
+ss       125 3.0 res_typical iqp=200.1u iqn=200.1u idd=293.3u t0=88.66 fc=1.56M pm=66.29 gain=0.5 off_mV=-0.01088 inl_mV=0.05887 v(xd.a)=2.109 v(xd.b)=0.7692 v(xd.x)=0.4065 v(xd.l1)=0.6994
+ff       -40 3.6 res_typical iqp=219.9u iqn=219.9u idd=315.8u t0=81.12 fc=1.18M pm=78.29 gain=0.5 off_mV=0.03873 inl_mV=0.00672 v(xd.a)=2.79 v(xd.b)=0.6885 v(xd.x)=0.2572 v(xd.l1)=0.6459
+typical   27 3.3 res_ss      iqp=171.8u iqn=171.8u idd=249.0u t0=91.71 fc=1.09M pm=75.24 gain=0.5 off_mV=0.01298 inl_mV=0.01035 v(xd.a)=2.446 v(xd.b)=0.7271 v(xd.x)=0.2905 v(xd.l1)=0.6769
+typical   27 3.3 res_ff      iqp=285.5u iqn=285.5u idd=415.6u t0=92.57 fc=1.94M pm=69.57 gain=0.5 off_mV=0.01101 inl_mV=0.01882 v(xd.a)=2.41 v(xd.b)=0.7619 v(xd.x)=0.3725 v(xd.l1)=0.7004

@@ -1,0 +1,1722 @@
+[01:03:03] INFO     Maximum number of jobs is 2.        parameter_manager.py:105
+[01:03:03] INFO     Working directory set to '..'       parameter_manager.py:153
+                    ('/home/claude/work/gf180_cm_ip__si                         
+                    ngle2diff2single/macros/ClassABBias                         
+                    ').                                                         
+[01:03:03] INFO     Starting a new run with tag         parameter_manager.py:624
+                    'RUN_2026-10-09_01-03-03'.                                  
+[01:03:03] INFO     PDK root is '/home/claude/pdk'.     parameter_manager.py:637
+[01:03:03] INFO     Running parameters: tree_params              cace_cli.py:327
+[01:03:03] INFO     Generating simulation netlist from    cace_regenerate.py:554
+                    schematic…                                                  
+[01:03:03] ERROR    Using run time directory              cace_regenerate.py:636
+                    XSCHEM_SHAREDIR =                                           
+                    /home/claude/tools/xschem/share/xsche                       
+                    m                                                           
+[01:03:03] ERROR    Sourcing                              cace_regenerate.py:636
+                    /home/claude/tools/xschem/share/xsche                       
+                    m/xschemrc init file                                        
+[01:03:03] ERROR    Sourcing                              cace_regenerate.py:636
+                    /home/claude/work/gf180_cm_ip__single                       
+                    2diff2single/macros/ClassABBias/schem                       
+                    atic/xschem/xschemrc init file                              
+[01:03:03] ERROR    pdk installation: using               cace_regenerate.py:636
+                    /home/claude/pdk                                            
+[01:03:03] ERROR    180MCU_MODELS:                        cace_regenerate.py:636
+                    /home/claude/pdk/gf180mcuD/libs.tech/                       
+                    ngspice                                                     
+[01:03:03] ERROR    setup_tcp_bespice: success :          cace_regenerate.py:636
+                    listening to TCP port: 2022                                 
+[01:03:03] ERROR    Error: Symbol                         cace_regenerate.py:636
+                    /home/claude/work/gf180_cm_ip__single                       
+                    2diff2single/macros/ClassABBias/schem                       
+                    atic/xschem/ClassABBiasBGdnTree.sym:                        
+                    Unmatched subcircuit schematic pin                          
+                    direction: vbp                                              
+[01:03:03] ERROR        opin <--> output                  cace_regenerate.py:636
+[01:03:03] ERROR    Error: Symbol                         cace_regenerate.py:636
+                    /home/claude/work/gf180_cm_ip__single                       
+                    2diff2single/macros/ClassABBias/schem                       
+                    atic/xschem/ClassABBiasBGdnTree.sym:                        
+                    Unmatched subcircuit schematic pin                          
+                    direction: vbn                                              
+[01:03:03] ERROR        opin <--> output                  cace_regenerate.py:636
+[01:03:03] ERROR    Error: Symbol                         cace_regenerate.py:636
+                    /home/claude/work/gf180_cm_ip__single                       
+                    2diff2single/macros/ClassABBias/schem                       
+                    atic/xschem/ClassABBiasBGdnTree.sym:                        
+                    Unmatched subcircuit schematic pin                          
+                    direction: vbpc                                             
+[01:03:03] ERROR        opin <--> output                  cace_regenerate.py:636
+[01:03:03] ERROR    Error: Symbol                         cace_regenerate.py:636
+                    /home/claude/work/gf180_cm_ip__single                       
+                    2diff2single/macros/ClassABBias/schem                       
+                    atic/xschem/ClassABBiasBGdnTree.sym:                        
+                    Unmatched subcircuit schematic pin                          
+                    direction: vbnc                                             
+[01:03:03] ERROR        opin <--> output                  cace_regenerate.py:636
+[01:03:03] ERROR    Error: Symbol                         cace_regenerate.py:636
+                    /home/claude/work/gf180_cm_ip__single                       
+                    2diff2single/macros/ClassABBias/schem                       
+                    atic/xschem/ClassABBiasBGdnTree.sym:                        
+                    Unmatched subcircuit schematic pin                          
+                    direction: vabp                                             
+[01:03:03] ERROR        opin <--> output                  cace_regenerate.py:636
+[01:03:03] ERROR    Error: Symbol                         cace_regenerate.py:636
+                    /home/claude/work/gf180_cm_ip__single                       
+                    2diff2single/macros/ClassABBias/schem                       
+                    atic/xschem/ClassABBiasBGdnTree.sym:                        
+                    Unmatched subcircuit schematic pin                          
+                    direction: vabn                                             
+[01:03:03] ERROR        opin <--> output                  cace_regenerate.py:636
+[01:03:03] ERROR    -----------/home/claude/work/gf180_cm cace_regenerate.py:636
+                    _ip__single2diff2single/macros/ClassA                       
+                    BBias/schematic/xschem/ClassABBiasBGd                       
+                    nTree.sch                                                   
+[01:03:03] ERROR    -----------/home/claude/work/gf180_cm cace_regenerate.py:636
+                    _ip__single2diff2single/macros/ClassA                       
+                    BBias/schematic/xschem/ClassABBiasBGd                       
+                    n.sch                                                       
+[01:03:03] ERROR    -----------/home/claude/work/gf180_cm cace_regenerate.py:636
+                    _ip__single2diff2single/macros/ClassA                       
+                    BBias/schematic/xschem/ClassABBiasIn.                       
+                    sch                                                         
+[01:03:03] ERROR    -----------/home/claude/work/gf180_cm cace_regenerate.py:636
+                    _ip__single2diff2single/macros/PadEna                       
+                    ble/schematic/xschem/RefCoreEnable.sc                       
+                    h                                                           
+[01:03:03] ERROR    -----------/home/claude/work/gf180_cm cace_regenerate.py:636
+                    _ip__single2diff2single/macros/ClassA                       
+                    BBias/schematic/xschem/ClassABBiasBGd                       
+                    nTree.sch                                                   
+[01:03:03] ERROR                                          cace_regenerate.py:636
+[01:03:03] ERROR    Xschem process returned error code 10 cace_regenerate.py:638
+                                                                                
+───────────────────────────── Started tree_params ──────────────────────────────
+[01:03:03] INFO     Parameter tree_params: Generating   parameter_ngspice.py:211
+                    simulation files…                                           
+[01:03:04] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:04] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:04] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:04] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:04] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:04] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:04] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:04] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:04] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_00/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:04] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:04] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_00/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:04] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:04] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:04] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:04] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:04] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:04] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:04] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:04] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:04] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:04] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_01/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:04] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:04] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_01/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:04] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:04] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:04] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:04] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:04] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:04] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:04] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:04] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:04] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:04] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_02/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:04] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:04] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_02/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:04] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:04] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:04] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:04] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:04] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:04] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:04] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:04] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:04] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:04] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_03/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:04] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:04] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:04] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_03/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:04] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:05] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:05] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:05] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:05] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:05] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:05] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:05] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:05] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:05] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_04/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:05] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:05] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_04/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:05] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:05] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:05] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:05] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:05] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:05] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:05] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:05] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:05] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:05] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_05/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:05] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:05] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_05/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:05] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:05] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:05] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:05] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:05] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:05] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:05] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:05] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:05] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:05] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_06/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:05] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:05] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:05] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_06/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:05] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:06] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:06] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:06] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:06] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:06] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:06] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:06] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:06] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:06] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_07/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:06] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:06] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_07/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:06] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:06] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:06] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:06] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:06] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:06] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:06] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:06] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:06] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:06] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_08/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:06] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:06] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_08/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:06] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:06] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:06] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:06] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:06] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:06] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:06] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:06] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:06] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:06] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_09/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:06] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:06] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:06] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_09/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:06] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:07] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:07] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:07] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:07] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:07] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:07] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:07] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:07] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:07] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_10/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:07] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:07] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_10/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:07] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:07] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:07] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:07] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:07] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:07] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:07] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:07] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:07] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:07] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_11/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:07] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:07] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_11/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:07] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:07] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:07] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:07] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:07] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:07] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:07] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:07] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:07] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:07] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_12/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:07] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:07] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_12/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:07] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:07] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:07] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:07] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:07] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:07] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:07] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:07] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:07] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:07] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_13/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:07] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:07] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:07] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_13/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:07] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:08] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:08] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:08] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:08] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:08] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:08] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:08] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:08] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:08] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_14/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:08] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:08] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_14/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:08] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:08] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:08] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:08] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:08] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:08] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:08] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:08] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:08] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:08] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_15/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:08] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:08] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_15/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:08] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:08] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:08] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:08] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:08] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:08] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:08] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:08] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:08] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:08] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_16/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:08] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:08] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:08] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_16/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:08] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:09] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:09] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:09] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:09] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:09] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:09] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:09] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:09] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:09] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_17/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:09] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:09] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_17/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:09] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:09] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:09] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:09] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:09] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:09] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:09] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:09] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:09] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:09] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_18/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:09] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:09] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_18/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:09] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:09] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:09] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:09] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:09] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:09] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:09] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:09] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:09] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:09] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_19/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:09] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:09] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_19/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:09] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:09] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:09] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:09] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:09] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:09] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:09] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:09] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:09] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:09] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_20/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:09] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:09] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:09] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_20/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:09] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:10] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:10] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:10] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:10] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:10] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:10] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:10] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:10] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:10] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_21/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:10] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:10] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_21/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:10] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:10] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:10] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:10] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:10] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:10] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:10] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:10] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:10] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:10] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_22/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:10] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:10] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_22/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:10] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:10] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:10] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:10] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:10] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:10] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:10] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:10] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:10] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:10] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_23/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:10] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:10] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:10] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_23/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:10] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:11] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:11] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:11] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:11] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:11] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:11] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:11] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:11] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:11] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_24/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:11] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:11] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_24/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:11] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:11] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:11] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:11] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:11] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:11] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:11] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:11] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:11] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:11] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_25/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:11] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:11] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_25/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:11] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:11] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:11] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:11] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:11] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:11] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:11] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:11] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:11] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:11] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_26/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:11] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:11] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_26/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:11] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:11] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:11] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:11] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:11] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:11] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:11] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:11] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:11] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:11] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_27/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:11] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:11] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:11] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_27/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:11] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:12] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:12] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:12] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:12] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:12] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:12] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:12] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:12] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:12] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_28/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:12] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:12] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_28/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:12] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:12] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:12] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:12] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:12] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:12] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:12] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:12] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:12] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:12] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_29/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:12] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:12] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_29/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:12] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:12] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:12] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:12] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:12] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:12] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:12] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:12] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:12] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:12] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_30/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:12] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:12] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:12] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_30/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:12] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:13] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:13] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:13] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:13] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:13] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:13] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:13] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:13] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:13] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_31/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:13] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:13] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_31/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:13] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:13] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:13] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:13] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:13] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:13] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:13] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:13] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:13] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:13] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_32/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:13] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:13] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_32/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:13] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:13] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:13] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:13] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:13] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:13] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:13] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:13] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:13] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:13] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_33/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:13] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:13] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:13] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_33/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:13] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:14] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:14] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:14] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:14] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:14] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:14] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:14] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:14] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:14] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_34/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:14] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:14] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_34/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:14] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:14] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:14] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:14] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:14] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:14] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:14] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:14] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:14] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:14] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_35/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:14] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:14] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_35/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:14] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:14] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:14] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:14] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:14] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:14] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:14] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:14] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:14] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:14] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_36/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:14] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:14] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_36/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:14] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:14] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:14] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:14] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:14] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:14] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:14] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:14] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:14] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:14] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_37/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:14] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:14] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:14] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_37/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:14] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:15] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:15] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:15] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:15] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:15] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:15] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:15] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:15] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:15] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_38/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:15] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:15] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_38/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:15] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:15] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:15] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:15] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:15] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:15] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:15] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:15] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:15] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:15] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_39/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:15] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:15] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_39/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:15] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:15] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:15] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:15] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:15] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:15] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:15] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:15] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:15] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:15] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_40/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:15] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:15] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:15] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_40/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:15] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:16] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:16] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:16] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:16] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:16] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:16] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:16] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:16] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:16] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_41/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:16] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:16] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_41/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:16] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:16] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:16] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:16] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:16] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:16] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:16] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:16] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:16] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:16] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_42/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:16] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:16] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_42/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:16] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:16] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:16] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:16] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:16] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:16] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:16] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:16] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:16] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:16] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_43/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:16] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:16] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:16] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_43/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:16] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:17] ERROR    Subprocess exited with error code 10        parameter.py:431
+[01:03:17] ERROR    Error output generated by subprocess:       parameter.py:435
+[01:03:17] ERROR    Using run time directory XSCHEM_SHAREDIR =  parameter.py:437
+                    /home/claude/tools/xschem/share/xschem                      
+[01:03:17] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/tools/xschem/share/xschem/xsch                 
+                    emrc init file                                              
+[01:03:17] ERROR    Sourcing                                    parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/xschem                 
+                    /xschemrc init file                                         
+[01:03:17] ERROR    pdk installation: using /home/claude/pdk    parameter.py:437
+[01:03:17] ERROR    180MCU_MODELS:                              parameter.py:437
+                    /home/claude/pdk/gf180mcuD/libs.tech/ngspic                 
+                    e                                                           
+[01:03:17] ERROR    setup_tcp_bespice: success : listening to   parameter.py:437
+                    TCP port: 2022                                              
+[01:03:17] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_44/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:17] ERROR    Error: undriven node: vbn                   parameter.py:437
+[01:03:17] ERROR    Error: undriven node: vbp                   parameter.py:437
+[01:03:17] ERROR    Error: undriven node: vabn                  parameter.py:437
+[01:03:17] ERROR    Error: undriven node: vabp                  parameter.py:437
+[01:03:17] ERROR    Error: undriven node: vbnc                  parameter.py:437
+[01:03:17] ERROR    Error: undriven node: vbpc                  parameter.py:437
+[01:03:17] ERROR    -----------/home/claude/work/gf180_cm_ip__s parameter.py:437
+                    ingle2diff2single/macros/ClassABBias/verifi                 
+                    cation/cace/_runs/RUN_2026-10-09_01-03-03/p                 
+                    arameters/tree_params/run_44/ClassABBiasBGd                 
+                    nTree_tb_dc.sch                                             
+[01:03:17] WARNING  No "spiceinit" file found in the    parameter_ngspice.py:558
+                    gf180mcuD PDK.                                              
+[01:03:17] INFO     Parameter tree_params: Running      parameter_ngspice.py:572
+                    simulations…                                                
+[01:03:20] INFO     Parameter tree_params: Collecting   parameter_ngspice.py:671
+                    results…                                                    
+[01:03:20] INFO     Parameter tree_params: Saving       parameter_ngspice.py:854
+                    simulation summary as                                       
+                    'cace/_runs/RUN_2026-10-09_01-03-03                         
+                    /parameters/tree_params/simulation_                         
+                    summary.md'…                                                
+                       Simulation Summary for tree_params                       
+
+                                                                                
+ run     vdd  temp  corne…   e_bp    e_bn  e_bpc   e_bnc  e_abp   e_abn     Idd 
+ ────────────────────────────────────────────────────────────────────────────── 
+ run_00  3.0   -40  typic…  -4.0…  -1.33…  -2.5…  -4.25…  -1.4…  -4.04…  3.407… 
+ run_01  3.3   -40  typic…  -1.1…  3.274…  -2.1…  3.882…  -1.0…  8.876…  3.429… 
+ run_02  3.6   -40  typic…  4.34…  8.394…  -1.7…  5.515…  -6.0…  6.207…  3.453… 
+ run_03  3.0    27  typic…  2.23…  2.512…  1.94…  2.246…  1.45…  2.289…  3.496… 
+ run_04  3.3    27  typic…  2.60…  2.946…  2.31…  2.684…  1.85…  2.749…  3.515… 
+ run_05  3.6    27  typic…  3.02…  3.427…  2.67…  3.167…  2.22…  3.246…  3.537… 
+ run_06  3.0   125  typic…  -6.4…  -3.64…  8.41…  -5.92…  -1.1…  -5.21…  3.398… 
+ run_07  3.3   125  typic…  -2.9…  4.220…  1.19…  -1.80…  -8.0…  -9.79…  3.415… 
+ run_08  3.6   125  typic…  1.00…  4.954…  1.53…  2.749…  -4.5…  3.654…  3.434… 
+ run_09  3.0   -40      ss  -7.4…  -5.52…  -2.9…  -8.58…  -2.0…  -9.13…  3.387… 
+ run_10  3.3   -40      ss  -3.6…  -1.01…  -2.6…  -4.03…  -1.5…  -4.05…  3.408… 
+ run_11  3.6   -40      ss  3.63…  3.680…  -2.2…  6.908…  -1.0…  9.856…  3.430… 
+ run_12  3.0    27      ss  1.90…  2.107…  1.43…  1.822…  9.41…  1.808…  3.478… 
+ run_13  3.3    27      ss  2.26…  2.534…  1.79…  2.255…  1.37…  2.279…  3.497… 
+ run_14  3.6    27      ss  2.64…  2.977…  2.15…  2.701…  1.76…  2.749…  3.516… 
+ run_15  3.0   125      ss  -9.6…  -7.55…  2.92…  -1.00…  -1.6…  -9.70…  3.382… 
+ run_16  3.3   125      ss  -6.2…  -3.54…  6.48…  -5.98…  -1.2…  -5.40…  3.398… 
+ run_17  3.6   125      ss  -2.6…  6.274…  9.91…  -1.77…  -8.7…  -1.05…  3.416… 
+ run_18  3.0   -40      sf  -4.0…  -1.19…  -2.5…  -4.14…  -1.2…  -4.48…  3.413… 
+ run_19  3.3   -40      sf  -1.0…  3.484…  -2.1…  5.661…  -8.8…  6.529…  3.436… 
+ run_20  3.6   -40      sf  4.67…  8.935…  -1.7…  6.033…  -5.0…  6.385…  3.462… 
+ run_21  3.0    27      sf  2.23…  2.525…  1.89…  2.257…  1.57…  2.252…  3.500… 
+ run_22  3.3    27      sf  2.60…  2.966…  2.25…  2.703…  1.94…  2.730…  3.521… 
+ run_23  3.6    27      sf  3.05…  3.479…  2.61…  3.218…  2.30…  3.265…  3.544… 
+ run_24  3.0   125      sf  -6.5…  -3.53…  7.73…  -5.82…  -1.0…  -5.48…  3.401… 
+ run_25  3.3   125      sf  -3.0…  6.017…  1.11…  -1.61…  -7.3…  -1.11…  3.419… 
+ run_26  3.6   125      sf  1.26…  5.451…  1.46…  3.265…  -3.9…  3.884…  3.440… 
+ run_27  3.0   -40      fs  -3.9…  -1.43…  -2.4…  -4.32…  -1.6…  -3.67…  3.401… 
+ run_28  3.3   -40      fs  -6.6…  3.155…  -2.0…  2.869…  -1.1…  1.147…  3.423… 
+ run_29  3.6   -40      fs  4.18…  8.068…  -1.7…  5.195…  -7.2…  6.194…  3.446… 
+ run_30  3.0    27      fs  2.24…  2.505…  2.00…  2.239…  1.32…  2.323…  3.491… 
+ run_31  3.3    27      fs  2.61…  2.937…  2.37…  2.675…  1.74…  2.773…  3.510… 
+ run_32  3.6    27      fs  3.01…  3.398…  2.73…  3.137…  2.13…  3.245…  3.531… 
+ run_33  3.0   125      fs  -6.2…  -3.66…  9.14…  -5.95…  -1.2…  -4.90…  3.395… 
+ run_34  3.3   125      fs  -2.8…  3.821…  1.27…  -1.86…  -8.7…  -7.46…  3.412… 
+ run_35  3.6   125      fs  9.56…  4.727…  1.62…  2.488…  -5.1…  3.658…  3.430… 
+ run_36  3.0   -40      ff  -4.3…  3.088…  -2.0…  2.754…  -9.0…  1.002…  3.428… 
+ run_37  3.3   -40      ff  3.71…  7.912…  -1.6…  5.122…  -5.0…  6.022…  3.452… 
+ run_38  3.6   -40      ff  8.86…  1.375…  -1.2…  1.094…  -1.0…  1.195…  3.479… 
+ run_39  3.0    27      ff  2.58…  2.940…  2.47…  2.689…  1.94…  2.772…  3.515… 
+ run_40  3.3    27      ff  2.97…  3.392…  2.84…  3.145…  2.31…  3.240…  3.536… 
+ run_41  3.6    27      ff  3.45…  3.941…  3.21…  3.693…  2.68…  3.796…  3.560… 
+ run_42  3.0   125      ff  -3.0…  5.264…  1.40…  -1.55…  -7.1…  -6.05…  3.415… 
+ run_43  3.3   125      ff  5.81…  4.766…  1.75…  2.727…  -3.6…  3.729…  3.434… 
+ run_44  3.6   125      ff  5.21…  9.984…  2.11…  7.937…  -1.5…  8.980…  3.455… 
+                                                                                
+[01:03:20] INFO     Parameter tree_params: Plotting             parameter.py:929
+                    e_bn_vs_temp to                                             
+                    'cace/_runs/RUN_2026-10-09_01-03-03/paramet                 
+                    ers/tree_params'…                                           
+──────────────────────── Completed tree_params: Pass ✅ ────────────────────────
+
+[01:03:21] INFO     Done with CACE simulations and evaluations   cace_cli.py:371
+                    in 0:00:17.                                                 
+                      CACE Summary for ClassABBiasBGdnTree                      
+
+netlist source: schematic                                                       
+
+                                                                                
+                            Min     Min     Typ     Typ     Max     Max         
+ Param…  Tool    Result   Limit   Value  Target   Value   Limit   Value  Status 
+ ────────────────────────────────────────────────────────────────────────────── 
+ Error   ngspi…  e_bp      -5 %  -0.964     0 %   0.101     5 %   3.454   Pass  
+ of bp                                %               %               %    ✅   
+ Error   ngspi…  e_bn      -5 %  -0.756     0 %   0.495     5 %   3.941   Pass  
+ of bn                                %               %               %    ✅   
+ Error   ngspi…  e_bpc     -5 %  -2.985     0 %   1.192     5 %   3.218   Pass  
+ of bpc                               %               %               %    ✅   
+ Error   ngspi…  e_bnc     -5 %  -1.007     0 %   0.275     5 %   3.693   Pass  
+ of bnc                               %               %               %    ✅   
+ Error   ngspi…  e_abp     -5 %  -2.002     0 %  -0.513     5 %   2.686   Pass  
+ of abp                               %               %               %    ✅   
+ Error   ngspi…  e_abn     -5 %  -0.971     0 %   0.373     5 %   3.796   Pass  
+ of abn                               %               %               %    ✅   
+ Supply  ngspi…  Idd        any  33.816     any  34.362     any  35.599   Pass  
+ curre…                              uA              uA              uA    ✅   
+ with                                                                           
+ tree                                                                           
+                                                                                
+[01:03:21] INFO     Generating documentation in         parameter_manager.py:255
+                    'cace/_docs'                                                
