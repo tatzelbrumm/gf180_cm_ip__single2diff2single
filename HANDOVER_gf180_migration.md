@@ -190,3 +190,26 @@ Traps found:
   which resets `XSCHEM_LIBRARY_PATH`, and a top-level session saw only the last macro's folders. All project
   `xschemrc` files now `set PDK $env(PDK)` right after sourcing it; checked by netlisting a pad and a driver
   testbench through the top-level files (all cells found).
+
+## 9. 2026-10-09: bandgap reference `ClassABBiasBG` (GF180 re-design, not a transliteration)
+
+Kickoff `_sudelbuecher/sudelbuecher/kickoffs/2026-10-08_reference_redesign/`; running log with every number
+`_sudelbuecher/sudelbuecher/logs/main/2026-10-08_fable_reference_redesign_log.md`. Decisions (Christoph): bandgap only
+(Oguey–Aebischer deferred), kickoff targets as limits, 03v3 at 3.0–3.6 V plus an informative 06v0/5 V check, old OA macro
+untouched, disable as a sub-cell, deep-n-well variant compared before CACE, poly resistors allowed, save area.
+
+- `macros/ClassABBias`: `ClassABBiasBG` (core, ports `vdd vss iout en en_b`, 5 µA out of iout), `ClassABBiasBGdn`
+  (NMOS pair in a deep n-well), CACE fixtures `…Tree` (core + `ClassABBiasIn`), four datasheets with results in
+  `verification/cace/results/`. README section "ClassABBiasBG" has the design, the numbers and the open points.
+- `macros/PadEnable`: `RefCoreEnable` (vpg → vdd, ks → vss while disabled).
+- Topology changes vs IHP: wide-swing cascode mirror (resistor between the gate lines; the IHP stacked-diode cascode has
+  no headroom with pfet_03v3 at ss/3.0 V/−40 °C), start-up on vpg, NMOS pair 20/12, mirrors 48/4, `ppolyf_u_3k`
+  1 µm resistors (area), PNP ratio 8 by `m`.
+- Results (tt): 5.08 µA, −1.6…+1.7 % over MOS corners × V × T, line 0.0–0.42 %/V, σ 1.06 % (100 runs), start-up at
+  every corner with 1 µs and 1 ms ramps, leakage ≤ 0.24 nA disabled, I_dd 10.5 µA; resistor spread −19/+36 % (dominant,
+  no trim). Deep n-well: substrate noise to the pair eliminated, DC line 0.42 → 0.62 %/V, ≈ +500–700 µm².
+- Makefile change (CACE_CELLS) as a package: `_sudelbuecher/sudelbuecher/deliveries/2026-10-09_fable_makefile.zip`.
+- Not done: pad integration (`gf180mcu_IOPadDiff2Single` still takes iref from a pin), layout, the Oguey–Aebischer variant,
+  a 06v0 version. Checker `ClassABDriver/scripts/check_classab_port.py` now also compares PNPs, 1k resistors and diodes.
+- Toolchain note: the 2026-10-08 CACE suites rerun with xschem 3.4.8RC ddc73448 / ngspice-47 / gf180mcuD 1689ac3 (the
+  IIC-OSIC-TOOLS 2026.09 pins): `ClassABBiasIn` identical, `ClassABDriverBiased` three transient values in the last digit.

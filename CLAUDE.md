@@ -14,7 +14,9 @@ port-only skeleton of `macros/gf180mcu_IOPadDiff2Single`.
 `macros/ClassABBias` (bias trees In/Out + ideal fixture), `macros/PadEnable` (enable cells); the output pad
 `gf180mcu_IOPadDiff2Single` now instantiates them, the input pad got `InputEnable` and an `en` port. CACE suites run
 in the cloud for all of them (results in each `verification/cace/results/`). Running log:
-`_sudelbuecher/sudelbuecher/logs/main/2026-10-08_opus_classab_port_log.md`. **No layout exists**; DRC/LVS/PEX targets have not
+`_sudelbuecher/sudelbuecher/logs/main/2026-10-08_opus_classab_port_log.md`.
+**2026-10-09:** bandgap reference `macros/ClassABBias/ClassABBiasBG` (+ deep-n-well variant, `PadEnable/RefCoreEnable`),
+GF180 re-design with CACE results; handover §9, log `…/logs/main/2026-10-08_fable_reference_redesign_log.md`. **No layout exists**; DRC/LVS/PEX targets have not
 been run. Open items: `docs/IHP_TO_GF180_PORT_MAP.md`, `docs/OPERATING_LIMITS.md`, handover file §7–8.
 
 ## 1. Hard invariant: the top-cell name

@@ -10,9 +10,10 @@ cells into cells of their own:
   DriverEnable   disabled: a (OP gate) -> vddo, b (ON gate) -> vsso, vabp -> vdd, vabn -> vss
   BiasRefEnable  transmission gate iin -> iout (enabled); disabled: iout (NMOS input diode's gate line) -> vss
   InputEnable    transmission gate pin -> pout (enabled); disabled: pout parked on vpark by a second gate
+  RefCoreEnable  (2026-10-09) disable switches of a self-biased reference core (ClassABBiasBG): vpg -> vdd, ks -> vss
 
 All switches are on while disabled and off while enabled; en is active high (0 / vdd).
-Usage: gen_padenable.py <PadEnable/schematic/xschem>"""
+Usage: gen_padenable.py <PadEnable/schematic/xschem> [cell ...]   (2026-10-09: names select cells; RefCoreEnable only was written that day)"""
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "scripts"))
 from xsheet import Sheet, symbol
@@ -20,12 +21,13 @@ from xsheet import Sheet, symbol
 SW = dict(W="1u", L="0.5u")
 INV_P, INV_N = dict(W="2u", L="0.5u"), dict(W="1u", L="0.5u")
 TG = dict(W="4u", L="0.5u")
+DATE = "2026-10-08"
 
 def title(s, cell, lines):
     s.text(cell, 60, -560, 0.5)
     for i, l in enumerate(lines):
         s.text(l, 60, -500 + 22 * i, 0.25)
-    s.text("GF180MCU (gf180mcuD), 03v3 devices; written by ../../scripts/gen_padenable.py on 2026-10-08, edit the sheet from now on.", 60, 120, 0.2, 4)
+    s.text(f"GF180MCU (gf180mcuD), 03v3 devices; written by ../../scripts/gen_padenable.py on {DATE}, edit the sheet from now on.", 60, 120, 0.2, 4)
 
 def enable_inv(d):
     pins = symbol(f"{d}/EnableInv.sym", left=[("en", "in")], right=[("en_b", "out")], top=[("vdd", "inout")],
@@ -103,7 +105,28 @@ def input_enable(d):
     s.write(f"{d}/InputEnable.sch", title=True)
     return pins
 
+def ref_core_enable(d):
+    global DATE; DATE = "2026-10-09"
+    order = ["vdd", "vss", "en", "en_b", "vpg", "ks"]
+    pins = symbol(f"{d}/RefCoreEnable.sym", left=[("en", "in"), ("en_b", "in")], right=[("vpg", "inout"), ("ks", "inout")],
+                  top=[("vdd", "inout")], bottom=[("vss", "inout")], order=order)
+    s = Sheet()
+    title(s, "RefCoreEnable", ["Disable switches of a self-biased reference core (ClassABBiasBG), on while en = 0:",
+                               "SPG: vpg (PMOS mirror gate line) to vdd -- every mirror branch off, iout = 0;",
+                               "SKS: ks (start-up node) to vss -- otherwise ks floats with MS1 off and MS3 would pull vpg.",
+                               "The core's always-on start-up pull-up MS1 has its gate on en_b (off while disabled)."])
+    s.wire(60, -300, 400, -300, "vdd"); s.wire(60, 0, 400, 0, "vss")
+    s.pin("iopin", 60, -300, "vdd", right=True); s.pin("iopin", 60, 0, "vss", right=True)
+    s.pin("ipin", 60, -180, "en"); s.pin("ipin", 60, -140, "en_b")
+    s.pin("iopin", 480, -220, "vpg"); s.pin("iopin", 480, -60, "ks")
+    s.fet("p", "SPG", 200, -220, "vpg", "en", "vdd", "vdd", top_rail=-300, **SW)
+    s.fet("n", "SKS", 200, -60, "ks", "en_b", "vss", "vss", bot_rail=0, **SW)
+    s.write(f"{d}/RefCoreEnable.sch", title=True)
+    return pins
+
 if __name__ == "__main__":
     d = sys.argv[1]
-    for f in (enable_inv, driver_enable, bias_ref_enable, input_enable):
-        print(f.__name__, f(d))
+    fs = {f.__name__: f for f in (enable_inv, driver_enable, bias_ref_enable, input_enable, ref_core_enable)}
+    sel = sys.argv[2:] or list(fs)
+    for n in sel:
+        print(n, fs[n](d))

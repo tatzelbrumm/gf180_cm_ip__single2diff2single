@@ -20,3 +20,8 @@ XTGP1 pout en_b pin vdd pfet_03v3 W=4u L=0.5u nf=1
 XTGN2 pout en_b vpark vss nfet_03v3 W=4u L=0.5u nf=1
 XTGP2 vpark en pout vdd pfet_03v3 W=4u L=0.5u nf=1
 .ends
+* 2026-10-09: disable switches of the self-biased reference core ClassABBiasBG
+.subckt RefCoreEnable vdd vss en en_b vpg ks
+XSPG vpg en vdd vdd pfet_03v3 W=1u L=0.5u nf=1
+XSKS ks en_b vss vss nfet_03v3 W=1u L=0.5u nf=1
+.ends

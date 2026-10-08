@@ -1,0 +1,50 @@
+* ClassABBiasBG reference netlists (GF180MCU gf180mcuD, 03v3), 2026-10-09: GF180 re-design of the IHP bg_core.
+* Sizing and results: notes worktree, kickoffs/2026-10-08_reference_redesign/tools/bg_gf.spice + run_bg.py,
+* logs/main/2026-10-08_fable_reference_redesign_log.md. Round trip: ../../ClassABDriver/scripts/check_classab_port.py.
+* Ports: vdd vss iout en en_b (en active high; en_b from PadEnable/EnableInv). iout: 5 uA OUT of the pin.
+.subckt ClassABBiasBG vdd vss iout en en_b
+XPB cb vpg vdd vdd pfet_03v3 W=48u L=4u nf=4
+XPBC vpg vpc cb vdd pfet_03v3 W=48u L=2u nf=4
+XPA ca vpg vdd vdd pfet_03v3 W=48u L=4u nf=4
+XPAC g vpc ca vdd pfet_03v3 W=48u L=2u nf=4
+XPO co vpg vdd vdd pfet_03v3 W=96u L=4u nf=8
+XPOC iout vpc co vdd pfet_03v3 W=96u L=2u nf=8
+XRC vpg vpc vss ppolyf_u_3k r_width=1u r_length=50u
+XNA g g ea vss nfet_03v3 W=20u L=12u nf=2
+XNB vpc g eb vss nfet_03v3 W=20u L=12u nf=2
+XQ1 vss vss ea pnp_05p00x05p00 m=1
+XR1A ea vss vss ppolyf_u_3k r_width=1u r_length=118.1u
+XR0 eb e2 vss ppolyf_u_3k r_width=1u r_length=32.8u
+XQ2 vss vss e2 pnp_05p00x05p00 m=8
+XR1B eb vss vss ppolyf_u_3k r_width=1u r_length=107.4u
+XMS1 ks en_b vdd vdd pfet_03v3 W=0.22u L=50u nf=1
+XMS2 ks g vss vss nfet_03v3 W=10u L=1u nf=1
+XMS3 vpg ks vss vss nfet_03v3 W=0.5u L=2u nf=1
+XE vdd vss en en_b vpg ks RefCoreEnable
+.ends ClassABBiasBG
+
+* Deep-n-well variant: NA / NB in isolated p-wells (bulk = source) inside one DNW on vdd; well junctions with
+* estimated areas (each p-well 30 x 12 um, the DNW 60 x 30 um).
+.subckt ClassABBiasBGdn vdd vss iout en en_b
+XPB cb vpg vdd vdd pfet_03v3 W=48u L=4u nf=4
+XPBC vpg vpc cb vdd pfet_03v3 W=48u L=2u nf=4
+XPA ca vpg vdd vdd pfet_03v3 W=48u L=4u nf=4
+XPAC g vpc ca vdd pfet_03v3 W=48u L=2u nf=4
+XPO co vpg vdd vdd pfet_03v3 W=96u L=4u nf=8
+XPOC iout vpc co vdd pfet_03v3 W=96u L=2u nf=8
+XRC vpg vpc vss ppolyf_u_3k r_width=1u r_length=50u
+XNA g g ea ea nfet_03v3 W=20u L=12u nf=2
+XNB vpc g eb eb nfet_03v3 W=20u L=12u nf=2
+DPWA ea vdd diode_pw2dw r_w=12u r_l=30u
+DPWB eb vdd diode_pw2dw r_w=12u r_l=30u
+DDNW vss vdd diode_dw2ps r_w=30u r_l=60u
+XQ1 vss vss ea pnp_05p00x05p00 m=1
+XR1A ea vss vss ppolyf_u_3k r_width=1u r_length=118.1u
+XR0 eb e2 vss ppolyf_u_3k r_width=1u r_length=32.8u
+XQ2 vss vss e2 pnp_05p00x05p00 m=8
+XR1B eb vss vss ppolyf_u_3k r_width=1u r_length=107.4u
+XMS1 ks en_b vdd vdd pfet_03v3 W=0.22u L=50u nf=1
+XMS2 ks g vss vss nfet_03v3 W=10u L=1u nf=1
+XMS3 vpg ks vss vss nfet_03v3 W=0.5u L=2u nf=1
+XE vdd vss en en_b vpg ks RefCoreEnable
+.ends ClassABBiasBGdn

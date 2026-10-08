@@ -130,7 +130,7 @@ sim-all: ## Simulate the macro (the CACE suites of both bias variants; there are
 # CACE (verification/cace/<datasheet>.yaml; results worth keeping go to verification/cace/results/)
 CACE_DIR := verification/cace
 # Datasheet(s) of this macro; sim-cace runs CACE_TOP, sim-cace-all runs all of them
-CACE_CELLS := ClassABBiasIn ClassABBiasOut
+CACE_CELLS := ClassABBiasIn ClassABBiasOut ClassABBiasBG ClassABBiasBGTree ClassABBiasBGdn ClassABBiasBGdnTree
 CACE_TOP ?= $(TOP)
 # Parameter groups to run (default: all). Override with: make sim-cace CACE_PARAMS="dc_params loop_params"
 CACE_PARAMS ?=

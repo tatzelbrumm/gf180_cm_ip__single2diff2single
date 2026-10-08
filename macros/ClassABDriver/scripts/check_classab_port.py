@@ -5,10 +5,13 @@
 (gf180_sizing.spice), device by device: model, W, L, nf, m and nets. Sub-instances of the
 reference listed in FLATTEN are expanded one level (the bias sheets are drawn flat).
 Ports are compared by name and order; internal nets by a consistent bijection.
+Interchangeable terminals are not mismatches: P/M of a resistor, drain/source of a MOSFET (reported as a note).
+2026-10-09 (bandgap session): also PNPs (m compared), ppolyf_u_1k, and D primitives (nets compared).
 Usage: check_classab_port.py <gf180_sizing.spice> <xschem_netlist.spice> <ref_subckt> <cell> [extra_ports...]
 Exit 1 on any mismatch."""
 import re, sys
 FLATTEN = {'d2s_bias_diodes'}
+MODELS = ('nfet_03v3', 'pfet_03v3', 'ppolyf_u_3k', 'ppolyf_u_1k', 'pnp_05p00x05p00', 'pnp_10p00x10p00')  # 2026-10-09: + 1k, PNPs
 def parse(path):
     txt = open(path).read().replace('\n+', ' ')
     subs, cur = {}, None
@@ -20,7 +23,7 @@ def parse(path):
             cur = t[1]; subs[cur] = {'ports': [p for p in t[2:] if '=' not in p], 'dev': {}}; continue
         if k in ('.ends', '**.ends'): cur = None; continue
         if cur is None or t[0][0] in '*.': continue
-        mods = [x for x in t if x in ('nfet_03v3', 'pfet_03v3', 'ppolyf_u_3k')]
+        mods = [x for x in t if x in MODELS]
         kv = dict(re.findall(r'(\w+)=(\S+)', line))
         if t[0][0] in 'Xx' and mods:
             i = t.index(mods[0])
@@ -28,7 +31,7 @@ def parse(path):
         elif t[0][0] in 'Xx':
             pos = [x for x in t[1:] if '=' not in x]
             subs[cur]['dev'][t[0].upper()] = ('x', pos[-1], pos[:-1], kv)
-        elif t[0][0] in 'VvIiRrCc':
+        elif t[0][0] in 'VvIiRrCcDd':
             subs[cur]['dev'][t[0].upper()] = ('prim', t[0][0].upper(), t[1:3], {})
     return subs
 def flatten(subs, name):
@@ -57,14 +60,22 @@ def main(refp, netp, ref, cell, *extra):
         if a[0] != b[0]: print(n, 'type', a[0], b[0]); bad += 1; continue
         if len(a[2]) != len(b[2]): print(n, 'pin count', a[2], b[2]); bad += 1; continue
         pa, pb = list(a[2]), list(b[2])
-        if a[1] == 'ppolyf_u_3k' and a[0] == 'dev' and pa[:2] != pb[:2] and pa[:2] == pb[1::-1]:
+        if a[1].startswith('ppolyf') and a[0] == 'dev' and pa[:2] != pb[:2] and pa[:2] == pb[1::-1]:
             pa[:2] = pb[:2] = sorted(pa[:2])  # resistor: P and M are interchangeable
-        for x, y in zip(pa, pb):
-            if mp.setdefault(x, y) != y or rev.setdefault(y, x) != x:
-                print(n, 'nets', a[2], '->', b[2]); bad += 1; break
+        orders = [pa]
+        if a[0] == 'dev' and a[1] in ('nfet_03v3', 'pfet_03v3') and len(pa) == 4:
+            orders.append([pa[2], pa[1], pa[0], pa[3]])  # MOSFET: drain and source are interchangeable
+        for k, pa in enumerate(orders):
+            m2, r2 = dict(mp), dict(rev)
+            if all(m2.setdefault(x, y) == y and r2.setdefault(y, x) == x for x, y in zip(pa, pb)):
+                mp, rev = m2, r2
+                if k: print(n, 'note: drain and source swapped (equivalent)')
+                break
+        else:
+            print(n, 'nets', a[2], '->', b[2]); bad += 1
         if a[0] == 'dev':
             if a[1] != b[1]: print(n, 'model', a[1], b[1]); bad += 1
-            ka = {'W': 'W', 'L': 'L', 'nf': 'nf', 'm': 'm'} if a[1] != 'ppolyf_u_3k' else {'r_width': 'r_width', 'r_length': 'r_length'}
+            ka = ({'r_width': 'r_width', 'r_length': 'r_length'} if a[1].startswith('ppolyf') else {'m': 'm'} if a[1].startswith('pnp') else {'W': 'W', 'L': 'L', 'nf': 'nf', 'm': 'm'})
             for k in ka:
                 va, vb = a[3].get(k, '1'), b[3].get(k, '1')
                 if abs(val(va) - val(vb)) > 1e-3 * abs(val(va)):
