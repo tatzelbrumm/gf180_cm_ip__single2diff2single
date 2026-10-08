@@ -67,3 +67,6 @@ value="
 "}
 T {Template testbench: DC input current through the analog pad gf180mcu_ocd_io__asig_5p0 into gf180mcu_IOPadSingle2Diff.
 Pad DVDD = CACE\{dvdd\} (pad domain), macro vdd = CACE\{vdd\}. Iin = current into the macro's in pin.} 60 -800 0 0 0.3 0.3 {}
+N 560 -320 520 -320 {lab=vdd}
+C {devices/lab_pin.sym} 520 -320 0 0 {name=l40 sig_type=std_logic lab=vdd}
+T {en tied to vdd (pad enabled); added 2026-10-08} 380 -350 0 0 0.2 0.2 {}

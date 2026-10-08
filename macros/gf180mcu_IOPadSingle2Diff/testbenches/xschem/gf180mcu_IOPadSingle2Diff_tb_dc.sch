@@ -66,3 +66,6 @@ value="
 T {DC input sweep through the real analog pad cell gf180mcu_ocd_io__asig_5p0 (HBM diodes to DVDD = 5 V)
 into the CDM front end of the macro. Vin_meas = current INTO the macro's in pin.
 The pad's own diodes go to DVDD/DVSS; ours go to the 3.3 V vdd, so ours conduct first.} 60 -800 0 0 0.3 0.3 {}
+N 560 -320 520 -320 {lab=vdd}
+C {devices/lab_pin.sym} 520 -320 0 0 {name=l40 sig_type=std_logic lab=vdd}
+T {en tied to vdd (pad enabled); added 2026-10-08} 380 -350 0 0 0.2 0.2 {}

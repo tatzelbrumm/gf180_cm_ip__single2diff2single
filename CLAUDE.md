@@ -9,8 +9,13 @@ Target circuit: a **single-ended → differential → single-ended converter** b
 (bias reference in `03v3` and `06v0` variants: schematics, symbols, start-up testbench, full CACE suite,
 run in a cloud container, results in `verification/cace/results/`), the CDM input front end of
 `macros/gf180mcu_IOPadSingle2Diff` with a pad-in-the-loop testbench and a CACE input-range deck, and a
-port-only skeleton of `macros/gf180mcu_IOPadDiff2Single`. **No layout exists**; DRC/LVS/PEX targets have not
-been run. Open items: `docs/IHP_TO_GF180_PORT_MAP.md`, `docs/OPERATING_LIMITS.md`, handover file §7.
+port-only skeleton of `macros/gf180mcu_IOPadDiff2Single`.
+**2026-10-08:** class-AB driver port, proof of concept: `macros/ClassABDriver` (driver core + CACE fixture),
+`macros/ClassABBias` (bias trees In/Out + ideal fixture), `macros/PadEnable` (enable cells); the output pad
+`gf180mcu_IOPadDiff2Single` now instantiates them, the input pad got `InputEnable` and an `en` port. CACE suites run
+in the cloud for all of them (results in each `verification/cace/results/`). Running log:
+`_sudelbuecher/sudelbuecher/logs/main/2026-10-08_opus_classab_port_log.md`. **No layout exists**; DRC/LVS/PEX targets have not
+been run. Open items: `docs/IHP_TO_GF180_PORT_MAP.md`, `docs/OPERATING_LIMITS.md`, handover file §7–8.
 
 ## 1. Hard invariant: the top-cell name
 

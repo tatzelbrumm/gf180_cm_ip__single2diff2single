@@ -3,7 +3,7 @@
 Analog input from the harness pad (`gf180mcu_ocd_io__asig_5p0`) → CDM protection → single-ended →
 differential buffer. IHP counterpart: `sg13cmos5l_IOPadSingle2Diff` (an empty stub there as well).
 
-**Status (2026-10-06): proof of concept, input side only.**
+**Status (2026-10-06): proof of concept, input side only. 2026-10-08: enable added (see below).**
 
 - `schematic/xschem/gf180mcu_IOPadSingle2Diff.sch/.sym`: ports `vdd outp vcm in outn vss` (IHP pin
   order; `vcm` moved to the input side of the symbol) and the CDM front end next to the gates, with Tim
@@ -39,3 +39,28 @@ conducts milliamps and the gate node sits at 4.3–4.4 V, above the 3.3 V device
 HBM diodes go to DVDD/DVSS and do not help here. Options for the designer: state the limit in
 `docs/OPERATING_LIMITS.md`, or tie the CDM diodes and the input devices to a 5 V supply with `*_06v0`
 devices (see the 06v0 variant of `macros/OgueyAebischerBias`).
+
+## Enable (2026-10-08)
+
+`scripts/add_input_enable.py` added, as a one-time edit of the sheet and symbol:
+
+- `InputEnable` (macro `PadEnable`) behind the CDM network: transmission gate `in_prot` → `in_en` while `en` = 1;
+  while `en` = 0 it opens and a second gate parks `in_en` on `vcm`. `in_en` is where the single-ended →
+  differential buffer will connect (still not designed).
+- `EnableInv` for `en_b`; new port **`en`**, last in the port list (`vdd outp vcm in outn vss en`).
+- The testbench and the CACE template tie `en` to vdd.
+
+The CACE input deck, rerun with the enable. The files in `verification/cace/results/` now hold this run; the table above is the 2026-10-06 run without the enable:
+
+| Pad voltage | Current into `in` | `in_prot` (max over corners) |
+| --- | --- | --- |
+| −0.3 V | −42 nA … −0.08 nA | −0.3 V |
+| 0 … 3.6 V | ≤ 5.3 nA | follows the pad |
+| 4.0 V | 12 … 72 µA | 4.0 V |
+| 5.0 V | 2.3 … 4.8 mA | 4.29 V |
+| 5.5 V | 3.8 … 7.5 mA | 4.30 V |
+
+The input transmission gate adds junctions on `in_prot`: its PMOS drain to the n-well on vdd is one more diode to
+vdd (more current above vdd + 0.6 V, slightly lower `in_prot`), its NMOS drain one more to vss (−42 nA at −0.3 V,
+hot). The conclusion is unchanged: the input is not 5 V tolerant with these diodes and a 3.3 V vdd.
+

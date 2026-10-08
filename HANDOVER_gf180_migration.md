@@ -149,3 +149,42 @@ Traps found this session:
   `tmax` or cold corners take minutes.
 - At the start of this session `git status`/`git log` were run once in the design worktree before this
   file's rule was read; no `index.lock` was left (checked). No further git commands were run.
+
+## 8. 2026-10-08: class-AB driver, its bias and the pad enables (proof of concept)
+
+Requested by Christoph as a smoke test of the schematic and verification flow; the IHP design stays the
+reference and is re-migrated later. Running log with every number and decision:
+`_sudelbuecher/sudelbuecher/logs/main/2026-10-08_opus_classab_port_log.md`.
+
+- New macros: `ClassABDriver` (driver core `ClassABDriver` with ports `a b` for the enable, unit `ClassABUnitR`,
+  CACE fixture `ClassABDriverBiased`, six ported IHP testbenches), `ClassABBias` (`ClassABBiasIn`, `ClassABBiasOut`,
+  fixture `ClassABBiasIdeal`), `PadEnable` (`EnableInv`, `DriverEnable`, `BiasRefEnable`, `InputEnable`).
+- `gf180mcu_IOPadDiff2Single`: block-level sheet (bias tree fed by `iref` through `BiasRefEnable`, driver with
+  vfb = out, `DriverEnable`, `EnableInv`); ports `vdd vss vddo vsso inp inn vref out iref en`.
+- `gf180mcu_IOPadSingle2Diff`: `InputEnable` behind the CDM network (`in_prot` → `in_en`, parked on `vcm`),
+  `EnableInv`, new last port `en`; its testbench and CACE template tie `en` to vdd.
+- CACE suites with results: `ClassABBiasIn`, `ClassABBiasOut`, `ClassABDriverBiased`, `gf180mcu_IOPadDiff2Single`;
+  `gf180mcu_IOPadSingle2Diff` rerun with the enable. All in a cloud container (same tools as §7); **not yet
+  reproduced in IIC-OSIC-TOOLS**.
+- Round trip: every ported or generated sheet netlisted by xschem and compared device by device with its reference
+  netlist (`ClassABDriver/scripts/check_classab_port.py`), MISMATCHES 0.
+
+Not delivered: Makefiles for the three new macros (the bridge refuses Makefiles); not ported: the self-contained
+bias variants `_oa` (Oguey–Aebischer) and `_bg` (bandgap), which need a GF180 re-design; no layout.
+
+Traps found:
+
+- The cloud xschem / Tcl rejects the UTF-8 BOM at the start of the IOPad and top-level `xschemrc` files (every symbol
+  "IS MISSING"). §7 said 3.4.8 accepts it; that was wrong for the cloud build. Netlisting there runs from a
+  BOM-stripped copy; the files in the repo are unchanged.
+- CACE: a condition named like a pin takes a value of its own (`iref` → 1 mA; renamed `i_ref`); state every
+  condition a parameter does not sweep, or a pin's `Vmin` is used; brace-escape `CACE{...}` in symbol `value=`;
+  a unit of `%` is shown as 100 × the echoed value; `off` in a variable list is YAML for false.
+- ngspice: noise analysis refuses `option KLU`; with all current roots switched off (pad disabled), `gmin=1e-15`
+  leaves KCL residues of ~17 µA on the supplies, `gmin=1e-12` gives the real leakage.
+- GF180 03v3 bins: W ≤ 100 µm per instance counts the total W, not W/nf; large devices need `m`.
+- The gf180mcuD PDK `xschemrc` does not set the Tcl variable `PDK` (IHP's does), so the guard
+  `if {![info exists PDK]}` in the project files never fired: every chained `xschemrc` re-sourced the PDK file,
+  which resets `XSCHEM_LIBRARY_PATH`, and a top-level session saw only the last macro's folders. All project
+  `xschemrc` files now `set PDK $env(PDK)` right after sourcing it; checked by netlisting a pad and a driver
+  testbench through the top-level files (all cells found).

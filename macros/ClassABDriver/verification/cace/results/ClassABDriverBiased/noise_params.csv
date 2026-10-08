@@ -1,0 +1,4 @@
+run,corner_mos,vn_total
+run_0,typical,2.488e-04
+run_1,ss,2.514e-04
+run_2,ff,2.454e-04

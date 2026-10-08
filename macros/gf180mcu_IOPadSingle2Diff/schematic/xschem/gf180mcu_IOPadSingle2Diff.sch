@@ -48,7 +48,34 @@ Analog pad gf180mcu_ocd_io__asig_5p0 (harness side) has HBM diodes only; this is
 CDM protection next to the gates, numbers from Tim Edwards (FOSSi Chipalooza chat):
   series poly resistor > 50 Ohm   -> Rcdm ppolyf_u_1k_6p0, 5u x 1u, about 200 Ohm (placeholder)
   diode perimeter > 25 um         -> 2u x 12u, perimeter 28 um, to vdd and to vss
-The single-ended -> differential buffer is NOT designed yet: in_prot, vcm, outp, outn
+The single-ended -> differential buffer is NOT designed yet: in_en (behind InputEnable), outp, outn
 are unconnected (IHP counterpart was an empty stub as well).
 Note: the diode to vdd clamps in_prot (and the pad, through Rcdm) to about vdd + 0.6 V.
 With vdd = 3.3 V the input range is therefore NOT 5 V tolerant; see the CACE input_params.} 60 -900 0 0 0.3 0.3 {}
+C {devices/ipin.sym} 60 -200 0 0 {name=p101 lab=en}
+C {InputEnable.sym} 900 -300 0 0 {name=xinen}
+N 900 -400 900 -420 {lab=vdd}
+C {devices/lab_pin.sym} 900 -420 0 1 {name=l102 sig_type=std_logic lab=vdd}
+N 900 -200 900 -180 {lab=vss}
+C {devices/lab_pin.sym} 900 -180 0 1 {name=l103 sig_type=std_logic lab=vss}
+N 780 -300 760 -300 {lab=en}
+C {devices/lab_pin.sym} 760 -300 0 0 {name=l104 sig_type=std_logic lab=en}
+N 780 -260 760 -260 {lab=en_b}
+C {devices/lab_pin.sym} 760 -260 0 0 {name=l105 sig_type=std_logic lab=en_b}
+N 780 -340 760 -340 {lab=in_prot}
+C {devices/lab_pin.sym} 760 -340 0 0 {name=l106 sig_type=std_logic lab=in_prot}
+N 1020 -320 1040 -320 {lab=in_en}
+C {devices/lab_pin.sym} 1040 -320 0 1 {name=l107 sig_type=std_logic lab=in_en}
+N 1020 -280 1040 -280 {lab=vcm}
+C {devices/lab_pin.sym} 1040 -280 0 1 {name=l108 sig_type=std_logic lab=vcm}
+C {EnableInv.sym} 1300 -300 0 0 {name=xinv}
+N 1300 -360 1300 -380 {lab=vdd}
+C {devices/lab_pin.sym} 1300 -380 0 1 {name=l109 sig_type=std_logic lab=vdd}
+N 1300 -240 1300 -220 {lab=vss}
+C {devices/lab_pin.sym} 1300 -220 0 1 {name=l110 sig_type=std_logic lab=vss}
+N 1180 -300 1160 -300 {lab=en}
+C {devices/lab_pin.sym} 1160 -300 0 0 {name=l111 sig_type=std_logic lab=en}
+N 1420 -300 1440 -300 {lab=en_b}
+C {devices/lab_pin.sym} 1440 -300 0 1 {name=l112 sig_type=std_logic lab=en_b}
+T {2026-10-08: enable added. InputEnable (macros/PadEnable) passes in_prot to in_en while en = 1 and parks in_en on vcm
+while en = 0; EnableInv makes en_b. in_en is where the single-ended -> differential buffer will connect.} 700 -520 0 0 0.25 0.25 {layer=4}

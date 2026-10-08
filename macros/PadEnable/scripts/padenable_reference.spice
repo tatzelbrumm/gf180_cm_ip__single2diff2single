@@ -1,0 +1,22 @@
+* PadEnable reference netlists (GF180MCU 03v3), 2026-10-08: the switch plan of the IHP power_down session
+.subckt EnableInv vdd vss en en_b
+XMP en_b en vdd vdd pfet_03v3 W=2u L=0.5u nf=1
+XMN en_b en vss vss nfet_03v3 W=1u L=0.5u nf=1
+.ends
+.subckt DriverEnable vdd vss vddo vsso en en_b a b vabp vabn
+XSA a en vddo vddo pfet_03v3 W=1u L=0.5u nf=1
+XSB b en_b vsso vsso nfet_03v3 W=1u L=0.5u nf=1
+XSABP vabp en vdd vdd pfet_03v3 W=1u L=0.5u nf=1
+XSABN vabn en_b vss vss nfet_03v3 W=1u L=0.5u nf=1
+.ends
+.subckt BiasRefEnable vdd vss en en_b iin iout
+XTGN iin en iout vss nfet_03v3 W=1u L=0.5u nf=1
+XTGP iout en_b iin vdd pfet_03v3 W=1u L=0.5u nf=1
+XTDN iout en_b vss vss nfet_03v3 W=1u L=0.5u nf=1
+.ends
+.subckt InputEnable vdd vss en en_b pin pout vpark
+XTGN1 pin en pout vss nfet_03v3 W=4u L=0.5u nf=1
+XTGP1 pout en_b pin vdd pfet_03v3 W=4u L=0.5u nf=1
+XTGN2 pout en_b vpark vss nfet_03v3 W=4u L=0.5u nf=1
+XTGP2 vpark en pout vdd pfet_03v3 W=4u L=0.5u nf=1
+.ends

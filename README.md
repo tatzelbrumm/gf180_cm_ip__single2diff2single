@@ -77,7 +77,9 @@ Then search and replace the remaining occurrences inside those files (Xschem sch
 │  │  ├─ Makefile  README.md
 │  │  ├─ 📁 layout/{klayout,magic,gds}/   # same three roles as at the top level
 │  │  └─ 📁 schematic/xschem/  📁 testbenches/xschem/  📁 scripts/   # xschemrc files, check_pex_ports.py
-│  └─ 📁 gf180mcu_IOPadDiff2Single/  # D2S class-AB driver + analog output pad, same structure
+│  ├─ 📁 gf180mcu_IOPadDiff2Single/  # D2S class-AB driver + analog output pad, same structure
+│  ├─ 📁 ClassABDriver/  📁 ClassABBias/  📁 PadEnable/   # building blocks of the pads (2026-10-08)
+│  └─ 📁 OgueyAebischerBias/         # resistor-free bias reference
 ├─ 📁 netlist/                       # generated, absent until the first run
 │  ├─ 📁 layout/                     # *_klayout.cir (KLayout LVS), *_magic.ext.spc (Magic LVS)
 │  ├─ 📁 pex/                        # *_magic_pex_*.spice
@@ -101,6 +103,10 @@ This project embeds two sub-macros in `macros/`, and each level has its own Make
 - **[`macros/gf180mcu_IOPadSingle2Diff/`](macros/gf180mcu_IOPadSingle2Diff/README.md)** (`TOP = gf180mcu_IOPadSingle2Diff`): analog input pad, CDM protection, single-ended-to-differential buffer.
 - **[`macros/gf180mcu_IOPadDiff2Single/`](macros/gf180mcu_IOPadDiff2Single/README.md)** (`TOP = gf180mcu_IOPadDiff2Single`): class-AB differential-to-single-ended driver and analog output pad.
 - **[`macros/OgueyAebischerBias/`](macros/OgueyAebischerBias/README.md)** (`TOP = OgueyAebischerRef_<VARIANT>`, `VARIANT` = `03v3` or `06v0`): resistor-free bias current reference with start-up, ported from IHP in two device-family variants. Has `sim-cace` / `sim-cace-all` targets. Not yet part of `build-macros`.
+- **[`macros/ClassABDriver/`](macros/ClassABDriver/README.md)**: the class-AB driver core (matched-pair DDA, folded cascode, class-AB output, Miller compensation) and its CACE fixture `ClassABDriverBiased`; ported from the IHP design notes, re-sized for GF180 (2026-10-08).
+- **[`macros/ClassABBias/`](macros/ClassABBias/README.md)**: the driver's bias trees `ClassABBiasIn` / `ClassABBiasOut` (reference current into / out of `iref`) and the ideal fixture `ClassABBiasIdeal`, each with its own CACE suite.
+- **[`macros/PadEnable/`](macros/PadEnable/README.md)**: enable cells of the analog pads (`EnableInv`, `DriverEnable`, `BiasRefEnable`, `InputEnable`).
+  These three have no Makefile yet (the bridge cannot write Makefiles); run CACE directly in `verification/cace/`.
 
 The macro Makefiles were derived from the template's analog sub-macro Makefile; its CACE characterization targets were dropped, and the PDK, layout and name strings were retargeted. They have not been run for GF180. Every level follows the same principle, and the simulations always run last, so they use the artifacts the same invocation has just produced:
 
@@ -156,6 +162,7 @@ Xschem reads exactly one `xschemrc` at start-up, and that file decides which sym
 | [`macros/gf180mcu_IOPadDiff2Single/testbenches/xschem/xschemrc`](macros/gf180mcu_IOPadDiff2Single/testbenches/xschem/xschemrc) | output driver macro testbenches |
 | [`macros/OgueyAebischerBias/schematic/xschem/xschemrc`](macros/OgueyAebischerBias/schematic/xschem/xschemrc) | bias macro schematics |
 | [`macros/OgueyAebischerBias/testbenches/xschem/xschemrc`](macros/OgueyAebischerBias/testbenches/xschem/xschemrc) | bias macro testbenches |
+| `macros/{ClassABDriver,ClassABBias,PadEnable}/{schematic,testbenches}/xschem/xschemrc` | building blocks of the pads; each also appends the sibling macros it instantiates |
 
 ### What Every File Does
 
@@ -177,10 +184,13 @@ testbenches/xschem/xschemrc
 └─ source schematic/xschem/xschemrc
    ├─ source macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc
    ├─ source macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc
-   └─ source macros/OgueyAebischerBias/schematic/xschem/xschemrc
+   ├─ source macros/OgueyAebischerBias/schematic/xschem/xschemrc
+   ├─ source macros/ClassABBias/schematic/xschem/xschemrc
+   ├─ source macros/ClassABDriver/schematic/xschem/xschemrc
+   └─ source macros/PadEnable/schematic/xschem/xschemrc
 ```
 
-Each schematic folder puts itself and its sibling testbenches folder on the library path, and each testbenches folder does the reverse. The top level therefore sees all the schematic and testbench folders, which is what lets the top-level schematic instantiate the macro symbols, and what lets you open a macro testbench from a top-level session. The macro files do not source each other or the top level, so a macro can be opened and simulated on its own.
+Each schematic folder puts itself and its sibling testbenches folder on the library path, and each testbenches folder does the reverse. The top level therefore sees all the schematic and testbench folders, which is what lets the top-level schematic instantiate the macro symbols, and what lets you open a macro testbench from a top-level session. The macro files do not source each other or the top level, so a macro can be opened and simulated on its own. A macro that instantiates cells of another macro (the pads, `ClassABDriver`) appends that macro's `schematic/xschem` folder with a relative path instead (`../../../<Macro>/schematic/xschem`).
 
 Add a further sub-macro to the top level by sourcing its `schematic/xschem/xschemrc` from [`schematic/xschem/xschemrc`](schematic/xschem/xschemrc), next to the existing `source` lines.
 

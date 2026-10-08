@@ -1,0 +1,95 @@
+<!--
+SPDX-FileCopyrightText: 2026 Christoph Maier
+SPDX-License-Identifier: Apache-2.0
+-->
+# ClassABDriver (GF180MCU)
+
+Class-AB differential → single-ended driver for an analog output pad: matched-pair DDA input (four identical
+units), folded cascode, class-AB output OP / ON with a floating class-AB control, Miller compensation with MOS
+capacitors. With vfb tied to vout: **vout − vref = (vinp − vinn)/2** for any matched, odd unit law.
+
+**Status: proof of concept (2026-10-08).** Port of the IHP sg13cmos5l design `d2s_mpdda`
+(`sg13cmos5l_..._sudelbuecher/sudelbuecher/design_considerations/class_ab_pad_driver/improvements/`: `log.md`,
+`proposed_improvements.md`, `sim/d2s_mpdda.spice`, `xschem/d2s_mpdda.sch`), 03v3 devices at 3.3 V. No layout.
+
+## Cells
+
+| cell | IHP sheet | ports | content |
+|---|---|---|---|
+| `ClassABDriver` | `d2s_mpdda` | vdd vss vddo vsso vinp vinn vref vout vfb vbp vbn vbpc vbnc vabp vabn **a b** | the driver; `a`, `b` (gates of OP / ON) are ports for the enable switches (`../PadEnable/DriverEnable`) |
+| `ClassABUnitR` | `unit_r2` | x y gp gn vdd vss vbp | DDA unit: split-tail PMOS pair, ppolyf_u_3k between the sources |
+| `ClassABDriverBiased` | `d2s_mpdda_biased` | as ClassABDriver without a, b | CACE fixture: ClassABDriver + `../ClassABBias/ClassABBiasIdeal`; bias lines are pins for perturbation |
+
+Blocks ([1]–[7] on the sheet, as on IHP): [1] DDA units A, B, C1, C2; [2] fold sinks SX, SY and cascodes CX, CY;
+[3] cascoded PMOS mirror; [4] class-AB control ABP / ABN; [5] its copy FPL / FNL; [6] output devices; [7] Miller
+capacitors. The output devices sit on their own rails vddo / vsso.
+
+## Sizing (re-derived for GF180, 2026-10-08)
+
+| | IHP sg13_hv | GF180 03v3 | why |
+|---|---|---|---|
+| unit tails Ta, Tb | 5u/6u | 20u/6u nf=2 | headroom at ss/3.0 V/−40 °C (V_DS 0.35 V < V_DSsat 0.43 V; INL 6 mV → 0.37 mV) |
+| degeneration R | rhigh 0.5u/50.6u | ppolyf_u_3k 1u/50u (≈ 150 kΩ) | GF180 high-R poly; TC −0.17 %/K instead of −0.22 %/K |
+| OP | 546.12u/0.6u ng=82 | 91.02u/0.6u nf=14 **m=6** | GF180 model bins end at W = 100 µm per instance (total W, not W/nf) |
+| ON | 290.4u/1u ng=66 | 96.8u/1u nf=22 **m=3** | same |
+| CMA, CMB | hv PMOS 16u/16u | pfet_03v3 16u/16u (accumulation) | — |
+| everything else | | unchanged | GF180 03v3 behaves much like sg13_hv here |
+
+The replicas RP1 / RN1 in the bias were trimmed for I_Q = 212 µA (see `../ClassABBias`).
+
+`scripts/port_classab_from_ihp.py` drew the GF180 sheets from the hand-edited IHP drawings (wires and placement
+kept; GF180 FET symbols have the sg13_hv pin geometry), with the sizes from `scripts/gf180_sizing.spice`.
+`scripts/check_classab_port.py` compares xschem's netlist of each sheet with that file device by device:
+
+```sh
+xschem --rcfile schematic/xschem/xschemrc -n -s -q -x --tcl "set top_is_subckt 1" -o /tmp schematic/xschem/ClassABDriver.sch
+python3 scripts/check_classab_port.py scripts/gf180_sizing.spice /tmp/ClassABDriver.spice d2s_mpdda ClassABDriver a b
+```
+
+MISMATCHES 0 for all ported cells on 2026-10-08 (bias cells: reference subckts `d2s_bias_lp`, `d2s_bias_in`,
+`d2s_bias_out`). After this port, the sheets are the source of truth.
+
+## Testbenches (`testbenches/xschem/`, ported IHP decks)
+
+| sheet | result (tt, 27 °C, 3.3 V, 1 kΩ ∥ 100 pF) |
+|---|---|
+| `ClassABDriver_tb_dc` | gain 0.49999, offset 0.017 mV, nonlinearity 1.5 mV over ±1 V, I_Q 212.8 µA, Idd 297 µA |
+| `ClassABDriver_tb_loop` | T0 93.1 dB, f_c 1.40 MHz, PM 72.7° (IHP 78.9 dB, 1.37 MHz, 72.4°) |
+| `ClassABDriver_tb_step` | ±0.25 V step: no overshoot, 2.4 V/µs |
+| `ClassABDriver_tb_thd` | 0.145 % at 10 kHz, 1 V differential (IHP 0.119 %) |
+| `ClassABDriver_tb_noise` | 249 µV, 10 Hz … 10 MHz |
+| `ClassABDriver_tb_op` | operating point and saturation margins of every device |
+
+The decks' IHP `.lib` lines are replaced by a MODELS block (`$::180MCU_MODELS/sm141064.ngspice typical`,
+`res_typical`, `moscap_typical`).
+
+## CACE (`verification/cace/`, results in `verification/cace/results/ClassABDriverBiased/`)
+
+DUT `ClassABDriverBiased`; 87 runs, about 6 min on two cores. Limits: IHP d2s_miller_biased draft where it had
+one, otherwise placeholders.
+
+| parameter | conditions | result |
+|---|---|---|
+| gain | 5 corners × −40/27/125 °C × 3.0/3.3/3.6 V | 0.49943 … 0.50007 |
+| offset | same | 0.013 … 0.72 mV |
+| INL (vout − vref within ±0.2 V) | same | 0.02 … 3.5 mV; **fails 2 mV at ss/3.0 V/−40 °C** (input-pair headroom, as on IHP) |
+| I_Q (OP / ON) | same | 205 … 223 µA |
+| loop T0 / f_c / PM | 5 corners × 3 temperatures | 59–97 dB / 1.31–1.47 MHz / 68–76° |
+| PM vs load | 50 Ω, 1 kΩ, open × 10 p, 100 p, 1 nF | **24.9° at 1 nF fails**, as on IHP (Miller loop sized for 100 pF) |
+| step | 5 corners × 3 temperatures | overshoot ≤ 0.3 %, 2.0–2.8 V/µs, 1 % settling 250–415 ns |
+| output noise | typical, ss, ff | 245–251 µV |
+
+```
+cd verification/cace
+cace ClassABDriverBiased.yaml -s schematic --nofail -j 4 --parallel-parameters 1
+```
+
+Generated by `scripts/gen_cace.py`; edit the yaml and templates from now on. Stimulus and load are element lines
+in the NGSPICE block. The templates use ngspice's sparse solver: noise analysis does not run with `option KLU`.
+
+## Open points (from the IHP notes, unchanged by the port)
+
+- Supply rejection of the output-stage rails is only the loop gain (Miller capacitors tie a / b to vout).
+- FPL carries only ~10 nA (IHP: ~1 nA): the copy of the class-AB control in the mirror input branch.
+- Input common-mode headroom at 3.0 V, cold, slow corner.
+- Whether OP / ON double as the pad's ESD clamps (IHP case (a)) depends on the GF180 pad frame; not modelled.

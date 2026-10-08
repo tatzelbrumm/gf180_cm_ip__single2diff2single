@@ -19,6 +19,9 @@ if { ![info exists env(PDK)] } {
 # Source the PDK xschemrc file
 if {![info exists PDK]} {
     source $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/xschemrc
+    # the gf180mcuD PDK xschemrc does not set PDK; without this, every chained project
+    # xschemrc re-sources it, which resets XSCHEM_LIBRARY_PATH (found 2026-10-08)
+    set PDK $env(PDK)
 }
 
 # Append a library path only if not already present.
@@ -48,6 +51,9 @@ append_xschem_library_path_unique [file join [file dirname [info script]] ../../
 source [file dirname [info script]]/../../macros/gf180mcu_IOPadSingle2Diff/schematic/xschem/xschemrc
 source [file dirname [info script]]/../../macros/gf180mcu_IOPadDiff2Single/schematic/xschem/xschemrc
 source [file dirname [info script]]/../../macros/OgueyAebischerBias/schematic/xschem/xschemrc
+source [file dirname [info script]]/../../macros/ClassABBias/schematic/xschem/xschemrc
+source [file dirname [info script]]/../../macros/ClassABDriver/schematic/xschem/xschemrc
+source [file dirname [info script]]/../../macros/PadEnable/schematic/xschem/xschemrc
 
 # Pin the netlist directory to the simulations folder of the loaded schematic
 if {![llength [info commands pin_netlist_dir]]} {

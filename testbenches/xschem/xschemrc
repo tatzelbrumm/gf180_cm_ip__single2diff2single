@@ -19,6 +19,9 @@ if { ![info exists env(PDK)] } {
 # Source the PDK xschemrc file
 if {![info exists PDK]} {
     source $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/xschemrc
+    # the gf180mcuD PDK xschemrc does not set PDK; without this, every chained project
+    # xschemrc re-sources it, which resets XSCHEM_LIBRARY_PATH (found 2026-10-08)
+    set PDK $env(PDK)
 }
 
 # Source top-level schematic xschemrc to pull in canonical library paths and macro libraries.
