@@ -8,7 +8,7 @@ Session `669e0843-1ea7-5638-8c5d-93eca71fd6cf`, Claude (configured model `claude
 Verbatim export of the displayed conversation: user messages, visible replies and `SendUserMessage` texts as written;
 tool calls as `*[ ]*` summaries (actions and observable results only); shell commands verbatim in collapsed blocks, their output omitted.
 The internal reasoning trace is not included.
-Times are Europe/Berlin. Exported through the record stamped 2026-10-09 01:09; later turns are not in this file.
+Times are Europe/Berlin. Exported through the record stamped 2026-10-09 14:11; later turns are not in this file.
 
 ## Turn 1 — 2026-10-08 23:16
 
@@ -3128,7 +3128,7 @@ cp /mnt/user-data/outputs/bandgap_delivery/repo/macros/ClassABDriver/scripts/che
 
 Repo delivered (62 files). Now the notes worktree, with the log amended for the checker merge first.
 
-*[Finalize the log, checksum list and chat log; list the notes files (in the cloud container).]*
+*[Finalize the log, checksum list and chat log; list the notes files (in the cloud container; 2 lines of output).]*
 
 <details><summary>command</summary>
 
@@ -3154,6 +3154,310 @@ for root,_,fs in os.walk(O):
         files.append(d)
 print(json.dumps(files))
 EOF
+```
+
+</details>
+
+*[Copied 19 files from the cloud container to the computer (error).  
+Copied 2 files from the cloud container to the computer (1 lines of output).]*
+
+Checksum verification on the computer:
+
+*[Verify the delivered files on the computer (on the computer; 17 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && md5sum -c ../gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs/main/2026-10-09_fable_bandgap_delivery.md5 2>&1 | grep -c ": OK"; md5sum -c ../gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs/main/2026-10-09_fable_bandgap_delivery.md5 2>&1 | grep -v ": OK"; cd ../gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher && md5sum chatlog/2026-10-08_fable_gf180_bandgap_reference_redesign.md logs/main/2026-10-08_fable_reference_redesign_log.md deliveries/2026-10-09_fable_makefile.zip kickoffs/2026-10-08_reference_redesign/tools/bg_gf.spice | cut -c1-32 | tr '\n' ' '; ls chatlog/ | head; find . -name "*.lock" | head
+```
+
+</details>
+
+*[Compare notes checksums with the staged originals (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /mnt/user-data/outputs/bandgap_delivery/notes/sudelbuecher && md5sum chatlog/2026-10-08_fable_gf180_bandgap_reference_redesign.md logs/main/2026-10-08_fable_reference_redesign_log.md deliveries/2026-10-09_fable_makefile.zip kickoffs/2026-10-08_reference_redesign/tools/bg_gf.spice | cut -c1-32 | tr '\n' ' '
+```
+
+</details>
+
+*[Set task 6 to completed.]*
+
+Done. Everything is on your computer and verified (54 text files md5-identical; the 8 CACE PNGs differ only by the provenance stamp in transit).
+
+**What was delivered**
+
+- `macros/ClassABBias`: `ClassABBiasBG` (ports `vdd vss iout en en_b`, 5 µA out of `iout`), the deep-n-well variant `ClassABBiasBGdn`, the CACE fixtures `…Tree` (reference + `ClassABBiasIn`), generators (`gen_bg.py`, `gen_cace_bg.py`), `bg_reference.spice`, four datasheets with results in `verification/cace/results/`, README section with design rationale and numbers.
+- `macros/PadEnable/RefCoreEnable` (vpg → vdd, ks → vss while disabled; MS1's gate on `en_b`).
+- Checker extended for PNPs/1k/diodes — merged onto the version you edited on the computer at 00:59 (the mtime guard caught it); round trip MISMATCHES 0 on all cells.
+- Makefile change (`CACE_CELLS`) as `sudelbuecher/deliveries/2026-10-09_fable_makefile.zip` with installer; handover §9, CLAUDE.md status line; running log, CACE logs, sizing harness and chat log in the notes worktree; backups of the overwritten files in `sudelbuecher/backups/2026-10-09_before_bandgap_reference/`.
+
+**Design, in short:** the IHP core transliterated has no headroom at ss/3.0 V/−40 °C, so the mirror became a self-biased wide-swing cascode (a 150 kΩ resistor between the gate lines), the start-up pulls vpg, the NMOS pair is 20/12, mirrors 48/4, and — per your "save area" — `ppolyf_u_3k` 1 µm resistors (308 µm of strip, ≈ −900 µm² vs 1k) with the temperature band centred so it still fits ±3 %.
+
+**CACE (all pass):** −1.6…+1.7 % over 45 PVT points, 0.0–0.42 %/V line sensitivity, σ 1.06 % (100 runs), start-up at every corner (≤ 1.3 µs after a 1 µs ramp; before a 1 ms ramp ends), ≤ 0.24 nA disabled, 10.5 µA supply; tree lines −3.0…+3.7 %. The resistor spread (−19/+36 %, I_Q 172/286 µA in the driver) remains the dominant, untrimmed error. Driver with the real reference: I_Q 200–220 µA over MOS/V/T corners.
+
+**Deep n-well:** no separate model in gf180mcuD (plain `nfet_03v3` with the bulk on the isolated p-well + well diodes). It eliminates substrate noise into the pair (0.16 → 0.01 %/V DC, 13.5 → 0.01 %/V at 100 kHz in an idealised test) but costs the body effect (DC line 0.42 → 0.62 %/V) and ≈ +500–700 µm². Your call which one goes to layout.
+
+Two housekeeping items: the 13 MB transfer archive in `…_sudelbuecher/_to_delete/` can go, and the pad still takes `iref` from a pin — integrating `ClassABBiasBG` → `BiasRefEnable` is the natural next step.
+
+## Turn 5 — 2026-10-09 14:02
+
+**User:**
+
+Looking fabulous ... but I edited some schematics in ClassABBias and PadEnable macros for (my) human readability. Please sanity check.
+
+**Assistant:**
+
+*[Find the files edited since the delivery (on the computer; 52 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && find macros/ClassABBias macros/PadEnable macros/ClassABDriver -newer macros/ClassABBias/verification/cace/results/ClassABBiasBGdnTree/tree_params.csv -type f | sort; echo ---; find macros -name "*.lock" ; ls macros/ClassABBias/schematic/xschem macros/PadEnable/schematic/xschem
+```
+
+</details>
+
+*[Timestamps of the edited sheets (on the computer; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && stat -c '%y %n' macros/ClassABBias/schematic/xschem/ClassABBiasBG.sch macros/ClassABBias/schematic/xschem/ClassABBiasBGTree.sch macros/ClassABBias/schematic/xschem/ClassABBiasBGdn.sch macros/ClassABBias/schematic/xschem/ClassABBiasIdeal.sch macros/ClassABDriver/schematic/xschem/ClassABDriver.sch macros/PadEnable/schematic/xschem/RefCoreEnable.sch macros/PadEnable/schematic/xschem/RefCoreEnable.sym macros/ClassABBias/verification/cace/templates/ClassABBiasBG_tb_dc.sch macros/ClassABBias/Makefile | sort; md5sum macros/ClassABBias/verification/cace/templates/ClassABBiasBG*_tb_*.sch macros/ClassABBias/schematic/xschem/ClassABBiasBGdnTree.sch | cut -c1-32
+```
+
+</details>
+
+*[Copied 6 files from the computer to the cloud container (1 lines of output).]*
+
+*[Netlist the edited sheets and run the round-trip checks (in the cloud container; 14 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sleep 3; source /home/claude/tools/env.sh; cd /home/claude/work/gf180_cm_ip__single2diff2single && U=/mnt/user-data/uploads/gf180_cm_ip__single2diff2single && for f in macros/ClassABBias/schematic/xschem/ClassABBiasBG.sch macros/ClassABBias/schematic/xschem/ClassABBiasBGdn.sch macros/ClassABBias/schematic/xschem/ClassABBiasBGTree.sch macros/ClassABBias/schematic/xschem/ClassABBiasIdeal.sch macros/ClassABDriver/schematic/xschem/ClassABDriver.sch macros/PadEnable/schematic/xschem/RefCoreEnable.sch; do cp $f /tmp/$(basename $f).mine 2>/dev/null; cp $U/$f $f; done; rm -rf /tmp/chk && mkdir /tmp/chk
+cd macros/ClassABBias/schematic/xschem && for c in ClassABBiasBG ClassABBiasBGdn ClassABBiasBGTree ClassABBiasIdeal; do xschem --rcfile xschemrc -n -s -q -x --tcl "set top_is_subckt 1" -o /tmp/chk $c.sch > /tmp/chk/$c.log 2>&1; echo "$c: xschem exit $? $(grep -ci 'missing\|undriven\|error' /tmp/chk/$c.log) warnings"; done
+for c in ClassABBiasBG ClassABBiasBGdn; do python3 ../../../ClassABDriver/scripts/check_classab_port.py ../../scripts/bg_reference.spice /tmp/chk/$c.spice $c $c | tail -2; done
+cd ../../../PadEnable/schematic/xschem && xschem --rcfile xschemrc -n -s -q -x --tcl "set top_is_subckt 1" -o /tmp/chk RefCoreEnable.sch > /tmp/chk/rce.log 2>&1; echo "RefCoreEnable: exit $?"; python3 ../../../ClassABDriver/scripts/check_classab_port.py ../../scripts/padenable_reference.spice /tmp/chk/RefCoreEnable.spice RefCoreEnable RefCoreEnable | tail -2
+cd ../../../ClassABDriver/schematic/xschem && xschem --rcfile xschemrc -n -s -q -x --tcl "set top_is_subckt 1" -o /tmp/chk ClassABDriver.sch > /tmp/chk/drv.log 2>&1; echo "ClassABDriver: exit $?"; python3 ../../scripts/check_classab_port.py ../../scripts/gf180_sizing.spice /tmp/chk/ClassABDriver.spice d2s_mpdda ClassABDriver a b | tail -3
+```
+
+</details>
+
+*[Show the mismatches and the tree netlist (in the cloud container; 29 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+source /home/claude/tools/env.sh; cd /home/claude/work/gf180_cm_ip__single2diff2single/macros/ClassABBias/schematic/xschem && for c in ClassABBiasBG ClassABBiasBGdn; do python3 ../../../ClassABDriver/scripts/check_classab_port.py ../../scripts/bg_reference.spice /tmp/chk/$c.spice $c $c | head -3; done; grep -v "^+\|^\*\|^\.\|^$" /tmp/chk/ClassABBiasBG.spice | awk '{print $1, $2, $3, $4, $5, $6}' | grep -v "^XE\|RefCoreEnable" | head -30; grep "^[A-Z]" /tmp/chk/ClassABBiasBGTree.spice | grep -v "^XMS\|^XP\|^XN\|^XR\|^XQ\|^XS" | head; grep -i "undriven\|open net" /tmp/chk/ClassABBiasBGTree.log | head -3
+```
+
+</details>
+
+*[Inspect the switch sizes and the tree sheet netlist (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/chk && grep "XSPG\|XSKS" ClassABBiasBG.spice | cut -c1-60; grep -c "^X" ClassABBiasBGTree.spice; grep "^\.subckt\|^\.ends\|^X[a-z0-9]* " ClassABBiasBGTree.spice | cut -c1-80; tail -5 ClassABBiasBGTree.log; grep "^X" ClassABBiasBGTree.spice | awk '{print $1}' | sort | tr '\n' ' '
+```
+
+</details>
+
+*[Show the tree fixture's own body and xschem messages (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp/chk && sed -n '/^\.subckt ClassABBiasBGTree/,/^\.ends/p' ClassABBiasBGTree.spice; grep -i "warn\|error\|undriven\|open" ClassABBiasBGTree.log | head -5
+```
+
+</details>
+
+*[Rerun the fast CACE parameters on the edited sheets (in the cloud container; 12 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+source /home/claude/tools/env.sh; cd /home/claude/work/gf180_cm_ip__single2diff2single/macros/ClassABBias/verification/cace && cace ClassABBiasBG.yaml -s schematic --nofail -j 2 --parallel-parameters 1 -p dc_params line_params off_params > /tmp/chk/cace_bg.out 2>&1; r=$(ls -td _runs/RUN_* | head -1); grep "ngspice" $r/summary.md | grep -v Skip | awk -F'|' '{printf "%-28s %10s %10s %10s %s\n", $2, $6, $8, $10, $11}'; cace ClassABBiasBGTree.yaml -s schematic --nofail -j 2 --parallel-parameters 1 > /tmp/chk/cace_tree.out 2>&1; r=$(ls -td _runs/RUN_* | head -1); grep "ngspice" $r/summary.md | awk -F'|' '{printf "%-28s %10s %10s %10s %s\n", $2, $6, $8, $10, $11}'
+```
+
+</details>
+
+Numbers identical to last night. Let me also look at the sheet itself.
+
+*[Render his edited ClassABBiasBG sheet (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+source /home/claude/tools/env.sh; cd /home/claude/work/gf180_cm_ip__single2diff2single/macros/ClassABBias/schematic/xschem && python3 - <<'EOF'
+import re
+t=open('ClassABBiasBG.sch').read()
+xs=[float(v) for m in re.finditer(r'^[CNT] (?:\{[^}]*\} )?(-?[\d.]+) (-?[\d.]+)',t,re.M) for v in (m.group(1),)]
+ys=[float(m.group(2)) for m in re.finditer(r'^[CNT] (?:\{[^}]*\} )?(-?[\d.]+) (-?[\d.]+)',t,re.M)]
+print(min(xs),max(xs),min(ys),max(ys))
+EOF
+printf 'xschem load %s\nxschem print svg /tmp/chk/bg2.svg 1800 1500 -100 -1300 1700 200\nexit\n' "$PWD/ClassABBiasBG.sch" > /tmp/chk/p.tcl && timeout 60 xschem --rcfile xschemrc -q -x --script /tmp/chk/p.tcl >/dev/null 2>&1; rsvg-convert -w 2200 /tmp/chk/bg2.svg -o /tmp/chk/bg2.png && echo ok
+```
+
+</details>
+
+*[Read bg2.png (in the cloud container; image shown to the assistant).]*
+
+Sanity check done — all clean electrically:
+
+- **Netlists**: all six edited sheets netlist without errors (`ClassABBiasBGTree` exits 10 as before: the usual ERC on its undriven output pins, no actual problem).
+- **Round trip** against the reference netlists: `RefCoreEnable` 0, `ClassABDriver` 0 (your drain/source swaps are reported as notes only), `ClassABBiasBG` and `ClassABBiasBGdn` each **one structural difference, no device difference**: you inlined the two disable switches (`XSPG` 1u/0.5u vpg→vdd on `en`, `XSKS` 1u/0.5u ks→vss on `en_b`) into the core sheets instead of instantiating the `RefCoreEnable` sub-cell. Every other device — nets, W/L/nf/m, resistor lengths, PNP m, the DNW bulk ties and well diodes — matches.
+- **CACE rerun** on your sheets: `dc_params`, `line_params`, `off_params` and the tree lines give exactly last night's numbers (−1.61…+1.66 %, ≤ 0.416 %/V, ≤ 0.24 nA disabled, tree −3.0…+3.7 %).
+
+The wiring itself looks right to me (rails, the vpg/vpc gate lines, RC between them, NB's drain on vpc, ea/eb to the resistors and PNPs, MS1's gate on en_b) — and it reads far better than my label-style version.
+
+What is now out of sync with the inlined switches: `scripts/bg_reference.spice` (still has `XE … RefCoreEnable`), the sheet's own note line "[E] RefCoreEnable", the ClassABBias README ("instantiated inside the core cell") and the handover line, plus the `xschemrc` line that adds the PadEnable folder (harmless, now unneeded). Tell me which way you want it: keep the switches inline (I update the reference netlist, notes and README accordingly — `RefCoreEnable` then stays in PadEnable as an unused cell, or I drop it), or go back to the sub-cell. I won't touch your sheets either way.
+
+## Turn 6 — 2026-10-09 14:09
+
+**User:**
+
+Keep the switches inline, PadEnable stays as unused cell for now.
+Also, review the schematic drawing skill based on my hand edits and make a suggestion how to update the skill (let me review your update before you integrate it).
+
+**Assistant:**
+
+*[Compare his edited sheet with the generated one (in the cloud container; 48 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+diff <(grep -c "^N " /tmp/ClassABBiasBG.sch.mine) <(grep -c "^N " ClassABBiasBG.sch); echo "labels mine/his:"; grep -c "lab_pin" /tmp/ClassABBiasBG.sch.mine; grep -c "lab_pin" ClassABBiasBG.sch; grep "lab_pin" ClassABBiasBG.sch | sed 's/.*lab=//; s/}//' | sort | uniq -c | sort -rn | head -20; echo; grep "^C {symbols" ClassABBiasBG.sch | awk '{print $2, $3, $4, $5, $6}' | sed 's/{symbols\///; s/.sym}//'; grep "^T " ClassABBiasBG.sch | cut -c1-80 | tail -8
+```
+
+</details>
+
+*[Loaded skill "anthropic-skills:xschem-analog-schematic".]*
+
+*[Render the other edited sheets and diff RefCoreEnable (in the cloud container; 43 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+source /home/claude/tools/env.sh; cd /home/claude/work/gf180_cm_ip__single2diff2single/macros && for s in ClassABBias/schematic/xschem/ClassABBiasBGdn ClassABBias/schematic/xschem/ClassABBiasBGTree PadEnable/schematic/xschem/RefCoreEnable; do d=$(dirname $s); b=$(basename $s); printf 'xschem load %s\nxschem print svg /tmp/chk/%s.svg 1800 1500 -100 -1300 1700 200\nexit\n' "$PWD/$s.sch" $b > /tmp/chk/p.tcl; (cd $d && timeout 60 xschem --rcfile xschemrc -q -x --script /tmp/chk/p.tcl >/dev/null 2>&1); rsvg-convert -w 1800 /tmp/chk/$b.svg -o /tmp/chk/$b.png && echo $b ok; done; diff /tmp/RefCoreEnable.sch.mine PadEnable/schematic/xschem/RefCoreEnable.sch | head -40
+```
+
+</details>
+
+*[Read ClassABBiasBGdn.png (in the cloud container; image shown to the assistant).]*
+
+First the bookkeeping for the inline switches (reference netlist, generator, README, handover, log; your sheets untouched).
+
+*[Update reference netlist, generator and docs to the inline switches; re-check (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+source /home/claude/tools/env.sh; cd /home/claude/work/gf180_cm_ip__single2diff2single && python3 - <<'EOF'
+import re
+p='macros/ClassABBias/scripts/bg_reference.spice'; s=open(p).read()
+s=s.replace("* Ports: vdd vss iout en en_b (en active high; en_b from PadEnable/EnableInv). iout: 5 uA OUT of the pin.",
+"* Ports: vdd vss iout en en_b (en active high; en_b from PadEnable/EnableInv). iout: 5 uA OUT of the pin.\n* 2026-10-09 14:00: the disable switches SPG / SKS are drawn inline in the core sheets (Christoph's hand edit);\n* PadEnable/RefCoreEnable holds the same two devices as a cell of its own, unused for now.")
+s=s.replace("XE vdd vss en en_b vpg ks RefCoreEnable\n","XSPG vpg en vdd vdd pfet_03v3 W=1u L=0.5u nf=1\nXSKS ks en_b vss vss nfet_03v3 W=1u L=0.5u nf=1\n")
+open(p,'w').write(s)
+p='macros/ClassABBias/scripts/gen_bg.py'; s=open(p).read()
+s=s.replace('''    # [E] enable sub-cell
+    epins = [("vdd", 0, -80), ("vss", 0, 80), ("en", -120, -20), ("en_b", -120, 20), ("vpg", 120, -20), ("ks", 120, 20)]
+    s.block("RefCoreEnable.sym", "XE", 240, -480, epins, dict(vdd="vdd", vss="vss", en="en", en_b="en_b", vpg="vpg", ks="ks"))
+''','''    # [E] disable switches, inline (2026-10-09 14:00: was the sub-cell PadEnable/RefCoreEnable, which stays as an unused cell)
+    s.fet("p", "SPG", 240, -560, "vpg", "en", "vdd", "vdd", **F("SPG"))
+    s.fet("n", "SKS", 240, -380, "ks", "en_b", "vss", "vss", **F("SKS"))
+''')
+s=s.replace('[E] RefCoreEnable: vpg -> vdd, ks -> vss while en = 0."', '[E] disable switches SPG / SKS: vpg -> vdd, ks -> vss while en = 0."')
+s=s.replace("The sheets delivered on 2026-10-09 were then hand-wired by Christoph","")
+s=s.replace('Written once; afterwards the .sch/.sym are the source of truth.', 'Written once; afterwards the .sch/.sym are the source of truth (the 2026-10-09 sheets were re-wired by hand\nafterwards: real wires and gate trunks instead of the label draft this script writes; do not regenerate over them).')
+open(p,'w').write(s)
+p='macros/ClassABBias/README.md'; s=open(p).read()
+s=s.replace("with start-up and the disable sub-cell `PadEnable/RefCoreEnable` (2026-10-09, see below)","with start-up and the disable switches SPG / SKS inline (2026-10-09, see below)")
+s=s.replace("MS2 senses g, MS3 pulls vpg. **Disable** [E]: `PadEnable/RefCoreEnable` (vpg → vdd, ks → vss while en = 0).",
+"MS2 senses g, MS3 pulls vpg. **Disable** [E]: SPG (vpg → vdd) and SKS (ks → vss) while en = 0, 1u/0.5u, drawn inline;\n  `PadEnable/RefCoreEnable` holds the same two devices as a cell of its own (unused for now).")
+s=s.replace("The core sheets are drawn in the label style of `PadEnable` (rails as wires, gates and drains by stub and label),\nnot ported from the IHP drawing (the topology changed).",
+"The core sheets were generated in the label style of `PadEnable` and then re-wired by hand (Christoph, 2026-10-09:\nreal wires, gate trunks vpg / vpc / g / ks, the switches inline); `gen_bg.py` must not be re-run over them.")
+open(p,'w').write(s)
+p='HANDOVER_gf180_migration.md'; s=open(p).read()
+s=s.replace("- `macros/PadEnable`: `RefCoreEnable` (vpg → vdd, ks → vss while disabled).",
+"- `macros/PadEnable`: `RefCoreEnable` (vpg → vdd, ks → vss while disabled) — after Christoph's hand edit of 2026-10-09 the two\n  switches are drawn inline in the core sheets (SPG, SKS); the cell stays unused for now.")
+s=s.replace("(+ deep-n-well variant, `PadEnable/RefCoreEnable`)","(+ deep-n-well variant)")
+open(p,'w').write(s)
+p='CLAUDE.md'; s=open(p).read(); s=s.replace("(+ deep-n-well variant, `PadEnable/RefCoreEnable`)","(+ deep-n-well variant)"); open(p,'w').write(s)
+EOF
+cd macros/ClassABBias/schematic/xschem && for c in ClassABBiasBG ClassABBiasBGdn; do python3 ../../../ClassABDriver/scripts/check_classab_port.py ../../scripts/bg_reference.spice /tmp/chk/$c.spice $c $c | tail -1; done; grep -n "SPG\|XE" ../../scripts/bg_reference.spice | head
+```
+
+</details>
+
+*[Log entry and staging of the updated files (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work && python3 - <<'EOF'
+p='/mnt/user-data/outputs/bandgap_delivery/notes/sudelbuecher/logs/main/2026-10-08_fable_reference_redesign_log.md'; s=open(p).read()
+s+="""
+## 2026-10-09 14:02 — sanity check of Christoph's hand-edited sheets (`ClassABBiasBG`, `…BGdn`, `…BGTree`, `RefCoreEnable`, also `ClassABBiasIdeal`, `ClassABDriver` from the night)
+
+Staged from the computer, netlisted with xschem 3.4.8RC, round trip against the reference netlists: `RefCoreEnable` 0,
+`ClassABDriver` 0 (drain/source swaps reported as notes by the 00:59 checker), `ClassABBiasBG` / `…dn` one structural
+difference only — the two disable switches are now inline (`XSPG`, `XSKS`, 1u/0.5u, same nets as in `RefCoreEnable`)
+instead of the `XE` sub-cell; every other device identical. CACE `dc_params`, `line_params`, `off_params` and the tree
+`tree_params` rerun on the edited sheets: identical to the 01:03 numbers. The sheets are now fully wired (gate trunks
+vpg / vpc / g / ks between the rows, ports at the left column at the height of their row, iout at the right edge,
+[S] [E] [C] [W] frames; the label draft of `gen_bg.py` is superseded).
+
+Decision (Christoph, 14:09): **switches stay inline; `PadEnable/RefCoreEnable` stays as an unused cell.** Updated
+accordingly: `scripts/bg_reference.spice` (XSPG / XSKS instead of XE; MISMATCHES 0 again), `gen_bg.py` (inline switches,
+warning not to regenerate over the hand-wired sheets), ClassABBias README, handover §9, CLAUDE.md. The `xschemrc` line
+that adds the PadEnable folder is left in (harmless). The sheets' own note line still says "[E] RefCoreEnable" — Christoph's
+text to change. Second task: review of the `xschem-analog-schematic` skill against the hand edits, proposed for his review.
+"""
+open(p,'w').write(s)
+EOF
+O=/mnt/user-data/outputs/bandgap_delivery; cd gf180_cm_ip__single2diff2single && for f in CLAUDE.md HANDOVER_gf180_migration.md macros/ClassABBias/README.md macros/ClassABBias/scripts/bg_reference.spice macros/ClassABBias/scripts/gen_bg.py; do cp $f $O/repo/$f; done; echo staged
+```
+
+</details>
+
+*[Called mcp__remote-devices__device_list_dir (1 lines of output).]*
+
+*[Exact mtimes for the guards (on the computer; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd $HOME/mnt/gf180_cm_ip__single2diff2single && stat -c '%n %.3Y' CLAUDE.md HANDOVER_gf180_migration.md macros/ClassABBias/README.md | sed 's/\.//'; stat -c '%n %Y' ../gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs/main/2026-10-08_fable_reference_redesign_log.md
+```
+
+</details>
+
+*[Copied 6 files from the cloud container to the computer (1 lines of output).]*
+
+*[Request interrupted by user]*
+
+## Turn 7 — 2026-10-09 14:11
+
+**User:**
+
+... and update running logs and the chat log.
+
+**Assistant:**
+
+The running log entry for today is already written and on your computer. Now the chat log, then the skill review.
+
+*[Re-export the chat log with today's turns (in the cloud container).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/claude/work && O=/mnt/user-data/outputs/bandgap_delivery && python3 -I gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/chatlog/export_chatlog.py ~/.claude/projects/-home-claude/669e0843-1ea7-5638-8c5d-93eca71fd6cf.jsonl $O/notes/sudelbuecher/chatlog/2026-10-08_fable_gf180_bandgap_reference_redesign.md "GF180 bandgap reference redesign (ClassABBiasBG)" 669e0843-1ea7-5638-8c5d-93eca71fd6cf claude-fable-5-1 && grep "^## Turn" $O/notes/sudelbuecher/chatlog/2026-10-08_fable_gf180_bandgap_reference_redesign.md && md5sum $O/notes/sudelbuecher/chatlog/2026-10-08_fable_gf180_bandgap_reference_redesign.md | cut -c1-32
 ```
 
 </details>

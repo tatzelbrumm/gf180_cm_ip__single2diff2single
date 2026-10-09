@@ -237,3 +237,19 @@ Open for Christoph: (1) DNW or not — `ClassABBiasBGdn` is drawn and characteri
 decision; (2) the resistor spread (±25 % → −19/+36 %, I_Q 172/286 µA) is the dominant error: trim, or accept, or
 a resistor type with tighter spread (1k/2k: ±20 %); (3) the pad does not instantiate the reference yet (iref pin);
 (4) layout: the PNP array (9 × 25 µm² common-centroid), the resistor strips (308 µm at 1 µm), the 48/4 mirrors.
+
+## 2026-10-09 14:02 — sanity check of Christoph's hand-edited sheets (`ClassABBiasBG`, `…BGdn`, `…BGTree`, `RefCoreEnable`, also `ClassABBiasIdeal`, `ClassABDriver` from the night)
+
+Staged from the computer, netlisted with xschem 3.4.8RC, round trip against the reference netlists: `RefCoreEnable` 0,
+`ClassABDriver` 0 (drain/source swaps reported as notes by the 00:59 checker), `ClassABBiasBG` / `…dn` one structural
+difference only — the two disable switches are now inline (`XSPG`, `XSKS`, 1u/0.5u, same nets as in `RefCoreEnable`)
+instead of the `XE` sub-cell; every other device identical. CACE `dc_params`, `line_params`, `off_params` and the tree
+`tree_params` rerun on the edited sheets: identical to the 01:03 numbers. The sheets are now fully wired (gate trunks
+vpg / vpc / g / ks between the rows, ports at the left column at the height of their row, iout at the right edge,
+[S] [E] [C] [W] frames; the label draft of `gen_bg.py` is superseded).
+
+Decision (Christoph, 14:09): **switches stay inline; `PadEnable/RefCoreEnable` stays as an unused cell.** Updated
+accordingly: `scripts/bg_reference.spice` (XSPG / XSKS instead of XE; MISMATCHES 0 again), `gen_bg.py` (inline switches,
+warning not to regenerate over the hand-wired sheets), ClassABBias README, handover §9, CLAUDE.md. The `xschemrc` line
+that adds the PadEnable folder is left in (harmless). The sheets' own note line still says "[E] RefCoreEnable" — Christoph's
+text to change. Second task: review of the `xschem-analog-schematic` skill against the hand edits, proposed for his review.

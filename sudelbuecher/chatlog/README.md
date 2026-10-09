@@ -11,3 +11,6 @@ One `[file](file)` + one sentence per log. The logs are made with [`export_chatl
 
 [2026-10-08_fable_gf180_bandgap_reference_redesign.md](2026-10-08_fable_gf180_bandgap_reference_redesign.md)
 : GF180 re-design of the class-AB driver's bandgap reference (ClassABBiasBG, wide-swing cascode, 3k poly resistors, deep-n-well variant compared), RefCoreEnable, round trip and four CACE suites, driver with the real reference (8–9 October).
+
+[2026-10-09_opus_design_review_packet_for_tim_edwards.md](2026-10-09_opus_design_review_packet_for_tim_edwards.md)
+: Review packet for the schematic design review with Tim Edwards on 2026-10-09: survey of both repos and their notes worktrees, GF180 sheets exported with a cloud-built xschem, published review page with schematic plates, layout and CACE status, flows, log links and questions for Tim.
