@@ -32,7 +32,7 @@ sg13cmos5l design notes (`sg13cmos5l_..._sudelbuecher/sudelbuecher/design_consid
 | `ClassABBiasOut` | `d2s_bias_out` | same | variant 2: 5 µA **out of** iref (external NMOS sink) → PMOS input diode PI 20u/6u |
 | `ClassABBiasIdeal` | `d2s_bias_lp` | vdd vss vddo vsso + six lines | test fixture: ideal currents into the same six diodes (used by `ClassABDriverBiased`) |
 
-| `ClassABBiasBG` | `bg_core` (re-designed) | vdd vss iout en en_b | **self-contained bandgap reference**, 5 µA **out of** iout, for the `ClassABBiasIn` tree's iref; with start-up and the disable sub-cell `PadEnable/RefCoreEnable` (2026-10-09, see below) |
+| `ClassABBiasBG` | `bg_core` (re-designed) | vdd vss iout en en_b | **self-contained bandgap reference**, 5 µA **out of** iout, for the `ClassABBiasIn` tree's iref; with start-up and the disable switches SPG / SKS inline (2026-10-09, see below) |
 | `ClassABBiasBGdn` | same | same | the same core with the NMOS pair NA / NB in isolated p-wells (deep n-well), bulk tied to source |
 | `ClassABBiasBGTree`, `…BGdnTree` | — | as `ClassABBiasIn` plus en en_b, without iref | CACE fixtures: reference feeding the tree (iout → iref directly) |
 
@@ -101,7 +101,8 @@ harness `kickoffs/2026-10-08_reference_redesign/tools/`):
 - **PMOS mirror 48/4 nf=4, cascodes 48/2 nf=4**, PO / POC 96/4, 96/2 nf=8 (one instance each; the mismatch model
   ignores `m` and the bin ends at W = 100 µm). The mirror devices set the mismatch (48/2: σ 1.8 %, 48/4: 1.0 %).
 - **Start-up** [S] as on IHP but pulling the mirror gate line vpg: MS1 0.22/50 (weak pull-up on ks, gate on en_b),
-  MS2 senses g, MS3 pulls vpg. **Disable** [E]: `PadEnable/RefCoreEnable` (vpg → vdd, ks → vss while en = 0).
+  MS2 senses g, MS3 pulls vpg. **Disable** [E]: SPG (vpg → vdd) and SKS (ks → vss) while en = 0, 1u/0.5u, drawn inline;
+  `PadEnable/RefCoreEnable` holds the same two devices as a cell of its own (unused for now).
 - Gate area ≈ 1660 µm² MOS (IHP: 541), 25 × 9 = 225 µm² of PNP emitters (IHP: 36), resistors ≈ 450 µm².
 
 Results (plain-ngspice harness and CACE, schematic, cloud toolchain: xschem 3.4.8RC, ngspice-47, gf180mcuD 1689ac3,
@@ -138,8 +139,8 @@ corners move I_Q to 172 / 286 µA (IHP rhigh: 171 / 268).
 Files: `scripts/gen_bg.py` (sheets, symbols, fixtures), `scripts/bg_reference.spice` (sizes; round trip with
 `../ClassABDriver/scripts/check_classab_port.py`, now also for PNPs, 1k resistors and diodes: MISMATCHES 0),
 `scripts/gen_cace_bg.py` (datasheets and templates), `scripts/mm_sigma.py` (σ from a run's `.data` files).
-The core sheets are drawn in the label style of `PadEnable` (rails as wires, gates and drains by stub and label),
-not ported from the IHP drawing (the topology changed).
+The core sheets were generated in the label style of `PadEnable` and then re-wired by hand (Christoph, 2026-10-09:
+real wires, gate trunks vpg / vpc / g / ks, the switches inline); `gen_bg.py` must not be re-run over them.
 
 ## Open points
 

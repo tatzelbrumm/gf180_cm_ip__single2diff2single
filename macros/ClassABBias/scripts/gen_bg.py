@@ -5,7 +5,8 @@
 class-AB pad driver, re-designed for GF180 on 2026-10-09 from the IHP bg_core (sg13cmos5l notes worktree,
 design_considerations/class_ab_pad_driver/improvements/sim/d2s_bias_ref.spice). Sizes are the ones of
 bg_reference.spice next to this script (sizing: notes worktree, kickoffs/2026-10-08_reference_redesign/tools/,
-log 2026-10-08_fable_reference_redesign_log.md). Written once; afterwards the .sch/.sym are the source of truth.
+log 2026-10-08_fable_reference_redesign_log.md). Written once; afterwards the .sch/.sym are the source of truth (the 2026-10-09 sheets were re-wired by hand
+afterwards: real wires and gate trunks instead of the label draft this script writes; do not regenerate over them).
 
 Columns, as on the IHP sheet: [S] start-up and the enable sub-cell on the left, then the current branches rail to
 rail (PMOS mirror + cascode on vdd at the top, NMOS pair / resistors / PNPs on vss at the bottom): the input branch
@@ -65,7 +66,7 @@ def core(d, dn=False):
              "    NA / NB force ea = eb, the mirror equal currents, so each branch carries V_BE1 / R1 + U_T ln 8 / R0 (32 % PTAT with ppolyf_u_3k's -0.15 %/K); PO / POC = 2 x -> 5 uA.",
              "    Wide-swing cascode: the input branch's diode connection closes around PBC (vpg = its drain); the cascode gate line vpc = vpg - I RC (RC 150k), NB's drain on vpc.",
              "    R1A is 10 % longer than R1B: with both PNPs off the loop gain is > 1, so the core cannot rest in the resistor-only state.",
-             "[S] start-up: MS1 weak pull-up (gate en_b) on ks, MS3 pulls vpg down while ks is high, MS2 releases ks once g is up. [E] RefCoreEnable: vpg -> vdd, ks -> vss while en = 0.",
+             "[S] start-up: MS1 weak pull-up (gate en_b) on ks, MS3 pulls vpg down while ks is high, MS2 releases ks once g is up. [E] disable switches SPG / SKS: vpg -> vdd, ks -> vss while en = 0.",
              ("NA / NB each in an isolated p-well (bulk = source) inside one deep n-well on vdd; DPWA / DPWB / DDNW are the well junctions (estimated areas; LVS needs a well_diode_mk marker or lvs_ignore)."
               if dn else "NA / NB bulks on vss (common substrate). The deep-n-well variant is ClassABBiasBGdn.")]
     for i, l in enumerate(notes):
@@ -76,9 +77,9 @@ def core(d, dn=False):
     s.pin("iopin", 60, top, "vdd", right=True); s.pin("iopin", 60, bot, "vss", right=True)
     s.pin("ipin", 60, -500, "en"); s.pin("ipin", 60, -460, "en_b")
     s.pin("iopin", 1280, -300, "iout")
-    # [E] enable sub-cell
-    epins = [("vdd", 0, -80), ("vss", 0, 80), ("en", -120, -20), ("en_b", -120, 20), ("vpg", 120, -20), ("ks", 120, 20)]
-    s.block("RefCoreEnable.sym", "XE", 240, -480, epins, dict(vdd="vdd", vss="vss", en="en", en_b="en_b", vpg="vpg", ks="ks"))
+    # [E] disable switches, inline (2026-10-09 14:00: was the sub-cell PadEnable/RefCoreEnable, which stays as an unused cell)
+    s.fet("p", "SPG", 240, -560, "vpg", "en", "vdd", "vdd", **F("SPG"))
+    s.fet("n", "SKS", 240, -380, "ks", "en_b", "vss", "vss", **F("SKS"))
     s.text("[E]", 160, -600, 0.3, 10); s.text("[S]", 160, -860, 0.3, 10); s.text("[C]", 520, -860, 0.3, 10)
     # [S] start-up
     s.fet("p", "MS1", 200, -800, "ks", "en_b", "vdd", "vdd", top_rail=top, **F("MS1"))

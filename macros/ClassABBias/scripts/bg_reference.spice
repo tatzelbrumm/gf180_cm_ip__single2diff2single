@@ -2,6 +2,8 @@
 * Sizing and results: notes worktree, kickoffs/2026-10-08_reference_redesign/tools/bg_gf.spice + run_bg.py,
 * logs/main/2026-10-08_fable_reference_redesign_log.md. Round trip: ../../ClassABDriver/scripts/check_classab_port.py.
 * Ports: vdd vss iout en en_b (en active high; en_b from PadEnable/EnableInv). iout: 5 uA OUT of the pin.
+* 2026-10-09 14:00: the disable switches SPG / SKS are drawn inline in the core sheets (Christoph's hand edit);
+* PadEnable/RefCoreEnable holds the same two devices as a cell of its own, unused for now.
 .subckt ClassABBiasBG vdd vss iout en en_b
 XPB cb vpg vdd vdd pfet_03v3 W=48u L=4u nf=4
 XPBC vpg vpc cb vdd pfet_03v3 W=48u L=2u nf=4
@@ -20,7 +22,8 @@ XR1B eb vss vss ppolyf_u_3k r_width=1u r_length=107.4u
 XMS1 ks en_b vdd vdd pfet_03v3 W=0.22u L=50u nf=1
 XMS2 ks g vss vss nfet_03v3 W=10u L=1u nf=1
 XMS3 vpg ks vss vss nfet_03v3 W=0.5u L=2u nf=1
-XE vdd vss en en_b vpg ks RefCoreEnable
+XSPG vpg en vdd vdd pfet_03v3 W=1u L=0.5u nf=1
+XSKS ks en_b vss vss nfet_03v3 W=1u L=0.5u nf=1
 .ends ClassABBiasBG
 
 * Deep-n-well variant: NA / NB in isolated p-wells (bulk = source) inside one DNW on vdd; well junctions with
@@ -46,5 +49,6 @@ XR1B eb vss vss ppolyf_u_3k r_width=1u r_length=107.4u
 XMS1 ks en_b vdd vdd pfet_03v3 W=0.22u L=50u nf=1
 XMS2 ks g vss vss nfet_03v3 W=10u L=1u nf=1
 XMS3 vpg ks vss vss nfet_03v3 W=0.5u L=2u nf=1
-XE vdd vss en en_b vpg ks RefCoreEnable
+XSPG vpg en vdd vdd pfet_03v3 W=1u L=0.5u nf=1
+XSKS ks en_b vss vss nfet_03v3 W=1u L=0.5u nf=1
 .ends ClassABBiasBGdn

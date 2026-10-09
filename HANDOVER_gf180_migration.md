@@ -201,7 +201,8 @@ untouched, disable as a sub-cell, deep-n-well variant compared before CACE, poly
 - `macros/ClassABBias`: `ClassABBiasBG` (core, ports `vdd vss iout en en_b`, 5 µA out of iout), `ClassABBiasBGdn`
   (NMOS pair in a deep n-well), CACE fixtures `…Tree` (core + `ClassABBiasIn`), four datasheets with results in
   `verification/cace/results/`. README section "ClassABBiasBG" has the design, the numbers and the open points.
-- `macros/PadEnable`: `RefCoreEnable` (vpg → vdd, ks → vss while disabled).
+- `macros/PadEnable`: `RefCoreEnable` (vpg → vdd, ks → vss while disabled) — after Christoph's hand edit of 2026-10-09 the two
+  switches are drawn inline in the core sheets (SPG, SKS); the cell stays unused for now.
 - Topology changes vs IHP: wide-swing cascode mirror (resistor between the gate lines; the IHP stacked-diode cascode has
   no headroom with pfet_03v3 at ss/3.0 V/−40 °C), start-up on vpg, NMOS pair 20/12, mirrors 48/4, `ppolyf_u_3k`
   1 µm resistors (area), PNP ratio 8 by `m`.
