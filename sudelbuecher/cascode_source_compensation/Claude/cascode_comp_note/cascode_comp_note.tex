@@ -1,0 +1,288 @@
+\documentclass[journal]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage[americanvoltages,americancurrents,siunitx]{circuitikz}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.16}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\sisetup{per-mode=symbol}
+
+\newcommand{\gmo}{g_{m1}}
+\newcommand{\gmt}{g_{m2}}
+\newcommand{\gmc}{g_{mc}}
+
+\begin{document}
+
+\title{Resistor-Free Miller Compensation of a\\Class-AB Fully Differential DDA\\by Feedback to the Cascode Sources}
+
+\author{Christoph~Maier%
+\thanks{Technical note, 10~October~2026, prepared for the Chipalooza~\#3 schematic design review (FCDDA, GF180MCU). Drafted with the assistance of Claude (Anthropic). All transfer functions were derived symbolically (SymPy) and all numbers in Section~\ref{sec:num} were computed from them; the scripts accompany this note.}}
+
+\markboth{Technical Note}{Maier: Resistor-Free Miller Compensation by Cascode-Source Feedback}
+
+\maketitle
+
+\begin{abstract}
+The fully differential difference amplifier (DDA) under review uses a folded-cascode first stage and a class-AB common-source output stage in which every output transistor carries its own Miller capacitor with a series nulling resistor. We ask whether the resistors can be removed by returning each Miller capacitor to the \emph{source} of a cascode transistor instead of the gate of the output device (the cascode drain). The answer is yes, with two conditions. First, the capacitor must land on a cascode source that does not also receive the input-pair signal current; landing on a folding node replaces the right-half-plane (RHP) zero by a symmetric zero pair and degrades gain margin to about \SI{5}{dB} in our example. Second, the non-dominant poles become a complex pair whose quality factor grows as $\sqrt{\gmt}$, so the design must be checked at maximum output current, where a class-AB stage has its largest $\gmt$. We give closed-form design equations and a numerical comparison of the variants.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Frequency compensation, Miller compensation, cascode compensation, current-buffer compensation, indirect feedback compensation, class-AB output stage, differential difference amplifier.
+\end{IEEEkeywords}
+
+\section{Question}
+The amplifier is a fully differential, folded-cascode DDA \cite{sackinger1987} (FCDDA) with class-AB outputs. Each output transistor is compensated by a series $RC$ network from its drain (the output) to its gate. The resistor $R_z$ exists only to move the RHP zero at $\gmt/C_c$, which the feedforward current through $C_c$ creates \cite{palmisano1995}. The question raised in the review was:
+\emph{Can the resistors be avoided if the feedback is taken from the sources of the cascodes rather than the drains?}
+
+This is cascode, current-buffer, or indirect compensation, first proposed by Ahuja \cite{ahuja1983} and analysed further in \cite{ribner1984,palmisano1997,hurst2004,saxena2007}. The point of the technique is that the capacitor current reaches the high-impedance gate node only through the common-gate cascode, which acts as a unidirectional current buffer. The direct feedforward path from the output through $C_c$ into the gate node, which causes the RHP zero, is therefore broken.
+
+\section{Small-Signal Model}
+Fig.~\ref{fig:model} shows the model used for all variants. Node~$X$ is the high-impedance gate of one output transistor, with conductance $G_1$ and capacitance $C_1$ (mostly the output device's $C_{gs}$). The output node has $G_2$ and load $C_L$. The cascode is modelled as an ideal current buffer: input conductance $\gmc$ and parasitic capacitance $C_s$ at its source~$S$, and an output current $\gmc v_S$ into~$X$. Cascode output resistance is neglected; it only adds terms of order $1/(\gmc r_o)$.
+
+The first-stage transconductance $\gmo$ injects its signal current either at~$X$ (cases a, b, d) or at~$S$ (case c). Case (c) applies when $S$ is a folding node, where the input pair's drain current is summed with the cascode branch current.
+
+\begin{figure*}[!t]
+\centering
+\begin{circuitikz}[scale=0.95, transform shape, line width=0.6pt]
+  \draw (0,0) -- (14.4,0);  \draw (7.2,0) node[ground]{};
+  % node S: cascode input admittance, optional input current (case c, dashed)
+  \draw (0,0) to[generic, l_=$g_{mc}+sC_s$] (0,2.5);
+  \draw[dashed] (2.4,0) to[I, l_=$g_{m1}v_{\mathrm{in}}$] (2.4,2.5);
+  \draw (0,2.5) -- (2.4,2.5);  \draw (1.2,2.5) node[circ]{} node[below]{$S$};
+  % node X: cascode output current, input current (a,b,d), gate admittance
+  \draw (4.8,0) to[cI, l_=$g_{mc}v_S$] (4.8,2.5);
+  \draw (7.2,0) to[I, l_=$g_{m1}v_{\mathrm{in}}$] (7.2,2.5);
+  \draw (9.6,0) to[generic, l_=$G_1+sC_1$] (9.6,2.5);
+  \draw (4.8,2.5) -- (9.6,2.5);  \draw (8.4,2.5) node[circ]{} node[below]{$X$};
+  % output node
+  \draw (12.0,2.5) to[cI, l^=$g_{m2}v_X$] (12.0,0);
+  \draw (14.4,0) to[generic, l_=$G_2+sC_L$] (14.4,2.5);
+  \draw (12.0,2.5) -- (16.4,2.5) node[ocirc]{} node[right]{$v_o$};
+  \draw (15.8,2.5) node[circ]{};
+  % proposed: Cc from output to cascode source S
+  \draw (15.8,2.5) -- (15.8,5.0) to[C, l_={$C_c$ (proposed, to cascode source $S$)}] (1.2,5.0) -- (1.2,2.5);
+  % conventional: Cc (+Rz) from output to gate node X
+  \draw[dashed] (13.2,2.5) node[circ]{} -- (13.2,3.7) to[C, l_={$C_c$ (conventional; $+R_z$ in b)}] (8.4,3.7) -- (8.4,2.5);
+\end{circuitikz}
+\caption{Small-signal model of one compensated output transistor. The cascode is an ideal current buffer with input admittance $g_{mc}+sC_s$ at its source $S$. Solid $C_c$: compensation to the cascode source $S$ (cases c, d). Dashed $C_c$: conventional Miller compensation to the gate node $X$ (case a; case b adds $R_z$ in series). The first-stage signal current enters at $X$ (solid source; cases a, b, d) or, when $S$ is a folding node, at $S$ (dashed source; case c).}
+\label{fig:model}
+\end{figure*}
+
+\section{Analysis}
+\subsection{Conventional Miller Compensation (a, b)}
+With $C_c$ from the output to $X$,
+\begin{equation}
+L_a(s) = \frac{-\gmo(\gmt - sC_c)}{G_1G_2 + s\,b_1 + s^2 b_2},
+\end{equation}
+where $b_1 = \gmt C_c + (G_1+G_2)C_c + G_1C_L + G_2C_1$ and $b_2 = C_1C_L + C_c(C_1+C_L)$.
+The RHP zero is at $+\gmt/C_c$ and the non-dominant pole is at $\gmt C_c/b_2 \approx \gmt/C_L$.
+A series resistor moves the zero to $1/[C_c(1/\gmt - R_z)]$ and adds a third pole near $1/(R_zC_1)$.
+For a class-AB stage $\gmt$ varies with output current over a wide range, so no fixed $R_z$ cancels the zero at all operating points.
+
+\subsection{Cascode Compensation, Non-Input Cascode Source (d)}
+Solving the network of Fig.~\ref{fig:model} with the input at $X$ gives
+\begin{equation}
+L_d(s) = \frac{-\gmo\gmt\,[\gmc + s(C_c+C_s)]}{a_0 + a_1s + a_2s^2 + a_3s^3}
+\label{eq:Ld}
+\end{equation}
+with
+\begin{align*}
+a_0 &= G_1G_2\gmc,\\
+a_1 &= \gmt\gmc C_c + \gmc(C_1G_2 + C_LG_1 + C_cG_1)\\
+    &\quad + G_1G_2(C_c+C_s),\\
+a_2 &= \gmc C_1(C_L+C_c) + C_1G_2(C_c+C_s)\\
+    &\quad + G_1(C_LC_c + C_LC_s + C_cC_s),\\
+a_3 &= C_1(C_LC_c + C_LC_s + C_cC_s).
+\end{align*}
+The only zero is in the left half plane:
+\begin{equation}
+z_d = -\frac{\gmc}{C_c + C_s}.
+\label{eq:zd}
+\end{equation}
+\emph{No nulling resistor is needed.} The cascode's $1/\gmc$ acts as a unidirectional nulling resistor.
+
+For $G_1, G_2 \to 0$ and $C_s \to 0$, the dominant pole and gain-bandwidth product are the same as for Miller compensation:
+\begin{equation}
+p_1 \approx \frac{G_1G_2}{\gmt C_c}, \qquad \omega_u \approx \frac{\gmo}{C_c}.
+\end{equation}
+The two non-dominant poles are the roots of
+$C_1C_LC_c\,s^2 + \gmc C_1(C_L+C_c)\,s + \gmt\gmc C_c = 0$, i.e.\ a pair with
+\begin{align}
+\omega_0 &= \sqrt{\frac{\gmt\gmc}{C_1C_L}}, \label{eq:w0}\\
+Q &= \frac{C_c}{C_L+C_c}\sqrt{\frac{\gmt\,C_L}{\gmc\,C_1}}. \label{eq:Q}
+\end{align}
+Unlike Miller compensation, pole splitting now places the non-dominant poles at the geometric mean of $\gmt/C_L$ and $\gmc/C_1$, well above $\gmt/C_L$ when $C_1$ is small. The price is that these poles can be complex. In the numerical example, \eqref{eq:Q} underestimates the exact $Q$ by about \SI{10}{\%} because $C_s$ is neglected.
+
+\emph{Damping condition.} Requiring $Q \le Q_{\max}$ gives
+\begin{equation}
+\gmc \;\ge\; \frac{\gmt}{Q_{\max}^2}\,\frac{C_L}{C_1}\left(\frac{C_c}{C_L+C_c}\right)^{2}.
+\label{eq:damp}
+\end{equation}
+Since $Q\propto\sqrt{\gmt}$, the worst case for a class-AB stage is maximum output current, not the quiescent point. A large output device helps here, because its gate capacitance $C_1$ lowers $Q$.
+
+\subsection{Cascode Compensation at a Folding Node (c)}
+If $S$ also receives the first-stage signal current, the denominator is unchanged but the numerator becomes
+\begin{equation}
+N_c(s) = \gmo\left(C_1C_c\,s^2 + C_cG_1\,s - \gmt\gmc\right),
+\end{equation}
+with zeros at approximately
+\begin{equation}
+z_c \approx \pm\sqrt{\frac{\gmt\gmc}{C_1C_c}}.
+\end{equation}
+The input current now splits at $S$: part goes through the cascode (inverting path through $\gmt$), and part goes through $C_c$ directly into the output (non-inverting feedforward). The near-symmetric zero pair contributes almost no phase, but it raises $|L|$ above $|z_c|$. Together with the complex pole pair this costs gain margin. \emph{The capacitor should therefore not land on a node that carries input signal current.}
+
+\section{Numerical Comparison}\label{sec:num}
+The parameters are illustrative, chosen to resemble a low-quiescent-current class-AB stage. They are not extracted from the GF180MCU schematic:
+$\gmo=\SI{100}{\micro S}$,
+$\gmt=\SI{300}{\micro S}$ (quiescent) or \SI{3}{mS} (heavy drive),
+$\gmc=\SI{200}{\micro S}$,
+$G_1=\SI{0.1}{\micro S}$, $G_2=\SI{10}{\micro S}$,
+$C_1=\SI{500}{fF}$, $C_s=\SI{150}{fF}$,
+$C_L=\SI{2}{pF}$, $C_c=\SI{1}{pF}$,
+$R_z = 1/\gmt|_{\text{quiescent}} = \SI{3.33}{k\ohm}$.
+All cases use the same $C_c$, so they have the same nominal $\omega_u$. Closed-loop figures are for unity feedback ($\beta=1$), the worst case for stability.
+
+\begin{table}[!t]
+\centering
+\caption{Loop and Closed-Loop ($\beta=1$) Figures of Merit}
+\label{tab:res}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+ & Variant & $f_u$ & PM & GM & $Q$ & Peak & $t_s$ \\
+ & & MHz & deg & dB & & dB & ns \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Quiescent}, $\gmt=\SI{300}{\micro S}$}\\
+a & Miller, no $R_z$          & 12.0 & 36.0 & 10.0 & --   & 4.4 & 228 \\
+b & Miller $+R_z$             & 12.0 & 48.2 & 20.9 & --   & 1.8 & 158 \\
+c & Casc., folding node       & 18.7 & 50.8 & 5.1  & 0.89 & 4.7 & 155 \\
+d & Casc., non-input source   & 21.3 & 81.3 & $\infty$ & 0.89 & 0.0 & 87 \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Heavy drive}, $\gmt=\SI{3}{mS}$}\\
+a & Miller, no $R_z$          & 15.7 & 81.6 & 29.6 & --   & 0.0 & 59 \\
+b & Miller $+R_z$             & 16.7 & 100.4& $\infty$ & 0.90 & 0.0 & 81 \\
+d & Casc., non-input source   & 20.4 & 122.5$^\dagger$ & $\infty$ & 2.80 & 5.0 & 100 \\
+d & as above, $\gmc=\SI{600}{\micro S}$ & 16.3 & 98.1 & $\infty$ & 1.64 & 0.0 & 78 \\
+\bottomrule
+\end{tabular}\\[2pt]
+\footnotesize
+$t_s$: settling to \SI{0.1}{\%} after a step. $^\dagger$The loop gain crosses \SI{0}{dB} three times (\SI{20}{}, \SI{73}{} and \SI{132}{MHz}), so the phase margin at the first crossing is misleading; the closed-loop response peaks by \SI{5}{dB} at \SI{137}{MHz}.
+\end{table}
+
+Table~\ref{tab:res} and Figs.~\ref{fig:bode} and~\ref{fig:step} show the results.
+\begin{itemize}
+\item At the quiescent point, case (d) is clearly the best: it needs no resistor, has the highest phase margin, and settles fastest. The LHP zero \eqref{eq:zd}, here at \SI{28}{MHz}, also raises $f_u$ above $\gmo/(2\pi C_c)$.
+\item Case (c) is worse than the conventional resistor version in gain margin and overshoot.
+\item Under heavy drive, case (d) with the quiescent-point $\gmc$ develops a $Q\approx2.8$ resonance that pushes the loop gain above \SI{0}{dB} again. Tripling $\gmc$ to \SI{600}{\micro S} lowers $Q$ to 1.6 and removes the closed-loop peaking. Reaching $Q_{\max}=0.7$ would require $\gmc\approx\SI{2.7}{mS}$ by \eqref{eq:damp}, or a larger $C_1$.
+\end{itemize}
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=1 by 2, vertical sep=6pt, xticklabels at=edge bottom},
+  width=0.94\columnwidth, height=4.1cm, xmode=log, xmin=1e3, xmax=1e10, grid=major,
+  every axis plot/.append style={line width=0.8pt}, tick label style={font=\scriptsize}, label style={font=\footnotesize}]
+\nextgroupplot[ylabel={$|L|$ (dB)}, ymin=-60, ymax=100,
+  legend style={font=\scriptsize, at={(0.02,0.03)}, anchor=south west, cells={anchor=west}}]
+\addplot[black, dashed] table[x=f,y=mag] {bode_a.dat}; \addlegendentry{(a) Miller}
+\addplot[blue] table[x=f,y=mag] {bode_b.dat}; \addlegendentry{(b) Miller $+R_z$}
+\addplot[red, dotted] table[x=f,y=mag] {bode_c.dat}; \addlegendentry{(c) casc., folding node}
+\addplot[green!50!black] table[x=f,y=mag] {bode_d.dat}; \addlegendentry{(d) casc., non-input}
+\nextgroupplot[ylabel={$\angle L$ (deg)}, xlabel={Frequency (Hz)}, ymin=-270, ymax=0, ytick={-270,-180,-90,0}]
+\addplot[black, dashed] table[x=f,y=ph] {bode_a.dat};
+\addplot[blue] table[x=f,y=ph] {bode_b.dat};
+\addplot[red, dotted] table[x=f,y=ph] {bode_c.dat};
+\addplot[green!50!black] table[x=f,y=ph] {bode_d.dat};
+\draw[gray] (axis cs:1e3,-180) -- (axis cs:1e10,-180);
+\end{groupplot}
+\end{tikzpicture}
+\caption{Loop gain at the quiescent point ($\gmt=\SI{300}{\micro S}$) for the four compensation variants.}
+\label{fig:bode}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.94\columnwidth, height=4.3cm, xmin=0, xmax=250, ymin=0, ymax=1.4, grid=major,
+  xlabel={Time (ns)}, ylabel={Normalized output}, tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  every axis plot/.append style={line width=0.8pt},
+  legend style={font=\scriptsize, at={(0.98,0.03)}, anchor=south east, cells={anchor=west}}]
+\addplot[black, dashed] table[x=t,y=y] {step_a.dat}; \addlegendentry{(a)}
+\addplot[blue] table[x=t,y=y] {step_b.dat}; \addlegendentry{(b)}
+\addplot[red, dotted] table[x=t,y=y] {step_c.dat}; \addlegendentry{(c)}
+\addplot[green!50!black] table[x=t,y=y] {step_d.dat}; \addlegendentry{(d)}
+\end{axis}
+\end{tikzpicture}
+\caption{Small-signal step response in unity feedback at the quiescent point.}
+\label{fig:step}
+\end{figure}
+
+\section{Application to the FCDDA}
+\subsection{Choice of Landing Node}
+In a folded cascode, each signal branch has two cascode sources. One is the folding node, which also receives the input-pair drain current. The other is the source of the complementary cascode, fed only by a bias current source. Only the second is a valid landing node for $C_c$.
+
+In the schematic shown at the review, the nets \texttt{sum\_p} and \texttt{sum\_n}, where the two input pairs' currents are combined, appear to be folding nodes. If so, they are \emph{not} suitable. This assessment is tentative; it is based on a screenshot and should be confirmed against the netlist.
+
+\subsection{Class-AB Specifics}
+Each output transistor (PMOS and NMOS) needs a path from the output to its gate. With a floating class-AB control (the NSUP/PSUP devices between the cascode drains), the signal current injected at one cascode source reaches both gates. Two options should be compared in simulation:
+\begin{enumerate}
+\item Return both capacitors to the non-input cascode sources, relying on the floating class-AB control to couple the gates.
+\item Return one capacitor to the non-input cascode source and the other to the folding node, and check for the zero-pair degradation of case (c).
+\end{enumerate}
+Equation~\eqref{eq:damp} should be evaluated with the largest $\gmt$ that occurs, i.e.\ at maximum output current. The effective $C_1$ is the gate capacitance of the device that conducts.
+
+\subsection{Other Effects}
+\begin{itemize}
+\item \emph{Pole at $S$.} The cascode source must stay a low-impedance node: $\gmc$ must be large compared with $\omega_0(C_s+C_c)$, which favours wide cascodes and adequate branch current.
+\item \emph{Slew rate.} During slewing the capacitor current comes from the cascode branch. If the branch bias current $I_B$ is smaller than the tail current, the cascode cuts off; the slew rate is then about $\min(I_{\mathrm{tail}}, I_B)/C_c$.
+\item \emph{Common-mode loop.} The CMFB loop sees the same modified output stage and must be checked separately.
+\item \emph{PSRR.} Supply coupling through $C_c$ into the gate node is reduced, which was Ahuja's original motivation \cite{ahuja1983,ribner1984}.
+\end{itemize}
+
+\section{Recommended Verification}
+\begin{enumerate}
+\item Run a loop-stability analysis (\texttt{stb}) for both the differential-mode and common-mode loops at the quiescent point and at maximum sourcing and sinking output current, across corners.
+\item Inspect the full $|L(f)|$ for multiple \SI{0}{dB} crossings; the phase margin at the first crossing is not sufficient (Table~\ref{tab:res}).
+\item Check large-signal step settling for slew-induced cascode cutoff.
+\item Size $\gmc$ with \eqref{eq:damp} at maximum $\gmt$, using $Q_{\max}\approx0.7$.
+\end{enumerate}
+
+\section{Conclusion}
+Yes: the nulling resistors can be removed by returning each Miller capacitor to a cascode source. The RHP zero disappears, and an LHP zero at $-\gmc/(C_c+C_s)$ takes its place. Two conditions apply. The landing node must not carry input signal current, and $\gmc$ must be large enough to damp the resulting complex pole pair at the highest output current. Because the class-AB output $\gmt$ varies strongly with load current, eliminating the fixed resistor is attractive here: unlike $R_z$, the cascode-compensation zero does not depend on $\gmt$.
+
+\begin{thebibliography}{9}
+\bibitem{ahuja1983}
+B.~K. Ahuja, ``An improved frequency compensation technique for CMOS operational amplifiers,'' \emph{IEEE J. Solid-State Circuits}, vol.~18, no.~6, pp.~629--633, Dec. 1983.
+\url{https://doi.org/10.1109/JSSC.1983.1052012}
+
+\bibitem{ribner1984}
+D.~B. Ribner and M.~A. Copeland, ``Design techniques for cascoded CMOS op amps with improved PSRR and common-mode input range,'' \emph{IEEE J. Solid-State Circuits}, vol.~19, no.~6, pp.~919--925, Dec. 1984.
+\url{https://doi.org/10.1109/JSSC.1984.1052246}
+
+\bibitem{palmisano1995}
+G.~Palmisano and G.~Palumbo, ``An optimized compensation strategy for two-stage CMOS op amps,'' \emph{IEEE Trans. Circuits Syst. I}, vol.~42, no.~3, pp.~178--182, Mar. 1995.
+\url{https://doi.org/10.1109/81.376869}
+
+\bibitem{palmisano1997}
+G.~Palmisano and G.~Palumbo, ``A compensation strategy for two-stage CMOS opamps based on current buffer,'' \emph{IEEE Trans. Circuits Syst. I}, vol.~44, no.~3, pp.~257--262, Mar. 1997.
+\url{https://doi.org/10.1109/81.557376}
+
+\bibitem{hurst2004}
+P.~J. Hurst, S.~H. Lewis, J.~P. Keane, F.~Aram, and K.~C. Dyer, ``Miller compensation using current buffers in fully differential CMOS two-stage operational amplifiers,'' \emph{IEEE Trans. Circuits Syst. I}, vol.~51, no.~2, pp.~275--285, Feb. 2004.
+\url{https://doi.org/10.1109/TCSI.2003.820254}
+
+\bibitem{saxena2007}
+V.~Saxena, ``Indirect feedback compensation technique for multi-stage operational amplifiers,'' M.S. thesis, Boise State Univ., Boise, ID, USA, Oct. 2007.
+\url{https://scholarworks.boisestate.edu/td/502}
+
+\bibitem{sackinger1987}
+E.~S\"ackinger and W.~Guggenb\"uhl, ``A versatile building block: The CMOS differential difference amplifier,'' \emph{IEEE J. Solid-State Circuits}, vol.~22, no.~2, pp.~287--294, Apr. 1987.
+\url{https://doi.org/10.1109/JSSC.1987.1052715}
+\end{thebibliography}
+
+\end{document}

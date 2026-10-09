@@ -1,0 +1,120 @@
+\documentclass[10pt,journal]{IEEEtran}
+\usepackage{amsmath,amssymb}
+\usepackage{array,booktabs}
+\usepackage{balance}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Cascode Source Compensation in a Differential Class AB DDA},pdfauthor={Technical Design Note}}
+\newcommand{\gm}{g_{m2}}
+\newcommand{\Gc}{G_c}
+\begin{document}
+\title{Cascode Source Compensation in a Differential Class AB DDA}
+\author{Technical Design Note\quad October 10, 2026}
+\maketitle
+\begin{abstract}
+The supplied differential difference amplifier (DDA) has differential outputs, a class AB output stage, and four series RC compensation branches. Moving each capacitor's first-stage terminal from a cascode drain to the corresponding source can remove the need for a resistor whose purpose is to suppress the ordinary Miller right-half-plane zero. The amplifier-output terminal of each capacitor stays connected to its original output. This is cascode, or indirect, compensation. A simplified small-signal model explains the zero's removal and the additional dynamics introduced by the source node. The proposed node connections are inferred from a screenshot; no netlist, operating-point data, or simulations were available. Stability of the specific DDA remains unverified.
+\end{abstract}
+\begin{IEEEkeywords}
+Differential difference amplifier, class AB, cascode compensation, indirect compensation, Miller compensation.
+\end{IEEEkeywords}
+
+\section{Conclusion and Scope}
+\IEEEPARstart{Y}{es}, the series resistors can potentially be omitted by returning the compensation current to the sources of the \emph{first-stage} cascodes. The cascodes then act as common-gate current buffers. This implements the principle of removing the direct feedforward path while retaining output-dependent feedback current \cite{ahuja,saxena2008}.
+
+The conclusion concerns the resistors' zero-nulling function. It does not establish that the existing capacitor values will give sufficient phase margin after relocation. Resistors selected to provide additional phase lead or damping may still have a useful role. The proposed change is therefore a topology to evaluate, rather than a validated replacement.
+
+The evidence is the user-supplied screenshot dated October 9, 2026, showing Fig.~9 of \texttt{IN\_AMP\_GF180.pdf}. The discussion assumes that the four visible RC branches connect each output to its PMOS and NMOS gate-driving nodes. Component values and some labels are insufficiently clear to support a quantitative design calculation.
+
+\section{Why Direct Miller Compensation Uses a Resistor}
+Let $v_1$ drive a simple inverting common-source output stage, and let $v_o$ be its output. A capacitor $C_c$ directly between these nodes supplies a feedforward current proportional to $sC_c v_1$, which opposes the output-stage current $\gm v_1$. Their cancellation creates a right-half-plane (RHP) zero. With series resistance $R_z$, the corresponding simplified result is
+\begin{equation}
+ s_{z,\mathrm{direct}}=
+ \frac{\gm}{C_c(1-\gm R_z)}.
+ \label{eq:directzero}
+\end{equation}
+Thus $R_z=0$ gives $s_z=+\gm/C_c$; $R_z=1/\gm$ sends this idealized zero to infinity; and larger $R_z$ places it in the left half-plane (LHP) \cite{ahuja}.
+
+Equation~\eqref{eq:directzero} describes one effective output path. It must not be applied independently to the four branches of this DDA without accounting for the coupling between the two class AB gate-driving nodes.
+
+\section{How the Cascode Changes the Compensation Path}
+Let $v_x$ denote a first-stage cascode source and $v_1$ its drain, which drives the output stage. Relocate $C_c$ from $(v_o,v_1)$ to $(v_o,v_x)$. For a saturated cascode with an AC-stiff gate and bulk, its source transconductance is approximately
+\begin{equation}
+ \Gc=g_{m,\mathrm{cas}}+g_{mb,\mathrm{cas}}.
+\end{equation}
+In the unilateral approximation, the source-node impedance is of order $1/\Gc$. Output motion injects capacitor current at this source; the cascode conveys it to the high-impedance drain. Drain voltage motion no longer directly drives the compensation capacitor. The internal common-gate device provides the current-buffer function \cite{saxena2008}.
+
+\subsection{An Explicit Illustrative Model}
+The following three-node model makes the distinction precise. Let $G_1,C_1$ be the conductance and capacitance at the gate-driving node, $G_o,C_o$ those at the output, and $C_x$ the source-node parasitic capacitance. $C_o$ includes the load but excludes $C_c$. Inject first-stage signal current $i_1$ at $v_1$. Neglect cascode drain-source conductance, intrinsic feedthrough capacitances, and source-node shunt conductance. Choose the current-buffer polarity that gives negative compensation feedback. Nodal equations are
+\begin{align}
+ (G_1+sC_1)v_1-\Gc v_x &= i_1,\\
+ [\Gc+s(C_x+C_c)]v_x-sC_c v_o &=0,\\
+ \gm v_1+[G_o+s(C_o+C_c)]v_o-sC_c v_x &=0.
+\end{align}
+Define
+\begin{align}
+ A(s)&=\Gc+s(C_x+C_c),\\
+ Y_1(s)&=G_1+sC_1,\\
+ Y_o(s)&=G_o+s(C_o+C_c).
+\end{align}
+Solving gives
+\begin{equation}
+ \frac{v_o}{i_1}=
+ \frac{-\gm A(s)}
+ {Y_1(s)[Y_o(s)A(s)-s^2C_c^2]+\gm\Gc sC_c}.
+ \label{eq:indirect}
+\end{equation}
+The numerator's zero is
+\begin{equation}
+ s_{z,\mathrm{indirect}}=-\frac{\Gc}{C_x+C_c},
+ \label{eq:indirectzero}
+\end{equation}
+which is in the LHP for positive capacitances and $\Gc$. The denominator is generally cubic. Consequently, removing the direct Miller RHP zero introduces source-node dynamics rather than guaranteeing a two-pole response. This agrees with the standard indirect-compensation description \cite{saxena2008}.
+
+Equations~\eqref{eq:indirect} and \eqref{eq:indirectzero} are an illustrative reduction, not a transfer function extracted from the DDA. In the actual circuit, signal current may also enter a cascode source, changing the numerator. Finite cascode output conductance, bias impedance, and transistor capacitances restore residual reverse transmission. Therefore neither the exact zero locations nor the source impedance of the complete circuit can be inferred from this model alone.
+
+\section{Proposed Connections in the Supplied Schematic}
+For the $V_o^-$ half, the screenshot suggests the changes in Table~\ref{tab:nodes}. Both output-side capacitor terminals remain at $V_o^-$. Remove the series resistors for the initial indirect-compensation trial and apply the corresponding changes to the $V_o^+$ half.
+
+\begin{table}[t]
+\caption{Provisional First Stage Terminal Changes for $V_o^-$}
+\label{tab:nodes}
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.13\columnwidth}p{0.19\columnwidth}p{0.60\columnwidth}@{}}
+\toprule
+Branch & Present node & Proposed node\\
+\midrule
+Upper & \texttt{n10} & \texttt{n7}, source of the associated PMOS cascode biased by \texttt{vb2}\\[4pt]
+Lower & \texttt{Vofcp} & Source of the associated NMOS cascode biased by \texttt{vb4}, directly below the present node\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These names are a provisional visual reading. Confirm connectivity and transistor source/drain assignments in the original schematic or netlist before editing. Each return must pass through the cascode associated with the original gate-driving node and preserve the local feedback polarity.
+
+\balance
+\section{Verification Required for This DDA}
+At quiescence, the PMOS and NMOS output devices both contribute transconductance. Their gate nodes are coupled through the class AB bias circuit, so a single $g_{m2}$ does not capture all internal modes. Under substantial source or sink load, one output device can dominate. The relevant operating points should therefore include zero load and both signs of DC load current across the intended output swing.
+
+Evaluate differential return ratio with the common-mode feedback (CMFB) loop active. Evaluate CMFB return ratio with the intended differential feedback connected. Inspect all unity-gain crossings and internal modes; a favorable margin at one crossing is insufficient if additional crossings or poorly damped modes exist. Repeat across the specified load capacitance, supply, process, temperature, and common-mode ranges.
+
+Use small steps to check settling and ringing, and large steps in both directions to check slew rate and recovery. In indirect compensation, the cascode branch must carry compensation current of approximate magnitude
+\begin{equation}
+ |i_c|\simeq C_c\left|\frac{dv_o}{dt}\right|
+\end{equation}
+while its source remains nearly stationary. If available branch current or headroom is exhausted, the small-signal buffer approximation fails. Class AB output drive alone does not eliminate this limitation \cite{saxena2007}.
+
+\section{Design Decision}
+Cascode-source feedback is a technically justified way to remove the ordinary Miller zero-nulling resistors. Confirm the proposed nodes, remove the resistors in a simulation variant, and retune the capacitors against the full circuit's differential and common-mode dynamics. The screenshot supports the topology change; it does not establish acceptable stability or settling for the modified amplifier.
+
+\begin{thebibliography}{3}
+\bibitem{ahuja}
+B. K. Ahuja, ``An improved frequency compensation technique for CMOS operational amplifiers,'' \emph{IEEE J. Solid-State Circuits}, vol. SC-18, no. 6, pp. 629--633, Dec. 1983, doi: \url{https://doi.org/10.1109/JSSC.1983.1052012}. Full text: \url{https://milindsweb.amved.com/docs/Ahuja_Compensation_Paper.pdf}
+
+\bibitem{saxena2008}
+V. Saxena and R. J. Baker, ``Compensation of CMOS op-amps using split-length transistors,'' in \emph{Proc. 51st IEEE Midwest Symp. Circuits Syst.}, 2008, pp. 109--112. [Online]. Available: \url{https://cmosedu.com/jbaker/papers/2008/MWCAS_paper1_08.pdf}
+
+\bibitem{saxena2007}
+V. Saxena, ``Indirect feedback compensation techniques for multi-stage operational amplifiers,'' M.S. thesis, Boise State Univ., Boise, ID, USA, Oct. 2007, ch. 2. [Online]. Available: \url{https://cmosedu.com/jbaker/students/theses/Indirect%20Feedback%20Compensation%20Techniques%20for%20Multi-Stage%20Operational%20Amplifiers.pdf}
+\end{thebibliography}
+\end{document}
