@@ -4,7 +4,11 @@
 """Writes PadEnable/TGate (CMOS transmission gate, GF180MCU 03v3) once; afterwards the .sch/.sym are the
 source of truth. Symbol pins a b en en_b; bulks VDD VSS are instance properties (`extra`), like the Avalon
 gf180mcu_as_sc_mcu7t3v3 standard cells; sizes W_N L_N W_P L_P (not Ln: ngspice reads that as ln()).
-Usage: gen_tgate.py <PadEnable/schematic/xschem>"""
+Usage: gen_tgate.py <PadEnable/schematic/xschem>
+History: the sheet was redrawn by Christoph Maier on 2026-10-09 (horizontal devices, parallel between a and b), and
+on 2026-10-10 the symbol got real VDD/VSS pins instead of `extra` properties (xschem's symbol/schematic pin check
+rejects `extra` on a symbol that has a schematic). The .sch/.sym in the folder are the reference; this script
+reproduces neither and is kept only as a record."""
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "scripts"))
 from xsheet import Sheet, esc
