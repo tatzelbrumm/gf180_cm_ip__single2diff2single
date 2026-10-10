@@ -248,3 +248,53 @@ class-AB port 19:20–21:20 alone 220 calls, 94 M tokens (93 M cache reads, 0.24
 - Result: equivalent — EnableInv, DriverEnable, ClassABUnitR; BiasRefEnable (XTGN D/S swapped), InputEnable (XTGN1, XTGP2 D/S
   swapped). NOT equivalent — ClassABDriver: XABN bulk floating (net1, should be vss); XCY drain on net2, disconnected from b.
   Delivered versions all pass (control). Old checker in `backups/2026-10-09_before_chatlog_update/`.
+
+## 2026-10-09 22:40 — GF180 standard-cell xschem symbols
+
+- open_pdks: GF's fd_sc_mcu7t5v0/9t5v0 get no xschem files; Avalon `gf180mcu_as_sc_mcu7t3v3` (3.3 V, 7-track) ships 73 symbols
+  (pdk/libs.tech/xschem, flat, `@prefix\\<cell>` format, supply pins as properties); OSU and OCD rt12t3v3 only cell schematics.
+- Christoph cloned ~/EDA/gf180mcu_as_sc_mcu7t3v3. Tested in the cloud without touching the PDK: symlink
+  `gf180mcu_as_sc_mcu7t3v3 -> pdk/libs.tech/xschem` in the clone, clone root appended to XSCHEM_LIBRARY_PATH, SPICE via
+  `.include` in a `tcleval` code block. inv_2 → nand2_2 netlists and simulates (tpd 34 ps / 82 ps unloaded, typical).
+
+## 2026-10-09 23:00 — PadEnable/TGate (transmission-gate cell)
+
+- No library has a transmission-gate symbol (Avalon, GF fd_sc, xschem devices: none). New cell `PadEnable/TGate`
+  (scripts/gen_tgate.py, schematic + symbol, testbenches/xschem/TGate_tb.sch): symbol pins a b en en_b, bulks VDD/VSS as
+  instance properties via `extra` (Avalon style; xschem puts them on the .subckt line), sizes W_N L_N W_P L_P (default 1u/0.5u).
+- Pitfalls: `Ln` is ngspice's ln() → "Formula() error"; parameter braces in .sch properties must be written `\{W_P\}`;
+  xsheet fet() draws the PMOS source on top (first draft had swapped stub labels; caught in the rendered picture).
+- Round trip vs reference: MISMATCHES 0. TGate_tb (4u/0.5u, typical, 3.3 V): Ron 0.59 kΩ at 0 V, 1.59 kΩ at 1.65 V,
+  max 3.88 kΩ at 2.15 V; off leakage 3.5 pA at 10 mV. Existing enable cells not changed.
+
+## 2026-10-09 23:40 — TGate redrawn by Christoph; skill amendment proposed
+
+- Christoph redrew PadEnable/TGate: both FETs horizontal (PMOS rot 3 gate down / bulk up, NMOS rot 1 gate up / bulk
+  down), parallel between an `a` trunk (left) and `b` trunk (right), gates inward to en_b / en, bulks outward to VDD / VSS,
+  no labels; TGate_tb rearranged (text and code above, circuit below). Round trip MISMATCHES 0 (D/S swaps noted), Ron
+  and leakage unchanged.
+- `SKILL_xschem-analog-schematic/SKILL_proposed.md` extended (on top of the 12:20 ClassABBiasBG proposal): "Switches and
+  transmission gates", testbench layout, parameterized cells (`\{W_P\}`, no ngspice function names), `extra` bulk
+  properties, headless `--command` SVG export. Increment: `SKILL_proposed_tgate_increment.diff`; old files in
+  `sudelbuecher/backups/2026-10-09_before_skill_tgate/`.
+
+## 2026-10-10 01:55 — TGate_tb "doesn't simulate in xschem"
+
+- Christoph's netlist (simulations/TGate_tb.spice, 09 23:26) was complete and runs in ngspice-42 batch and interactive.
+  The deck only printed `meas` lines (.dc card + `run`): no `write`, no `plot`, so nothing to see in xschem and no .raw.
+- Code block rewritten to the convention of the OgueyAebischer testbenches (save all, dc in .control, meas, write
+  TGate_tb_on.raw / _off.raw, plot); layout untouched; previous version in backups/2026-10-10_before_tgate_tb/.
+- Pitfall: square brackets in a `tcleval( @value )` code block are Tcl command substitution; `ylabel 'R_on [Ohm]'`
+  turned the whole block into "?" and the models went missing. Use parentheses (or escape \[ \]).
+
+## 2026-10-10 02:20 — TGate: xschem netlist-check errors fixed
+
+- Christoph's xschem reported: undriven en/en_b, open va/vb/vdd (tb); "schematic pin VDD/VSS not in symbol", "4 pins vs 6"
+  (TGate). Causes: (1) `extra="VDD VSS"` on a symbol that has a schematic: xschem's interactive check compares drawn pins;
+  fine only for primitives such as the Avalon cells; (2) test sources written in the code block, invisible to the check.
+- Fix: TGate.sym has real pins a b en en_b VDD VSS (VDD top right, VSS bottom right); TGate_tb on Christoph's layout with
+  Va/Vb/Ven/Venb drawn as vsources, x1's VDD/VSS wired to vdd/0; size text `@W_N / @L_N` (with spaces; `@W_N/` printed nothing).
+- Reproduced his exact messages headless with the old files (xschem -x --command 'xschem netlist; ... xschem get
+  infowindow_text'); new files: no messages. Ron/Ioff unchanged (0.59/1.59/3.88 kΩ, 3.5 pA). Batch `-n -s -q -x` netlisting
+  never shows these checks; added to the skill proposal, which also no longer recommends `extra` for schematic cells.
+- Backups: sudelbuecher/backups/2026-10-10_before_tgate_pins/.
