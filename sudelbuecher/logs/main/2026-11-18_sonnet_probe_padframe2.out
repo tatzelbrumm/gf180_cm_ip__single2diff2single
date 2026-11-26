@@ -1,0 +1,431 @@
+
+##### 0. settings
+CH=/foss/designs/gf180mcu_ocd_chipalooza
+PDK_ROOT=/foss/designs/pdk_overlay
+2026-11-18T02:54:26Z
+cells named in gen_padframe.tcl: 13 (list: probe_padframe2.cells)
+
+##### A. no priming: named call twice
+
+Magic 8.3 revision 685 - Compiled on Thu Oct 15 02:29:39 PM CEST 2026.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+Using NULL graphics device.
+Processing system .magicrc file
+Switching to WIRING tool.
+Switching to NETLIST tool.
+Switching to PICK tool.
+Switching to BOX tool.
+Sourcing design .magicrc for technology gf180mcuD ...
+10 Magic internal units = 1 Lambda
+Input style import: scaleFactor=10, multiplier=2
+The following types are not handled by extraction and will be treated as non-electrical types:
+    obsactive mvobsactive filldiff fillpoly m1hole obsm1 fillm1 obsv1 m2hole obsm2 fillm2 obsv2 m3hole obsm3 fillm3 m4hole obsm4 fillm4 m5hole obsm5 fillm5 glass fillblock lvstext obscomment 
+Scaled tech values by 10 / 1 to match internal grid scaling
+Loading gf180mcuD Device Generator Menu ...
+Using technology "gf180mcuD", version 1.0.588-62-g1689ac3
+Cell gf180mcu_ocd_io__cor read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+PROBE getcell: gf180mcu_ocd_io__cor_0
+PROBE identify: 
+Cell POWER_RAIL_COR read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR: 10000 rects
+POWER_RAIL_COR: 20000 rects
+POWER_RAIL_COR: 30000 rects
+POWER_RAIL_COR: 40000 rects
+POWER_RAIL_COR: 50000 rects
+POWER_RAIL_COR: 60000 rects
+POWER_RAIL_COR: 70000 rects
+POWER_RAIL_COR: 80000 rects
+POWER_RAIL_COR: 90000 rects
+POWER_RAIL_COR: 100000 rects
+POWER_RAIL_COR: 110000 rects
+POWER_RAIL_COR: 120000 rects
+POWER_RAIL_COR: 130000 rects
+POWER_RAIL_COR: 140000 rects
+POWER_RAIL_COR: 150000 rects
+POWER_RAIL_COR: 160000 rects
+POWER_RAIL_COR: 170000 rects
+POWER_RAIL_COR: 180000 rects
+POWER_RAIL_COR: 190000 rects
+POWER_RAIL_COR: 200000 rects
+POWER_RAIL_COR: 210000 rects
+POWER_RAIL_COR: 220000 rects
+POWER_RAIL_COR: 230000 rects
+POWER_RAIL_COR: 240000 rects
+POWER_RAIL_COR: 250000 rects
+POWER_RAIL_COR: 260000 rects
+POWER_RAIL_COR: 270000 rects
+POWER_RAIL_COR: 280000 rects
+POWER_RAIL_COR: 290000 rects
+POWER_RAIL_COR: 300000 rects
+POWER_RAIL_COR: 310000 rects
+POWER_RAIL_COR: 320000 rects
+POWER_RAIL_COR: 330000 rects
+POWER_RAIL_COR: 340000 rects
+POWER_RAIL_COR: 350000 rects
+POWER_RAIL_COR: 360000 rects
+POWER_RAIL_COR: 370000 rects
+POWER_RAIL_COR: 380000 rects
+POWER_RAIL_COR: 390000 rects
+POWER_RAIL_COR: 400000 rects
+POWER_RAIL_COR: 410000 rects
+POWER_RAIL_COR: 420000 rects
+POWER_RAIL_COR: 430000 rects
+POWER_RAIL_COR: 440000 rects
+POWER_RAIL_COR: 450000 rects
+Cell POWER_RAIL_COR_0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR_0: 10000 rects
+POWER_RAIL_COR_0: 20000 rects
+POWER_RAIL_COR_0: 30000 rects
+POWER_RAIL_COR_0: 40000 rects
+POWER_RAIL_COR_0: 50000 rects
+POWER_RAIL_COR_0: 60000 rects
+POWER_RAIL_COR_0: 70000 rects
+POWER_RAIL_COR_0: 80000 rects
+POWER_RAIL_COR_0: 90000 rects
+POWER_RAIL_COR_0: 100000 rects
+POWER_RAIL_COR_0: 110000 rects
+POWER_RAIL_COR_0: 120000 rects
+POWER_RAIL_COR_0: 130000 rects
+POWER_RAIL_COR_0: 140000 rects
+POWER_RAIL_COR_0: 150000 rects
+POWER_RAIL_COR_0: 160000 rects
+POWER_RAIL_COR_0: 170000 rects
+POWER_RAIL_COR_0: 180000 rects
+POWER_RAIL_COR_0: 190000 rects
+POWER_RAIL_COR_0: 200000 rects
+POWER_RAIL_COR_0: 210000 rects
+POWER_RAIL_COR_0: 220000 rects
+POWER_RAIL_COR_0: 230000 rects
+POWER_RAIL_COR_0: 240000 rects
+POWER_RAIL_COR_0: 250000 rects
+POWER_RAIL_COR_0: 260000 rects
+POWER_RAIL_COR_0: 270000 rects
+POWER_RAIL_COR_0: 280000 rects
+POWER_RAIL_COR_0: 290000 rects
+POWER_RAIL_COR_0: 300000 rects
+POWER_RAIL_COR_0: 310000 rects
+POWER_RAIL_COR_0: 320000 rects
+POWER_RAIL_COR_0: 330000 rects
+POWER_RAIL_COR_0: 340000 rects
+POWER_RAIL_COR_0: 350000 rects
+POWER_RAIL_COR_0: 360000 rects
+POWER_RAIL_COR_0: 370000 rects
+POWER_RAIL_COR_0: 380000 rects
+POWER_RAIL_COR_0: 390000 rects
+POWER_RAIL_COR_0: 400000 rects
+POWER_RAIL_COR_0: 410000 rects
+POWER_RAIL_COR_0: 420000 rects
+POWER_RAIL_COR_0: 430000 rects
+POWER_RAIL_COR_0: 440000 rects
+POWER_RAIL_COR_0: 450000 rects
+Cell POWER_RAIL_COR_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR_1: 10000 rects
+POWER_RAIL_COR_1: 20000 rects
+Cell GF_NI_COR_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_esd_clamp_v5p0_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_esd_rc_v5p0_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_esd_clamp_v5p0_2 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell top_route_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Processing timestamp mismatches.
+Timestamp mismatches found in these cells: GF_NI_COR_BASE.
+PROBE named-1st: 
+Cell power_via_cor_3 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell moscap_corner_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell power_via_cor_5 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+power_via_cor_5: 10000 rects
+power_via_cor_5: 20000 rects
+power_via_cor_5: 30000 rects
+power_via_cor_5: 40000 rects
+power_via_cor_5: 50000 rects
+Cell moscap_corner_2 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell moscap_corner_3 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_esd_rc_v5p0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell moscap_corner read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell moscap_routing read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+moscap_routing: 10000 rects
+moscap_routing: 20000 rects
+moscap_routing: 30000 rects
+moscap_routing: 40000 rects
+moscap_routing: 50000 rects
+moscap_routing: 60000 rects
+moscap_routing: 70000 rects
+moscap_routing: 80000 rects
+moscap_routing: 90000 rects
+moscap_routing: 100000 rects
+moscap_routing: 110000 rects
+moscap_routing: 120000 rects
+moscap_routing: 130000 rects
+moscap_routing: 140000 rects
+moscap_routing: 150000 rects
+Cell nmos_clamp_20_50_4 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+nmos_clamp_20_50_4: 10000 rects
+nmos_clamp_20_50_4: 20000 rects
+nmos_clamp_20_50_4: 30000 rects
+Cell top_route read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+PROBE named-2nd: 0 0 71000 71000
+(magic exit status 0)
+
+##### B. primed: every named io cell placed once in a scratch cell, then deleted
+
+Magic 8.3 revision 685 - Compiled on Thu Oct 15 02:29:39 PM CEST 2026.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+Using NULL graphics device.
+Processing system .magicrc file
+Switching to WIRING tool.
+Switching to NETLIST tool.
+Switching to PICK tool.
+Switching to BOX tool.
+Sourcing design .magicrc for technology gf180mcuD ...
+10 Magic internal units = 1 Lambda
+Input style import: scaleFactor=10, multiplier=2
+The following types are not handled by extraction and will be treated as non-electrical types:
+    obsactive mvobsactive filldiff fillpoly m1hole obsm1 fillm1 obsv1 m2hole obsm2 fillm2 obsv2 m3hole obsm3 fillm3 m4hole obsm4 fillm4 m5hole obsm5 fillm5 glass fillblock lvstext obscomment 
+Scaled tech values by 10 / 1 to match internal grid scaling
+Loading gf180mcuD Device Generator Menu ...
+Using technology "gf180mcuD", version 1.0.588-62-g1689ac3
+Cell gf180mcu_ocd_io__asig_5p0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_ASIG_5P0_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+GF_NI_ASIG_5P0_BASE: 10000 rects
+GF_NI_ASIG_5P0_BASE: 20000 rects
+GF_NI_ASIG_5P0_BASE: 30000 rects
+GF_NI_ASIG_5P0_BASE: 40000 rects
+GF_NI_ASIG_5P0_BASE: 50000 rects
+GF_NI_ASIG_5P0_BASE: 60000 rects
+GF_NI_ASIG_5P0_BASE: 70000 rects
+GF_NI_ASIG_5P0_BASE: 80000 rects
+Cell 5LM_METAL_RAIL_PAD_60 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell Bondpad_5LM read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Bondpad_5LM: 10000 rects
+Bondpad_5LM: 20000 rects
+Bondpad_5LM: 30000 rects
+Bondpad_5LM: 40000 rects
+Cell comp018green_esd_hbm read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell gf180mcu_ocd_io__bi_24t read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell gf180mcu_ocd_io__brk5 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_BRK5_0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_BRK5_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell gf180mcu_ocd_io__cor read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell POWER_RAIL_COR read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR: 10000 rects
+POWER_RAIL_COR: 20000 rects
+POWER_RAIL_COR: 30000 rects
+POWER_RAIL_COR: 40000 rects
+POWER_RAIL_COR: 50000 rects
+POWER_RAIL_COR: 60000 rects
+POWER_RAIL_COR: 70000 rects
+POWER_RAIL_COR: 80000 rects
+POWER_RAIL_COR: 90000 rects
+POWER_RAIL_COR: 100000 rects
+POWER_RAIL_COR: 110000 rects
+POWER_RAIL_COR: 120000 rects
+POWER_RAIL_COR: 130000 rects
+POWER_RAIL_COR: 140000 rects
+POWER_RAIL_COR: 150000 rects
+POWER_RAIL_COR: 160000 rects
+POWER_RAIL_COR: 170000 rects
+POWER_RAIL_COR: 180000 rects
+POWER_RAIL_COR: 190000 rects
+POWER_RAIL_COR: 200000 rects
+POWER_RAIL_COR: 210000 rects
+POWER_RAIL_COR: 220000 rects
+POWER_RAIL_COR: 230000 rects
+POWER_RAIL_COR: 240000 rects
+POWER_RAIL_COR: 250000 rects
+POWER_RAIL_COR: 260000 rects
+POWER_RAIL_COR: 270000 rects
+POWER_RAIL_COR: 280000 rects
+POWER_RAIL_COR: 290000 rects
+POWER_RAIL_COR: 300000 rects
+POWER_RAIL_COR: 310000 rects
+POWER_RAIL_COR: 320000 rects
+POWER_RAIL_COR: 330000 rects
+POWER_RAIL_COR: 340000 rects
+POWER_RAIL_COR: 350000 rects
+POWER_RAIL_COR: 360000 rects
+POWER_RAIL_COR: 370000 rects
+POWER_RAIL_COR: 380000 rects
+POWER_RAIL_COR: 390000 rects
+POWER_RAIL_COR: 400000 rects
+POWER_RAIL_COR: 410000 rects
+POWER_RAIL_COR: 420000 rects
+POWER_RAIL_COR: 430000 rects
+POWER_RAIL_COR: 440000 rects
+POWER_RAIL_COR: 450000 rects
+Cell POWER_RAIL_COR_0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR_0: 10000 rects
+POWER_RAIL_COR_0: 20000 rects
+POWER_RAIL_COR_0: 30000 rects
+POWER_RAIL_COR_0: 40000 rects
+POWER_RAIL_COR_0: 50000 rects
+POWER_RAIL_COR_0: 60000 rects
+POWER_RAIL_COR_0: 70000 rects
+POWER_RAIL_COR_0: 80000 rects
+POWER_RAIL_COR_0: 90000 rects
+POWER_RAIL_COR_0: 100000 rects
+POWER_RAIL_COR_0: 110000 rects
+POWER_RAIL_COR_0: 120000 rects
+POWER_RAIL_COR_0: 130000 rects
+POWER_RAIL_COR_0: 140000 rects
+POWER_RAIL_COR_0: 150000 rects
+POWER_RAIL_COR_0: 160000 rects
+POWER_RAIL_COR_0: 170000 rects
+POWER_RAIL_COR_0: 180000 rects
+POWER_RAIL_COR_0: 190000 rects
+POWER_RAIL_COR_0: 200000 rects
+POWER_RAIL_COR_0: 210000 rects
+POWER_RAIL_COR_0: 220000 rects
+POWER_RAIL_COR_0: 230000 rects
+POWER_RAIL_COR_0: 240000 rects
+POWER_RAIL_COR_0: 250000 rects
+POWER_RAIL_COR_0: 260000 rects
+POWER_RAIL_COR_0: 270000 rects
+POWER_RAIL_COR_0: 280000 rects
+POWER_RAIL_COR_0: 290000 rects
+POWER_RAIL_COR_0: 300000 rects
+POWER_RAIL_COR_0: 310000 rects
+POWER_RAIL_COR_0: 320000 rects
+POWER_RAIL_COR_0: 330000 rects
+POWER_RAIL_COR_0: 340000 rects
+POWER_RAIL_COR_0: 350000 rects
+POWER_RAIL_COR_0: 360000 rects
+POWER_RAIL_COR_0: 370000 rects
+POWER_RAIL_COR_0: 380000 rects
+POWER_RAIL_COR_0: 390000 rects
+POWER_RAIL_COR_0: 400000 rects
+POWER_RAIL_COR_0: 410000 rects
+POWER_RAIL_COR_0: 420000 rects
+POWER_RAIL_COR_0: 430000 rects
+POWER_RAIL_COR_0: 440000 rects
+POWER_RAIL_COR_0: 450000 rects
+Cell POWER_RAIL_COR_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR_1: 10000 rects
+POWER_RAIL_COR_1: 20000 rects
+Cell GF_NI_COR_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Processing timestamp mismatches.
+Timestamp mismatches found in these cells: GF_NI_COR_BASE.
+Cell gf180mcu_ocd_io__dvdd read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell power_via_cor_3 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell moscap_corner_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell power_via_cor_5 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+power_via_cor_5: 10000 rects
+power_via_cor_5: 20000 rects
+power_via_cor_5: 30000 rects
+power_via_cor_5: 40000 rects
+power_via_cor_5: 50000 rects
+Cell moscap_corner_2 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell moscap_corner_3 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell moscap_corner read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell moscap_routing read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+moscap_routing: 10000 rects
+moscap_routing: 20000 rects
+moscap_routing: 30000 rects
+moscap_routing: 40000 rects
+moscap_routing: 50000 rects
+moscap_routing: 60000 rects
+moscap_routing: 70000 rects
+moscap_routing: 80000 rects
+moscap_routing: 90000 rects
+moscap_routing: 100000 rects
+moscap_routing: 110000 rects
+moscap_routing: 120000 rects
+moscap_routing: 130000 rects
+moscap_routing: 140000 rects
+moscap_routing: 150000 rects
+Cell gf180mcu_ocd_io__dvss read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_DVSS_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+GF_NI_DVSS_BASE: 10000 rects
+GF_NI_DVSS_BASE: 20000 rects
+GF_NI_DVSS_BASE: 30000 rects
+GF_NI_DVSS_BASE: 40000 rects
+GF_NI_DVSS_BASE: 50000 rects
+GF_NI_DVSS_BASE: 60000 rects
+GF_NI_DVSS_BASE: 70000 rects
+Cell gf180mcu_ocd_io__fill1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_FILL1_0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_FILL1_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_esd_clamp_v5p0_DVSS read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell nmos_clamp_20_50_4_DVSS read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+nmos_clamp_20_50_4_DVSS: 10000 rects
+nmos_clamp_20_50_4_DVSS: 20000 rects
+nmos_clamp_20_50_4_DVSS: 30000 rects
+Cell gf180mcu_ocd_io__fill10 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+gf180mcu_ocd_io__fill10: 10000 rects
+Cell comp018green_esd_rc_v5p0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_FILL10_0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+GF_NI_FILL10_0: 10000 rects
+Cell GF_NI_FILL10_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell POLY_SUB_FILL_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell gf180mcu_ocd_io__fill10x read from current working directory
+gf180mcu_ocd_io__fill10x: 10000 rects
+Cell GF_NI_FILL10_0short read from current working directory
+GF_NI_FILL10_0short: 10000 rects
+Cell gf180mcu_ocd_io__fill5 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+gf180mcu_ocd_io__fill5: 10000 rects
+Cell GF_NI_FILL5_0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_FILL5_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell gf180mcu_ocd_io__in_c read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_IN_C_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+GF_NI_IN_C_BASE: 10000 rects
+GF_NI_IN_C_BASE: 20000 rects
+Cell comp018green_out_predrv read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_esd_cdm read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_sigbuf_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell lvlshift_up read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell tie_poly_res read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_out_sigbuf_oe read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell gf180mcu_ocd_io__vdd read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_out_sigbuf_a read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_VDD_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+GF_NI_VDD_BASE: 10000 rects
+Cell gf180mcu_ocd_io__vss read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_VSS_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+GF_NI_VSS_BASE: 10000 rects
+Cell comp018green_esd_clamp_v5p0_DVDD read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell nmos_clamp_20_50_4_DVDD read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+nmos_clamp_20_50_4_DVDD: 10000 rects
+nmos_clamp_20_50_4_DVDD: 20000 rects
+nmos_clamp_20_50_4_DVDD: 30000 rects
+PRIME done: 13 cells primed
+PROBE getcell: gf180mcu_ocd_io__cor_0
+PROBE identify: 
+Cell GF_NI_DVDD_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+GF_NI_DVDD_BASE: 10000 rects
+GF_NI_DVDD_BASE: 20000 rects
+GF_NI_DVDD_BASE: 30000 rects
+GF_NI_DVDD_BASE: 40000 rects
+GF_NI_DVDD_BASE: 50000 rects
+GF_NI_DVDD_BASE: 60000 rects
+GF_NI_DVDD_BASE: 70000 rects
+GF_NI_DVDD_BASE: 80000 rects
+Cell POLY_SUB_FILL_3 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_inpath_cms_smt read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell constant_block read from current working directory
+Cell comp018green_esd_clamp_v5p0_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_esd_rc_v5p0_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell lv_inv read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell GF_NI_FILL10_1short read from current working directory
+Cell comp018green_esd_clamp_v5p0_2 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell top_route_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Processing timestamp mismatches.
+Timestamp mismatches found in these cells: POLY_SUB_FILL_1.
+PROBE named-1st: 
+Cell gf180mcu_as_sc_mcu7t3v3__tieh_4 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_as_sc_mcu7t3v3/mag
+Cell gf180mcu_as_sc_mcu7t3v3__fillcap_4 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_as_sc_mcu7t3v3/mag
+Cell comp018green_sigbuf read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_in_drv read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell nmos_clamp_20_50_4 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+nmos_clamp_20_50_4: 10000 rects
+nmos_clamp_20_50_4: 20000 rects
+nmos_clamp_20_50_4: 30000 rects
+Cell top_route read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell gf180mcu_as_sc_mcu7t3v3__tap_2 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_as_sc_mcu7t3v3/mag
+Cell gf180mcu_as_sc_mcu7t3v3__buff_12 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_as_sc_mcu7t3v3/mag
+Cell comp018green_in_cms_smt read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Cell comp018green_in_pupd read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+PROBE named-2nd: 0 0 71000 71000
+(magic exit status 0)
+
+##### end
+finished normally

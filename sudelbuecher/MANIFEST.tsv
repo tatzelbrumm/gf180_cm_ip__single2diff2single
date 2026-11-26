@@ -1,3 +1,37 @@
 file	mtime_utc	bytes	command_or_source	commit
 sudelbuecher/chatlog/2026-10-06_sonnet_gf180_port_survey_and_skeleton.md	2026-10-06T14:43:22Z	23116	chatlog/export_chatlog.py on session 813b3a7a (live path, through 16:42 Berlin)	-
 sudelbuecher/chatlog/export_chatlog.py	2026-10-08T00:38:35Z	7227	written in session 35b4bb89 from the 2026-10-06 script (arguments for title/session/model, meta records skipped, shell commands verbatim); mtime from checkout	01e3e75
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_pdk_klayout.sh	2026-11-17T01:50:58Z	3609	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_pdk_klayout.out	2026-11-17T01:56:30Z	12732	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_pdk_klayout.err	2026-11-17T01:56:30Z	158	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_io_metal.sh	2026-11-17T14:35:53Z	3896	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_io_metal.out	2026-11-17T14:36:26Z	5638	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_io_metal.err	2026-11-17T14:36:26Z	0	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_ocd_io.sh	2026-11-17T17:36:46Z	3836	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_ocd_io.out	2026-11-17T20:30:02Z	20063	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-17_sonnet_inspect_ocd_io.err	2026-11-17T20:30:02Z	0	copy of _runs/; inspection script and its output, run in the IIC container	-
+sudelbuecher/logs/main/2026-11-18_sonnet_make_pdk_overlay.out	2026-11-18T01:41:34Z	9220	copy of _runs/; make_pdk_overlay.sh run in the IIC container, by the version before 2026-11-19 (links the pad repo magic/ folder; that version is not kept)	-
+sudelbuecher/logs/main/2026-11-18_sonnet_make_pdk_overlay.err	2026-11-18T01:41:22Z	0	copy of _runs/; make_pdk_overlay.sh run in the IIC container, by the version before 2026-11-19 (links the pad repo magic/ folder; that version is not kept)	-
+sudelbuecher/logs/main/2026-11-18_sonnet_gds_archive_padframe.sh	2026-11-18T02:06:43Z	3100	copy of _runs/; GDS of the archived padframe .mag, run in the IIC container (8m26s)	-
+sudelbuecher/logs/main/2026-11-18_sonnet_gds_archive_padframe.out	2026-11-18T02:05:16Z	34220	copy of _runs/; GDS of the archived padframe .mag, run in the IIC container (8m26s)	-
+sudelbuecher/logs/main/2026-11-18_sonnet_gds_archive_padframe.err	2026-11-18T02:05:16Z	44	copy of _runs/; GDS of the archived padframe .mag, run in the IIC container (8m26s)	-
+sudelbuecher/logs/main/2026-11-18_sonnet_layer_21_204_10.out	2026-11-18T02:28:57Z	97	copy of _runs/; grep for GDS layers 21/10 and 204/10	-
+sudelbuecher/logs/main/2026-11-18_sonnet_probe_padframe.sh	2026-11-17T21:56:13Z	2465	copy of _runs/; read-only probe of gen_padframe.tcl steps, IIC container	-
+sudelbuecher/logs/main/2026-11-18_sonnet_probe_padframe.out	2026-11-18T02:39:37Z	7035	copy of _runs/; read-only probe of gen_padframe.tcl steps, IIC container	-
+sudelbuecher/logs/main/2026-11-18_sonnet_probe_padframe.err	2026-11-18T02:39:37Z	36	copy of _runs/; read-only probe of gen_padframe.tcl steps, IIC container	-
+sudelbuecher/logs/main/2026-11-18_sonnet_probe_padframe2.sh	2026-11-18T02:46:47Z	3119	copy of _runs/; read-only probe of gen_padframe.tcl steps, IIC container	-
+sudelbuecher/logs/main/2026-11-18_sonnet_probe_padframe2.out	2026-11-18T02:54:37Z	20392	copy of _runs/; read-only probe of gen_padframe.tcl steps, IIC container	-
+sudelbuecher/logs/main/2026-11-18_sonnet_probe_padframe2.err	2026-11-18T02:54:26Z	0	copy of _runs/; read-only probe of gen_padframe.tcl steps, IIC container	-
+sudelbuecher/logs/main/2026-11-18_sonnet_probe_padframe2.cells	2026-11-18T02:54:26Z	296	copy of _runs/; read-only probe of gen_padframe.tcl steps, IIC container	-
+sudelbuecher/logs/main/2026-11-18_sonnet_timestamp_mismatches_repo_copies.out	2026-11-18T03:02:08Z	63539	copy of _runs/; scripts/check_timestamps.py (harness fork) on the git checkouts	-
+sudelbuecher/logs/main/2026-11-18_sonnet_timestamp_mismatches_repo_copies.err	2026-11-18T03:02:03Z	0	copy of _runs/; scripts/check_timestamps.py (harness fork) on the git checkouts	-
+sudelbuecher/logs/main/2026-11-18_sonnet_timestamp_mismatches_repo_copies.tsv	2026-11-18T03:02:08Z	118325	copy of _runs/; scripts/check_timestamps.py (harness fork) on the git checkouts	-
+sudelbuecher/logs/main/2026-11-18_sonnet_timestamp_mismatches_make.tsv	2026-11-18T03:05:05Z	176499	copy of _runs/; scripts/check_timestamps.py (harness fork) on the git checkouts	-
+sudelbuecher/logs/main/2026-11-19_opus_make_pdk_overlay.sh	2026-11-19T01:04:13Z	11420	copy of _runs/; overlay script, version generating the ocd_io views from GDS	-
+sudelbuecher/logs/main/2026-11-19_opus_sandbox_make_pdk_overlay.out	2026-11-19T01:23:05Z	18876	make_pdk_overlay.sh (2026-11-19 version) run in the session sandbox: Magic 8.3.685, stand-in PDK with 1689ac3 tech, pad repo 6e0e354	-
+sudelbuecher/logs/main/2026-11-19_opus_sandbox_make_pdk_overlay.err	2026-11-19T01:23:05Z	337	make_pdk_overlay.sh (2026-11-19 version) run in the session sandbox: Magic 8.3.685, stand-in PDK with 1689ac3 tech, pad repo 6e0e354	-
+sudelbuecher/logs/main/2026-11-19_opus_padframe_minesweeping_log.md	2026-11-20T02:26:30Z	27651	running log, written by the assistant (action/result/decision; evidence lines verbatim with file:line or commit:file:line); updated to 2026-11-20 03:21 Berlin	-
+sudelbuecher/logs/main/2026-11-19_opus_magic-is_locked-init.patch	2026-11-19T05:13:43Z	319	patch to RTimothyEdwards/magic database/DBio.c: initialize is_locked (tested on master 8.3.704); copy of _runs/magic-is_locked-init.patch	-
+sudelbuecher/chatlog/2026-11-13_sonnet-opus_iic_osic_tools_cloud_config_setup.md	2026-11-20T02:15:04Z	343058	chatlog_tools/build_chatlog_claudeai.py (claude-cloud-config sudel_buecher) on _runs/chat_5c75de64-b694-44cf-b1fe-574ef5ad206c.json saved 2026-11-20 03:12 Berlin (sha256 2ed2a00b...509b); verify_chatlog_claudeai.py: 0 missing, 0 reasoning windows	-
+sudelbuecher/chatlog/ref/2026-11-13_sonnet-opus_references.md	2026-11-20T02:15:04Z	4930	written by the assistant: index of the external sources of the 2026-11-13..20 log (index, do not copy)	-
+sudelbuecher/logs/main/README.md	2026-11-20T02:26:30Z	8903	written by the assistant: index of logs/main/, one line per file (entry it belongs to, what it shows)	-

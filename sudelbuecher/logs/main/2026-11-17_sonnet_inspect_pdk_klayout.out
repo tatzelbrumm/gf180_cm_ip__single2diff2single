@@ -1,0 +1,297 @@
+
+##### 1. who, where, when
+$ date -u +%Y-%m-%dT%H:%M:%SZ
+2026-11-17T01:56:30Z
+$ whoami
+designer
+$ hostname
+ae47d60691aa
+$ uname -sr
+Linux 7.0.0-43-generic
+$ ls -la /foss/tools/versions.txt /foss/tools/iic-osic-tools-version.txt /foss/pdks/versions.txt
+-rw-r--r-- 1 root root 147 Oct 15 14:50 /foss/pdks/versions.txt
+(exit status 2)
+$ sha256sum /foss/tools/sak/sak-pdk-script.sh
+252937e898b8ff64b8a3989bda77dfce17b3c6ee1eced548ede43b899e1cd990  /foss/tools/sak/sak-pdk-script.sh
+
+##### 2. sak-pdk gf180mcuD (sourcing /foss/tools/sak/sak-pdk-script.sh)
+PDK_ROOT=/foss/pdks
+PDK=gf180mcuD
+PDKPATH=/foss/pdks/gf180mcuD
+STD_CELL_LIBRARY=gf180mcu_fd_sc_mcu7t5v0
+SPICE_USERINIT_DIR=/foss/pdks/gf180mcuD/libs.tech/ngspice
+KLAYOUT_PATH=/headless/.klayout:/foss/pdks/gf180mcuD/libs.tech/klayout
+GF_PDK_OPTION=D
+--- selected variables after sourcing:
+PDK_ROOT=/foss/pdks
+PDK=gf180mcuD
+PDKPATH=/foss/pdks/gf180mcuD
+STD_CELL_LIBRARY=gf180mcu_fd_sc_mcu7t5v0
+SPICE_USERINIT_DIR=/foss/pdks/gf180mcuD/libs.tech/ngspice
+KLAYOUT_PATH=/headless/.klayout:/foss/pdks/gf180mcuD/libs.tech/klayout
+KLAYOUT_PYTHONPATH=
+GF_PDK_OPTION=D
+
+##### 3. /foss/pdks
+$ ls -la /foss/pdks
+total 32
+drwxr-xr-x 1 root root 4096 Oct 15 14:50 .
+drwxr-xr-x 1 root root 4096 Apr  7  2026 ..
+drwxr-xr-x 4 root root 4096 Oct 15 14:49 ciel
+lrwxrwxrwx 1 root root   73 Oct 15 14:49 gf180mcuD -> ciel/gf180mcu/versions/1689ac3f2dc763876eaf967227c7dfe831b031ae/gf180mcuD
+drwxr-xr-x 6 root root 4096 Oct 15 14:50 ihp-sg13cmos5l
+drwxr-xr-x 6 root root 4096 Oct 15 14:50 ihp-sg13g2
+lrwxrwxrwx 1 root root   69 Oct 15 14:48 sky130A -> ciel/sky130/versions/1689ac3f2dc763876eaf967227c7dfe831b031ae/sky130A
+-rw-r--r-- 1 root root  147 Oct 15 14:50 versions.txt
+$ readlink -f /foss/pdks/gf180mcuD
+/foss/pdks/ciel/gf180mcu/versions/1689ac3f2dc763876eaf967227c7dfe831b031ae/gf180mcuD
+$ ls -la /foss/pdks/gf180mcuD/
+total 24
+drwxr-xr-x  5 root root 4096 Oct 15 14:49 .
+drwxr-xr-x  3 root root 4096 Oct 15 14:49 ..
+drwxr-xr-x  2 root root 4096 Oct 15 14:49 .config
+drwxr-xr-x  7 root root 4096 Oct 15 14:49 libs.ref
+drwxr-xr-x 10 root root 4096 Oct 15 14:49 libs.tech
+-rw-r--r--  1 root root   51 Oct 15 14:49 SOURCES
+
+##### 4. KLayout technology files of gf180mcuD
+$ ls -la /foss/pdks/gf180mcuD/libs.tech/klayout/tech/
+total 104
+drwxr-xr-x 8 root root  4096 Oct 15 14:49 .
+drwxr-xr-x 3 root root  4096 Oct 15 14:49 ..
+drwxr-xr-x 2 root root  4096 Oct 15 14:49 d25
+drwxr-xr-x 3 root root  4096 Oct 15 14:49 drc
+-rw-r--r-- 1 root root 55130 Oct 15 14:49 gf180mcu.lyp
+-rw-r--r-- 1 root root  8379 Oct 15 14:49 gf180mcu.lyt
+-rw-r--r-- 1 root root   667 Oct 15 14:49 gf180mcu.map
+drwxr-xr-x 3 root root  4096 Oct 15 14:49 lvs
+drwxrwxrwx 3 root root  4096 Oct 15 14:49 macros
+drwxr-xr-x 5 root root  4096 Oct 15 14:49 pymacros
+drwxr-xr-x 2 root root  4096 Oct 15 14:49 scripts
+--- /foss/pdks/gf180mcuD/libs.tech/klayout/tech/gf180mcu.lyt
+18: <name>gf180mcu</name>
+19: <description>GLOBALFOUNDRIES 0.18UM 3.3V/(5V)6V MCU TECHNOLOGY</description>
+21: <dbu>0.001</dbu>
+24: <original-base-path>$PDK_ROOT/$PDK/libs.tech/klayout</original-base-path>
+25: <layer-properties_file>gf180mcu.lyp</layer-properties_file>
+42:   <dbu>0.001</dbu>
+107:   <dbu>0.001</dbu>
+122:   <dbu>0.001</dbu>
+129:   <dbu>0.001</dbu>
+--- all .lyt files below libs.tech/klayout (any depth):
+/foss/pdks/gf180mcuD/libs.tech/klayout/tech/gf180mcu.lyt
+
+##### 5. default KLayout technology in /headless/.klayout/klayoutrc
+$ grep -n initial-technology\|default-technology /headless/.klayout/klayoutrc
+131: <initial-technology>gf180mcu</initial-technology>
+$ ls -la /headless/.klayout
+total 316
+drwxrwxrwx  1 root     root       4096 Nov 16 17:57 .
+drwxrwxrwx  1 root     root       4096 Nov 16 18:41 ..
+drwxr-xr-x  2 designer designers  4096 Oct 27 02:15 d25
+drwxr-xr-x  2 designer designers  4096 Oct 27 02:15 drc
+-rw-r--r--  1 designer designers  3504 Oct 27 16:45 klayout_crash.log
+-rw-r--r--  1 designer designers 22400 Nov 16 17:57 klayoutrc
+-rw-r--r--  1 designer designers 22427 Nov 16 17:52 klayoutrc.1
+-rw-r--r--  1 designer designers 22745 Nov  7 01:02 klayoutrc.10
+-rw-r--r--  1 designer designers 22495 Nov 16 17:51 klayoutrc.2
+-rw-r--r--  1 designer designers 22567 Nov  8 19:25 klayoutrc.3
+-rw-r--r--  1 designer designers 22567 Nov  8 12:42 klayoutrc.4
+-rw-r--r--  1 designer designers 22567 Nov  8 12:09 klayoutrc.5
+-rw-r--r--  1 designer designers 22567 Nov  7 22:30 klayoutrc.6
+-rw-r--r--  1 designer designers 22567 Nov  7 01:10 klayoutrc.7
+-rw-r--r--  1 designer designers 22606 Nov  7 01:08 klayoutrc.8
+-rw-r--r--  1 designer designers 22680 Nov  7 01:07 klayoutrc.9
+drwxr-xr-x  2 designer designers  4096 Oct 27 02:15 lvs
+drwxr-xr-x  2 designer designers  4096 Oct 27 02:15 macros
+drwxr-xr-x  2 designer designers  4096 Oct 27 02:15 pymacros
+drwxr-xr-x  2 designer designers  4096 Oct 27 02:15 python
+drwxr-xr-x  2 designer designers  4096 Oct 27 02:15 ruby
+drwxrwxrwx 12 root     root       4096 Oct 15 15:07 salt
+
+##### 6. KLayout version
+$ klayout -v
+KLayout 0.30.12
+
+##### 7. /etc/profile.d/iic-osic-tools-setup.sh
+$ cat /etc/profile.d/iic-osic-tools-setup.sh
+# SPDX-FileCopyrightText: 2022-2026 Harald Pretl and Georg Zachl
+# Johannes Kepler University, Department for Integrated Circuits
+# SPDX-License-Identifier: Apache-2.0
+# shellcheck shell=dash
+#
+# Single source of truth for the IIC-OSIC-TOOLS shell environment.
+# This file is sourced from /etc/profile (login shells) and from
+# /headless/.bashrc (interactive shells); a guard prevents double init.
+# Keep it parseable by dash: the login shell can be /bin/sh (Podman adds a
+# passwd entry with /bin/sh for the container UID), and a syntax error aborts
+# `sh -l`, which PyOPUS spawns to read the environment (pyopus/misc/env.py).
+
+_path_add_tool() {
+    local tool_name=$1
+    local d
+    for d in "$TOOLS/$tool_name" ; do
+        if [ -d "${d}" ]; then
+            export PATH=$PATH:${d%/}
+        fi
+    done
+}
+
+_path_add_tool_custom() {
+    local custom_path=$1
+    local d
+    for d in "$TOOLS/$custom_path/" ; do
+        if [ -d "${d}" ]; then
+            export PATH=$PATH:${d%/}
+        fi
+    done
+}
+
+_path_add_tool_python() {
+    local tool_name=$1
+    local d
+    for d in "$TOOLS/$tool_name"/local/lib/python3*/dist-packages ; do
+        if [ -d "${d}" ]; then
+            export PYTHONPATH=$PYTHONPATH:${d}
+        fi
+    done
+}
+
+_add_resolution() {
+    # $1=X, $2=Y
+    # Do only in VNC mode
+    if [ -n "${VNCDESKTOP+x}" ]; then
+        local x=$1 y=$2
+        local mline mline_trim
+        # and only when resolution not yet available
+        if ! xrandr 2> /dev/null | awk '{print $1}' | grep -q "${x}x${y}"; then
+            mline=$(cvt "$x" "$y" 60 | grep -oP '(?<=Modeline ).*')
+            mline_trim=$(echo "$mline" | sed 's/^[^"]*"[^"]*"//')
+            # shellcheck disable=SC2086
+            xrandr --newmode "${x}x${y}" $mline_trim
+            xrandr --addmode VNC-0 "${x}x${y}"
+        fi
+    fi
+}
+
+if [ -z "${FOSS_INIT_DONE+x}" ]; then
+    _path_add_tool          "kactus2"
+    _path_add_tool          "klayout"
+    _path_add_tool_custom   "osic-multitool"
+
+    export SAK=$TOOLS/sak
+    # /usr/local/sbin is already part of the image's default PATH, so do not
+    # prepend it again here (it would show up twice).
+    export PATH=$TOOLS/bin:$SAK:$PATH
+
+    # Seed PYTHONPATH with the interpreter's default paths so the tool-specific
+    # entries appended below extend (rather than shadow) the system modules.
+    PYTHONPATH=$(python3 -c "import sys; print(':'.join(x for x in sys.path if x))") && export PYTHONPATH
+    _path_add_tool_python "ngspyce"
+    _path_add_tool_python "openems"
+    _path_add_tool_python "pyopus"
+    export PYTHONPATH=$PYTHONPATH:$TOOLS/yosys/share/yosys/python3
+    export PYTHONPATH=$PYTHONPATH:$TOOLS/klayout/pymod
+    export PYTHONPATH=$PYTHONPATH:$TOOLS/vacask/lib/vacask/python
+
+    # Add local directories in $HOME so the user can upgrade PIP packages.
+    PYTHON_VERSION=$(python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+    export PATH=$HOME/.local/bin:$PATH
+    export PYTHONPATH=$HOME/.local/lib/python${PYTHON_VERSION}/site-packages:$PYTHONPATH
+    unset PYTHON_VERSION
+
+    # shellcheck disable=SC2086
+    LD_LIBRARY_PATH="${TOOLS}/klayout:${TOOLS}/ngspice/lib:${TOOLS}/iverilog/lib:${TOOLS}/openems/lib:${TOOLS}/kactus2:${TOOLS}/gtkwave/lib/$(uname -m)-linux-gnu:${TOOLS}/kepler-formal/lib:${TOOLS}/libman/lib" && export LD_LIBRARY_PATH
+    export EDITOR="gedit"
+    export PYTHONPYCACHEPREFIX="/tmp/pycache"
+    export KLAYOUT_HOME="/headless/.klayout"
+    export SHELL=/bin/bash
+
+    # Enable ngspice co-simulation with VHDL
+    export CPATH="${TOOLS}/ghdl/include:${TOOLS}/ghdl/include/ghdl:${CPATH}"
+    export LIBRARY_PATH="${TOOLS}/ghdl/lib:${LIBRARY_PATH}"
+
+    # Default PDK — only set when not already provided by the user/sub-shell.
+    export PDK=${PDK:-ihp-sg13g2}
+    export PDKPATH=${PDKPATH:-$PDK_ROOT/$PDK}
+    export SPICE_USERINIT_DIR=${SPICE_USERINIT_DIR:-$PDK_ROOT/$PDK/libs.tech/ngspice}
+    export KLAYOUT_PATH=${KLAYOUT_PATH:-"/headless/.klayout:$PDKPATH/libs.tech/klayout:$PDKPATH/libs.tech/klayout/tech"}
+
+    # Everything above follows $PDK, so the per-PDK settings below have to as
+    # well: starting the container with `-e PDK=<other>` used to leave these at
+    # their ihp-sg13g2 values, which pointed the standard cell library at the
+    # wrong PDK. Same mapping as sak-pdk-script.sh, which switches the PDK of a
+    # running session; keep the two in sync. An explicit value still wins, so a
+    # custom or unpackaged library can be selected as before.
+    if [ -z "${STD_CELL_LIBRARY}" ]; then
+        case "$PDK" in
+            sky130A|sky130B)      STD_CELL_LIBRARY="sky130_fd_sc_hd" ;;
+            ihp-sg13g2)           STD_CELL_LIBRARY="sg13g2_stdcell" ;;
+            ihp-sg13cmos5l)       STD_CELL_LIBRARY="sg13cmos5l_stdcell" ;;
+            gf180mcuC|gf180mcuD)  STD_CELL_LIBRARY="gf180mcu_fd_sc_mcu7t5v0" ;;
+            *)
+                [ -z "${IIC_OSIC_TOOLS_QUIET}" ] && \
+                    echo "[WARN] No standard cell library known for PDK '$PDK', leaving STD_CELL_LIBRARY unset."
+                ;;
+        esac
+    fi
+    export STD_CELL_LIBRARY
+
+    # gf180mcu needs GF_PDK_OPTION set, otherwise KLayout warns and assumes D.
+    case "$PDK" in
+        gf180mcuC) export GF_PDK_OPTION="${GF_PDK_OPTION:-C}" ;;
+        gf180mcuD) export GF_PDK_OPTION="${GF_PDK_OPTION:-D}" ;;
+    esac
+
+    # This gets rid of the DBUS warning
+    # https://unix.stackexchange.com/questions/230238/x-applications-warn-couldnt-connect-to-accessibility-bus-on-stderr/230442#230442
+    export NO_AT_BRIDGE=1
+
+    [ -z "${IIC_OSIC_TOOLS_QUIET}" ] && echo "[INFO] Final PATH variable: $PATH"
+    [ -z "${IIC_OSIC_TOOLS_QUIET}" ] && echo "[INFO] Final PYTHONPATH variable: $PYTHONPATH"
+
+    export FOSS_INIT_DONE=1
+fi
+
+# Ensure USER is set — gdsfactory's pydantic-settings reads it at startup.
+# When the container is run with a numeric UID (--user UID:GID) without a matching
+# /etc/passwd entry, the shell may not populate USER automatically.
+[ -z "${USER}" ] && USER=$(id -un 2>/dev/null || echo designer) && export USER
+
+# First, check if XDG_RUNTIME_DIR is set. If not (or if it still points at
+# the legacy shared /tmp/runtime-default), use a per-user directory: the XDG
+# spec requires the directory to be owned by the current user with mode
+# 0700, and programs like dbus-daemon verify this before using it.
+if [ -z "${XDG_RUNTIME_DIR+x}" ] || [ "$XDG_RUNTIME_DIR" = "/tmp/runtime-default" ]; then
+    XDG_RUNTIME_DIR="/tmp/runtime-$(id -u)"
+    export XDG_RUNTIME_DIR
+fi
+# Second, verify if the actual directory exists, if not, create it.
+if [ ! -d "$XDG_RUNTIME_DIR" ]; then
+    mkdir -p "$XDG_RUNTIME_DIR"
+    chmod 700 "$XDG_RUNTIME_DIR"
+fi
+
+# A Wayland socket forwarded by start_x.sh is bind-mounted at a neutral path
+# (mounting it directly into the per-user XDG_RUNTIME_DIR would re-create
+# that directory root-owned); link it into place.
+if [ -n "${WAYLAND_DISPLAY:-}" ] && [ -S "/tmp/host-wayland/${WAYLAND_DISPLAY}" ] \
+    && [ ! -e "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}" ]; then
+    ln -s "/tmp/host-wayland/${WAYLAND_DISPLAY}" "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}"
+fi
+
+# XDG_DATA_HOME is intentionally left at its spec default ($HOME/.local/share).
+# It was once forced to a custom directory for a pre-installed Veryl toolchain;
+# since only verylup is shipped, tools create the default directory on demand.
+
+#----------------------------------------
+# Source user configs from $DESIGNS
+#----------------------------------------
+
+if [ -n "${DESIGNS}" ] && [ -f "$DESIGNS/.designinit" ]; then
+    # shellcheck source=/dev/null
+    . "$DESIGNS/.designinit"
+fi
+
+##### end
+finished normally

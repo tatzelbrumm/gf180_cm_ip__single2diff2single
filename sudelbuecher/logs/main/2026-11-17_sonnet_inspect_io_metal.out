@@ -1,0 +1,150 @@
+
+##### 1. sak-pdk gf180mcuD, GF_* variables
+GF_PDK_OPTION=D
+PDK=gf180mcuD PDKPATH=/foss/pdks/gf180mcuD
+
+##### 2. libs.ref
+$ ls -la /foss/pdks/gf180mcuD/libs.ref
+total 28
+drwxr-xr-x  7 root root 4096 Oct 15 14:49 .
+drwxr-xr-x  5 root root 4096 Oct 15 14:49 ..
+drwxr-xr-x 11 root root 4096 Oct 15 14:49 gf180mcu_fd_io
+drwxr-xr-x 10 root root 4096 Oct 15 14:49 gf180mcu_fd_ip_sram
+drwxr-xr-x  4 root root 4096 Oct 15 14:49 gf180mcu_fd_pr
+drwxr-xr-x 11 root root 4096 Oct 15 14:49 gf180mcu_fd_sc_mcu7t5v0
+drwxr-xr-x 11 root root 4096 Oct 15 14:49 gf180mcu_fd_sc_mcu9t5v0
+--- gf180mcu_ocd_io folders (any depth) and their first entries:
+--- every file or folder below libs.ref with 3lm, 4lm or 5lm in its name (max 60 shown):
+/foss/pdks/gf180mcuD/libs.ref/gf180mcu_fd_io/mag/3LM_METAL_RAIL.mag
+/foss/pdks/gf180mcuD/libs.ref/gf180mcu_fd_io/mag/Bondpad_5LM.mag
+/foss/pdks/gf180mcuD/libs.ref/gf180mcu_fd_io/mag/4LM_METAL_RAIL.mag
+/foss/pdks/gf180mcuD/libs.ref/gf180mcu_fd_io/mag/5LM_METAL_RAIL_PAD_60.mag
+/foss/pdks/gf180mcuD/libs.ref/gf180mcu_fd_io/mag/5LM_METAL_RAIL.mag
+--- count by variant:
+3lm: 1
+4lm: 1
+5lm: 3
+--- how many asig_5p0 layout files exist, by extension:
+      1 lef
+      3 mag
+      1 sym
+
+##### 3. metal-stack settings in the KLayout DRC / LVS decks
+--- /foss/pdks/gf180mcuD/libs.tech/klayout/tech/drc/gf180mcu.drc
+-rw-r--r-- 1 root root 6428 Oct 15 14:49 /foss/pdks/gf180mcuD/libs.tech/klayout/tech/drc/gf180mcu.drc
+80:  variant: $variant,
+81:  mim_option: $mim_option,
+82:  metal_top: $metal_top,
+83:  metal_level: $metal_level,
+134:  case ctx.metal_top
+140:    raise ArgumentError, 'metal_top not recognized'
+144:ctx.register_layer('metal_top_thickness') { met_top_thick(ctx) }
+--- /foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs/gf180mcu.lvs
+-rw-r--r-- 1 root root 14807 Oct 15 14:49 /foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs/gf180mcu.lvs
+50:# metal_top: Metal top layer (6K/9K/11K/30K, default: 9K)
+51:# metal_level: Metal stack level (3LM/4LM/5LM/6LM, default: 6LM)
+53:# mim_option: MIM option (A/B, default: B)
+220:# METAL_TOP
+221:METAL_TOP = $metal_top || '9K'
+223:logger.info("METAL_TOP Selected is #{METAL_TOP}")
+225:# METAL_LEVEL
+226:METAL_LEVEL = $metal_level || '6LM'
+228:logger.info("METAL_STACK Selected is #{METAL_LEVEL}")
+236:MIM_OPTION = $mim_option || 'B'
+238:logger.info("MIM Option selected: #{MIM_OPTION}")
+--- other files in the drc and lvs folders:
+/foss/pdks/gf180mcuD/libs.tech/klayout/tech/drc:
+total 76
+drwxr-xr-x 3 root root  4096 Oct 15 14:49 .
+drwxr-xr-x 8 root root  4096 Oct 15 14:49 ..
+-rw-r--r-- 1 root root  1438 Oct 15 14:49 connectivity.rb
+-rw-r--r-- 1 root root 15158 Oct 15 14:49 generic_layers.rb
+-rw-r--r-- 1 root root  6428 Oct 15 14:49 gf180mcu.drc
+-rw-r--r-- 1 root root  4281 Oct 15 14:49 helper.rb
+-rw-r--r-- 1 root root 10824 Oct 15 14:49 options.rb
+-rw-r--r-- 1 root root  1693 Oct 15 14:49 README.md
+drwxr-xr-x 2 root root  4096 Oct 15 14:49 rule_decks
+-rw-r--r-- 1 root root 10331 Oct 15 14:49 rule_framework.rb
+
+/foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs:
+total 72
+drwxr-xr-x 3 root root  4096 Oct 15 14:49 .
+drwxr-xr-x 8 root root  4096 Oct 15 14:49 ..
+-rw-r--r-- 1 root root 14807 Oct 15 14:49 gf180mcu.lvs
+-rw-r--r-- 1 root root 19588 Oct 15 14:49 gf180_xschem_klayout_spice_convert.py
+-rw-r--r-- 1 root root  4334 Oct 15 14:49 README.md
+drwxr-xr-x 2 root root  4096 Oct 15 14:49 rule_decks
+-rw-r--r-- 1 root root 14580 Oct 15 14:49 run_lvs.py
+
+##### 4. metal layers named in the layer-properties file and the Magic tech file
+--- KLayout gf180mcu.lyp: lines naming Metal1..Metal5 (count per name):
+--- Magic: files in libs.tech/magic
+total 304
+drwxr-xr-x  2 root root   4096 Oct 15 14:49 .
+drwxr-xr-x 10 root root   4096 Oct 15 14:49 ..
+-rw-r--r--  1 root root   5020 Oct 15 14:49 gf180mcuD-BindKeys
+-rw-r--r--  1 root root   6807 Oct 15 14:49 gf180mcuD-GDS.tech
+-rw-r--r--  1 root root   1997 Oct 15 14:49 gf180mcuD.magicrc
+-rw-r--r--  1 root root 167620 Oct 15 14:49 gf180mcuD.tcl
+-rw-r--r--  1 root root 114040 Oct 15 14:49 gf180mcuD.tech
+--- /foss/pdks/gf180mcuD/libs.tech/magic/gf180mcuD-GDS.tech (lines mentioning a metal stack option):
+68: l14 METAL3,l14
+70: l16 METAL4,l16
+72: l18 METAL5,l18
+115: l14   metal3
+117: l16   metal4
+119: l18   metal5
+153: options calma-permissive-labels
+223: layer  METAL3 METAL3
+224: labels METAL3 
+231: layer  METAL4 METAL4
+232: labels METAL4 
+239: layer  METAL5 METAL5
+240: labels METAL5 
+393: layer  METAL3 METAL3
+394: labels METAL3 
+395: calma METAL3 42 0
+401: layer  METAL4 METAL4
+402: labels METAL4 
+403: calma METAL4 46 0
+409: layer  METAL5 METAL5
+410: labels METAL5 
+411: calma METAL5 81 0
+--- /foss/pdks/gf180mcuD/libs.tech/magic/gf180mcuD.tech (lines mentioning a metal stack option):
+34:  metal3,m3
+35:  metal4,m4
+36:  metal5,m5
+171:  metal4 mimcap,mim,capm
+172:  metal4 mimcapcontact,mimcapc,mimcc,capmc
+174:  metal3 metal3,m3,met3
+175:  metal3 rmetal3,rm3,rmet3
+176: -metal3 m3hole
+177: -metal3 obsm3
+178: -metal3 fillm3
+179:  metal3 via3,v3
+181:  metal4 metal4,m4,met4
+182:  metal4 rmetal4,rm4,rmet4
+183: -metal4 m4hole
+184: -metal4 obsm4
+185: -metal4 fillm4
+186:  metal4 via4,v4
+188:  metal5 metal5,m5,met5
+189:  metal5 rm5,rmetal5,rmet5
+190: -metal5 m5hole
+191: -metal5 obsm5
+192: -metal5 fillm5
+236:  via2 metal2 metal3
+237:  via3 metal3 metal4
+238:  via4  metal4 metal5
+
+##### 5. SOURCES and .config
+$ cat /foss/pdks/gf180mcuD/SOURCES
+open_pdks 1689ac3f2dc763876eaf967227c7dfe831b031ae
+$ ls -la /foss/pdks/gf180mcuD/.config
+total 12
+drwxr-xr-x 2 root root 4096 Oct 15 14:49 .
+drwxr-xr-x 5 root root 4096 Oct 15 14:49 ..
+-rw-r--r-- 1 root root 2962 Oct 15 14:49 nodeinfo.json
+
+##### end
+finished normally

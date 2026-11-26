@@ -1,0 +1,171 @@
+
+##### 0. settings
+CH=/foss/designs/gf180mcu_ocd_chipalooza
+PDK_ROOT=/foss/designs/pdk_overlay
+rcfile=/foss/designs/pdk_overlay/gf180mcuD/libs.tech/magic/gf180mcuD.magicrc
+2026-11-18T02:39:34Z
+
+##### 1. generated files in /foss/designs/gf180mcu_ocd_chipalooza/magic (name, size, mtime)
+ls: cannot access '/foss/designs/gf180mcu_ocd_chipalooza/magic/gf180mcu_padframe.mag': No such file or directory
+ls: cannot access '/foss/designs/gf180mcu_ocd_chipalooza/magic/chipalooza_frame_wrapper.mag': No such file or directory
+--- gf180mcu_padframe.mag: lines mentioning pad_corner_sw / count of 'use' lines
+grep: /foss/designs/gf180mcu_ocd_chipalooza/magic/gf180mcu_padframe.mag: No such file or directory
+grep: /foss/designs/gf180mcu_ocd_chipalooza/magic/gf180mcu_padframe.mag: No such file or directory
+
+##### 2. Magic: the first steps of gen_padframe.tcl, answers printed
+
+Magic 8.3 revision 685 - Compiled on Thu Oct 15 02:29:39 PM CEST 2026.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+Using NULL graphics device.
+Processing system .magicrc file
+Switching to WIRING tool.
+Switching to NETLIST tool.
+Switching to PICK tool.
+Switching to BOX tool.
+Sourcing design .magicrc for technology gf180mcuD ...
+10 Magic internal units = 1 Lambda
+Input style import: scaleFactor=10, multiplier=2
+The following types are not handled by extraction and will be treated as non-electrical types:
+    obsactive mvobsactive filldiff fillpoly m1hole obsm1 fillm1 obsv1 m2hole obsm2 fillm2 obsv2 m3hole obsm3 fillm3 m4hole obsm4 fillm4 m5hole obsm5 fillm5 glass fillblock lvstext obscomment 
+Scaled tech values by 10 / 1 to match internal grid scaling
+Loading gf180mcuD Device Generator Menu ...
+Using technology "gf180mcuD", version 1.0.588-62-g1689ac3
+PROBE padframe-exists-before: '0'
+PROBE load: ''
+PROBE children-after-load: ''
+PROBE box-set: ''
+Cell gf180mcu_ocd_io__cor read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+PROBE getcell: 'gf180mcu_ocd_io__cor_0'
+PROBE children-after-getcell: 'gf180mcu_ocd_io__cor'
+PROBE identify: ''
+Cell POWER_RAIL_COR read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR: 10000 rects
+POWER_RAIL_COR: 20000 rects
+POWER_RAIL_COR: 30000 rects
+POWER_RAIL_COR: 40000 rects
+POWER_RAIL_COR: 50000 rects
+POWER_RAIL_COR: 60000 rects
+POWER_RAIL_COR: 70000 rects
+POWER_RAIL_COR: 80000 rects
+POWER_RAIL_COR: 90000 rects
+POWER_RAIL_COR: 100000 rects
+POWER_RAIL_COR: 110000 rects
+POWER_RAIL_COR: 120000 rects
+POWER_RAIL_COR: 130000 rects
+POWER_RAIL_COR: 140000 rects
+POWER_RAIL_COR: 150000 rects
+POWER_RAIL_COR: 160000 rects
+POWER_RAIL_COR: 170000 rects
+POWER_RAIL_COR: 180000 rects
+POWER_RAIL_COR: 190000 rects
+POWER_RAIL_COR: 200000 rects
+POWER_RAIL_COR: 210000 rects
+POWER_RAIL_COR: 220000 rects
+POWER_RAIL_COR: 230000 rects
+POWER_RAIL_COR: 240000 rects
+POWER_RAIL_COR: 250000 rects
+POWER_RAIL_COR: 260000 rects
+POWER_RAIL_COR: 270000 rects
+POWER_RAIL_COR: 280000 rects
+POWER_RAIL_COR: 290000 rects
+POWER_RAIL_COR: 300000 rects
+POWER_RAIL_COR: 310000 rects
+POWER_RAIL_COR: 320000 rects
+POWER_RAIL_COR: 330000 rects
+POWER_RAIL_COR: 340000 rects
+POWER_RAIL_COR: 350000 rects
+POWER_RAIL_COR: 360000 rects
+POWER_RAIL_COR: 370000 rects
+POWER_RAIL_COR: 380000 rects
+POWER_RAIL_COR: 390000 rects
+POWER_RAIL_COR: 400000 rects
+POWER_RAIL_COR: 410000 rects
+POWER_RAIL_COR: 420000 rects
+POWER_RAIL_COR: 430000 rects
+POWER_RAIL_COR: 440000 rects
+POWER_RAIL_COR: 450000 rects
+Cell POWER_RAIL_COR_0 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR_0: 10000 rects
+POWER_RAIL_COR_0: 20000 rects
+POWER_RAIL_COR_0: 30000 rects
+POWER_RAIL_COR_0: 40000 rects
+POWER_RAIL_COR_0: 50000 rects
+POWER_RAIL_COR_0: 60000 rects
+POWER_RAIL_COR_0: 70000 rects
+POWER_RAIL_COR_0: 80000 rects
+POWER_RAIL_COR_0: 90000 rects
+POWER_RAIL_COR_0: 100000 rects
+POWER_RAIL_COR_0: 110000 rects
+POWER_RAIL_COR_0: 120000 rects
+POWER_RAIL_COR_0: 130000 rects
+POWER_RAIL_COR_0: 140000 rects
+POWER_RAIL_COR_0: 150000 rects
+POWER_RAIL_COR_0: 160000 rects
+POWER_RAIL_COR_0: 170000 rects
+POWER_RAIL_COR_0: 180000 rects
+POWER_RAIL_COR_0: 190000 rects
+POWER_RAIL_COR_0: 200000 rects
+POWER_RAIL_COR_0: 210000 rects
+POWER_RAIL_COR_0: 220000 rects
+POWER_RAIL_COR_0: 230000 rects
+POWER_RAIL_COR_0: 240000 rects
+POWER_RAIL_COR_0: 250000 rects
+POWER_RAIL_COR_0: 260000 rects
+POWER_RAIL_COR_0: 270000 rects
+POWER_RAIL_COR_0: 280000 rects
+POWER_RAIL_COR_0: 290000 rects
+POWER_RAIL_COR_0: 300000 rects
+POWER_RAIL_COR_0: 310000 rects
+POWER_RAIL_COR_0: 320000 rects
+POWER_RAIL_COR_0: 330000 rects
+POWER_RAIL_COR_0: 340000 rects
+POWER_RAIL_COR_0: 350000 rects
+POWER_RAIL_COR_0: 360000 rects
+POWER_RAIL_COR_0: 370000 rects
+POWER_RAIL_COR_0: 380000 rects
+POWER_RAIL_COR_0: 390000 rects
+POWER_RAIL_COR_0: 400000 rects
+POWER_RAIL_COR_0: 410000 rects
+POWER_RAIL_COR_0: 420000 rects
+POWER_RAIL_COR_0: 430000 rects
+POWER_RAIL_COR_0: 440000 rects
+POWER_RAIL_COR_0: 450000 rects
+Cell POWER_RAIL_COR_1 read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+POWER_RAIL_COR_1: 10000 rects
+POWER_RAIL_COR_1: 20000 rects
+Cell GF_NI_COR_BASE read from path /foss/designs/pdk_overlay/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+Processing timestamp mismatches.
+Timestamp mismatches found in these cells: GF_NI_COR_BASE.
+PROBE abutment-named: ''
+PROBE abutment-selected: '0 0 71000 71000'
+Selection commands are:
+    select [more | less | nocycle] [layers] [at x y]
+                                [de]select paint chunk/region/net under
+                                cursor, or [de]select subcell if cursor
+	                         over space
+    select [more | less] area [layers]     [de]select all info under box in layers
+    select [more | less] visible [layers]  [de]select all visible info under box in layers
+    select [more | less | top] cell [name] [de]select cell under cursor, or "name"
+    select [do | no] labels		 [do not] select subcell labels
+    select [more | less] intersection [layers]	[de]select intersection of layers
+    select clear                           clear selection
+    select flat				 flatten the contents of the selection
+    select help                            print this message
+    select keep                            copy the selection to the layout
+    select move                            move selection to a location in the layout
+    select pick                            delete selection from layout
+    select save file                       save selection on disk in file.mag
+    select feedback [style]		 copy selection to feedback
+    select bbox				 return the bounding box of the selection
+    select [more | less] box | chunk | region | net [layers]
+				 [de]select chunk/region/net specified by
+				 the lower left corner of the current box
+    select short name1 name2		 find shorting path between two labels
+PROBE selected-instance: ''
+PROBE abutment-after-select: '0 0 71000 71000'
+PROBE box-now: '13097 13097 71000 71000'
+(magic exit status 0)
+
+##### end
+finished normally

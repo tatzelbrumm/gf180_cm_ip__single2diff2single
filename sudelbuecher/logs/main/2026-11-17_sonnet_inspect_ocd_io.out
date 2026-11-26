@@ -1,0 +1,302 @@
+
+##### 1. who, PDK_ROOT, tools
+$ date -u +%Y-%m-%dT%H:%M:%SZ
+2026-11-17T20:30:02Z
+$ whoami
+designer
+PDK_ROOT=/foss/pdks  PDK=gf180mcuD  PDKPATH=/foss/pdks/gf180mcuD
+/foss/pdks is NOT writable by this user
+$ command -v magic
+/foss/tools/bin/magic
+$ command -v klayout
+/foss/tools/klayout/klayout
+$ command -v ciel
+/usr/local/bin/ciel
+$ ciel --version
+Ciel v2.6.1 ©2022-2025 Efabless Corporation and Contributors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this program except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+##### 2. gf180mcu_ocd_io copies (names containing ocd_io)
+--- below /foss/pdks (max depth 8):
+/foss/pdks/ciel/gf180mcu/versions/1689ac3f2dc763876eaf967227c7dfe831b031ae/gf180mcuD/libs.tech/librelane/gf180mcu_ocd_io
+--- below /foss/designs (max depth 2):
+/foss/designs/gf180mcu_ocd_io
+--- the PDK's libs.ref (the place the scripts look in is libs.ref/gf180mcu_ocd_io):
+$ ls -la /foss/pdks/gf180mcuD/libs.ref
+total 28
+drwxr-xr-x  7 root root 4096 Oct 15 14:49 .
+drwxr-xr-x  5 root root 4096 Oct 15 14:49 ..
+drwxr-xr-x 11 root root 4096 Oct 15 14:49 gf180mcu_fd_io
+drwxr-xr-x 10 root root 4096 Oct 15 14:49 gf180mcu_fd_ip_sram
+drwxr-xr-x  4 root root 4096 Oct 15 14:49 gf180mcu_fd_pr
+drwxr-xr-x 11 root root 4096 Oct 15 14:49 gf180mcu_fd_sc_mcu7t5v0
+drwxr-xr-x 11 root root 4096 Oct 15 14:49 gf180mcu_fd_sc_mcu9t5v0
+
+##### 3. installed ciel PDK versions
+$ ls -la /foss/pdks/ciel
+total 16
+drwxr-xr-x 4 root root 4096 Oct 15 14:49 .
+drwxr-xr-x 1 root root 4096 Oct 15 14:50 ..
+drwxr-xr-x 3 root root 4096 Oct 15 14:49 gf180mcu
+drwxr-xr-x 3 root root 4096 Oct 15 14:48 sky130
+$ ls -la /foss/pdks/ciel/gf180mcu/versions
+total 12
+drwxr-xr-x 3 root root 4096 Oct 15 14:49 .
+drwxr-xr-x 3 root root 4096 Oct 15 14:49 ..
+drwxr-xr-x 3 root root 4096 Oct 15 14:49 1689ac3f2dc763876eaf967227c7dfe831b031ae
+$ cat /foss/pdks/versions.txt
+Python 3.10.12
+openvaf 23.5.0
+ngspice 43
+Xyce 7.8-opensource
+xschem 3.4.6
+qucs-s s25.2.0
+klayout 0.30.5
+openEMS v0.0.35-108-gc651cce
+magic 8.3.589
+
+##### 4. how the Chipalooza scripts name the pad library and PDK_ROOT
+--- scripts/ folder:
+$ ls -la /foss/designs/gf180mcu_ocd_chipalooza/scripts
+total 424
+drwxrwxr-x  2 designer designers  4096 Nov 17 18:30 .
+drwxrwxr-x 14 designer designers  4096 Nov 17 18:30 ..
+-rwxrwxr-x  1 designer designers  3112 Nov  3 15:29 amp_topo.py
+-rwxrwxr-x  1 designer designers  4163 Nov  3 15:29 bandgap_trim_sweep.sh
+-rwxrwxr-x  1 designer designers  2939 Nov  3 15:29 cap_values.py
+-rwxrwxr-x  1 designer designers  9454 Nov  3 15:29 check_staleness.py
+-rw-rw-r--  1 designer designers  1967 Nov  3 15:29 chipalooza_frame_wrapper_template.v
+-rwxrwxr-x  1 designer designers  2939 Nov  3 15:29 find_subst_damage.py
+-rwxrwxr-x  1 designer designers 23383 Nov  3 15:29 generate_fill.py
+-rw-r--r--  1 designer designers 39251 Nov 17 18:30 gen_padframe.tcl
+-rwxrwxr-x  1 designer designers 37684 Nov  3 15:29 gen_padframe_template.tcl
+-rwxrwxr-x  1 designer designers 29205 Nov  3 15:29 gen_xschem_sym.py
+-rwxrwxr-x  1 designer designers 13656 Nov  3 15:29 get_project_gds.sh
+-rwxrwxr-x  1 designer designers 16378 Nov  3 15:29 get_projects.sh
+-rw-rw-r--  1 designer designers 24536 Nov  3 15:29 gf180mcu_padframe_template.v
+-rw-rw-r--  1 designer designers  1259 Nov  3 15:29 layout_setup.tcl
+-rwxrwxr-x  1 designer designers 23545 Nov  3 15:29 parse_config.py
+-rwxrwxr-x  1 designer designers 15365 Nov  3 15:29 port_from_ihp.py
+-rwxrwxr-x  1 designer designers 20469 Nov  3 15:29 port_voltgen_cace.sh
+-rwxrwxr-x  1 designer designers   914 Nov  3 15:29 run_clean.sh
+-rwxrwxr-x  1 designer designers   773 Nov  3 15:29 run_gen_ctrl_def.sh
+-rw-rw-r--  1 designer designers 11294 Nov  3 15:29 run_gen_ctrl_def.tcl
+-rwxrwxr-x  1 designer designers  1812 Nov  3 15:29 run_gen_filled_final_gds.sh
+-rwxrwxr-x  1 designer designers   792 Nov  3 15:29 run_gen_hk_def.sh
+-rw-rw-r--  1 designer designers 22141 Nov  3 15:29 run_gen_hk_def.tcl
+-rwxrwxr-x  1 designer designers  1082 Nov  3 15:29 run_gen_padframe.sh
+-rwxrwxr-x  1 designer designers  1856 Nov  3 15:29 run_gen_prefill_gds.sh
+-rwxrwxr-x  1 designer designers  4543 Nov  3 15:29 run_gen_user_wrappers.sh
+-rwxrwxr-x  1 designer designers  1077 Nov  3 15:29 run_gen_wrapper_gds.sh
+-rwxrwxr-x  1 designer designers  1679 Nov  3 15:29 run_gen_xschem_syms.sh
+-rwxrwxr-x  1 designer designers 20738 Nov  3 15:29 set_user_id.py
+-rwxrwxr-x  1 designer designers   886 Nov  3 15:29 tech_change.py
+-rw-rw-r--  1 designer designers  1780 Nov  3 15:29 text.tcl
+-rw-rw-r--  1 designer designers 15010 Nov  3 15:29 user_project_control_def.mag
+--- lines mentioning ocd_io, addpath, PDK_ROOT or PDKPATH in scripts/*.tcl scripts/*.sh scripts/*.py (max 60):
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:35:puts stdout "Adding path $::env(PDK_ROOT)/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag"
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:36:addpath $::env(PDK_ROOT)/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:37:addpath $::env(PDK_ROOT)/gf180mcuD/libs.ref/gf180mcu_ocd_alpha_misc/mag
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:38:addpath $::env(PDK_ROOT)/gf180mcuD/libs.ref/gf180mcu_ocd_alpha_large/mag
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:39:addpath $::env(PDK_ROOT)/gf180mcuD/libs.ref/gf180mcu_ocd_alpha_small/mag
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:59:# gf180mcu_ocd_io library, so this variable remains unused except as
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:234:    getcell gf180mcu_ocd_io__fill10x
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:247:    getcell gf180mcu_ocd_io__fill10x 90
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:260:    getcell gf180mcu_ocd_io__fill10x 270
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:273:    getcell gf180mcu_ocd_io__fill10x 180
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:290:        place_pad_bottom spacer_${idx}${letter}	gf180mcu_ocd_io__fill10
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:293:    place_pad_bottom spacer_${idx}${letter}	gf180mcu_ocd_io__fill5
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:296:    place_pad_bottom spacer_${idx}${letter}	gf180mcu_ocd_io__fill1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:299:    place_pad_bottom spacer_${idx}${letter}	gf180mcu_ocd_io__fill1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:303:        place_pad_bottom spacer_${idx}${letter}	gf180mcu_ocd_io__fill1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:310:        place_pad_right spacer_${idx}${letter}	gf180mcu_ocd_io__fill10
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:314:	place_pad_right spacer_${idx}${letter}	gf180mcu_ocd_io__brk5
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:317:	place_pad_right spacer_${idx}${letter}	gf180mcu_ocd_io__fill5
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:322:        place_pad_right spacer_${idx}${letter}	gf180mcu_ocd_io__fill1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:329:        place_pad_top spacer_${idx}${letter}	gf180mcu_ocd_io__fill10
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:332:    place_pad_top spacer_${idx}${letter}	gf180mcu_ocd_io__fill5
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:335:    place_pad_top spacer_${idx}${letter}	gf180mcu_ocd_io__fill1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:338:    place_pad_top spacer_${idx}${letter}	gf180mcu_ocd_io__fill1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:342:        place_pad_top spacer_${idx}${letter}	gf180mcu_ocd_io__fill1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:349:        place_pad_left spacer_${idx}${letter}	gf180mcu_ocd_io__fill10
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:353:	place_pad_left spacer_${idx}${letter}	gf180mcu_ocd_io__brk5
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:356:	place_pad_left spacer_${idx}${letter}	gf180mcu_ocd_io__fill5
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:361:        place_pad_left spacer_${idx}${letter}	gf180mcu_ocd_io__fill1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:435:place_pad_bottom pad_corner_sw	gf180mcu_ocd_io__cor
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:437:place_pad_bottom pad_SDO 	gf180mcu_ocd_io__bi_24t pad_0
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:439:place_pad_bottom pad_SDI 	gf180mcu_ocd_io__in_c	 pad_1
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:441:place_pad_bottom pad_CSB 	gf180mcu_ocd_io__in_c	 pad_2
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:443:place_pad_bottom pad_SCK 	gf180mcu_ocd_io__in_c 	 pad_3
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:445:place_pad_bottom pad_clk 	gf180mcu_ocd_io__in_c	 pad_4
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:447:place_pad_bottom pad_vddd_0 	gf180mcu_ocd_io__vdd	 pad_5
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:449:place_pad_bottom pad_vddd_1 	gf180mcu_ocd_io__vdd	 pad_6
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:451:place_pad_bottom pad_gpio_0 	gf180mcu_ocd_io__bi_24t pad_7
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:453:place_pad_bottom pad_gpio_1 	gf180mcu_ocd_io__bi_24t pad_8
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:455:place_pad_bottom pad_gpio_2 	gf180mcu_ocd_io__bi_24t pad_9
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:457:place_pad_bottom pad_gpio_3 	gf180mcu_ocd_io__bi_24t pad_10
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:459:place_pad_bottom pad_gpio_4 	gf180mcu_ocd_io__bi_24t pad_11
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:461:place_pad_bottom pad_gpio_5 	gf180mcu_ocd_io__bi_24t pad_12
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:463:place_pad_bottom pad_gpio_6 	gf180mcu_ocd_io__bi_24t pad_13
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:465:place_pad_bottom pad_gpio_7 	gf180mcu_ocd_io__bi_24t pad_14
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:468:place_pad_right	 pad_corner_se	gf180mcu_ocd_io__cor
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:471:place_pad_right	 pad_vdd5v0_0	gf180mcu_ocd_io__dvdd	 pad_15
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:473:place_pad_right	 pad_vdd3v3_0	gf180mcu_ocd_io__vdd	 pad_16
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:475:place_pad_right	 pad_vdd3v3_1	gf180mcu_ocd_io__vdd	 pad_17
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:477:place_pad_right	 pad_s1_an_0	gf180mcu_ocd_io__asig_5p0 		 pad_18
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:479:place_pad_right	 pad_s1_an_1	gf180mcu_ocd_io__asig_5p0 		 pad_19
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:481:place_pad_right	 pad_s2_an_0	gf180mcu_ocd_io__asig_5p0 		 pad_20
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:483:place_pad_right	 pad_s2_an_1	gf180mcu_ocd_io__asig_5p0 		 pad_21
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:485:place_pad_right	 pad_vss5v0_0	gf180mcu_ocd_io__dvss	 pad_22
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:487:place_pad_right	 pad_s3_an_0	gf180mcu_ocd_io__asig_5p0	 	 pad_23
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:489:place_pad_right	 pad_s3_an_1	gf180mcu_ocd_io__asig_5p0	 	 pad_24
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:491:place_pad_right	 pad_s4_an_0	gf180mcu_ocd_io__asig_5p0	 	 pad_25
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:493:place_pad_right	 pad_s4_an_1	gf180mcu_ocd_io__asig_5p0	 	 pad_26
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:495:place_pad_right	 pad_vss3v3_0	gf180mcu_ocd_io__vss 	 pad_27
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:497:place_pad_right	 pad_s5_an_0	gf180mcu_ocd_io__asig_5p0	 	 pad_28
+/foss/designs/gf180mcu_ocd_chipalooza/scripts/gen_padframe.tcl:499:place_pad_right	 pad_s5_an_1	gf180mcu_ocd_io__asig_5p0	 	 pad_29
+--- Makefile lines mentioning PDK_ROOT or setup:
+27:PDK_ROOT ?= /usr/share/pdk
+29:export PDK_ROOT PDK
+56:	@echo "  PDK_ROOT=$(PDK_ROOT)  PDK=$(PDK)"
+67:setup:					## import PDK cell views into magic/ libraries
+68:	./scripts/setup.sh
+163:	 librelane config.yaml --manual-pdk --pdk $(PDK) --pdk-root $(PDK_ROOT)
+
+##### 5. layout of the pad repo and of the Chipalooza magic/ folder
+--- /foss/designs/gf180mcu_ocd_io/magic (first 40 entries) and entry count:
+3lm
+3LM_METAL_RAIL.mag
+3LM_METAL_RAIL_PAD_60.mag
+4lm
+4LM_METAL_RAIL.mag
+4LM_METAL_RAIL_PAD_60.mag
+5LM_METAL_RAIL.mag
+5LM_METAL_RAIL_PAD_60.mag
+Bondpad_3LM.mag
+Bondpad_4LM.mag
+Bondpad_5LM.mag
+comp018green_esd_cdm.mag
+comp018green_esd_clamp_v5p0_1.mag
+comp018green_esd_clamp_v5p0_2.mag
+comp018green_esd_clamp_v5p0_DVDD.mag
+comp018green_esd_clamp_v5p0_DVSS.mag
+comp018green_esd_hbm.mag
+comp018green_esd_rc_v5p0_1.mag
+comp018green_esd_rc_v5p0.mag
+comp018green_in_cms_smt.mag
+comp018green_in_drv.mag
+comp018green_in_logic_pupd.mag
+comp018green_inpath_cms_smt.mag
+comp018green_in_pupd.mag
+comp018green_out_drv_nleg_4T.mag
+comp018green_out_drv_nleg_6T.mag
+comp018green_out_drv_pleg_4T_X.mag
+comp018green_out_drv_pleg_4T_Y.mag
+comp018green_out_drv_pleg_6T_X.mag
+comp018green_out_drv_pleg_6T_Y.mag
+comp018green_out_paddrv_16T.mag
+comp018green_out_paddrv_24T.mag
+comp018green_out_paddrv_4T_NMOS_GROUP.mag
+comp018green_out_paddrv_4T_PMOS_GROUP.mag
+comp018green_out_paddrv_6T_NMOS_GROUP.mag
+comp018green_out_paddrv_6T_PMOS_GROUP.mag
+comp018green_out_predrv.mag
+comp018green_out_sigbuf_a.mag
+comp018green_out_sigbuf_oe.mag
+comp018green_sigbuf_1.mag
+118
+--- where the .mag files of the signal pads are (asig_5p0, bi_24t):
+/foss/designs/gf180mcu_ocd_io/magic/4lm/gf180mcu_ocd_io__bi_24t.mag
+/foss/designs/gf180mcu_ocd_io/magic/4lm/gf180mcu_ocd_io__asig_5p0.mag
+/foss/designs/gf180mcu_ocd_io/magic/gf180mcu_ocd_io__bi_24t.mag
+/foss/designs/gf180mcu_ocd_io/magic/3lm/gf180mcu_ocd_io__bi_24t.mag
+/foss/designs/gf180mcu_ocd_io/magic/3lm/gf180mcu_ocd_io__asig_5p0.mag
+/foss/designs/gf180mcu_ocd_io/magic/gf180mcu_ocd_io__asig_5p0.mag
+--- /foss/designs/gf180mcu_ocd_io/magic/5lm (first 30 entries):
+--- /foss/designs/gf180mcu_ocd_io/scripts:
+convert2.py
+convert.py
+--- /foss/designs/gf180mcu_ocd_chipalooza/magic (first 60 entries), its README, and any .magicrc:
+total 14320
+drwxrwxr-x  5 designer designers     4096 Nov 17 18:03 .
+drwxrwxr-x 14 designer designers     4096 Nov 17 18:30 ..
+-rw-rw-r--  1 designer designers    30773 Nov  3 15:29 analog_switch_array.mag
+-rw-rw-r--  1 designer designers     6478 Nov  3 15:29 caravel_logo.mag
+-rw-rw-r--  1 designer designers     2021 Nov  3 15:29 caravel_motto.mag
+-rw-rw-r--  1 designer designers     1739 Nov  3 15:29 center_column_route.mag
+-rw-rw-r--  1 designer designers    14076 Nov  3 15:29 central_column.mag
+-rw-rw-r--  1 designer designers   178572 Nov  3 15:29 chipalooza_frame.mag
+-rw-rw-r--  1 designer designers     1433 Nov  3 15:29 constant_block_hrouted.mag
+-rw-rw-r--  1 designer designers     2989 Nov  3 15:29 constant_block.mag
+-rw-rw-r--  1 designer designers      963 Nov  3 15:29 constant_block_vrouted.mag
+-rw-rw-r--  1 designer designers     7040 Nov  3 15:29 copyright_block.mag
+-rw-rw-r--  1 designer designers    10430 Nov  3 15:29 gf180mcu_ocd_chipalooza.mag
+-rw-rw-r--  1 designer designers   473424 Nov  3 15:29 gf180mcu_ocd_io__fill10x.mag
+-rw-rw-r--  1 designer designers   473686 Nov  3 15:29 gf180mcu_ocd_io__fill10y.mag
+-rw-rw-r--  1 designer designers   473524 Nov  3 15:29 gf180mcu_ocd_io__fill10z.mag
+-rw-rw-r--  1 designer designers   471891 Nov  3 15:29 GF_NI_FILL10_0pass.mag
+-rw-rw-r--  1 designer designers   471892 Nov  3 15:29 GF_NI_FILL10_0short.mag
+-rw-rw-r--  1 designer designers    85354 Nov  3 15:29 GF_NI_FILL10_1pass.mag
+-rw-rw-r--  1 designer designers    85352 Nov  3 15:29 GF_NI_FILL10_1short.mag
+-rw-rw-r--  1 designer designers      697 Nov  3 15:29 horz_connects.mag
+-rw-rw-r--  1 designer designers     1503 Nov  3 15:29 horz_power_connect.mag
+-rw-rw-r--  1 designer designers    38012 Nov  3 15:29 housekeeping_top_def.mag
+-rw-rw-r--  1 designer designers 11196972 Nov  3 15:29 housekeeping_top.mag
+-rw-rw-r--  1 designer designers     8503 Nov  3 15:29 padframe_pins.mag
+drwxrwxr-x  2 designer designers     4096 Nov  3 15:29 paramcells
+-rw-rw-r--  1 designer designers    43003 Nov  3 15:29 project_control_area.mag
+-rw-rw-r--  1 designer designers      208 Nov  3 15:29 README
+-rwxrwxr-x  1 designer designers     1201 Nov  3 15:29 run_extract_chipalooza_frame.sh
+-rwxrwxr-x  1 designer designers     1527 Nov  3 15:29 run_extract_chipalooza_top.sh
+-rwxrwxr-x  1 designer designers      631 Nov  3 15:29 run_extract_padframe.sh
+drwxrwxr-x  2 designer designers     4096 Nov  3 15:29 sealring
+-rw-rw-r--  1 designer designers     6836 Nov  3 15:29 slot10_wrapper.mag
+-rw-rw-r--  1 designer designers     7162 Nov  3 15:29 slot11_wrapper.mag
+-rw-rw-r--  1 designer designers     7004 Nov  3 15:29 slot12_wrapper.mag
+-rw-rw-r--  1 designer designers     6972 Nov  3 15:29 slot13_wrapper.mag
+-rw-rw-r--  1 designer designers     6877 Nov  3 15:29 slot14_wrapper.mag
+-rw-rw-r--  1 designer designers     7164 Nov  3 15:29 slot15_wrapper.mag
+-rw-rw-r--  1 designer designers     6747 Nov  3 15:29 slot16_wrapper.mag
+-rw-rw-r--  1 designer designers     7275 Nov  3 15:29 slot17_wrapper.mag
+-rw-rw-r--  1 designer designers     6751 Nov  3 15:29 slot18_wrapper.mag
+-rw-rw-r--  1 designer designers     5971 Nov  3 15:29 slot1_wrapper.mag
+-rw-rw-r--  1 designer designers     6624 Nov  3 15:29 slot2_wrapper.mag
+-rw-rw-r--  1 designer designers     5971 Nov  3 15:29 slot3_wrapper.mag
+-rw-rw-r--  1 designer designers     6498 Nov  3 15:29 slot4_wrapper.mag
+-rw-rw-r--  1 designer designers     6146 Nov  3 15:29 slot5_wrapper.mag
+-rw-rw-r--  1 designer designers     6263 Nov  3 15:29 slot6_wrapper.mag
+-rw-rw-r--  1 designer designers     6317 Nov  3 15:29 slot7_wrapper.mag
+-rw-rw-r--  1 designer designers     6510 Nov  3 15:29 slot8_wrapper.mag
+-rw-rw-r--  1 designer designers     6081 Nov  3 15:29 slot9_wrapper.mag
+-rw-rw-r--  1 designer designers    24861 Nov  3 15:29 user_id_programming.mag
+-rw-rw-r--  1 designer designers    15638 Nov  3 15:29 user_id_routing.mag
+-rw-rw-r--  1 designer designers     1047 Nov  3 15:29 user_id_textblock.mag
+-rw-rw-r--  1 designer designers      790 Nov  3 15:29 user_id_vias.mag
+-rw-rw-r--  1 designer designers      824 Nov  3 15:29 user_id_vias_zero.mag
+-rw-rw-r--  1 designer designers    15014 Nov  3 15:29 user_project_control_def.mag
+-rw-rw-r--  1 designer designers   266130 Nov  3 15:29 user_project_control.mag
+-rw-rw-r--  1 designer designers     1733 Nov  3 15:29 vert_connects.mag
+-rw-rw-r--  1 designer designers     2490 Nov  3 15:29 vert_power_connect.mag
+$ cat /foss/designs/gf180mcu_ocd_chipalooza/magic/README
+Be sure to source ../scripts/layout_setup.tcl before opening a layout.
+
+This will resolve all paths.
+
+The script can be run at any time, but running it first keeps magic
+from griping about not finding cells.
+ls: cannot access '/foss/designs/gf180mcu_ocd_chipalooza/magic/.magicrc': No such file or directory
+ls: cannot access '/foss/designs/gf180mcu_ocd_chipalooza/.magicrc': No such file or directory
+
+##### end
+finished normally

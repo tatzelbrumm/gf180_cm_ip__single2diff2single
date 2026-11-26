@@ -1,0 +1,11 @@
+--- a/database/DBio.c	2026-11-19 03:27:09.058724209 +0100
++++ b/database/DBio.c	2026-11-19 03:27:09.060412483 +0100
+@@ -1471,7 +1471,7 @@
+     FILETYPE f = NULL;
+     int fd;
+     char *filename, *realname, *savename;
+-    bool is_locked;
++    bool is_locked = FALSE;
+ 
+ #ifdef FILE_LOCKS
+     if (cellDef->cd_fd >= 0)
