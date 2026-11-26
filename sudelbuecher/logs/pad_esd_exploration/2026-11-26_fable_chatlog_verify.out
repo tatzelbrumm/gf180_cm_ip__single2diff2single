@@ -12,3 +12,7 @@ records that carry text from outside the assistant, by origin:
   queued, origin human | characters 66 | counted by the verifier: yes | in the log: True
   user record, origin human | meta False | characters 534 | counted by the verifier: yes | in the log: True
   user record, origin peer | meta True | characters 32308 | counted by the verifier: no | in the log: False
+
+note on "found in the log 2": one shared stretch of 41 characters (2 windows of 40) between the log and one reasoning block
+(record 2026-11-26T14:02:25.880Z, 206 characters): the folder path `sudelbuecher/logs/pad_esd_exploration/` in backticks plus one
+neighbouring character, in the visible reply at log line 1764. Located by script; the reasoning text itself was not printed.

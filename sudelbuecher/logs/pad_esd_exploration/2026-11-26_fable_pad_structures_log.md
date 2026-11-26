@@ -344,7 +344,13 @@ The chat log was rebuilt from the grown transcript with the same tools after the
   `tools/extract_handbacks.py` (extended for the third record form).
 - The first message of the log, labelled "User" by the exporter, has origin `task-notification` in the transcript: it is
   the seed prompt with which another session created this one, not a message typed by Christoph in this session.
-- By the rule of `session_chatlog.sh` the check still does not pass (2 missing); no reasoning text was found in the log.
+- **The reasoning check reports 2 windows "found in the log".** I located them without printing reasoning text: one
+  shared stretch of 41 characters, the folder path `sudelbuecher/logs/pad_esd_exploration/` in backticks plus one
+  neighbouring character, in my visible reply at the end of turn 1 (log line 1764). The same path was also written in a
+  reasoning block (record of 14:02:25 UTC, 206 characters long). The exporter never reads reasoning blocks; the
+  overlap is a path that occurs in both places. I did not alter the log, because the reply is verbatim.
+- By the rule of `session_chatlog.sh` the check does not pass on both counts (2 missing, 2 windows found). What the
+  counts stand for is stated above; Christoph decides whether that is acceptable.
 
 ## Not checked (summary)
 
