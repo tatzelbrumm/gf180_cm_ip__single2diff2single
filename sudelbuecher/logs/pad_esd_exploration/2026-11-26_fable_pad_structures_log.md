@@ -352,6 +352,28 @@ The chat log was rebuilt from the grown transcript with the same tools after the
 - By the rule of `session_chatlog.sh` the check does not pass on both counts (2 missing, 2 windows found). What the
   counts stand for is stated above; Christoph decides whether that is acceptable.
 
+## 21. Chat logs of the subagents
+
+Christoph asked whether I may export the logs of the agents I spawned, and then asked for them, "as well as of
+subsequent ones". Standing instruction for this work: every subagent's log is exported too.
+
+- The subagent transcripts are in `~/.claude/projects/<project>/<session>/subagents/agent-<id>.jsonl` (three files, 0.33 to
+  1.5 MB). `tools/export_subagent_logs.py` copies each aside, runs this branch's `export_chatlog.py` on it unchanged and
+  checks the result with B's `verify_chatlog.py`. Files are named by task and numbered in the order the subagents
+  started; the internal agent ids are not in the names, headers or bodies (checked by the script).
+- Result (`2026-11-26_fable_subagent_chatlogs_verify.out`): all three logs have 0 texts missing and 0 reasoning windows.
+
+      2026-11-26_fable_pad_structures_subagent_1_ihp_parametric_cells_survey.md | started 2026-11-26T14:01:53Z | turns 1 bytes 27594 | live path : texts 1 missing 0 | off the live path : texts 0 missing 0 | thinking blocks 30 with text 
+      2026-11-26_fable_pad_structures_subagent_2_extract_evampire_esd_page_claims.md | started 2026-11-26T14:01:54Z | turns 1 bytes 19718 | live path : texts 2 missing 0 | off the live path : texts 0 missing 0 | thinking blocks 3 with t
+      2026-11-26_fable_pad_structures_subagent_3_public_gf180_esd_sources_search.md | started 2026-11-26T14:46:48Z | turns 1 bytes 42695 | live path : texts 1 missing 0 | off the live path : texts 0 missing 0 | thinking blocks 64 with t
+
+- What the logs hold: the brief I wrote (shown as "User" by the exporter; the title and the index say whose it is), the
+  subagent's visible text, a one-line summary per tool call, shell commands verbatim. Tool outputs are omitted, so no
+  fetched page text is copied. The final reports went back through a hand-back call and are the `subagent_report_*`
+  files of this folder. The numbers differ: reports are numbered by arrival (1 evampire, 2 IHP, 3 public sources),
+  chat logs by start (1 IHP, 2 evampire, 3 public sources); the index lines pair them.
+- The rule is not yet written into the `CLAUDE.md` of this branch; I did not edit that file.
+
 ## Not checked (summary)
 
 No extraction or LVS of a pad cell. No ESD or clamp simulation. No layout dimensions of `comp018green_esd_cdm`, the

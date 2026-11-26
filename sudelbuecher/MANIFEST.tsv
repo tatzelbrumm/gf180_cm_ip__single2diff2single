@@ -32,3 +32,8 @@ sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md	2026
 sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out	2026-11-26T15:18:58Z	1246	rebuilt: verify_chatlog.py on the rebuilt chat log, plus a listing of outside-text records by origin	-
 sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_3_public_gf180_esd_sources_search.md	2026-11-26T15:18:29Z	32796	tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)	-
 sudelbuecher/logs/pad_esd_exploration/tools/extract_handbacks.py	2026-11-26T15:18:29Z	2965	extended in session 01XU3KH8 for hand-backs stored as meta user records	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_subagent_1_ihp_parametric_cells_survey.md	2026-11-26T16:52:55Z	27594	logs/pad_esd_exploration/tools/export_subagent_logs.py (chatlog/export_chatlog.py on the subagent's transcript)	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_subagent_2_extract_evampire_esd_page_claims.md	2026-11-26T16:52:56Z	19718	logs/pad_esd_exploration/tools/export_subagent_logs.py (chatlog/export_chatlog.py on the subagent's transcript)	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_subagent_3_public_gf180_esd_sources_search.md	2026-11-26T16:52:56Z	42695	logs/pad_esd_exploration/tools/export_subagent_logs.py (chatlog/export_chatlog.py on the subagent's transcript)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_chatlogs_verify.out	2026-11-26T16:53:36Z	1176	output of tools/export_subagent_logs.py (export and verify counts per subagent)	-
+sudelbuecher/logs/pad_esd_exploration/tools/export_subagent_logs.py	2026-11-26T16:52:55Z	3582	written in session 01XU3KH8	-
