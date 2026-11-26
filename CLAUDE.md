@@ -32,6 +32,12 @@ after. Worked without leaving locks on 2026-10-08.
     re-runs it before it ends; the reply being written at that moment is never in the file.
     Fixed in the script: time zone Europe/Berlin, SPDX holder, and the tool names of a cloud session
     linked to this computer (other tools fall back to "Called <tool>").
+  - **Subagents too** (Christoph, 2026-11-26): when a session spawns subagents, their logs are exported as well, each to
+    its own file `<date>_<model>_<topic>_subagent_<n>_<task>.md` with an index entry, by the same exporter from
+    `~/.claude/projects/<project>/<session>/subagents/agent-<id>.jsonl`, and checked (script:
+    `logs/pad_esd_exploration/tools/export_subagent_logs.py`). The message the exporter shows as "User" there is the
+    spawning session's brief: say so in the title and the index entry. Name files by task, not by the internal agent
+    id. A subagent's final report comes back through a hand-back call and is filed verbatim under `logs/<branch>/`.
   - If a verbatim export is not possible: action → result → decision entries in a running
     `log.md` (optionally `log.tex` / `log.pdf`).
   - `chatlog/ref/` — pointers to external sources, one file per session. Index, do not copy.
