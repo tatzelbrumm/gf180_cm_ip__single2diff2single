@@ -7,8 +7,9 @@ Your task is exploration and a written report. You do not design or change any l
 - The user's project is `gf180_cm_ip__single2diff2single` (repository tatzelbrumm/gf180_cm_ip__single2diff2single): a single-ended -> differential -> single-ended
   analog converter between pads for Chipalooza #3 (GlobalFoundries GF180MCU, variant gf180mcuD). It is a port of the IHP design `sg13cmos5l_cm_ip__single2diff2single`.
 - That repository already has notes for agents. Read these first, in this order: `CLAUDE.md`, `docs/IHP_TO_GF180_PORT_MAP.md`, `HANDOVER_gf180_migration.md`,
-  `docs/OPERATING_LIMITS.md`, `docs/GF180_PROCESS_OPTIONS.md`. Follow the rules in `CLAUDE.md` (it contains git rules for the user's local setup; if one cannot
-  apply in a cloud session, say so and ask, do not improvise).
+  `docs/OPERATING_LIMITS.md`, `docs/GF180_PROCESS_OPTIONS.md`. Follow the rules in `CLAUDE.md`, with one exception, stated by the user: section 3 of `CLAUDE.md`
+  ("Agent git access: off-limits") is for the user's local `~/EDA` setup only. It does NOT apply in a cloud session: here you use git normally, for the two branches named below.
+  The `CLAUDE.md` you read is the one in the checkout of the branch `pad_esd_exploration` (the repository's own file; this task does not change it).
 - The notes in CLAUDE.md say the harness repository was empty when written (2026-09-30). The harness now exists: the user's fork is
   github.com/tatzelbrumm/gf180mcu_ocd_chipalooza (upstream RTimothyEdwards/gf180mcu_ocd_chipalooza). Check what the notes assume against what is there.
 
@@ -47,7 +48,8 @@ or only from the evampire page or the chat. Do not copy numbers from the page in
 
 ## Deliverable
 - A written report, `docs/PAD_STRUCTURES.md`, pushed to the branch `pad_esd_exploration` of github.com/tatzelbrumm/gf180_cm_ip__single2diff2single (decided by the user;
-  create the branch from `main`; do not push to `main`). It has: a table of the pad cells; the asig_5p0 netlist as a readable
+  the branch already exists and holds this brief: check it out and add your commits on top of it; never push to `main`, never force-push, never rebase it).
+  It has: a table of the pad cells; the asig_5p0 netlist as a readable
   summary (devices, sizes, nets); a plain-language account of the ESD structure with the verified / inferred / unverified marks; a list of open questions for the user.
 - No changes to layout, schematics, Makefiles or `config.txt`. If you think something is wrong, write it into the report.
 - A short work journal (what you did, what you found, what you could not check) goes next to the report on `pad_esd_exploration`.
