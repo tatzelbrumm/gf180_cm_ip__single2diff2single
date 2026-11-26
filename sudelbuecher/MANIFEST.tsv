@@ -35,3 +35,43 @@ sudelbuecher/logs/main/2026-11-19_opus_magic-is_locked-init.patch	2026-11-19T05:
 sudelbuecher/chatlog/2026-11-13_sonnet-opus_iic_osic_tools_cloud_config_setup.md	2026-11-20T02:15:04Z	343058	chatlog_tools/build_chatlog_claudeai.py (claude-cloud-config sudel_buecher) on _runs/chat_5c75de64-b694-44cf-b1fe-574ef5ad206c.json saved 2026-11-20 03:12 Berlin (sha256 2ed2a00b...509b); verify_chatlog_claudeai.py: 0 missing, 0 reasoning windows	-
 sudelbuecher/chatlog/ref/2026-11-13_sonnet-opus_references.md	2026-11-20T02:15:04Z	4930	written by the assistant: index of the external sources of the 2026-11-13..20 log (index, do not copy)	-
 sudelbuecher/logs/main/README.md	2026-11-20T02:26:30Z	8903	written by the assistant: index of logs/main/, one line per file (entry it belongs to, what it shows)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_pad_structures_log.md	2026-11-26T14:25:56Z	17330	work journal written by the assistant in session 01XU3KH8 (not a chat log)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_mag_hierarchy.out	2026-11-26T14:14:29Z	21322	tools/magtree.py over the 17 pad cells of $PDK_ROOT/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag (open_pdks e7a6777)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_gds_layers.out	2026-11-26T14:14:30Z	3065	tools/gds_layers.py gf180mcu_ocd_io.gds gf180mcu_ocd_io__asig_5p0 tools/layers.tsv	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_gds_shapes.out	2026-11-26T14:14:31Z	13747	tools/gds_shapes.py on gf180mcu_ocd_io__asig_5p0, layers 115/5 21/0 23/5 37/0 0/0 36/10 166/5 204/0, then 22/0 32/0 31/0 55/0 clipped to y 65..170	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_gds_rings.out	2026-11-26T14:14:31Z	2174	tools/gds_rings.py on gf180mcu_ocd_io__asig_5p0, COMP 22/0 (clip 0,66,75,168) and Nwell 21/0	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_pad_net_metal2.out	2026-11-26T14:15:01Z	2919	inline klayout.db script: cross-sections of the Metal2 polygon of the bond pad net of gf180mcu_ocd_io__asig_5p0	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_diodes_dc_ngspice.out	2026-11-26T14:14:31Z	12374	ngspice-47 -b tools/asig_diodes_dc.spice (typical corner; pad diodes only)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_1_extract_evampire_esd_page_claims.md	2026-11-26T14:26:53Z	16565	tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_2_ihp_parametric_cells_survey.md	2026-11-26T14:26:53Z	21736	tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)	-
+sudelbuecher/logs/pad_esd_exploration/tools/magtree.py	2026-11-26T14:14:28Z	1412	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/gds_layers.py	2026-11-26T14:14:28Z	1050	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/gds_shapes.py	2026-11-26T14:14:28Z	1259	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/gds_rings.py	2026-11-26T14:14:28Z	1395	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/extract_handbacks.py	2026-11-26T14:26:53Z	2558	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/layers.tsv	2026-11-26T14:14:28Z	2279	GDS layer/datatype, name and line of $PDK_ROOT/gf180mcuD/libs.tech/klayout/tech/gf180mcu.lyp (regular expression over the <source> elements)	-
+sudelbuecher/logs/pad_esd_exploration/tools/asig_diodes_dc.spice	2026-11-26T14:14:28Z	1688	written in session 01XU3KH8	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md	2026-11-26T14:28:12Z	98732	chatlog/export_chatlog.py on the transcript of session 01XU3KH8 (live path, through the record that was last when the export ran)	-
+sudelbuecher/chatlog/ref/2026-11-26_fable_pad_structures_and_esd_exploration.md	2026-11-26T14:28:12Z	2778	written in session 01XU3KH8 (pointers to external sources)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out	2026-11-26T14:28:12Z	714	verify_chatlog.py of the harness fork's sudel_buecher on the chat log, plus a listing of the queued records by origin	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_klayout_drc_pads.out	2026-11-26T14:57:38Z	2646	KLayout DRC with the PDK deck on each pad cell alone (tools/klayout_split_pads.py, tools/klayout_drc_pads.sh), plus violation categories and the density rule texts	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_klayout_lvs_pads.out	2026-11-26T14:57:19Z	6661	KLayout LVS with the PDK deck called directly (tools/klayout_lvs_pad.sh) on the pad cells, extracted netlists and a model comparison	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_kpex_asig.out	2026-11-26T14:57:19Z	2868	kpex 0.6.8 --pdk gf180mcuD --2.5D on gf180mcu_ocd_io__asig_5p0: netlist CSV and warnings	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_klayout_pcell_load.out	2026-11-26T14:57:23Z	1187	klayout -b -r tools/klayout_pcell_load_test.py without and with USER set	-
+sudelbuecher/logs/pad_esd_exploration/tools/klayout_split_pads.py	2026-11-26T14:57:19Z	591	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/klayout_drc_pads.sh	2026-11-26T14:57:19Z	754	written in session 01XU3KH8 (filed copy, paths as arguments)	-
+sudelbuecher/logs/pad_esd_exploration/tools/klayout_lvs_pad.sh	2026-11-26T14:57:19Z	1106	written in session 01XU3KH8 (filed copy, paths as arguments)	-
+sudelbuecher/logs/pad_esd_exploration/tools/klayout_pcell_load_test.py	2026-11-26T14:57:19Z	872	written in session 01XU3KH8	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md	2026-11-26T15:18:58Z	207186	rebuilt: chatlog/export_chatlog.py on the transcript of session 01XU3KH8 after the second part of the session	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out	2026-11-26T15:18:58Z	1246	rebuilt: verify_chatlog.py on the rebuilt chat log, plus a listing of outside-text records by origin	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_3_public_gf180_esd_sources_search.md	2026-11-26T15:18:29Z	32796	tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)	-
+sudelbuecher/logs/pad_esd_exploration/tools/extract_handbacks.py	2026-11-26T15:18:29Z	2965	extended in session 01XU3KH8 for hand-backs stored as meta user records	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_subagent_1_ihp_parametric_cells_survey.md	2026-11-26T16:52:55Z	27594	logs/pad_esd_exploration/tools/export_subagent_logs.py (chatlog/export_chatlog.py on the subagent's transcript)	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_subagent_2_extract_evampire_esd_page_claims.md	2026-11-26T16:52:56Z	19718	logs/pad_esd_exploration/tools/export_subagent_logs.py (chatlog/export_chatlog.py on the subagent's transcript)	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_subagent_3_public_gf180_esd_sources_search.md	2026-11-26T16:52:56Z	42695	logs/pad_esd_exploration/tools/export_subagent_logs.py (chatlog/export_chatlog.py on the subagent's transcript)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_chatlogs_verify.out	2026-11-26T16:53:36Z	1176	output of tools/export_subagent_logs.py (export and verify counts per subagent)	-
+sudelbuecher/logs/pad_esd_exploration/tools/export_subagent_logs.py	2026-11-26T16:52:55Z	3582	written in session 01XU3KH8	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_subagent_4_ieee_abstracts_on_esd_pulse_limits.md	2026-11-26T17:07:18Z	2809	logs/pad_esd_exploration/tools/export_subagent_logs.py (chatlog/export_chatlog.py on the subagent's transcript)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_4_ieee_abstracts_on_esd_pulse_limits.md	2026-11-26T17:07:18Z	2633	tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_esd_whitepaper_quotes.out	2026-11-26T17:06:48Z	2661	quotations located by script in Industry Council White Papers 1 and 2 (pdftotext) and the ESD Association's fundamentals page 5	-
+CLAUDE.md	2026-11-26T17:02:56Z	3956	rule on subagent chat logs added in session 01XU3KH8 on Christoph's instruction	-

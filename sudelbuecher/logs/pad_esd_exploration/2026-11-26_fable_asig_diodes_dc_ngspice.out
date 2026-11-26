@@ -1,0 +1,513 @@
+Warning: diode_pd2nw_06v0: IKR too small - model effect disabled!
+Warning: diode_nd2ps_06v0: IKR too small - model effect disabled!
+
+Note: No compatibility mode selected!
+
+
+Circuit: * gf180mcu_ocd_io__asig_5p0: pad current and capacitance from the pdk models (typical). exploration only.
+
+=== temp -40
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -1.00000e+00
+i(vpad) = 5.404900e-02
+i(vdvdd) = -1.10000e-11
+i(vdvss) = -5.40490e-02
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -8.00000e-01
+i(vpad) = 3.264234e-05
+i(vdvdd) = -1.08000e-11
+i(vdvss) = -3.26423e-05
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -7.00000e-01
+i(vpad) = 3.831182e-07
+i(vdvdd) = -1.07000e-11
+i(vdvss) = -3.83108e-07
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -6.00000e-01
+i(vpad) = 3.532174e-09
+i(vdvdd) = -1.06000e-11
+i(vdvss) = -3.52157e-09
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -5.00000e-01
+i(vpad) = 3.748002e-11
+i(vdvdd) = -1.05000e-11
+i(vdvss) = -2.69799e-11
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -3.00000e-01
+i(vpad) = 5.602407e-12
+i(vdvdd) = -1.03000e-11
+i(vdvss) = 4.697506e-12
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 0.000000e+00
+i(vpad) = 5.000000e-12
+i(vdvdd) = -1.00000e-11
+i(vdvss) = 5.000000e-12
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 2.500000e+00
+i(vpad) = 0.000000e+00
+i(vdvdd) = -7.50000e-12
+i(vdvss) = 7.500000e-12
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.000000e+00
+i(vpad) = -4.99867e-12
+i(vdvdd) = -5.00000e-12
+i(vdvss) = 1.000000e-11
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.300000e+00
+i(vpad) = -5.60263e-12
+i(vdvdd) = -4.69916e-12
+i(vdvss) = 1.030000e-11
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.500000e+00
+i(vpad) = -2.26024e-11
+i(vdvdd) = 1.210027e-11
+i(vdvss) = 1.050000e-11
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.600000e+00
+i(vpad) = -2.34187e-09
+i(vdvdd) = 2.331268e-09
+i(vdvss) = 1.060000e-11
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.700000e+00
+i(vpad) = -3.21951e-07
+i(vdvdd) = 3.219404e-07
+i(vdvss) = 1.070000e-11
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.800000e+00
+i(vpad) = -3.68920e-05
+i(vdvdd) = 3.689201e-05
+i(vdvss) = 1.080000e-11
+Doing analysis at TEMP = -40.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 6.000000e+00
+i(vpad) = -8.88599e-02
+i(vdvdd) = 8.885985e-02
+i(vdvss) = 1.100000e-11
+=== temp 27
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -1.00000e+00
+i(vpad) = 2.049239e-01
+i(vdvdd) = -1.10006e-11
+i(vdvss) = -2.04924e-01
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -8.00000e-01
+i(vpad) = 2.071522e-03
+i(vdvdd) = -1.08006e-11
+i(vdvss) = -2.07152e-03
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -7.00000e-01
+i(vpad) = 8.525901e-05
+i(vdvdd) = -1.07006e-11
+i(vdvss) = -8.52590e-05
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -6.00000e-01
+i(vpad) = 2.832270e-06
+i(vdvdd) = -1.06006e-11
+i(vdvss) = -2.83226e-06
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -5.00000e-01
+i(vpad) = 7.692298e-08
+i(vdvdd) = -1.05006e-11
+i(vdvss) = -7.69125e-08
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -3.00000e-01
+i(vpad) = 5.636414e-11
+i(vdvdd) = -1.03006e-11
+i(vdvss) = -4.60636e-11
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 0.000000e+00
+i(vpad) = 5.000267e-12
+i(vdvdd) = -1.00006e-11
+i(vdvss) = 5.000370e-12
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 2.500000e+00
+i(vpad) = 8.881784e-16
+i(vdvdd) = -7.50064e-12
+i(vdvss) = 7.501215e-12
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.000000e+00
+i(vpad) = -5.00044e-12
+i(vdvdd) = -5.00037e-12
+i(vdvss) = 1.000122e-11
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.300000e+00
+i(vpad) = -3.28022e-11
+i(vdvdd) = 2.249983e-11
+i(vdvss) = 1.030122e-11
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.500000e+00
+i(vpad) = -5.87640e-08
+i(vdvdd) = 5.875346e-08
+i(vdvss) = 1.050122e-11
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.600000e+00
+i(vpad) = -2.59692e-06
+i(vdvdd) = 2.596905e-06
+i(vdvss) = 1.060122e-11
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.700000e+00
+i(vpad) = -9.37285e-05
+i(vdvdd) = 9.372845e-05
+i(vdvss) = 1.070122e-11
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.800000e+00
+i(vpad) = -2.69510e-03
+i(vdvdd) = 2.695096e-03
+i(vdvss) = 1.080122e-11
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 6.000000e+00
+i(vpad) = -2.34990e-01
+i(vdvdd) = 2.349900e-01
+i(vdvss) = 1.100122e-11
+=== temp 125
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -1.00000e+00
+i(vpad) = 4.901831e-01
+i(vdvdd) = -9.97141e-11
+i(vdvss) = -4.90183e-01
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -8.00000e-01
+i(vpad) = 8.578883e-02
+i(vdvdd) = -9.95141e-11
+i(vdvss) = -8.57888e-02
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -7.00000e-01
+i(vpad) = 1.147678e-02
+i(vdvdd) = -9.94141e-11
+i(vdvss) = -1.14768e-02
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -6.00000e-01
+i(vpad) = 9.479518e-04
+i(vdvdd) = -9.93141e-11
+i(vdvss) = -9.47952e-04
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -5.00000e-01
+i(vpad) = 7.617629e-05
+i(vdvdd) = -9.92141e-11
+i(vdvss) = -7.61762e-05
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = -3.00000e-01
+i(vpad) = 3.671270e-07
+i(vdvdd) = -9.90141e-11
+i(vdvss) = -3.67028e-07
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 0.000000e+00
+i(vpad) = 4.582041e-11
+i(vdvdd) = -9.87141e-11
+i(vdvss) = 5.289365e-11
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 2.500000e+00
+i(vpad) = -5.26148e-11
+i(vdvdd) = -9.62139e-11
+i(vdvss) = 1.488293e-10
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.000000e+00
+i(vpad) = -9.84368e-11
+i(vdvdd) = -5.28937e-11
+i(vdvss) = 1.513296e-10
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.300000e+00
+i(vpad) = -2.38763e-07
+i(vdvdd) = 2.386112e-07
+i(vdvss) = 1.516296e-10
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.500000e+00
+i(vpad) = -6.15553e-05
+i(vdvdd) = 6.155512e-05
+i(vdvss) = 1.518296e-10
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.600000e+00
+i(vpad) = -7.94727e-04
+i(vdvdd) = 7.947265e-04
+i(vdvss) = 1.519296e-10
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.700000e+00
+i(vpad) = -1.00394e-02
+i(vdvdd) = 1.003942e-02
+i(vdvss) = 1.520296e-10
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.800000e+00
+i(vpad) = -7.76164e-02
+i(vdvdd) = 7.761642e-02
+i(vdvss) = 1.521296e-10
+Doing analysis at TEMP = 125.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 6.000000e+00
+i(vpad) = -4.35599e-01
+i(vdvdd) = 4.355991e-01
+i(vdvss) = 1.523296e-10
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+1/i(vr) = -4.48942e+02
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 1.000000e+00,0.000000e+00
+imag(i(vpad))/(-2*pi*1e6) = 9.635728e-13
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 1.000000e+00,0.000000e+00
+imag(i(vpad))/(-2*pi*1e6) = 8.130977e-13
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 1.000000e+00,0.000000e+00
+imag(i(vpad))/(-2*pi*1e6) = 8.036377e-13
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 1.000000e+00,0.000000e+00
+imag(i(vpad))/(-2*pi*1e6) = 9.593902e-13
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+=== DVDD = 0 V (unpowered ring), pad 0.3..1 V
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 3.000000e-01
+i(vpad) = -2.78011e-11
+i(vdvdd) = 2.750020e-11
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 5.000000e-01
+i(vpad) = -5.87590e-08
+i(vdvdd) = 5.875846e-08
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 6.000000e-01
+i(vpad) = -2.59691e-06
+i(vdvdd) = 2.596910e-06
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 7.000000e-01
+i(vpad) = -9.37285e-05
+i(vdvdd) = 9.372846e-05
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 8.000000e-01
+i(vpad) = -2.69510e-03
+i(vdvdd) = 2.695096e-03
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 1.000000e+00
+i(vpad) = -2.34990e-01
+i(vdvdd) = 2.349900e-01
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+No. of Data Rows : 1
+v(pad) = 3.300000e+00
+i(vpad) = -6.84745e+00
+i(vdvdd) = 6.847451e+00
+ngspice-47 done

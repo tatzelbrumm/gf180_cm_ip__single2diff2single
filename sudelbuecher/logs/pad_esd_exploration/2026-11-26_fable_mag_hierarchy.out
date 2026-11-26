@@ -1,0 +1,295 @@
+gf180mcu_ocd_io__asig_5p0 x1  rects:61 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_ASIG_5P0_BASE x1  rects:82065 mvndiff:288 mvndiffc:72 mvndiode:28 mvndiodec:8 mvnmoscap:36 polycontact:72 polysilicon:288
+    comp018green_esd_hbm x1  rects:10892 mvndiode:16 mvndiodec:4 mvpdiode:16 mvpdiodec:4
+
+gf180mcu_ocd_io__bi_a x1  rects:77 ppolyres:1
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_BI_T_BASE x1  rects:21571 mvndiff:112 mvndiffc:28 mvnmoscap:14 pdiode:42 pdiodec:14 polycontact:80 polysilicon:268
+    comp018green_esd_cdm x1  rects:5496 mvndiode:14 mvndiodec:4 mvpdiode:14 mvpdiodec:4 polycontact:40 polysilicon:64 ppolyres:4
+    comp018green_inpath_cms_smt x1  rects:960 pdiode:36 pdiodec:16
+      comp018green_in_cms_smt x1  rects:2985 mvndiff:402 mvndiffc:125 mvpdiff:308 mvpdiffc:95 polycontact:32 polysilicon:192
+      comp018green_in_drv x1  rects:916 mvndiff:96 mvndiffc:30 mvpdiff:106 mvpdiffc:33 ndiff:28 ndiffc:7 pdiff:28 pdiffc:7 polycontact:12 polysilicon:81
+      comp018green_in_logic_pupd x1  rects:268 
+        lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+        lv_nand x2  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+        lv_passgate x2  rects:73 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:2 polysilicon:14
+      comp018green_in_pupd x1  rects:349 mvndiff:12 mvndiffc:6 mvpdiff:18 mvpdiffc:12 polycontact:18 polysilicon:74 ppolyres:8
+      comp018green_sigbuf x4  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+        lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+      lv_inv x4  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    comp018green_out_paddrv_16T x1  rects:877 
+      comp018green_out_paddrv_4T_NMOS_GROUP x1  rects:159 polycontact:16 polysilicon:64
+        comp018green_out_drv_nleg_4T x4  rects:31 mvndiff:12 mvndiffc:3 mvndiffres:4 polysilicon:4
+        GR_NMOS_4T x1  rects:67 
+        nmos_4T_metal_stack x5  rects:3078 
+      comp018green_out_paddrv_4T_PMOS_GROUP x1  rects:5266 polycontact:24 polysilicon:96
+        comp018green_out_drv_pleg_4T_X x4  rects:0 
+        comp018green_out_drv_pleg_4T_Y x4  rects:0 
+        PMOS_4T_metal_stack x7  rects:3271 
+    comp018green_out_predrv x4  rects:1297 mvndiff:322 mvndiffc:102 mvpdiff:70 mvpdiffc:18 polycontact:15 polysilicon:98
+    comp018green_out_sigbuf_a x1  rects:363 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_out_sigbuf_oe x3  rects:366 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_sigbuf_1 x1  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    lv_nand x4  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+
+gf180mcu_ocd_io__bi_t x1  rects:63 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_BI_T_BASE x1  rects:21571 mvndiff:112 mvndiffc:28 mvnmoscap:14 pdiode:42 pdiodec:14 polycontact:80 polysilicon:268
+    comp018green_esd_cdm x1  rects:5496 mvndiode:14 mvndiodec:4 mvpdiode:14 mvpdiodec:4 polycontact:40 polysilicon:64 ppolyres:4
+    comp018green_inpath_cms_smt x1  rects:960 pdiode:36 pdiodec:16
+      comp018green_in_cms_smt x1  rects:2985 mvndiff:402 mvndiffc:125 mvpdiff:308 mvpdiffc:95 polycontact:32 polysilicon:192
+      comp018green_in_drv x1  rects:916 mvndiff:96 mvndiffc:30 mvpdiff:106 mvpdiffc:33 ndiff:28 ndiffc:7 pdiff:28 pdiffc:7 polycontact:12 polysilicon:81
+      comp018green_in_logic_pupd x1  rects:268 
+        lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+        lv_nand x2  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+        lv_passgate x2  rects:73 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:2 polysilicon:14
+      comp018green_in_pupd x1  rects:349 mvndiff:12 mvndiffc:6 mvpdiff:18 mvpdiffc:12 polycontact:18 polysilicon:74 ppolyres:8
+      comp018green_sigbuf x4  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+        lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+      lv_inv x4  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    comp018green_out_paddrv_16T x1  rects:877 
+      comp018green_out_paddrv_4T_NMOS_GROUP x1  rects:159 polycontact:16 polysilicon:64
+        comp018green_out_drv_nleg_4T x4  rects:31 mvndiff:12 mvndiffc:3 mvndiffres:4 polysilicon:4
+        GR_NMOS_4T x1  rects:67 
+        nmos_4T_metal_stack x5  rects:3078 
+      comp018green_out_paddrv_4T_PMOS_GROUP x1  rects:5266 polycontact:24 polysilicon:96
+        comp018green_out_drv_pleg_4T_X x4  rects:0 
+        comp018green_out_drv_pleg_4T_Y x4  rects:0 
+        PMOS_4T_metal_stack x7  rects:3271 
+    comp018green_out_predrv x4  rects:1297 mvndiff:322 mvndiffc:102 mvpdiff:70 mvpdiffc:18 polycontact:15 polysilicon:98
+    comp018green_out_sigbuf_a x1  rects:363 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_out_sigbuf_oe x3  rects:366 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_sigbuf_1 x1  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    lv_nand x4  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+
+gf180mcu_ocd_io__bi_24t x1  rects:61 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_BI_24T_BASE x1  rects:20721 mvndiff:96 mvndiffc:24 mvnmoscap:12 pdiode:42 pdiodec:14 polycontact:72 polysilicon:240
+    comp018green_esd_cdm x1  rects:5496 mvndiode:14 mvndiodec:4 mvpdiode:14 mvpdiodec:4 polycontact:40 polysilicon:64 ppolyres:4
+    comp018green_inpath_cms_smt x1  rects:960 pdiode:36 pdiodec:16
+      comp018green_in_cms_smt x1  rects:2985 mvndiff:402 mvndiffc:125 mvpdiff:308 mvpdiffc:95 polycontact:32 polysilicon:192
+      comp018green_in_drv x1  rects:916 mvndiff:96 mvndiffc:30 mvpdiff:106 mvpdiffc:33 ndiff:28 ndiffc:7 pdiff:28 pdiffc:7 polycontact:12 polysilicon:81
+      comp018green_in_logic_pupd x1  rects:268 
+        lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+        lv_nand x2  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+        lv_passgate x2  rects:73 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:2 polysilicon:14
+      comp018green_in_pupd x1  rects:349 mvndiff:12 mvndiffc:6 mvpdiff:18 mvpdiffc:12 polycontact:18 polysilicon:74 ppolyres:8
+      comp018green_sigbuf x4  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+        lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+      lv_inv x4  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    comp018green_out_paddrv_24T x1  rects:2543 
+      comp018green_out_paddrv_6T_NMOS_GROUP x1  rects:171 polycontact:16 polysilicon:72
+        comp018green_out_drv_nleg_6T x4  rects:31 mvndiff:12 mvndiffc:3 mvndiffres:4 polysilicon:4
+        GR_NMOS x1  rects:81 
+        nmos_metal_stack x5  rects:3434 
+      comp018green_out_paddrv_6T_PMOS_GROUP x1  rects:3191 polycontact:24 polysilicon:96
+        comp018green_out_drv_pleg_6T_X x4  rects:0 
+        comp018green_out_drv_pleg_6T_Y x4  rects:0 
+        PMOS_metal_stack x7  rects:4971 
+    comp018green_out_predrv x4  rects:1297 mvndiff:322 mvndiffc:102 mvpdiff:70 mvpdiffc:18 polycontact:15 polysilicon:98
+    comp018green_out_sigbuf_a x1  rects:363 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_out_sigbuf_oe x3  rects:366 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_sigbuf_1 x1  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    lv_nand x4  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+    tie_poly_res2 x1  rects:71 polycontact:4 polysilicon:16 ppolyres:2
+
+gf180mcu_ocd_io__in_c x1  rects:56 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_IN_C_BASE x1  rects:21454 mvndiff:96 mvndiffc:24 mvnmoscap:12 pdiode:42 pdiodec:14 polycontact:72 polysilicon:240
+    comp018green_esd_cdm x1  rects:5496 mvndiode:14 mvndiodec:4 mvpdiode:14 mvpdiodec:4 polycontact:40 polysilicon:64 ppolyres:4
+    comp018green_inpath_cms_smt x1  rects:960 pdiode:36 pdiodec:16
+      comp018green_in_cms_smt x1  rects:2985 mvndiff:402 mvndiffc:125 mvpdiff:308 mvpdiffc:95 polycontact:32 polysilicon:192
+      comp018green_in_drv x1  rects:916 mvndiff:96 mvndiffc:30 mvpdiff:106 mvpdiffc:33 ndiff:28 ndiffc:7 pdiff:28 pdiffc:7 polycontact:12 polysilicon:81
+      comp018green_in_logic_pupd x1  rects:268 
+        lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+        lv_nand x2  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+        lv_passgate x2  rects:73 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:2 polysilicon:14
+      comp018green_in_pupd x1  rects:349 mvndiff:12 mvndiffc:6 mvpdiff:18 mvpdiffc:12 polycontact:18 polysilicon:74 ppolyres:8
+      comp018green_sigbuf x4  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+        lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+      lv_inv x4  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    comp018green_out_paddrv_16T x1  rects:877 
+      comp018green_out_paddrv_4T_NMOS_GROUP x1  rects:159 polycontact:16 polysilicon:64
+        comp018green_out_drv_nleg_4T x4  rects:31 mvndiff:12 mvndiffc:3 mvndiffres:4 polysilicon:4
+        GR_NMOS_4T x1  rects:67 
+        nmos_4T_metal_stack x5  rects:3078 
+      comp018green_out_paddrv_4T_PMOS_GROUP x1  rects:5266 polycontact:24 polysilicon:96
+        comp018green_out_drv_pleg_4T_X x4  rects:0 
+        comp018green_out_drv_pleg_4T_Y x4  rects:0 
+        PMOS_4T_metal_stack x7  rects:3271 
+    comp018green_out_predrv x4  rects:1297 mvndiff:322 mvndiffc:102 mvpdiff:70 mvpdiffc:18 polycontact:15 polysilicon:98
+    comp018green_out_sigbuf_a x1  rects:363 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_out_sigbuf_oe x3  rects:366 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_sigbuf_1 x1  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    lv_nand x4  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+    tie_poly_res x1  rects:100 polycontact:4 polysilicon:16 ppolyres:2
+
+gf180mcu_ocd_io__in_s x1  rects:56 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_IN_S_BASE x1  rects:21455 mvndiff:96 mvndiffc:24 mvnmoscap:12 pdiode:42 pdiodec:14 polycontact:72 polysilicon:240
+    comp018green_esd_cdm x1  rects:5496 mvndiode:14 mvndiodec:4 mvpdiode:14 mvpdiodec:4 polycontact:40 polysilicon:64 ppolyres:4
+    comp018green_inpath_cms_smt x1  rects:960 pdiode:36 pdiodec:16
+      comp018green_in_cms_smt x1  rects:2985 mvndiff:402 mvndiffc:125 mvpdiff:308 mvpdiffc:95 polycontact:32 polysilicon:192
+      comp018green_in_drv x1  rects:916 mvndiff:96 mvndiffc:30 mvpdiff:106 mvpdiffc:33 ndiff:28 ndiffc:7 pdiff:28 pdiffc:7 polycontact:12 polysilicon:81
+      comp018green_in_logic_pupd x1  rects:268 
+        lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+        lv_nand x2  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+        lv_passgate x2  rects:73 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:2 polysilicon:14
+      comp018green_in_pupd x1  rects:349 mvndiff:12 mvndiffc:6 mvpdiff:18 mvpdiffc:12 polycontact:18 polysilicon:74 ppolyres:8
+      comp018green_sigbuf x4  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+        lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+      lv_inv x4  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    comp018green_out_paddrv_16T x1  rects:877 
+      comp018green_out_paddrv_4T_NMOS_GROUP x1  rects:159 polycontact:16 polysilicon:64
+        comp018green_out_drv_nleg_4T x4  rects:31 mvndiff:12 mvndiffc:3 mvndiffres:4 polysilicon:4
+        GR_NMOS_4T x1  rects:67 
+        nmos_4T_metal_stack x5  rects:3078 
+      comp018green_out_paddrv_4T_PMOS_GROUP x1  rects:5266 polycontact:24 polysilicon:96
+        comp018green_out_drv_pleg_4T_X x4  rects:0 
+        comp018green_out_drv_pleg_4T_Y x4  rects:0 
+        PMOS_4T_metal_stack x7  rects:3271 
+    comp018green_out_predrv x4  rects:1297 mvndiff:322 mvndiffc:102 mvpdiff:70 mvpdiffc:18 polycontact:15 polysilicon:98
+    comp018green_out_sigbuf_a x1  rects:363 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_out_sigbuf_oe x3  rects:366 mvndiff:57 mvndiffc:18 mvpdiff:66 mvpdiffc:21 polycontact:2 polysilicon:14
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    comp018green_sigbuf_1 x1  rects:427 mvndiff:50 mvndiffc:15 mvpdiff:95 mvpdiffc:30 polycontact:2 polysilicon:24
+      lvlshift_up x1  rects:238 mvndiff:30 mvndiffc:9 mvpdiff:30 mvpdiffc:9 polycontact:4 polysilicon:24
+    lv_inv x6  rects:65 ndiff:8 ndiffc:2 pdiff:8 pdiffc:2 polycontact:1 polysilicon:8
+    lv_nand x4  rects:96 ndiff:9 ndiffc:2 pdiff:12 pdiffc:3 polycontact:2 polysilicon:16
+    tie_poly_res x1  rects:100 polycontact:4 polysilicon:16 ppolyres:2
+
+gf180mcu_ocd_io__dvdd x1  rects:59 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_DVDD_BASE x1  rects:80233 mvndiff:32 mvndiffc:8 mvndiode:28 mvndiodec:8 mvnmoscap:4 polycontact:8 polysilicon:32
+    comp018green_esd_clamp_v5p0_DVDD x1  rects:4399 mvndiff:465 mvndiffc:150 mvpdiff:1023 mvpdiffc:330 polycontact:6 polysilicon:112
+      comp018green_esd_rc_v5p0 x1  rects:5453 mvndiff:64 mvndiffc:16 mvnmoscap:8 polycontact:40 polysilicon:160 ppolyres:12
+      nmos_clamp_20_50_4_DVDD x1  rects:34162 mvndiff:336 mvndiffc:84 polycontact:8 polysilicon:336
+
+gf180mcu_ocd_io__dvss x1  rects:59 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_DVSS_BASE x1  rects:75291 mvndiff:32 mvndiffc:8 mvndiode:28 mvndiodec:8 mvnmoscap:4 polycontact:8 polysilicon:32
+    comp018green_esd_clamp_v5p0_DVSS x1  rects:6273 mvndiff:465 mvndiffc:150 mvpdiff:1023 mvpdiffc:330 polycontact:6 polysilicon:112
+      comp018green_esd_rc_v5p0 x1  rects:5453 mvndiff:64 mvndiffc:16 mvnmoscap:8 polycontact:40 polysilicon:160 ppolyres:12
+      nmos_clamp_20_50_4_DVSS x1  rects:35282 mvndiff:336 mvndiffc:84 polycontact:8 polysilicon:336
+
+gf180mcu_ocd_io__vdd x1  rects:59 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_VDD_BASE x1  rects:18371 mvndiff:32 mvndiffc:8 mvndiode:28 mvndiodec:8 mvnmoscap:4 polycontact:8 polysilicon:32
+    comp018green_esd_clamp_v5p0_DVDD x1  rects:4399 mvndiff:465 mvndiffc:150 mvpdiff:1023 mvpdiffc:330 polycontact:6 polysilicon:112
+      comp018green_esd_rc_v5p0 x1  rects:5453 mvndiff:64 mvndiffc:16 mvnmoscap:8 polycontact:40 polysilicon:160 ppolyres:12
+      nmos_clamp_20_50_4_DVDD x1  rects:34162 mvndiff:336 mvndiffc:84 polycontact:8 polysilicon:336
+
+gf180mcu_ocd_io__vss x1  rects:59 
+  5LM_METAL_RAIL_PAD_60 x1  rects:0 
+    5LM_METAL_RAIL x1  rects:147664 
+      4LM_METAL_RAIL x1  rects:113212 
+        3LM_METAL_RAIL x1  rects:94 
+    Bondpad_5LM x1  rects:48158 
+  GF_NI_VSS_BASE x1  rects:19597 mvndiff:32 mvndiffc:8 mvndiode:28 mvndiodec:8 mvnmoscap:4 polycontact:8 polysilicon:32
+    comp018green_esd_clamp_v5p0_DVSS x1  rects:6273 mvndiff:465 mvndiffc:150 mvpdiff:1023 mvpdiffc:330 polycontact:6 polysilicon:112
+      comp018green_esd_rc_v5p0 x1  rects:5453 mvndiff:64 mvndiffc:16 mvnmoscap:8 polycontact:40 polysilicon:160 ppolyres:12
+      nmos_clamp_20_50_4_DVSS x1  rects:35282 mvndiff:336 mvndiffc:84 polycontact:8 polysilicon:336
+
+gf180mcu_ocd_io__cor x1  rects:52 
+  GF_NI_COR_BASE x1  rects:3512 
+    comp018green_esd_clamp_v5p0_1 x1  rects:3767 mvndiff:465 mvndiffc:150 mvpdiff:1023 mvpdiffc:330 polycontact:6 polysilicon:112
+      comp018green_esd_rc_v5p0_1 x1  rects:6177 mvndiff:64 mvndiffc:16 mvnmoscap:8 polycontact:40 polysilicon:160 ppolyres:12
+      nmos_clamp_20_50_4 x1  rects:33357 mvndiff:336 mvndiffc:84 polycontact:8 polysilicon:336
+      top_route x1  rects:2120 
+    comp018green_esd_clamp_v5p0_2 x1  rects:3767 mvndiff:465 mvndiffc:150 mvpdiff:1023 mvpdiffc:330 polycontact:6 polysilicon:112
+      comp018green_esd_rc_v5p0 x1  rects:5453 mvndiff:64 mvndiffc:16 mvnmoscap:8 polycontact:40 polysilicon:160 ppolyres:12
+      nmos_clamp_20_50_4 x1  rects:33357 mvndiff:336 mvndiffc:84 polycontact:8 polysilicon:336
+      top_route_1 x1  rects:2073 
+    moscap_corner x7  rects:3960 mvndiff:64 mvndiffc:16 mvnmoscap:8 polycontact:16 polysilicon:64
+    moscap_corner_1 x1  rects:3042 mvndiff:32 mvndiffc:8 mvnmoscap:4 polycontact:8 polysilicon:32
+    moscap_corner_2 x1  rects:3461 mvndiff:48 mvndiffc:12 mvnmoscap:6 polycontact:12 polysilicon:48
+    moscap_corner_3 x1  rects:3178 mvndiff:32 mvndiffc:8 mvnmoscap:4 polycontact:8 polysilicon:32
+    moscap_routing x1  rects:156526 
+    power_via_cor_3 x1  rects:7189 
+    power_via_cor_5 x1  rects:50282 
+  POWER_RAIL_COR x1  rects:446399 
+    POWER_RAIL_COR_0 x1  rects:452967 
+      POWER_RAIL_COR_1 x1  rects:24445 
+
+gf180mcu_ocd_io__brk2 x1  rects:208 
+  GF_NI_BRK2_0 x1  rects:208 
+    GF_NI_BRK2_1 x1  rects:4032 polycontact:352 polysilicon:1057
+      POLY_FILL x352  rects:0 
+
+gf180mcu_ocd_io__brk5 x1  rects:444 
+  GF_NI_BRK5_0 x1  rects:449 
+    GF_NI_BRK5_1 x1  rects:964 
+      POLY_SUB_FILL_3 x97  rects:31 polycontact:4 polysilicon:10
+
+gf180mcu_ocd_io__fill1 x1  rects:3048 
+  GF_NI_FILL1_0 x1  rects:3048 
+    GF_NI_FILL1_1 x1  rects:469 
+
+gf180mcu_ocd_io__fill5 x1  rects:15535 
+  GF_NI_FILL5_0 x1  rects:9477 
+    GF_NI_FILL5_1 x1  rects:2847 
+      POLY_SUB_FILL x35  rects:147 mvndiff:28 mvndiffc:8 mvnmoscap:2 polycontact:8 polysilicon:20
+
+gf180mcu_ocd_io__fill10 x1  rects:18084 
+  GF_NI_FILL10_0 x1  rects:18084 
+    GF_NI_FILL10_1 x1  rects:3283 
+      POLY_SUB_FILL_1 x16  rects:99 mvndiff:16 mvndiffc:4 mvnmoscap:2 polycontact:3 polysilicon:12
+
+gf180mcu_ocd_io__fillnc x1  rects:26 
+  GF_NI_FILLNC_0 x1  rects:26 
+    GF_NI_FILLNC_1 x1  rects:30 
+

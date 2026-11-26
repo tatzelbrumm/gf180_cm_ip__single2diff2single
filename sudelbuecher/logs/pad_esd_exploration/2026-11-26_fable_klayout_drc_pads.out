@@ -1,0 +1,44 @@
+KLayout DRC, PDK deck (libs.tech/klayout/tech/drc/gf180mcu.drc, open_pdks e7a6777), all rule decks, variant gf180mcuD, deep mode, KLayout 0.30.12.
+Each pad cell of libs.ref/gf180mcu_ocd_io/gds/gf180mcu_ocd_io.gds copied with its sub-cells into its own file and run alone.
+
+asig_5p0: DRC RESULT: SUCCESS (0 violations) rules 777 time 26 s
+bi_t: DRC RESULT: FAILURE (1 violation(s)) rules 777 time 33 s
+bi_a: DRC RESULT: FAILURE (1 violation(s)) rules 777 time 33 s
+bi_24t: DRC RESULT: FAILURE (1 violation(s)) rules 777 time 34 s
+in_c: DRC RESULT: FAILURE (1 violation(s)) rules 777 time 31 s
+in_s: DRC RESULT: FAILURE (1 violation(s)) rules 777 time 31 s
+dvdd: DRC RESULT: SUCCESS (0 violations) rules 777 time 30 s
+dvss: DRC RESULT: SUCCESS (0 violations) rules 777 time 29 s
+vdd: DRC RESULT: SUCCESS (0 violations) rules 777 time 29 s
+vss: DRC RESULT: SUCCESS (0 violations) rules 777 time 30 s
+brk2: DRC RESULT: FAILURE (4 violation(s)) rules 777 time 5 s
+brk5: DRC RESULT: FAILURE (5 violation(s)) rules 777 time 6 s
+fill1: DRC RESULT: FAILURE (2 violation(s)) rules 777 time 5 s
+fill5: DRC RESULT: FAILURE (1 violation(s)) rules 777 time 7 s
+fill10: DRC RESULT: SUCCESS (0 violations) rules 777 time 7 s
+fillnc: DRC RESULT: FAILURE (89 violation(s)) rules 777 time 5 s
+cor: DRC RESULT: FAILURE (2 violation(s)) rules 777 time 127 s
+
+== violation categories (rule: count)
+bi_t: {'PL.8': 1}
+bi_a: {'PL.8': 1}
+bi_24t: {'PL.8': 1}
+in_c: {'PL.8': 1}
+in_s: {'PL.8': 1}
+fill1: {'PL.8': 1, 'M2.4': 1}
+fill5: {'PL.8': 1}
+brk2: {'M3.4': 1, 'M4.4': 1, 'M5.4': 1, 'MT.3': 1}
+brk5: {'DCF.1b': 1, 'M3.4': 1, 'M4.4': 1, 'M5.4': 1, 'MT.3': 1}
+fillnc: {'DCF.1b': 1, 'PL.8': 1, 'M2.4': 1, 'M3.4': 1, 'M4.4': 1, 'M5.4': 1, 'MT.3': 1, 'DF.1a_LV': 1, 'M2.1': 2, 'M3.1': 26, 'M4.1': 26, 'MT.1': 26, 'PP.1': 1}
+cor: {'DCF.1a': 1, 'M2.4': 1}
+
+== rule texts (comments in rule_decks/density.rb)
+density.rb:25: # Rule DCF.1a: All area between active polygons (COMP) (with spacing greater than equal to this rule)
+density.rb:49: # Rule DCF.1b: Minimum global density for active layers (COMP+ Dummy COMP) shall be 25%.
+density.rb:65: # Rule PL.8: Poly2 coverage over the entire die shall be 14%.
+density.rb:76: # Rule M1.4: Metal1 coverage over the entire die shall be >30%
+density.rb:89: # Rule M2.4: Metal2 coverage over the entire die shall be >30%
+density.rb:103: # Rule M3.4: metal3 coverage over the entire die shall be >30%
+density.rb:118: # Rule M4.4: metal4 coverage over the entire die shall be >30%
+density.rb:133: # Rule M5.4: metal5 coverage over the entire die shall be >30%
+density.rb:161: # Rule MT.3: MetalTop coverage over the entire die shall be >30%

@@ -1,0 +1,51 @@
+* gf180mcu_ocd_io__asig_5p0: pad current and capacitance from the PDK models (typical). Exploration only.
+.include /foss/pdks/gf180mcuD/libs.tech/ngspice/design.ngspice
+.lib /foss/pdks/gf180mcuD/libs.tech/ngspice/sm141064.ngspice typical
+.lib /foss/pdks/gf180mcuD/libs.tech/ngspice/sm141064.ngspice diode_typical
+.lib /foss/pdks/gf180mcuD/libs.tech/ngspice/sm141064.ngspice moscap_typical
+.lib /foss/pdks/gf180mcuD/libs.tech/ngspice/sm141064.ngspice res_typical
+.subckt asig_diodes_only ASIG5V DVDD DVSS VDD VSS
+* copy of gf180mcu_ocd_io.spice lines 4-6 (D1, D2, D3); XC1 (line 7, DVDD-DVSS MOS cap, m=36) left out: ngspice here rejects it
+D1 DVSS DVDD diode_nd2ps_06v0 area='1u * 40u ' pj='2*1u + 2*40u ' m=4
+D2 DVSS ASIG5V diode_nd2ps_06v0 area='3u * 50u ' pj='2*3u + 2*50u ' m=4
+D3 ASIG5V DVDD diode_pd2nw_06v0 area='3u * 50u ' pj='2*3u + 2*50u ' m=4
+.ends
+vdvdd dvdd 0 5
+vdvss dvss 0 0
+vvdd vdd 0 3.3
+vvss vss 0 0
+vpad pad 0 dc 2.5 ac 1
+x1 pad dvdd dvss vdd vss asig_diodes_only
+* secondary resistor of the digital pads, for its value only
+vr r1 0 1
+xr1 r1 0 dvdd ppolyf_u r_width=2.5e-6 r_length=2.8e-6 m=1
+.control
+foreach t -40 27 125
+  set temp = $t
+  echo "=== temp $t"
+  foreach v -1.0 -0.8 -0.7 -0.6 -0.5 -0.3 0 2.5 5 5.3 5.5 5.6 5.7 5.8 6.0
+    alter vpad dc = $v
+    op
+    print v(pad) i(vpad) i(vdvdd) i(vdvss)
+  end
+end
+set temp = 27
+alter vpad dc = 2.5
+op
+print 1/i(vr)
+foreach v 0 1.65 2.5 5
+  alter vpad dc = $v
+  ac lin 1 1meg 1meg
+  print v(pad) imag(i(vpad))/(-2*pi*1e6)
+end
+alter vdvdd dc = 0
+op
+echo "=== DVDD = 0 V (unpowered ring), pad 0.3..1 V"
+foreach v 0.3 0.5 0.6 0.7 0.8 1.0 3.3
+  alter vpad dc = $v
+  op
+  print v(pad) i(vpad) i(vdvdd)
+end
+quit
+.endc
+.end

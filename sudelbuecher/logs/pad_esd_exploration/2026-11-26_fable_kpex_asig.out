@@ -1,0 +1,47 @@
+kpex 0.6.8 (klayout-pex): kpex --pdk gf180mcuD --gds gf180mcu_ocd_io__asig_5p0.gds --cell gf180mcu_ocd_io__asig_5p0 --2.5D   (exit 0)
+== extracted netlist CSV
+Device;Net1;Net2;Capacitance [fF];Resistance [Ω]
+C1;ASIG5V;DVDD;541.756;
+C2;ASIG5V;DVSS;380.684;
+C3;ASIG5V;VDD;22.57;
+C4;ASIG5V;VSS;31.09;
+C5;ASIG5V;VSUBS;174.358;
+C6;DVDD;DVSS;1107.283;
+C7;DVDD;VDD;39.229;
+C8;DVDD;VSS;60.334;
+C9;DVDD;VSUBS;194.083;
+C10;DVSS;VDD;41.086;
+C11;DVSS;VSS;114.251;
+C12;DVSS;VSUBS;183.415;
+C13;VDD;VSS;17.419;
+C14;VDD;VSUBS;2.762;
+C15;VSS;VSUBS;56.074;
+
+== warnings in the log
+1:[14:55:09] WARNING  Calling kpex without a subcommand is        kpex_cli.py:1266
+2-                    deprecated; treating this run as 'kpex                      
+3-                    extract …'. See 'kpex --help' for the                       
+4-                    available subcommands.                                      
+5-──────────────────────────── Command line arguments ───�
+6-/usr/local/bin/kpex extract --pdk gf180mcuD --gds                               
+7-/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-
+8-adab-73eed00fa4d5/scratchpad/kl/gf180mcu_ocd_io__asig_5p0.gds --cell            
+9-gf180mcu_ocd_io__asig_5p0 --2.5D --out_dir                                      
+10-/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-
+11-adab-73eed00fa4d5/scratchpad/kl/kpex_asig                                       
+12-───────────────────────────────── Input Layout ─�
+13-[14:55:09] INFO     GDS input file passed, running in LVS mode   kpex_cli.py:598
+--
+459:[14:55:21] WARNING  The extraction leaves out these LVS   lvsdb_extractor.py:395
+460-                    layers, as the tech info doesn't know                       
+461-                    them:                                                       
+462-                      - isosub (23/5): the tech info has                        
+463-                    no layer derived from it                                    
+464-                      - contact (Contact): 5480 of 26468                        
+465-                    shapes are not within                                       
+466-                    contact_nsd_con, contact_psd_con,                           
+467-                    contact_poly_con, contact_ntap_con,                         
+468-                    contact_ptap_con,                                           
+469-                    contact_ntap_dw_con,                                        
+470-                    contact_ptap_dw_con                                         
+471-─────────────────────── Non-empty layers in LVS database ────�
