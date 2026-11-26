@@ -232,7 +232,28 @@ and the recorded DRC and LVS results of the IHP pad macros.
 
 - Report and proposals written on `pad_esd_exploration`; after writing, I re-checked the line citations I had not
   read off a tool output directly and corrected eight places in the report and three in the proposals.
-- Chat log: see the entry appended below this one after the export ran.
+- Chat log: `sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md`, built with this branch's `export_chatlog.py` (unchanged) from a copy of the
+  raw transcript, then checked with B's `verify_chatlog.py`. Output of both, and which records the verifier misses:
+  `2026-11-26_fable_chatlog_verify.out`:
+
+      verify_chatlog.py (tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher, sudelbuecher/chatlog_tools/) on sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md
+      turns 1 bytes 98732
+      live path : texts 14 missing 2
+      off the live path : texts 0 missing 0
+      thinking blocks 98 with text 9 40-char windows checked 1402 found in the log 0
+      queued 'prompt' records of the transcript, by origin (the verifier counts all of them as wanted text):
+        origin human | characters 234 | in the log: True
+        origin human | characters 34 | in the log: True
+        origin peer | characters 16103 | in the log: False
+        origin peer | characters 21311 | in the log: False
+        origin human | characters 66 | in the log: True
+
+  The verifier counts every queued record of mode `prompt` as wanted text. Those of origin `human` (Christoph's messages sent
+  while I was working) are in the log; those of origin `peer` are the two subagent hand-back reports, which this branch's
+  exporter leaves out by design and which are filed verbatim in this folder. By the rule of `session_chatlog.sh` (any
+  "missing" count above 0 fails) the check does not pass; no reasoning text was found in the log.
+  The log ends with the record that was last in the transcript when the export ran; the final reply of the session and
+  the commit of the log itself are not in it. External sources are indexed in `sudelbuecher/chatlog/ref/2026-11-26_fable_pad_structures_and_esd_exploration.md`.
 
 ## Not checked (summary)
 

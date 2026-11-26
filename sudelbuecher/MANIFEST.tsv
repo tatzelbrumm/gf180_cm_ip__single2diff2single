@@ -17,3 +17,6 @@ sudelbuecher/logs/pad_esd_exploration/tools/gds_rings.py	2026-11-26T14:14:28Z	13
 sudelbuecher/logs/pad_esd_exploration/tools/extract_handbacks.py	2026-11-26T14:26:53Z	2558	written in session 01XU3KH8	-
 sudelbuecher/logs/pad_esd_exploration/tools/layers.tsv	2026-11-26T14:14:28Z	2279	GDS layer/datatype, name and line of $PDK_ROOT/gf180mcuD/libs.tech/klayout/tech/gf180mcu.lyp (regular expression over the <source> elements)	-
 sudelbuecher/logs/pad_esd_exploration/tools/asig_diodes_dc.spice	2026-11-26T14:14:28Z	1688	written in session 01XU3KH8	-
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md	2026-11-26T14:28:12Z	98732	chatlog/export_chatlog.py on the transcript of session 01XU3KH8 (live path, through the record that was last when the export ran)	-
+sudelbuecher/chatlog/ref/2026-11-26_fable_pad_structures_and_esd_exploration.md	2026-11-26T14:28:12Z	2778	written in session 01XU3KH8 (pointers to external sources)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out	2026-11-26T14:28:12Z	714	verify_chatlog.py of the harness fork's sudel_buecher on the chat log, plus a listing of the queued records by origin	-
