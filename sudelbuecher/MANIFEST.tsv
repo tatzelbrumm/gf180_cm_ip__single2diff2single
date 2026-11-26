@@ -1,3 +1,19 @@
 file	mtime_utc	bytes	command_or_source	commit
 sudelbuecher/chatlog/2026-10-06_sonnet_gf180_port_survey_and_skeleton.md	2026-10-06T14:43:22Z	23116	chatlog/export_chatlog.py on session 813b3a7a (live path, through 16:42 Berlin)	-
 sudelbuecher/chatlog/export_chatlog.py	2026-10-08T00:38:35Z	7227	written in session 35b4bb89 from the 2026-10-06 script (arguments for title/session/model, meta records skipped, shell commands verbatim); mtime from checkout	01e3e75
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_pad_structures_log.md	2026-11-26T14:25:56Z	17330	work journal written by the assistant in session 01XU3KH8 (not a chat log)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_mag_hierarchy.out	2026-11-26T14:14:29Z	21322	tools/magtree.py over the 17 pad cells of $PDK_ROOT/gf180mcuD/libs.ref/gf180mcu_ocd_io/mag (open_pdks e7a6777)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_gds_layers.out	2026-11-26T14:14:30Z	3065	tools/gds_layers.py gf180mcu_ocd_io.gds gf180mcu_ocd_io__asig_5p0 tools/layers.tsv	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_gds_shapes.out	2026-11-26T14:14:31Z	13747	tools/gds_shapes.py on gf180mcu_ocd_io__asig_5p0, layers 115/5 21/0 23/5 37/0 0/0 36/10 166/5 204/0, then 22/0 32/0 31/0 55/0 clipped to y 65..170	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_gds_rings.out	2026-11-26T14:14:31Z	2174	tools/gds_rings.py on gf180mcu_ocd_io__asig_5p0, COMP 22/0 (clip 0,66,75,168) and Nwell 21/0	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_pad_net_metal2.out	2026-11-26T14:15:01Z	2919	inline klayout.db script: cross-sections of the Metal2 polygon of the bond pad net of gf180mcu_ocd_io__asig_5p0	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_asig_diodes_dc_ngspice.out	2026-11-26T14:14:31Z	12374	ngspice-47 -b tools/asig_diodes_dc.spice (typical corner; pad diodes only)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_1_extract_evampire_esd_page_claims.md	2026-11-26T14:26:53Z	16565	tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_2_ihp_parametric_cells_survey.md	2026-11-26T14:26:53Z	21736	tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)	-
+sudelbuecher/logs/pad_esd_exploration/tools/magtree.py	2026-11-26T14:14:28Z	1412	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/gds_layers.py	2026-11-26T14:14:28Z	1050	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/gds_shapes.py	2026-11-26T14:14:28Z	1259	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/gds_rings.py	2026-11-26T14:14:28Z	1395	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/extract_handbacks.py	2026-11-26T14:26:53Z	2558	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/layers.tsv	2026-11-26T14:14:28Z	2279	GDS layer/datatype, name and line of $PDK_ROOT/gf180mcuD/libs.tech/klayout/tech/gf180mcu.lyp (regular expression over the <source> elements)	-
+sudelbuecher/logs/pad_esd_exploration/tools/asig_diodes_dc.spice	2026-11-26T14:14:28Z	1688	written in session 01XU3KH8	-

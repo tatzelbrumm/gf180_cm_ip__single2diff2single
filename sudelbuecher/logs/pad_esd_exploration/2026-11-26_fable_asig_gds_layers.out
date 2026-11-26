@@ -1,0 +1,27 @@
+dbu 0.001 cell gf180mcu_ocd_io__asig_5p0 bbox (-0.16,0;75.16,350) child cells ['5LM_METAL_RAIL_PAD_60', 'GF_NI_ASIG_5P0_BASE']
+  22/0   COMP                   polys     66 area     14164.49 um2  bbox x    0.000   75.000 y   65.485  349.840
+  31/0   Pplus                  polys     11 area      3825.23 um2  bbox x   -0.020   75.020 y   65.465  349.860
+  33/0   Contact                polys  26468 area      1281.05 um2  bbox x    0.130   74.870 y   65.615  349.710
+  34/0   Metal1                 polys     56 area     14327.64 um2  bbox x   -0.160   75.160 y   65.540  349.785
+  42/0   Metal3                 polys     19 area     22485.12 um2  bbox x    0.000   75.000 y    0.000  348.390
+   0/0   PR_bndry               polys      1 area     26250.00 um2  bbox x    0.000   75.000 y    0.000  350.000
+  42/10  Metal3_Label           polys      0 area         0.00 um2  bbox x    0.001   -0.001 y    0.001   -0.001
+  40/0   Via3                   polys  42352 area      2863.00 um2  bbox x    0.815   74.205 y    0.530  348.175
+  46/0   Metal4                 polys     19 area     22485.12 um2  bbox x    0.000   75.000 y    0.000  348.390
+  46/10  Metal4_Label           polys      0 area         0.00 um2  bbox x    0.001   -0.001 y    0.001   -0.001
+  41/0   Via4                   polys  42352 area      2863.00 um2  bbox x    0.815   74.205 y    0.530  348.175
+  81/0   Metal5                 polys     19 area     23926.35 um2  bbox x    0.000   75.000 y    0.000  348.390
+  81/10  Metal5_Label           polys     53 area      6133.90 um2  bbox x    0.000   75.000 y    2.000  348.390
+  36/0   Metal2                 polys     25 area     21110.46 um2  bbox x    0.000   75.000 y    0.000  350.000
+  38/0   Via2                   polys  17550 area      1186.38 um2  bbox x    0.130   74.870 y    0.530  348.115
+  37/0   Pad                    polys      1 area      3600.00 um2  bbox x    7.500   67.500 y    2.000   62.000
+  23/5   ISOSUB                 polys      1 area     19230.65 um2  bbox x    1.310   73.690 y   67.545  347.765
+  21/0   Nwell                  polys      3 area      2615.81 um2  bbox x    6.590   68.410 y   70.755  167.135
+  32/0   Nplus                  polys     47 area     11263.54 um2  bbox x    3.630   71.370 y   71.010  344.985
+  55/0   Dualgate               polys     48 area     11467.42 um2  bbox x    3.550   71.450 y   73.165  345.615
+  35/0   Via1                   polys   7942 area       536.88 um2  bbox x    0.130   74.870 y   68.125  347.070
+ 115/5   DIODE_MK               polys     12 area      1360.00 um2  bbox x   12.500   62.500 y   73.405  161.535
+ 204/0   LVPWELL                polys     36 area      8575.20 um2  bbox x    3.790   71.210 y  171.835  344.755
+  30/0   Poly2                  polys     36 area      8596.80 um2  bbox x    4.230   70.770 y  171.375  345.215
+ 166/5   MOS_CAP_MK             polys     36 area      8100.00 um2  bbox x    4.230   70.770 y  171.835  344.755
+  36/10  Metal2_Label           polys      8 area        40.64 um2  bbox x   15.340   59.660 y  348.000  350.000
