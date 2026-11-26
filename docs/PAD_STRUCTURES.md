@@ -61,6 +61,8 @@ core edge at the top (y = 350).
    The public documentation does add limits that section 7 lacked: the analog pad is rated for 10 mA DC, gate oxide
    breakdown limits are 12 V (6 V gate) and 7 V (3.3 V gate), and the foundry's own second stage (about 110 Ω, 84 µm
    of diode perimeter per polarity) is the best public example for the network the design has to add.
+   The industry council's white papers, read in full, recommend 1 kV HBM and 250 V CDM as targets and give resistor
+   ranges for exactly this pad architecture: 100 to 5000 Ω in front of receivers, 5 to 100 Ω (optional) behind drivers.
 
 ## 2. The pad library: cell table
 
@@ -933,9 +935,10 @@ opened the sources I could reach and re-read the claims that matter. Marks in th
 - **[U-sub]** read by the subagent, not re-opened by me;
 - **[U-lead]** the subagent saw it only in a search-engine summary: a lead, not a citable value.
 
-The cloud environment's network policy refused most literature hosts (the ESD Association, the Industry Council
-on ESD Target Levels, JEDEC, IEEE Xplore, ScienceDirect, arXiv, archive.org), so everything from standards and papers
-is [U-lead]. If the user wants those leads turned into citations, those hosts would have to be allowed.
+During the search the cloud environment's network policy refused most literature hosts, so its findings from
+standards and papers were leads only. Later the user allowed `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`
+and `ieeexplore.ieee.org`; section 15.4 was then rewritten from the documents themselves. Papers behind IEEE Xplore
+and other publishers (ScienceDirect, arXiv, archive.org were not allowed) are still leads.
 
 ### 15.1 The main result: nobody has published a measurement
 
@@ -1010,22 +1013,66 @@ A discrepancy to know: the commit that added `bi_a` describes its analog tap as 
 resistor" and says "The signal line is narrow and it is not intended for high current capacity". **[V]**
 `OCD:` commit `a2c433c` (2025-11-24). The netlist gives about 110 Ω (449 Ω per resistor in my model run).
 
-### 15.4 Target levels, discharge currents and time scales (standards and industry guidance)
+### 15.4 Target levels, discharge currents, time scales and the secondary network (standards bodies)
 
-None of these could be opened from here; all **[U-lead]** except the first.
+Rewritten after the user allowed four more hosts later in the session. Read by me, all **[V]** with the page of the
+PDF or the web page:
 
-| Item | Source named by the search |
-| --- | --- |
-| Human-body model: 100 pF discharged through 1500 Ω | Wikipedia, "Human-body model" **[U-sub]** |
-| HBM peak current about 0.67 A per kV, so about 1.33 A at 2 kV; rise 2 to 10 ns, decay about 150 ns | Renesas TB505; a Thermo Fisher page citing JS-001 |
-| Recommended qualification targets of 1 kV HBM and 250 V CDM, lower than the datasheet's 2 kV / 500 V | Industry Council on ESD Target Levels, White Papers 1 and 2; JEDEC JEP155, JEP157 |
-| CDM peak currents of several amperes within about a nanosecond ("2-6 Amps" as the practical design range; about 8 A for 500 V on a small verification module) | Industry Council White Paper 2; JS-002 material |
-| Silicon dioxide withstands a few times its DC breakdown field for about 100 ns | patent and paper summaries from other processes; no number for this process |
-| Metal lines: failure current under 100 ns pulses depends strongly on thickness and pulse width | Banerjee, Amerasekera et al., IRPS 1996 and IEEE EDL 1997; Voldman et al., IRPS 1998 (located, not read) |
+- **WP1** = Industry Council on ESD Target Levels, White Paper 1, "A Case for Lowering Component Level HBM/MM ESD
+  Specifications and Requirements", revision 4.0, June 2018 (63 pages; linked from
+  `esdindustrycouncil.org/ic/en/index.php/documents/white-paper-1-a-case-for-lowering-component-level-hbm-mm-esd`).
+- **WP2** = the same council's White Paper 2, "A Case for Lowering Component Level CDM ESD Specifications and
+  Requirements", revision 3.0, May 2021 (173 pages; linked from `.../documents/white-paper-2-a-case-for-lowering-component-level-cdm-esd-sp`).
+  JEDEC publishes these two papers as JEP155 and JEP157.
+- **ESDA-5** = EOS/ESD Association, "ESD Fundamentals, Part 5: Device Sensitivity and Testing"
+  (`www.esda.org/esd-overview/esd-fundamentals/part-5-device-sensitivity-and-testing/`).
 
-Use for this project **[I]**: these say what a pad will be asked to carry, not what this pad can carry. They
-support asking question 3 of section 11 concretely: 1 kV HBM / 250 V CDM is the level the industry guidance
-recommends, and it is half the datasheet's target.
+| Topic | What the source says | Where |
+| --- | --- | --- |
+| HBM test circuit | "a 100 pF capacitor" discharged through "a 1.5 kW (1,500 ohms) series resistor" (the page prints the ohm sign as W) | ESDA-5 |
+| HBM waveform | "a rise time of 2–10 ns, a peak current of 0.67 amps/kilovolts, and a double-exponential decay with a width of 200 ns" | ESDA-5 |
+| HBM and MM peak currents | "the peak current into a short is 1.3 A for a 2 kV HBM discharge and 3.8 A for a 200 V MM discharge" | WP1 p. 56 |
+| recommended HBM level | "we have recommended a component HBM qualification shift from 2 kV to 1 kV"; table: 2 kV and 1 kV "Basic ESD Control methods allow safe manufacturing with proven margin"; "Basic ESD controls ensure that devices with a HBM robustness of at least 500 V can be handled safely" | WP1 pp. 52, 7, 12 |
+| machine model | "MM testing is redundant to HBM and produces the same failure mechanisms"; "MM qualification testing is not a required component level qualification test per JEDEC" | WP1 pp. 2, 4 |
+| CDM event | "often less than one nanosecond – the peak current can reach several tens of amperes"; tested per JS-002 | ESDA-5 |
+| recommended CDM level | "we recommend a CDM specification target level of 250 volts"; at 200 V and above basic ESD control methods suffice, below 200 V process-specific measures are needed | WP2 pp. 2, 10 |
+| CDM current a design can take | "practical designs are restricted to 2-6 amperes of peak CDM current, which translates to a CDM target level of 125-400 volts for many advanced technology products (depending on pin-count)"; small BGA packages: "not more than 3-4 amperes at 500 volts" | WP2 pp. 8, 43 |
+| CDM rise time | "From less than 100 ps to a few ns" | WP2 p. 147 |
+| **the architecture GF uses, described** | "Dual Diode ESD Protection": primary diodes D1, D2 at the pad, a power clamp between the buses, and "primary and secondary ESD protection elements ... to protect receiver transistors ... and driver transistors"; "it is important to minimize the total voltage drop between the I/O pad and GND bus local to the stressed I/O pad"; "it is common for multiple power clamps to be distributed in parallel along the power buses" | WP2 p. 34 |
+| **receiver resistor** | "any IR drop across R1 will reduce the voltage stress seen across the fragile gates ... R1 values from 100-5000 Ω are common for protecting receiver circuits" | WP2 p. 35 |
+| **driver resistor** | a second path "via resistor R2 and the drain to N-well parasitic diode of PMOS transistor"; R2 is optional because some applications "do not typically permit the use of any series resistance between the driver and pad"; "Typical R2 values for digital applications can range from 5-100 Ω. This resistance can have a significant impact on the effective CDM robustness of driver transistors" | WP2 p. 35 |
+
+What this gives the project **[I]**:
+
+- **A defensible target to name** (question 3 of section 11): 1 kV HBM and 250 V CDM are the levels the industry
+  council recommends for qualification; the datasheet's 2 kV / 500 V are the older customary values, and its 200 V
+  machine-model target refers to a test the same bodies no longer require.
+- **Currents to size for:** about 0.67 A at 1 kV HBM (1.3 A at 2 kV) for some hundred nanoseconds; a few amperes for
+  about a nanosecond for CDM. For CDM the charge sits on the die and package, so the current does not have to enter
+  through the pad's metal from outside; the white paper's point is the voltage drop along diode, bus and clamp.
+- **Input (`vin`):** the datasheet's "more than 50 Ω" is below the 100 to 5000 Ω the white paper calls common for
+  receivers; the foundry's own 110 Ω (section 15.3) is at the low end of that range, and the proof of concept's
+  200 Ω is inside it.
+- **Output (`vout`):** published practice for drivers is an optional series resistor of 5 to 100 Ω between driver and
+  pad, with the driver's own drain diodes as the second path. That is a third option next to the two of question 4
+  in section 11, and it costs output swing: at the pad's 10 mA DC rating, 0.05 V to 1 V.
+- **The primary path of section 5.2 is the textbook one**, and the textbook's condition (low voltage drop from the
+  pad along the buses to a nearby clamp, several clamps along the ring) is what section 6.2 could not confirm for the
+  slot 16 pads: the nearest ring clamp is three and four pad positions away, and the rail resistance is not known.
+
+Still not opened, although the hosts are now allowed:
+
+- **IEEE Xplore** answers a plain request for an abstract page with HTTP 202 and an empty body, and the session's
+  page-fetch tool could not resolve the host. A request shaped to look like a browser was refused by the session's
+  permission check, and I did not try further. So the papers on pulsed current limits of metal lines (Banerjee,
+  Amerasekera et al. 1996 and 1997; Voldman et al. 1998), on gate oxide under ESD pulses (Ille et al.) and the
+  GlobalFoundries 180 nm high-voltage paper (IRPS 2015) remain **[U-lead]**.
+- **`www.jedec.org`** answers 403 to a plain request. Not needed for the two white papers, which the council hosts.
+- The standards JS-001 and JS-002 themselves were not opened; the waveform numbers above come from the ESD
+  Association's own summary page.
+- White Paper 2 shows oxide breakdown under 1.2 ns pulses and metal current limits only as trend figures over
+  technology nodes (pp. 36-37), without numbers I could read from the text. Pulsed limits for this process remain
+  unknown (section 15.8).
 
 ### 15.5 How two other open PDKs document the same things (method comparison)
 

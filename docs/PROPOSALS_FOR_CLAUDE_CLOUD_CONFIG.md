@@ -281,6 +281,10 @@ mention.
    `fossi-foundation.github.io`, `api.github.com`, `release-assets.githubusercontent.com`,
    `objects.githubusercontent.com`, `gitea.osmocom.org`, `evampire.readthedocs.io`, `en.wikipedia.org`, and since
    2026-11-26 `gf180mcu-pdk.readthedocs.io` (the foundry manual and the I/O library datasheet).
+   Added later on 2026-11-26 on the user's approval: `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`,
+   `ieeexplore.ieee.org`. Experience **[V]**: the first two serve pages and PDFs to a plain `curl`; `www.jedec.org` answers
+   403 and `ieeexplore.ieee.org` answers 202 with an empty body to a plain request, so allowing those two did not make
+   them readable; the session's page-fetch tool did not see the newly allowed IEEE host at all.
    Hosts that a literature search needed and the policy refused on 2026-11-26 (search subagent's report, **[U]** as
    I did not probe each one): `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`, `ieeexplore.ieee.org`,
    `sciencedirect.com`, `arxiv.org`, `web.archive.org`, `tinytapeout.com`, `skywater-pdk.readthedocs.io`. Reachable
