@@ -52,6 +52,10 @@ core edge at the top (y = 350).
    layouts, which is the objection raised in the chat (section 8).
 7. **`CLAUDE.md` section 5 holds up**, with one addition: the harness padframe netlist on `main` still connects the
    pads through the pin names `iovdd iovss vdd vss`, which the PDK cell does not have (section 10).
+8. **KLayout (added later, section 14).** The PDK's KLayout DRC runs untouched and the pads pass it. Its KLayout LVS
+   passes none of the pad cells, not even the foundry's own analog pad: N+ diodes in bare substrate are not extracted,
+   and the open pad library's GDS has lost two LVS marker layers. A KLayout twin of the pads would need PDK-wide
+   fixes, so nothing was built and the question is put to the user (section 11, question 9).
 
 ## 2. The pad library: cell table
 
@@ -475,7 +479,8 @@ Model evaluations **[I]**: typical corner, diode stripes only (`LOG/tools/asig_d
 | Quantity | Value | Mark |
 | --- | --- | --- |
 | pad voltage range without diode conduction, DVDD = 5 V | 1 µA is reached near -0.57 V and near DVDD + 0.57 V at 27 °C; at 125 °C, 0.37 µA at -0.3 V and 0.24 µA at DVDD + 0.3 V | [I] |
-| junction capacitance of D2 + D3 on the pad | 0.80 pF at 2.5 V, 0.96 pF at 0 V and at 5 V | [I]; bond pad metal, Metal2 strips, routing and package are not included, so the real pad capacitance is larger by an amount I did not determine |
+| junction capacitance of D2 + D3 on the pad | 0.80 pF at 2.5 V, 0.96 pF at 0 V and at 5 V | [I] |
+| wiring capacitance of the pad net inside the pad cell | about 1.15 pF (0.54 to DVDD, 0.38 to DVSS, 0.17 to substrate, 0.05 to VDD and VSS) | [I] KLayout 2.5D extraction, accuracy unverified (section 14.3); routing to the slot and the package are not included |
 | series resistance pad to slot inside the pad cell | Metal2, 20.32 µm wide, about 285 µm long from the pad edge to the core edge | [V] geometry; resistance not computed |
 | DC leakage of the pad | not obtained (model floor only) | open |
 | supply decoupling inside the pad cell | about 17.6 pF between DVDD and DVSS | [I] |
@@ -558,6 +563,11 @@ Things I would report as wrong or stale. I changed none of them.
    harness are Magic-based. Which tool should own generated cells here (section 12.4)?
 8. **May I treat the upstream repositories `google/gf180mcu-pdk` and `RTimothyEdwards/gf180mcu_ocd_io` as allowed
    read-only sources in future tasks?** I cloned both in this session without their being in the brief (section 13).
+9. **KLayout support (section 14).** The pads cannot get an honest KLayout twin without PDK-wide work: an LVS deck
+   fix for substrate diodes, the lost marker layers and KLayout netlists of `gf180mcu_ocd_io`, and ESD, guard-ring,
+   via-stack and bond-pad PCells that IHP has and GF180 lacks. Should I take that on for the whole PDK (as patches and
+   proposals for upstream, starting with the diode-array PCell and the LVS deck change), restrict myself to what
+   works today (KLayout DRC and parasitic extraction of the pads, no LVS), or leave KLayout aside?
 
 ## 12. Notes for parametric cells
 
@@ -792,3 +802,114 @@ Not checked:
   availability only and is not used as a source;
 - the upstream harness repository `RTimothyEdwards/gf180mcu_ocd_chipalooza` (only the fork was read);
 - whether `2f18cd4` is still the head of the fork's `main` after today.
+
+## 14. KLayout support: the PDK as a whole, and the pads in it (added later on 2026-11-26)
+
+Question from the user: if the pads and their characterization or extraction exist only in Magic, a KLayout version
+homologous to the IHP library would be welcome, but not as a special case if the whole GF180 PDK supports KLayout
+weakly. So this section first measures the PDK's KLayout support, then the pads inside it. Everything was run in
+this session with KLayout 0.30.12 and the PDK's own decks, unmodified; logs and scripts in `LOG/` (journal entry 18).
+
+### 14.1 What the PDK ships for KLayout
+
+**[V]** `TECH/klayout/tech/`:
+
+| Part | Content | Works here? |
+| --- | --- | --- |
+| technology | `gf180mcu.lyt`, `gf180mcu.lyp` (119 layers), `gf180mcu.map` | yes |
+| DRC | `drc/gf180mcu.drc` + 41 rule decks; 777 rules executed per run | yes, out of the box |
+| LVS | `lvs/gf180mcu.lvs` + 26 rule decks, `lvs/run_lvs.py`, `lvs/gf180_xschem_klayout_spice_convert.py` | the deck runs; `run_lvs.py` does not start (`No module named 'docopt'`, `run_lvs.py:49`; `pip install docopt` fails to build under Python 3.13). I called the deck directly with the same switches |
+| device PCells, KLayout API | `pymacros/klayout_api_cells/`: 31 PCells (FETs, diodes, MOS and MiM capacitors, resistors, BJTs, efuse) | loads only when the environment variable `USER` is set (`draw_efuse.py:18`); it is not set in the cloud container |
+| device PCells, gdsfactory | `pymacros/cells/` | not here: `No module named 'gdsfactory'` (`pymacros/gf180mcu.lym:40-49` catches that and continues) |
+| seal ring PCell | `pymacros/sealring_cells/` | yes |
+| fill, slots | `scripts/fill_*.rb`, `scripts/slots.drc` | not tried |
+| parasitic extraction | not in the PDK; the installed `klayout-pex` 0.6.8 ships its own `gf180mcuD` definition | runs (14.3) |
+
+Compared with IHP's KLayout tree (**[V]** `D:sudel_buecher:sudelbuecher/IHP_pcell_structure_visualization/ihp_sg13cmos5l_klayout_tree.txt`,
+a listing made on 2026-09-28): IHP registers, besides devices, PCells for `esd`, `bondpad`, `ptap1`/`ntap1` (taps),
+`guard_ring`, `via_stack`, `NoFillerStack`, `sealring` (lines 85-118 of that listing). GF180 has devices and the seal ring only: **no ESD, bond pad,
+tap/guard-ring or via-stack PCell**. Neither PDK has parametric pad cells; on IHP those were written in the
+project (section 12.4).
+
+### 14.2 The pad cells through the PDK's KLayout decks
+
+Each pad cell was copied with its sub-cells into its own GDS file and run alone.
+
+**DRC** (`LOG/2026-11-26_fable_klayout_drc_pads.out`): **[V]**
+
+| Cells | Result |
+| --- | --- |
+| `asig_5p0`, `dvdd`, `dvss`, `vdd`, `vss`, `fill10` | 0 violations |
+| `bi_t`, `bi_a`, `bi_24t`, `in_c`, `in_s`, `fill5` | 1 violation: `PL.8`, "Poly2 coverage over the entire die" (`drc/rule_decks/density.rb:65`), a whole-die rule applied to one cell |
+| `fill1`, `brk2`, `brk5` | 2 to 5 violations, all coverage rules of the same kind (`PL.8`, `M2.4` to `M5.4`, `MT.3`, `DCF.1b`) |
+| `fillnc` (0.1 µm wide) | 89: the same coverage rules plus minimum-width rules that a 0.1 µm sliver cannot meet alone |
+| `cor` | 2 violations: `DCF.1a`, `M2.4`, again coverage rules |
+
+The coverage rules are whole-die rules (`drc/rule_decks/density.rb:25-161`: "coverage over the entire die", "global
+density"). So KLayout DRC works on the pads, and apart from those rules, which do not apply to a single cell, the
+pads are clean; `fillnc` alone is too narrow to be checked outside a row.
+
+**LVS** (`LOG/2026-11-26_fable_klayout_lvs_pads.out`): **[V]** **no pad cell matches**, for three separate reasons.
+
+1. **Netlist dialect.** The library's netlist is xschem output (`XC1 ... cap_nmos_06v0 c_width=... c_length=...`,
+   `area=`/`pj=` on diodes); KLayout reads it as an unknown subcircuit. The PDK's converter fixes that
+   (`CC1 ... W= L=`, `A=`/`P=`); its header calls itself "a stopgap measure" (`lvs/gf180_xschem_klayout_spice_convert.py:25`).
+   All further results use the converted netlist.
+2. **N+ diodes in the substrate are not extracted.** The deck takes the anode of `diode_nd2ps_*` from a drawn
+   LVPWELL (`lvs/rule_decks/diode_extraction.lvs:68-71`, `general_derivations.lvs:42`). The pads' N+ diodes sit in
+   bare substrate with no LVPWELL drawn, so D1 and D2 of `asig_5p0` (8 of its 12 diode stripes) are missing from the
+   extracted netlist; so is the rail diode of every supply pad and the N+ diode of every digital pad.
+   - Check: on a scratch copy of `asig_5p0` with an LVPWELL rectangle drawn over the two N+ diode blocks, the
+     same deck extracts all four device groups and reports "Netlists match". (An experiment to prove the cause;
+     that copy is not a proposed layout.)
+   - **The foundry library has the same problem**: `gf180mcu_fd_io__asig_5p0` with its own CDL also extracts only
+     the P+ diode and the capacitor, and fails.
+3. **The salicide-block FETs are not recognised in `gf180mcu_ocd_io`.** The deck recognises `*_dss` devices by
+   `ESD_MK` and `SAB` and `LVS_Source` together (`lvs/rule_decks/mos_sab_derivations.lvs:45, 74`). The foundry GDS
+   has `LVS_Source` (100/8) and `LVS_IO` (119/5), and its `bi_t` extracts 8 + 8 `*_dss` devices. **The
+   `gf180mcu_ocd_io` GDS has neither layer** (section 2), and its `bi_t`, `bi_24t`, `in_c` extract none.
+   That is a loss in the pad library's GDS, not a fault of the deck.
+
+Further differences seen: `fill5` and `fill10` extract a MOS capacitor that their netlists do not contain
+(the note in section 2); in `bi_t` and its relatives every other device class is found with the schematic's count
+(79 + 79 six-volt FETs, 31 + 31 three-volt FETs, the P+ diodes); `in_c` extracts 28 of 31 `pfet_03v3`.
+I did not chase these.
+
+The harness itself says: "LVS with klayout has not been attempted". **[V]** `B:README:462-464`.
+
+### 14.3 Parasitic extraction with KLayout
+
+`kpex --pdk gf180mcuD --2.5D` on `asig_5p0` ran to the end and wrote a netlist (capacitances only). **[I]** as to
+accuracy: the engine is a 2.5D estimate, and it warned that it left out `isosub` and about a fifth of the contacts.
+Wiring capacitance of the pad net: 0.54 pF to DVDD, 0.38 pF to DVSS, 0.17 pF to substrate, 0.05 pF to VDD and VSS;
+about 1.15 pF in total. With the junction capacitance of section 9.2 the pad cell loads the signal with roughly
+2 pF, package and routing not included. (`LOG/2026-11-26_fable_kpex_asig.out`.)
+The statement in this repository's `Makefile` and port map that KPEX has "no verified GF180 support" is now out
+of date in one respect: the tool ships a `gf180mcuD` definition and runs. Whether its numbers are right is still
+unverified.
+
+### 14.4 Verdict
+
+The PDK's KLayout support is **uneven, not weak across the board**:
+
+- strong: technology files and DRC (complete, runs untouched, pads clean);
+- usable with small environment fixes: device PCells, parasitic extraction;
+- **weak exactly where pads and ESD need it**: LVS cannot pass the foundry's own analog pad (substrate diodes),
+  the open pad library has lost two LVS marker layers, the netlists need a stopgap converter, and there is no
+  ESD, guard-ring, bond-pad or via-stack PCell.
+
+A "KLayout version of the pads" that is honest therefore cannot be made inside this project alone: either the
+PDK's LVS deck and the pad library's GDS are corrected (PDK-wide work, upstream), or the pads get a private
+patched deck and a private patched GDS, which is the special case the user asked me not to invent. **I stopped
+here and ask** (section 11, question 9). Nothing was built.
+
+What "upgrading KLayout support for the PDK" would consist of, as far as this session can tell:
+
+| Item | Where it belongs | Size |
+| --- | --- | --- |
+| LVS: accept the substrate as anode of `diode_nd2ps_*` when no LVPWELL is drawn | the PDK's KLayout LVS deck (upstream of open_pdks) | small change, needs the deck's regression tests |
+| restore `LVS_Source`, `LVS_IO` (and `Latchup_MK` on the analog pad) in `gf180mcu_ocd_io` | the pad library (upstream), or its GDS export from Magic | small, but touches a shared library |
+| KLayout-readable netlists (CDL) for `gf180mcu_ocd_io`; fill-cell capacitors in the netlists | the pad library | small |
+| PCells homologous to IHP's: ESD diode array, tap and guard ring, via stack, bond pad | new library next to the PDK's device PCells, built by the method of section 12.4 and XOR-checked against the pad cells | the real work; the diode array is the natural first cell |
+| environment: `docopt` (or a runner without it), `USER`, optionally `gdsfactory` | `claude-cloud-config` | trivial |
+| KLayout PEX: compare against Magic extraction on a pad | this project or the harness | medium |

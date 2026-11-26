@@ -13,7 +13,7 @@ Source abbreviations are those of `docs/PAD_STRUCTURES.md` section 0 (`IO/`, `FD
 
 The four kinds of fact are kept in four separate proposed files (P1 to P4), so that each can go stale and be
 refreshed on its own: process facts depend on the PDK commit, design rules on the deck and the manual, pad facts on
-the pad library commit, the slot interface on the harness commit. P5 to P7 are tools and housekeeping.
+the pad library commit, the slot interface on the harness commit. P5 to P8 are tools and housekeeping.
 
 A general remark first. Each proposed file states the commits it was read from. A reference file without that
 line is worse than none, because the next agent cannot tell whether it still applies. I suggest C's `CLAUDE.md` says so.
@@ -303,6 +303,47 @@ inside the container, so print a reminder where they are set. No network access,
 **Sources.** The commands of journal entries 2 and 5, and the versions printed in this session (magic 8.3.706,
 netgen 1.5.332, ngspice-47, xschem 3.4.8RC, KLayout 0.30.12, CACE 2.11.0, Python 3.13.18; `/foss/setup.log` ends
 `SETUP_DONE gf180mcuD 93s`) **[V]**.
+
+---
+
+## P8. KLayout flow of the gf180mcuD environment: three small fixes and one reference page (added later on 2026-11-26)
+
+**Why.** The user asked how far the PDK's KLayout support goes. Getting the PDK's own KLayout LVS, PCells and the
+KLayout parasitic extraction to run at all took three workarounds that belong in the environment
+(`docs/PAD_STRUCTURES.md` section 14).
+
+**What to add.**
+
+1. `parts/pdk-gf180mcuD.sh`: make the PDK's `run_lvs.py` usable. It imports `docopt` (`run_lvs.py:49`), which is not
+   installed; `pip install --break-system-packages docopt` failed to build a wheel under Python 3.13 in this
+   session. **[V]** Options, untested: the maintained fork `docopt-ng`, or installing under `python3.12` as the setup
+   already does for CACE. Until then the deck can be called directly; the command line is in
+   `LOG/tools/klayout_lvs_pad.sh`. **[V]** that script worked.
+2. Environment variables of `gf180mcuD`: add `USER=root`. Without `USER` the PDK's KLayout-API PCell library fails
+   to load with `KeyError 'USER'` (`libs.tech/klayout/tech/pymacros/klayout_api_cells/draw_efuse.py:18`); with it the
+   library registers 31 PCells. **[V]** `LOG/2026-11-26_fable_klayout_pcell_load.out`.
+3. State in the README that the gdsfactory-based PCell library does not load (`No module named 'gdsfactory'`) and
+   that this is intended (`parts/pdk-gf180mcuD.sh:117-119`), so nobody takes the message for a broken install.
+4. A page `reference/gf180mcuD/KLAYOUT_FLOW.md` with what was measured:
+
+```markdown
+# gf180mcuD in KLayout: what works (open_pdks e7a6777, KLayout 0.30.12, klayout-pex 0.6.8)
+
+- DRC: `klayout -b -r $PDK_ROOT/gf180mcuD/libs.tech/klayout/tech/drc/gf180mcu.drc -rd input=<gds> -rd topcell=<cell>
+  -rd report=<out.lyrdb> -rd variant=gf180mcuD`. 777 rules; about 30 s for a pad cell. On a single cell the
+  die-coverage rules (PL.8, M<n>.4, MT.3, DCF.1a/b) fire and mean nothing.
+- LVS: deck `libs.tech/klayout/tech/lvs/gf180mcu.lvs`. xschem netlists must first go through
+  `lvs/gf180_xschem_klayout_spice_convert.py`. Known gaps: `diode_nd2ps_*` is extracted only where an LVPWELL is
+  drawn (N+ diodes in bare substrate vanish); `*_dss` FETs need ESD_MK, SAB and LVS_Source, and the
+  gf180mcu_ocd_io GDS has no LVS_Source layer. No pad cell of gf180mcu_ocd_io or gf180mcu_fd_io passes.
+- PCells: library `gf180mcu_klayoutapi` (31 device PCells) needs `USER`; there is no ESD, guard-ring, via-stack or
+  bond-pad PCell.
+- Parasitics: `kpex --pdk gf180mcuD --gds <gds> --cell <cell> --2.5D --out_dir <dir>` runs (capacitances only);
+  accuracy not compared with Magic.
+```
+
+**Sources.** `docs/PAD_STRUCTURES.md` sections 14.1 to 14.3 with their file-and-line citations **[V]**; the run
+times and the "777 rules" from `LOG/2026-11-26_fable_klayout_drc_pads.out` **[V]**.
 
 ---
 
