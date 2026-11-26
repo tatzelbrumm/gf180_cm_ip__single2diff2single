@@ -295,6 +295,30 @@ were not rerun).
 - Not done: no change to any deck or GDS outside the scratch folder; no comparison of the KLayout extraction with
   Magic's; the `fill_*.rb` and `slots.drc` scripts were not tried.
 
+## 19. ESD information from other public sources (third request of the session)
+
+Christoph asked to search other available sources that are not trade secrets where ESD information is missing.
+
+- A general-purpose subagent searched (42 web queries, GitHub issue and code searches) and read public repositories.
+  Its report is filed verbatim: `2026-11-26_fable_subagent_report_3_public_gf180_esd_sources_search.md`. Its own
+  limitation: the network policy let it fetch only `github.com`, `en.wikipedia.org` and `gf180mcu-pdk.readthedocs.io`,
+  so standards and papers are known from search summaries only.
+- Checked by me afterwards, in files I opened: `google/gf180mcu-pdk` `docs/analog/spice/elec_specs/tables_clear/5_General_Specification{3,4,5}.csv`,
+  `docs/physical_verification/design_manual/tables_clear/54_Electro-migration{1_150,2_151}.csv`, `33_ANALOG_DEVICE1_80.csv:9`,
+  `16_Poly2_42.csv:29`, `drm_14_1.rst:14, 51`, `drm_04_1.rst:14`, `docs/analog/layout/inter_specs/inter_specs.rst:10`;
+  `RTimothyEdwards/gf180mcu_ocd_io` `docs/specs/02_Cell_List.csv` and its history after `git fetch --depth 120`
+  (commits `a2c433c`, `2fa4cdc`, `634ba38`, `0e241e3`, `b6dcaab`); model file lines 894, 37309, 38255 (`toxe`);
+  `raw.githubusercontent.com/wafer-space/gf180mcu-project-template/main/README.md` (HTTP 200);
+  `raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_io/main/docs/user_guide.rst` (HTTP 200);
+  `en.wikipedia.org/wiki/GlobalFoundries` (Fab 3E passages).
+- Could not check: the upstream issue `fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pv` #33 (`curl` to the
+  github.com issue page: 403; `gh api search/issues` restricted to that repository: 0 results, my search access does
+  not reach it); the IHP statements; every standards or literature number.
+- Result in the report: section 15 (no measured ESD result is public; DC and breakdown limits from the public PDK
+  documentation; the analog pad's 10 mA DC rating; the foundry's second stage as worked example; leads).
+- A wrong assumption of mine went into the search prompt ("descends from Chartered's 0.18 um process"); the search
+  did not confirm it, and section 15.6 corrects it.
+
 ## Not checked (summary)
 
 No extraction or LVS of a pad cell. No ESD or clamp simulation. No layout dimensions of `comp018green_esd_cdm`, the
