@@ -1,6 +1,7 @@
 tools/export_subagent_logs.py: this branch's chatlog/export_chatlog.py (unchanged) on each subagent transcript, then verify_chatlog.py
-(tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher). One line per subagent, in the order they started.
+(tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher). One line per subagent, in the order they started. Rebuilt with subagent 4.
 
 2026-11-26_fable_pad_structures_subagent_1_ihp_parametric_cells_survey.md | started 2026-11-26T14:01:53Z | turns 1 bytes 27594 | live path : texts 1 missing 0 | off the live path : texts 0 missing 0 | thinking blocks 30 with text 0 40-char windows checked 0 found in the log 0 | agent id in the file: False
 2026-11-26_fable_pad_structures_subagent_2_extract_evampire_esd_page_claims.md | started 2026-11-26T14:01:54Z | turns 1 bytes 19718 | live path : texts 2 missing 0 | off the live path : texts 0 missing 0 | thinking blocks 3 with text 0 40-char windows checked 0 found in the log 0 | agent id in the file: False
 2026-11-26_fable_pad_structures_subagent_3_public_gf180_esd_sources_search.md | started 2026-11-26T14:46:48Z | turns 1 bytes 42695 | live path : texts 1 missing 0 | off the live path : texts 0 missing 0 | thinking blocks 64 with text 0 40-char windows checked 0 found in the log 0 | agent id in the file: False
+2026-11-26_fable_pad_structures_subagent_4_ieee_abstracts_on_esd_pulse_limits.md | started 2026-11-26T17:05:04Z | turns 1 bytes 2809 | live path : texts 1 missing 0 | off the live path : texts 0 missing 0 | thinking blocks 1 with text 0 40-char windows checked 0 found in the log 0 | agent id in the file: False

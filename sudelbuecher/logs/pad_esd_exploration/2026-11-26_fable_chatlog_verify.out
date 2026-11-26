@@ -1,8 +1,8 @@
-verify_chatlog.py (tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher, sudelbuecher/chatlog_tools/) on sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md (rebuilt; third run of the session)
-turns 4 bytes 229371
-live path : texts 30 missing 2
+verify_chatlog.py (tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher, sudelbuecher/chatlog_tools/) on sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md (rebuilt; fourth run of the session)
+turns 5 bytes 268278
+live path : texts 36 missing 3
 off the live path : texts 0 missing 0
-thinking blocks 158 with text 11 40-char windows checked 1656 found in the log 2
+thinking blocks 175 with text 13 40-char windows checked 1906 found in the log 2
 
 note on "found in the log 2": one shared stretch of 41 characters (2 windows of 40) between the log and one reasoning block
 (record 2026-11-26T14:02:25.880Z, 206 characters): the folder path `sudelbuecher/logs/pad_esd_exploration/` in backticks plus one

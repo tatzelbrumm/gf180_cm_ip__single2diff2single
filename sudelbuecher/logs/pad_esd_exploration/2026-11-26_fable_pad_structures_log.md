@@ -374,6 +374,24 @@ subsequent ones". Standing instruction for this work: every subagent's log is ex
   chat logs by start (1 IHP, 2 evampire, 3 public sources); the index lines pair them.
 - The rule is not yet written into the `CLAUDE.md` of this branch; I did not edit that file.
 
+## 22. Four more hosts, the rule in CLAUDE.md, and the standards documents
+
+- Christoph allowed `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`, `ieeexplore.ieee.org` (approved on the
+  environment card; before: all four refused, code 000) and told me to add the subagent-log rule to this branch's
+  `CLAUDE.md`. Done: one bullet under the `chatlog/` conventions (commit `0189474`).
+- After the change: `www.esda.org` 200, `esdindustrycouncil.org` 200, `www.jedec.org` 403, `ieeexplore.ieee.org` 200 for the
+  home page.
+- Downloaded and converted with `pdftotext -layout`: Industry Council White Paper 1 rev 4.0 (63 pages) and White
+  Paper 2 rev 3.0 (173 pages); fetched the ESD Association's "ESD Fundamentals, Part 5". The link to JEP172 on the
+  council's site returned 404. Quotations with their pages: `2026-11-26_fable_esd_whitepaper_quotes.out`. The PDFs
+  are not filed.
+- IEEE Xplore: my first attempt used the site's search interface with browser-like headers; the session's permission
+  check refused that call, and I did not repeat it. A web-fetch subagent (number 4) then could not resolve the host
+  at all. A plain `curl` of four abstract pages returned HTTP 202 with an empty body. No IEEE content was read.
+- Report section 15.4 rewritten from the opened documents; summary item 9 and proposal P6 updated.
+- Subagent 4's chat log and report are exported like the others (`2026-11-26_fable_subagent_chatlogs_verify.out`: all
+  four logs 0 missing, 0 reasoning windows). Main chat log rebuilt (fourth run).
+
 ## Not checked (summary)
 
 No extraction or LVS of a pad cell. No ESD or clamp simulation. No layout dimensions of `comp018green_esd_cdm`, the

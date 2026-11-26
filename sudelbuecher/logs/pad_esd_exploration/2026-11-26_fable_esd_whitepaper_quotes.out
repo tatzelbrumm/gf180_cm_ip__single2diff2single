@@ -1,0 +1,43 @@
+Short quotations located by script in two documents of the Industry Council on ESD Target Levels (PDF text by pdftotext -layout;
+page = PDF page) and one page of the EOS/ESD Association. The documents themselves are not copied here.
+wp1 = White Paper 1 rev 4.0 (June 2018), https://esdindustrycouncil.org/ic/docs/industry%20council_esd_target_levels_whitepaper1_rev4.0_june2018%20final.pdf (HTTP 200, 1727401 bytes, 63 pages)
+wp2 = White Paper 2 rev 3.0 (May 2021), https://esdindustrycouncil.org/ic/en/shared/industry-council-white-paper-2-rev3.0-may-2021-final.pdf (HTTP 200, 5693322 bytes, 173 pages)
+esda5 = https://www.esda.org/esd-overview/esd-fundamentals/part-5-device-sensitivity-and-testing/ (HTTP 200)
+
+[wp1 p.52] we have recommended a component HBM qualification shift from 2 kV to 1 kV
+
+[wp1 p.12] Basic ESD controls ensure that devices with a HBM robustness of at least 500 V can be handled safely
+
+[wp1 p.56] According to the standards the peak current into a short is 1.3 A for a 2 kV HBM discharge and 3.8 A for a 200 V MM discharge
+
+[wp1 p.2] MM testing is redundant to HBM and produces the same failure mechanisms
+
+[wp1 p.4] MM qualification testing is not a required component level qualification test per JEDEC
+
+[wp2 p.2] we recommend a CDM specification target level of 250 volts
+
+[wp2 p.8] practical designs are restricted to 2-6 amperes of peak CDM current, which translates to a CDM target level of 125-400 volts for many advanced technology products (depending on pin-count)
+
+[wp2 p.43] not more than 3-4 amperes at 500 volts
+
+[wp2 p.147] From less than 100 ps to a few ns
+
+[wp2 p.34] it is important to minimize the total voltage drop between the I/O pad and GND bus local to the stressed I/O pad
+
+[wp2 p.34] it is common for multiple power clamps to be distributed in parallel along the power buses
+
+[wp2 p.35] R1 values from 100-5000 Ω are common for protecting receiver circuits
+
+[wp2 p.35] Typical R2 values for digital applications can range from 5-100 Ω. This resistance can have a significant impact on the effective CDM robustness of driver transistors M3- M4
+
+[esda5] It is modeled by a 100 pF capacitor
+
+[esda5] a 1.5 kW (1,500 ohms) series resistor
+
+[esda5] A typical HBM waveform has a rise time of 2–10 ns, a peak current of 0.67 amps/kilovolts, and a double-exponential decay with a width of 200 ns
+
+[esda5] often less than one nanosecond – the peak current can reach several tens of amperes
+
+[esda5] the industry shifted away from MM as a qualification test
+
+Not readable: https://www.jedec.org/ -> 403 to a plain request; https://ieeexplore.ieee.org/document/{670659,622511,7112823,492126} -> 202, empty body.

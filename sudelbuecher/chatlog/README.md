@@ -26,3 +26,6 @@ One `[file](file)` + one sentence per log. The logs are made with [`export_chatl
 
 [2026-11-26_fable_pad_structures_subagent_3_public_gf180_esd_sources_search.md](2026-11-26_fable_pad_structures_subagent_3_public_gf180_esd_sources_search.md)
 : Subagent of the pad structure session: search of public sources for ESD data on the open GF180 pads (web searches, GitHub searches, public repositories); the message shown as "User" is the assistant's brief. Its report: `../logs/pad_esd_exploration/2026-11-26_fable_subagent_report_3_public_gf180_esd_sources_search.md`.
+
+[2026-11-26_fable_pad_structures_subagent_4_ieee_abstracts_on_esd_pulse_limits.md](2026-11-26_fable_pad_structures_subagent_4_ieee_abstracts_on_esd_pulse_limits.md)
+: Subagent of the pad structure session: attempt to read four public IEEE Xplore abstract pages on pulsed current limits (page-fetch tool only; all four fetches failed because the tool could not resolve the host); the message shown as "User" is the assistant's brief. Its report: `../logs/pad_esd_exploration/2026-11-26_fable_subagent_report_4_ieee_abstracts_on_esd_pulse_limits.md`.

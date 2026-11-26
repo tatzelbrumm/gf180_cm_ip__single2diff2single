@@ -8,7 +8,7 @@ Session `session_01XU3KH8TTLjkQNhWPaFJmRL, transcript 35fe6b9a-54a3-54d0-adab-73
 Verbatim export of the displayed conversation: user messages, visible replies and `SendUserMessage` texts as written;
 tool calls as `*[ ]*` summaries (actions and observable results only); shell commands verbatim in collapsed blocks, their output omitted.
 The internal reasoning trace is not included.
-Times are Europe/Berlin. Exported through the record stamped 2026-11-26 17:53; later turns are not in this file.
+Times are Europe/Berlin. Exported through the record stamped 2026-11-26 18:07; later turns are not in this file.
 
 ## Turn 1 — 15:00
 
@@ -3595,7 +3595,7 @@ python3 -I $L/tools/export_subagent_logs.py "$T" $N/sudelbuecher/chatlog 2026-11
 
 </details>
 
-*[Add index, manifest and journal entries for the subagent logs, rebuild the main log, commit and push (in the cloud container).]*
+*[Add index, manifest and journal entries for the subagent logs, rebuild the main log, commit and push (in the cloud container; 13 lines of output).]*
 
 <details><summary>command</summary>
 
@@ -3653,6 +3653,542 @@ Requested by Christoph in the session ("the subagents' logs, as well as of subse
 ones"). Built by script from the subagents' raw transcripts with
 sudelbuecher/chatlog/export_chatlog.py (unchanged) and checked with verify_chatlog.py
 of the harness fork: 0 texts missing, 0 reasoning windows in each.
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL
+EOF
+git push origin sudel_buecher 2>&1 | tail -1; git status -sb | head -2
+```
+
+</details>
+
+The three subagent logs are exported, checked and pushed to `sudel_buecher`, under `sudelbuecher/chatlog/`. Each passes the check cleanly: 0 texts missing, 0 reasoning windows found.
+
+| File (prefix `2026-11-26_fable_pad_structures_`) | Tool calls | Size |
+| --- | --- | --- |
+| `subagent_1_ihp_parametric_cells_survey.md` | 42 | 28 kB |
+| `subagent_2_extract_evampire_esd_page_claims.md` | 7 | 20 kB |
+| `subagent_3_public_gf180_esd_sources_search.md` | 117 | 43 kB |
+
+- **Labelling:** the exporter shows my brief to each subagent as "User". The title of each log and its index line say that it is my prompt, not a message from you.
+- **Numbering:** the chat logs are numbered by start order, the already-filed reports by arrival order, so 1 and 2 are swapped between them. The index lines pair each log with its report.
+- **Agent ids:** the internal ids appear nowhere in the files.
+- **Main log:** rebuilt as well, so it now covers your two questions about the subagent logs. Its check result is unchanged from before (the two subagent reports counted as missing, and the one folder-path overlap).
+
+For subsequent subagents: in this session I will export each one the same way; the script for it is `sudelbuecher/logs/pad_esd_exploration/tools/export_subagent_logs.py`. To make it a rule for future sessions it has to be written into the `CLAUDE.md` of `sudel_buecher`. I did not edit that file, because the brief limits me to appending on that branch. Say so if you want the line added.
+
+The KLayout decision from earlier is still open and nothing has been built for it.
+
+## Turn 5 — 17:56
+
+**User:**
+
+I would need www.esda.org, esdindustrycouncil.org, www.jedec.org and ieeexplore.ieee.org allowed.
+Allowed, and add the line to CLAUDE.md of sudel_buecher
+
+**Assistant:**
+
+*[Called mcp__claude-code-remote__get_environment.]*
+
+*[Test the four hosts, check PDF tools and read the chat log section of the notes branch's CLAUDE.md (in the cloud container; 26 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp; for u in https://www.esda.org/ https://esdindustrycouncil.org/ https://www.jedec.org/ https://ieeexplore.ieee.org/ ; do printf '%s -> ' "$u"; curl -s -L -o /dev/null -w '%{http_code} %{size_download}\n' --max-time 25 -A 'Mozilla/5.0 (compatible; research-client)' "$u"; done; which pdftotext pdfinfo 2>&1 | head -2; python3 -c "import pypdf; print('pypdf', pypdf.__version__)" 2>&1 | tail -1; sed -n '/chatlog\//,/pix/p' /home/user/gf180_cm_ip__single2diff2single_sudelbuecher/CLAUDE.md | cut -c1-160
+```
+
+</details>
+
+*[Called mcp__claude-code-remote__update_environment (1 lines of output).]*
+
+Approved and saved. Adding the rule to `CLAUDE.md` of `sudel_buecher` first, then opening the standards and papers.
+
+*[Add the subagent log rule to the notes branch's CLAUDE.md, push, and retest the four hosts (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+set -e; N=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher; cd $N; python3 -I - <<'EOF'
+p='CLAUDE.md'; s=open(p).read()
+a="  - If a verbatim export is not possible: action → result → decision entries in a running\n    `log.md` (optionally `log.tex` / `log.pdf`).\n"
+assert s.count(a)==1
+b=("  - **Subagents too** (Christoph, 2026-11-26): when a session spawns subagents, their logs are exported as well, each to\n"
+   "    its own file `<date>_<model>_<topic>_subagent_<n>_<task>.md` with an index entry, by the same exporter from\n"
+   "    `~/.claude/projects/<project>/<session>/subagents/agent-<id>.jsonl`, and checked (script:\n"
+   "    `logs/pad_esd_exploration/tools/export_subagent_logs.py`). The message the exporter shows as \"User\" there is the\n"
+   "    spawning session's brief: say so in the title and the index entry. Name files by task, not by the internal agent\n"
+   "    id. A subagent's final report comes back through a hand-back call and is filed verbatim under `logs/<branch>/`.\n")
+s=s.replace(a,b+a); open(p,'w').write(s)
+EOF
+git add CLAUDE.md && git commit -q -m "CLAUDE.md : chat logs of subagents are exported too (rule added on Christoph's instruction of 2026-11-26)
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL" && git push origin sudel_buecher 2>&1 | tail -1
+cd /tmp; for u in https://www.esda.org/ https://esdindustrycouncil.org/ https://www.jedec.org/ https://ieeexplore.ieee.org/ ; do printf '%s -> ' "$u"; curl -s -L -o /dev/null -w '%{http_code} %{size_download}\n' --max-time 30 -A 'Mozilla/5.0 (compatible; research-client)' "$u"; done
+```
+
+</details>
+
+*[List the links on the Industry Council's home page (in the cloud container; 19 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; mkdir -p $S/esdlit && cd $S/esdlit; UA='Mozilla/5.0 (compatible; research-client)'; curl -s -L -A "$UA" --max-time 30 https://esdindustrycouncil.org/ -o ic_home.html; python3 -I - <<'EOF'
+import re,html
+t=open('ic_home.html',errors='replace').read()
+for m in re.finditer(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>',t,re.S):
+    txt=re.sub(r'<[^>]+>','',m.group(2)).strip()
+    print(m.group(1)[:140],'|',html.unescape(txt)[:80])
+EOF
+```
+
+</details>
+
+*[List the Industry Council's current documents (in the cloud container; 23 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; UA='Mozilla/5.0 (compatible; research-client)'; curl -s -L -A "$UA" --max-time 30 https://esdindustrycouncil.org/ic/en/index.php/documents -o ic_docs.html; python3 -I - <<'EOF'
+import re,html
+t=open('ic_docs.html',errors='replace').read()
+seen=set()
+for m in re.finditer(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>',t,re.S):
+    txt=html.unescape(re.sub(r'<[^>]+>','',m.group(2)).strip()); h=m.group(1)
+    if h in seen or h.startswith('#') or 'index.php/' in h and 'documents/' not in h: continue
+    seen.add(h); print(h[:170],'|',txt[:90])
+EOF
+```
+
+</details>
+
+*[Read the Industry Council pages for White Paper 1, White Paper 2 and the machine-model notice (in the cloud container; 10 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; UA='Mozilla/5.0 (compatible; research-client)'; B=https://esdindustrycouncil.org/ic/en/index.php/documents; for p in white-paper-1-a-case-for-lowering-component-level-hbm-mm-esd white-paper-2-a-case-for-lowering-component-level-cdm-esd-sp jep172-released-by-jedec; do curl -s -L -A "$UA" --max-time 30 $B/$p -o $p.html; python3 -I - $p.html <<'EOF'
+import re,html,sys
+t=open(sys.argv[1],errors='replace').read()
+i=t.find('<main'); body=t[i:] if i>0 else t
+x=re.sub(r'<(script|style).*?</\1>','',body,flags=re.S)
+links=[(m.group(1),html.unescape(re.sub(r'<[^>]+>','',m.group(2)).strip())) for m in re.finditer(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>',x,re.S)]
+x=html.unescape(re.sub(r'\s+',' ',re.sub(r'<[^>]+>',' ',x)))
+k=x.find('White Paper'); print('=====',sys.argv[1]); print(x[max(0,k-50):k+1500])
+for h,tx in links:
+    if re.search(r'\.pdf|download|images/|files/',h,re.I): print('  LINK',h[:200],'|',tx[:60])
+EOF
+done
+```
+
+</details>
+
+*[Download the two white papers and the machine-model document and convert them to text (in the cloud container; error).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; UA='Mozilla/5.0 (compatible; research-client)'; curl -s -L -A "$UA" --max-time 120 -o wp1.pdf -w 'wp1 %{http_code} %{size_download}\n' "https://esdindustrycouncil.org/ic/docs/industry%20council_esd_target_levels_whitepaper1_rev4.0_june2018%20final.pdf"; curl -s -L -A "$UA" --max-time 120 -o wp2.pdf -w 'wp2 %{http_code} %{size_download}\n' "https://esdindustrycouncil.org/ic/en/shared/industry-council-white-paper-2-rev3.0-may-2021-final.pdf"; curl -s -L -A "$UA" --max-time 120 -o jep172.pdf -w 'jep172 %{http_code} %{size_download}\n' "https://esdindustrycouncil.org/ic/en/ic/docs/JEP172.pdf"; for f in wp1 wp2 jep172; do file $f.pdf | cut -c1-80; pdfinfo $f.pdf 2>/dev/null | grep -i 'pages\|title' ; pdftotext -layout $f.pdf $f.txt 2>/dev/null && wc -l $f.txt; done
+```
+
+</details>
+
+*[Search White Paper 1 for its recommended HBM levels and machine-model statement (in the cloud container; 16 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; python3 -I - <<'EOF'
+import re
+def pages(f): return open(f,errors='replace').read().split('\f')
+def find(f, pats, maxhits=4, ctx=260):
+    P=pages(f)
+    for pat in pats:
+        n=0
+        for i,p in enumerate(P,1):
+            x=re.sub(r'\s+',' ',p)
+            for m in re.finditer(pat,x,re.I):
+                print(f'[{f} p.{i}] ...{x[max(0,m.start()-ctx//2):m.end()+ctx]}...'); print(); n+=1
+                if n>=maxhits: break
+            if n>=maxhits: break
+        if n==0: print(f'[{f}] no hit for {pat!r}\n')
+find('wp1.txt',[r'1 ?kV HBM[^.]{0,80}(safe|recommend|sufficient|realistic)', r'recommend[^.]{0,120}1000 ?V', r'500 ?V HBM', r'machine model[^.]{0,120}(redundant|eliminat|discontinu|not necessary)', r'peak current[^.]{0,80}(0\.6|1\.3|amp)'],3)
+EOF
+```
+
+</details>
+
+*[Search both white papers for recommended levels, peak currents and time scales (in the cloud container; 35 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; python3 -I - <<'EOF'
+import re
+def pages(f): return open(f,errors='replace').read().split('\f')
+def find(f, pats, maxhits=3, ctx=330):
+    P=pages(f)
+    for pat in pats:
+        n=0
+        for i,p in enumerate(P,1):
+            x=re.sub(r'\s+',' ',p)
+            for m in re.finditer(pat,x,re.I):
+                print(f'[{f} p.{i}] ...{x[max(0,m.start()-120):m.end()+ctx]}...'); print(); n+=1
+                if n>=maxhits: break
+            if n>=maxhits: break
+        if n==0: print(f'[{f}] no hit for {pat!r}\n')
+find('wp1.txt',[r'recommend[^.]{0,200}1 ?kV', r'Table I\b[^I]', r'1 ?kV[^.]{0,60}(safe|realistic|sufficient) ', r'100 ?pF', r'0\.67|0\.66 ?A'],2)
+print('================ WP2')
+find('wp2.txt',[r'recommend[^.]{0,200}250 ?V', r'2 ?(-|–|to) ?6 ?A', r'peak current[^.]{0,200}(250 ?V|500 ?V)', r'rise ?time[^.]{0,100}(ps|ns)', r'125 ?V'],2)
+EOF
+```
+
+</details>
+
+*[Search the white papers for machine-model, oxide breakdown and secondary protection statements (in the cloud container; 25 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; python3 -I - <<'EOF'
+import re
+def pages(f): return open(f,errors='replace').read().split('\f')
+def find(f, pats, maxhits=2, ctx=420, pre=160):
+    P=pages(f)
+    for pat in pats:
+        n=0
+        for i,p in enumerate(P,1):
+            x=re.sub(r'\s+',' ',p)
+            for m in re.finditer(pat,x,re.I):
+                print(f'[{f} p.{i}] ...{x[max(0,m.start()-pre):m.end()+ctx]}...'); print(); n+=1
+                if n>=maxhits: break
+            if n>=maxhits: break
+        if n==0: print(f'[{f}] no hit for {pat!r}\n')
+find('wp1.txt',[r'MM (test|qualification)[^.]{0,160}(redundant|not (be )?(needed|necessary|required)|eliminat|removed)', r'MM[^.]{0,80}redundant'],2)
+print('=========== WP2')
+find('wp2.txt',[r'gate oxide breakdown[^.]{0,200}', r'secondary (clamp|protection|ESD)[^.]{0,200}', r'series resist[^.]{0,200}', r'local clamp[^.]{0,200}', r'1 ?ns[^.]{0,80}(pulse|TLP|VF-TLP)[^.]{0,160}oxide'],2)
+EOF
+```
+
+</details>
+
+*[Read the white paper's two pages on dual-diode protection with secondary elements (in the cloud container; 6 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; python3 -I - <<'EOF'
+import re
+P=open('wp2.txt',errors='replace').read().split('\f')
+for i in (34,35):
+    x=re.sub(r'\s+',' ',P[i-1]); print(f'--- wp2 p.{i} ({len(x)} chars)'); print(x[:3600]); print()
+EOF
+```
+
+</details>
+
+*[Look for freely readable HBM and CDM standard documents on the ESD Association site (in the cloud container; 26 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; UA='Mozilla/5.0 (compatible; research-client)'; for p in standards/ standards/esda-documents/ standards/device-design/; do curl -s -L -A "$UA" --max-time 30 "https://www.esda.org/$p" -o "esda_$(echo $p | tr '/' '_').html" -w "$p %{http_code} %{size_download}\n"; done; python3 -I - <<'EOF'
+import re,html,glob
+seen=set()
+for f in glob.glob('esda_*.html'):
+    t=open(f,errors='replace').read()
+    for m in re.finditer(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>',t,re.S):
+        h=m.group(1); tx=html.unescape(re.sub(r'<[^>]+>','',m.group(2)).strip())
+        if re.search(r'js-?00[12]|human-body|charged-device|hbm|cdm|\.pdf|fundamentals|device-sensitivity|device-design',h+tx,re.I) and h not in seen:
+            seen.add(h); print(h[:150],'|',tx[:70])
+EOF
+```
+
+</details>
+
+*[Read the ESD Association's public page on device sensitivity and testing (in the cloud container; 29 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; UA='Mozilla/5.0 (compatible; research-client)'; curl -s -L -A "$UA" --max-time 30 "https://www.esda.org/esd-overview/esd-fundamentals/part-5-device-sensitivity-and-testing/" -o esda_part5.html -w 'part5 %{http_code} %{size_download}\n'; python3 -I - <<'EOF'
+import re,html
+t=open('esda_part5.html',errors='replace').read()
+i=t.find('Part 5'); x=re.sub(r'<(script|style).*?</\1>','',t,flags=re.S); x=html.unescape(re.sub(r'<[^>]+>',' ',x)); x=re.sub(r'\s+',' ',x)
+for pat in [r'100 ?p(ico)?F[^.]{0,200}', r'1,?500[^.]{0,160}', r'rise ?time[^.]{0,200}', r'peak current[^.]{0,200}', r'Charged Device Model[^.]{0,300}', r'machine model[^.]{0,260}', r'classif[^.]{0,200}']:
+    for m in list(re.finditer(pat,x,re.I))[:2]:
+        print('...',x[max(0,m.start()-120):m.end()+120],'...\n')
+print(len(x))
+EOF
+```
+
+</details>
+
+*[Look up the located papers on pulsed metal and oxide limits in IEEE Xplore's search (in the cloud container; error).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; UA='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36'; q() { curl -s --max-time 40 'https://ieeexplore.ieee.org/rest/search' -H "User-Agent: $UA" -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Origin: https://ieeexplore.ieee.org' -H 'Referer: https://ieeexplore.ieee.org/search/searchresult.jsp' -d "{\"queryText\":\"$1\",\"rowsPerPage\":5}" -o "$2" -w "$2 %{http_code} %{size_download}\n"; }; q "Characterization of VLSI circuit interconnect heating and failure under ESD conditions" s1.json; q "High-current failure model for VLSI interconnects under short-pulse stress conditions" s2.json; q "High-current transmission line pulse characterization of aluminum and copper interconnects for advanced CMOS semiconductor technologies" s3.json; q "Reliability aspects of gate oxide under ESD pulse stress" s4.json; python3 -I - <<'EOF'
+import json
+for f in ['s1.json','s2.json','s3.json','s4.json']:
+    try:
+        d=json.load(open(f))
+        for r in d.get('records',[])[:3]:
+            print(f, '|', r.get('articleNumber'), '|', r.get('publicationYear'), '|', (r.get('articleTitle') or '')[:110], '|', (r.get('publicationTitle') or '')[:60], '| doi', r.get('doi'))
+    except Exception as e: print(f,'ERR',e, open(f,errors='replace').read()[:200])
+EOF
+```
+
+</details>
+
+*[Called Agent (7 lines of output).]*
+
+The page-fetch tool still cannot resolve the IEEE host (it has not picked up the new allowance), so I'm trying a plain request for the public abstract pages directly.
+
+*[Fetch four public IEEE abstract pages with a plain request and print their metadata and abstracts (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; for id in 670659 622511 7112823 492126; do curl -s -L --max-time 40 -A 'research-client/1.0 (plain HTTP GET of public abstract page)' "https://ieeexplore.ieee.org/document/$id" -o ieee_$id.html -w "$id %{http_code} %{size_download}\n"; done; python3 -I - <<'EOF'
+import re,json,html
+for id in ['670659','622511','7112823','492126']:
+    t=open(f'ieee_{id}.html',errors='replace').read()
+    m=re.search(r'xplGlobal\.document\.metadata\s*=\s*(\{.*?\});\s*\n',t,re.S)
+    if not m:
+        ti=re.search(r'<title>(.*?)</title>',t,re.S); print(id,'no embedded metadata; title:',(ti.group(1).strip() if ti else None), '| size', len(t)); continue
+    d=json.loads(m.group(1))
+    print('==',id,'|',d.get('title'),'|',d.get('publicationTitle'),'|',d.get('publicationYear'),'| doi',d.get('doi'))
+    print('   authors:', ', '.join(a.get('name','') for a in d.get('authors',[])))
+    print('   abstract:', html.unescape(re.sub(r'<[^>]+>','',d.get('abstract') or ''))[:1600])
+EOF
+```
+
+</details>
+
+*[Search White Paper 2 for its recommendation table, small-package currents and thick-oxide statements (in the cloud container; 12 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/esdlit; python3 -I - <<'EOF'
+import re
+P=open('wp2.txt',errors='replace').read().split('\f')
+def find(pats,maxhits=2,ctx=420,pre=200):
+    for pat in pats:
+        n=0
+        for i,p in enumerate(P,1):
+            x=re.sub(r'\s+',' ',p)
+            for m in re.finditer(pat,x,re.I):
+                print(f'[wp2 p.{i}] ...{x[max(0,m.start()-pre):m.end()+ctx]}...\n'); n+=1
+                if n>=maxhits: break
+            if n>=maxhits: break
+        if n==0: print('no hit',pat,'\n')
+find([r'Table I: Rec[^.]{0,500}', r'QFN[^.]{0,200}peak', r'small (package|die)[^.]{0,160}(peak current|amp)', r'thick[- ]oxide[^.]{0,220}', r'Figure 8:[^.]{0,300}'],2)
+EOF
+```
+
+</details>
+
+*[Rewrite the report's section on target levels and the secondary network from the opened documents (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -I - <<'EOF'
+p='docs/PAD_STRUCTURES.md'; s=open(p).read()
+a=s.index("### 15.4 Target levels, discharge currents and time scales"); b=s.index("### 15.5 How two other open PDKs")
+new = r'''### 15.4 Target levels, discharge currents, time scales and the secondary network (standards bodies)
+
+Rewritten after the user allowed four more hosts later in the session. Read by me, all **[V]** with the page of the
+PDF or the web page:
+
+- **WP1** = Industry Council on ESD Target Levels, White Paper 1, "A Case for Lowering Component Level HBM/MM ESD
+  Specifications and Requirements", revision 4.0, June 2018 (63 pages; linked from
+  `esdindustrycouncil.org/ic/en/index.php/documents/white-paper-1-a-case-for-lowering-component-level-hbm-mm-esd`).
+- **WP2** = the same council's White Paper 2, "A Case for Lowering Component Level CDM ESD Specifications and
+  Requirements", revision 3.0, May 2021 (173 pages; linked from `.../documents/white-paper-2-a-case-for-lowering-component-level-cdm-esd-sp`).
+  JEDEC publishes these two papers as JEP155 and JEP157.
+- **ESDA-5** = EOS/ESD Association, "ESD Fundamentals, Part 5: Device Sensitivity and Testing"
+  (`www.esda.org/esd-overview/esd-fundamentals/part-5-device-sensitivity-and-testing/`).
+
+| Topic | What the source says | Where |
+| --- | --- | --- |
+| HBM test circuit | "a 100 pF capacitor ... discharged through ... a 1.5 kΩ (1,500 ohms) series resistor" | ESDA-5 |
+| HBM waveform | "a rise time of 2–10 ns, a peak current of 0.67 amps/kilovolts, and a double-exponential decay with a width of 200 ns" | ESDA-5 |
+| HBM and MM peak currents | "the peak current into a short is 1.3 A for a 2 kV HBM discharge and 3.8 A for a 200 V MM discharge" | WP1 p. 56 |
+| recommended HBM level | "we have recommended a component HBM qualification shift from 2 kV to 1 kV"; table: 2 kV and 1 kV "Basic ESD Control methods allow safe manufacturing with proven margin"; "Basic ESD controls ensure that devices with a HBM robustness of at least 500 V can be handled safely" | WP1 pp. 52, 7, 12 |
+| machine model | "MM testing is redundant to HBM and produces the same failure mechanisms"; "MM qualification testing is not a required component level qualification test per JEDEC" | WP1 pp. 2, 4 |
+| CDM event | "often less than one nanosecond – the peak current can reach several tens of amperes"; tested per JS-002 | ESDA-5 |
+| recommended CDM level | "we recommend a CDM specification target level of 250 volts"; at 200 V and above basic ESD control methods suffice, below 200 V process-specific measures are needed | WP2 pp. 2, 10 |
+| CDM current a design can take | "practical designs are restricted to 2-6 amperes of peak CDM current, which translates to a CDM target level of 125-400 volts for many advanced technology products (depending on pin-count)"; small BGA packages: "not more than 3-4 amperes at 500 volts" | WP2 pp. 8, 43 |
+| CDM rise time | "From less than 100 ps to a few ns" | WP2 p. 147 |
+| **the architecture GF uses, described** | "Dual Diode ESD Protection": primary diodes D1, D2 at the pad, a power clamp between the buses, and "primary and secondary ESD protection elements ... to protect receiver transistors ... and driver transistors"; "it is important to minimize the total voltage drop between the I/O pad and GND bus local to the stressed I/O pad"; "it is common for multiple power clamps to be distributed in parallel along the power buses" | WP2 p. 34 |
+| **receiver resistor** | "any IR drop across R1 will reduce the voltage stress seen across the fragile gates ... R1 values from 100-5000 Ω are common for protecting receiver circuits" | WP2 p. 35 |
+| **driver resistor** | a second path "via resistor R2 and the drain to N-well parasitic diode of PMOS transistor"; R2 is optional because some applications "do not typically permit the use of any series resistance between the driver and pad"; "Typical R2 values for digital applications can range from 5-100 Ω. This resistance can have a significant impact on the effective CDM robustness of driver transistors" | WP2 p. 35 |
+
+What this gives the project **[I]**:
+
+- **A defensible target to name** (question 3 of section 11): 1 kV HBM and 250 V CDM are the levels the industry
+  council recommends for qualification; the datasheet's 2 kV / 500 V are the older customary values, and its 200 V
+  machine-model target refers to a test the same bodies no longer require.
+- **Currents to size for:** about 0.67 A at 1 kV HBM (1.3 A at 2 kV) for some hundred nanoseconds; a few amperes for
+  about a nanosecond for CDM. For CDM the charge sits on the die and package, so the current does not have to enter
+  through the pad's metal from outside; the white paper's point is the voltage drop along diode, bus and clamp.
+- **Input (`vin`):** the datasheet's "more than 50 Ω" is below the 100 to 5000 Ω the white paper calls common for
+  receivers; the foundry's own 110 Ω (section 15.3) is at the low end of that range, and the proof of concept's
+  200 Ω is inside it.
+- **Output (`vout`):** published practice for drivers is an optional series resistor of 5 to 100 Ω between driver and
+  pad, with the driver's own drain diodes as the second path. That is a third option next to the two of question 4
+  in section 11, and it costs output swing: at the pad's 10 mA DC rating, 0.05 V to 1 V.
+- **The primary path of section 5.2 is the textbook one**, and the textbook's condition (low voltage drop from the
+  pad along the buses to a nearby clamp, several clamps along the ring) is what section 6.2 could not confirm for the
+  slot 16 pads: the nearest ring clamp is three and four pad positions away, and the rail resistance is not known.
+
+Still not opened, although the hosts are now allowed:
+
+- **IEEE Xplore** answers a plain request for an abstract page with HTTP 202 and an empty body, and the session's
+  page-fetch tool could not resolve the host. A request shaped to look like a browser was refused by the session's
+  permission check, and I did not try further. So the papers on pulsed current limits of metal lines (Banerjee,
+  Amerasekera et al. 1996 and 1997; Voldman et al. 1998), on gate oxide under ESD pulses (Ille et al.) and the
+  GlobalFoundries 180 nm high-voltage paper (IRPS 2015) remain **[U-lead]**.
+- **`www.jedec.org`** answers 403 to a plain request. Not needed for the two white papers, which the council hosts.
+- The standards JS-001 and JS-002 themselves were not opened; the waveform numbers above come from the ESD
+  Association's own summary page.
+- White Paper 2 shows oxide breakdown under 1.2 ns pulses and metal current limits only as trend figures over
+  technology nodes (pp. 36-37), without numbers I could read from the text. Pulsed limits for this process remain
+  unknown (section 15.8).
+
+'''
+s=s[:a]+new+s[b:]
+x="The cloud environment's network policy refused most literature hosts (the ESD Association, the Industry Council\non ESD Target Levels, JEDEC, IEEE Xplore, ScienceDirect, arXiv, archive.org), so everything from standards and papers\nis [U-lead]. If the user wants those leads turned into citations, those hosts would have to be allowed."
+assert s.count(x)==1
+s=s.replace(x,"During the search the cloud environment's network policy refused most literature hosts, so its findings from\nstandards and papers were leads only. Later the user allowed `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`\nand `ieeexplore.ieee.org`; section 15.4 was then rewritten from the documents themselves. Papers behind IEEE Xplore\nand other publishers (ScienceDirect, arXiv, archive.org were not allowed) are still leads.")
+y="   breakdown limits are 12 V (6 V gate) and 7 V (3.3 V gate), and the foundry's own second stage (about 110 Ω, 84 µm\n   of diode perimeter per polarity) is the best public example for the network the design has to add.\n"
+assert s.count(y)==1
+s=s.replace(y,y+"   The industry council's white papers, read in full, recommend 1 kV HBM and 250 V CDM as targets and give resistor\n   ranges for exactly this pad architecture: 100 to 5000 Ω in front of receivers, 5 to 100 Ω (optional) behind drivers.\n")
+open(p,'w').write(s)
+p='docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md'; s=open(p).read()
+x="   Hosts that a literature search needed and the policy refused on 2026-11-26"
+assert s.count(x)==1
+s=s.replace(x,"   Added later on 2026-11-26 on the user's approval: `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`,\n   `ieeexplore.ieee.org`. Experience **[V]**: the first two serve pages and PDFs to a plain `curl`; `www.jedec.org` answers\n   403 and `ieeexplore.ieee.org` answers 202 with an empty body to a plain request, so allowing those two did not make\n   them readable; the session's page-fetch tool did not see the newly allowed IEEE host at all.\n"+x)
+open(p,'w').write(s)
+EOF
+git diff --stat | tail -1
+```
+
+</details>
+
+*[Commit the rewritten section and file the located quotations as evidence (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+set -e; S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; N=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher; L=$N/sudelbuecher/logs/pad_esd_exploration; NAME=2026-11-26_fable_pad_structures_and_esd_exploration
+cd /home/user/gf180_cm_ip__single2diff2single && python3 -I - <<'EOF'
+p='docs/PAD_STRUCTURES.md'; s=open(p).read()
+a='| HBM test circuit | "a 100 pF capacitor ... discharged through ... a 1.5 kΩ (1,500 ohms) series resistor" | ESDA-5 |'
+assert s.count(a)==1
+s=s.replace(a,'| HBM test circuit | "a 100 pF capacitor" discharged through "a 1.5 kW (1,500 ohms) series resistor" (the page prints the ohm sign as W) | ESDA-5 |')
+open(p,'w').write(s)
+EOF
+git add docs && git commit -q -F - <<'EOF'
+docs/PAD_STRUCTURES.md docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md : section 15.4 rewritten from the Industry Council white papers and the ESD Association page
+
+Read after the user allowed four more hosts: recommended targets 1 kV HBM and
+250 V CDM, discharge currents and time scales, and resistor ranges for the
+dual-diode architecture (100-5000 ohm for receivers, 5-100 ohm optional for
+drivers). IEEE Xplore and jedec.org did not serve content to a plain request.
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL
+EOF
+git push origin pad_esd_exploration 2>&1 | tail -1
+cd $S/esdlit && python3 -I - > $L/2026-11-26_fable_esd_whitepaper_quotes.out <<'EOF'
+import re
+print("Short quotations located by script in two documents of the Industry Council on ESD Target Levels (PDF text by pdftotext -layout;")
+print("page = PDF page) and one page of the EOS/ESD Association. The documents themselves are not copied here.")
+print("wp1 = White Paper 1 rev 4.0 (June 2018), https://esdindustrycouncil.org/ic/docs/industry%20council_esd_target_levels_whitepaper1_rev4.0_june2018%20final.pdf (HTTP 200, 1727401 bytes, 63 pages)")
+print("wp2 = White Paper 2 rev 3.0 (May 2021), https://esdindustrycouncil.org/ic/en/shared/industry-council-white-paper-2-rev3.0-may-2021-final.pdf (HTTP 200, 5693322 bytes, 173 pages)")
+print("esda5 = https://www.esda.org/esd-overview/esd-fundamentals/part-5-device-sensitivity-and-testing/ (HTTP 200)\n")
+def show(f, pats):
+    P=open(f,errors='replace').read().split('\f')
+    for pat in pats:
+        for i,p in enumerate(P,1):
+            x=re.sub(r'\s+',' ',p); m=re.search(pat,x,re.I)
+            if m: print(f"[{f[:-4]} p.{i}] {x[m.start():m.end()]}\n"); break
+        else: print(f"[{f[:-4]}] not found: {pat}\n")
+show('wp1.txt',[r'we have recommended a component HBM qualification shift from 2 kV to 1 kV', r'Basic ESD controls ensure that devices with a HBM robustness of at least 500 V can be handled safely', r'According to the standards the peak current into a short is 1\.3 A for a 2 kV HBM discharge and 3\.8 A for a 200 V MM discharge', r'MM testing is redundant to HBM and produces the same failure mechanisms', r'MM qualification testing is not a required component level qualification test per JEDEC'])
+show('wp2.txt',[r'we recommend a CDM specification target level of 250 volts', r'practical designs are restricted to 2-6 amperes of peak CDM current, which translates to a CDM target level of 125-400 volts[^.]*', r'not more than 3-4 amperes at 500 volts', r'From less than 100 ps to a few ns', r'it is important to minimize the total voltage drop between the I/O pad and GND bus local to the stressed I/O pad', r'it is common for multiple power clamps to be distributed in parallel along the power buses', r'R1 values from 100-5000 Ω are common for protecting receiver circuits', r'Typical R2 values for digital applications can range from 5-100 Ω\. This resistance can have a significant impact on the effective CDM robustness of driver transistors M3- ?M4'])
+import html
+t=open('esda_part5.html',errors='replace').read(); x=re.sub(r'<(script|style).*?</\1>','',t,flags=re.S); x=re.sub(r'\s+',' ',html.unescape(re.sub(r'<[^>]+>',' ',x)))
+for pat in [r'It is modeled by a 100 pF capacitor', r'a 1\.5 kW \(1,500 ohms\) series resistor', r'A typical HBM waveform has a rise time of 2–10 ns, a peak current of 0\.67 amps/kilovolts, and a double-exponential decay with a width of 200 ns', r'often less than one nanosecond – the peak current can reach several tens of amperes', r'the industry shifted away from MM as a qualification test']:
+    m=re.search(pat,x); print(f"[esda5] {m.group(0) if m else 'not found: '+pat}\n")
+print("Not readable: https://www.jedec.org/ -> 403 to a plain request; https://ieeexplore.ieee.org/document/{670659,622511,7112823,492126} -> 202, empty body.")
+EOF
+grep -c 'not found' $L/2026-11-26_fable_esd_whitepaper_quotes.out || true; wc -l $L/2026-11-26_fable_esd_whitepaper_quotes.out
+```
+
+</details>
+
+Section rewritten and pushed. Last step: exporting the new subagent's log (per your standing instruction), the journal entry and the rebuilt main log.
+
+*[Export the fourth subagent's log and report, add journal, index and manifest entries, rebuild the main log, commit and push (in the cloud container).]*
+
+<details><summary>command</summary>
+
+```sh
+set -e; N=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher; L=$N/sudelbuecher/logs/pad_esd_exploration; cd $N; NAME=2026-11-26_fable_pad_structures_and_esd_exploration
+T=$(ls -t ~/.claude/projects/*/*.jsonl | head -1); cp "$T" /var/tmp/transcripts/; t=/var/tmp/transcripts/$(basename "$T")
+python3 -I $L/tools/extract_handbacks.py "$t" $L 2026-11-26_fable | tail -3
+python3 -I $L/tools/export_subagent_logs.py "$T" $N/sudelbuecher/chatlog 2026-11-26_fable_pad_structures "session_01XU3KH8TTLjkQNhWPaFJmRL" /var/tmp/transcripts/verify_chatlog.py > /var/tmp/transcripts/sub_export.out; cut -c1-110 /var/tmp/transcripts/sub_export.out; grep -o 'missing [0-9]*\|found in the log [0-9]*' /var/tmp/transcripts/sub_export.out | sort | uniq -c
+{ echo "tools/export_subagent_logs.py: this branch's chatlog/export_chatlog.py (unchanged) on each subagent transcript, then verify_chatlog.py"; echo "(tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher). One line per subagent, in the order they started. Rebuilt with subagent 4."; echo; cat /var/tmp/transcripts/sub_export.out; } > $L/2026-11-26_fable_subagent_chatlogs_verify.out
+( cd sudelbuecher/chatlog && python3 -I export_chatlog.py "$t" ${NAME}.md "Pad structures and ESD exploration (gf180mcu_ocd_io, asig_5p0, harness padframe)" "session_01XU3KH8TTLjkQNhWPaFJmRL, transcript $(basename "$T" .jsonl)" claude-fable-5-2 ) > /var/tmp/transcripts/export.out
+V=$L/2026-11-26_fable_chatlog_verify.out; note=$(sed -n '/^note on "found in the log 2"/,$p' $V)
+{ echo "verify_chatlog.py (tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher, sudelbuecher/chatlog_tools/) on sudelbuecher/chatlog/${NAME}.md (rebuilt; fourth run of the session)"; cat /var/tmp/transcripts/export.out; python3 -I /var/tmp/transcripts/verify_chatlog.py "$t" sudelbuecher/chatlog/${NAME}.md; echo; echo "$note"; } > $V.new; mv $V.new $V; sed -n 2,5p $V
+python3 -I - <<'EOF'
+import os, datetime, glob
+p='sudelbuecher/chatlog/README.md'; s=open(p).read()
+f=[os.path.basename(x) for x in glob.glob('sudelbuecher/chatlog/2026-11-26_fable_pad_structures_subagent_4_*.md')][0]
+r=[os.path.basename(x) for x in glob.glob('sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_4_*.md')][0]
+assert f not in s
+s += f"\n[{f}]({f})\n: Subagent of the pad structure session: attempt to read four public IEEE Xplore abstract pages on pulsed current limits (page-fetch tool only; all four fetches failed because the tool could not resolve the host); the message shown as \"User\" is the assistant's brief. Its report: `../logs/pad_esd_exploration/{r}`.\n"
+open(p,'w').write(s)
+rows=[]
+for x,c in [('sudelbuecher/chatlog/'+f,"logs/pad_esd_exploration/tools/export_subagent_logs.py (chatlog/export_chatlog.py on the subagent's transcript)"),
+            ('sudelbuecher/logs/pad_esd_exploration/'+r,"tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)"),
+            ('sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_esd_whitepaper_quotes.out',"quotations located by script in Industry Council White Papers 1 and 2 (pdftotext) and the ESD Association's fundamentals page 5"),
+            ('CLAUDE.md',"rule on subagent chat logs added in session 01XU3KH8 on Christoph's instruction")]:
+    st=os.stat(x); rows.append('\t'.join([x,datetime.datetime.fromtimestamp(st.st_mtime,datetime.UTC).strftime('%Y-%m-%dT%H:%M:%SZ'),str(st.st_size),c,'-']))
+open('sudelbuecher/MANIFEST.tsv','a').write('\n'.join(rows)+'\n')
+p='sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_pad_structures_log.md'; s=open(p).read()
+a="## Not checked (summary)"; assert s.count(a)==1
+e='''## 22. Four more hosts, the rule in CLAUDE.md, and the standards documents
+
+- Christoph allowed `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`, `ieeexplore.ieee.org` (approved on the
+  environment card; before: all four refused, code 000) and told me to add the subagent-log rule to this branch's
+  `CLAUDE.md`. Done: one bullet under the `chatlog/` conventions (commit `0189474`).
+- After the change: `www.esda.org` 200, `esdindustrycouncil.org` 200, `www.jedec.org` 403, `ieeexplore.ieee.org` 200 for the
+  home page.
+- Downloaded and converted with `pdftotext -layout`: Industry Council White Paper 1 rev 4.0 (63 pages) and White
+  Paper 2 rev 3.0 (173 pages); fetched the ESD Association's "ESD Fundamentals, Part 5". The link to JEP172 on the
+  council's site returned 404. Quotations with their pages: `2026-11-26_fable_esd_whitepaper_quotes.out`. The PDFs
+  are not filed.
+- IEEE Xplore: my first attempt used the site's search interface with browser-like headers; the session's permission
+  check refused that call, and I did not repeat it. A web-fetch subagent (number 4) then could not resolve the host
+  at all. A plain `curl` of four abstract pages returned HTTP 202 with an empty body. No IEEE content was read.
+- Report section 15.4 rewritten from the opened documents; summary item 9 and proposal P6 updated.
+- Subagent 4's chat log and report are exported like the others (`2026-11-26_fable_subagent_chatlogs_verify.out`: all
+  four logs 0 missing, 0 reasoning windows). Main chat log rebuilt (fourth run).
+
+'''
+s=s.replace(a,e+a); open(p,'w').write(s)
+EOF
+git add -A sudelbuecher && git commit -q -F - <<'EOF'
+sudelbuecher : standards documents read after four more hosts were allowed (quotations, journal entry 22), subagent 4 log and report, chat logs rebuilt
 
 Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL
