@@ -8,7 +8,7 @@ Session `session_01XU3KH8TTLjkQNhWPaFJmRL, transcript 35fe6b9a-54a3-54d0-adab-73
 Verbatim export of the displayed conversation: user messages, visible replies and `SendUserMessage` texts as written;
 tool calls as `*[ ]*` summaries (actions and observable results only); shell commands verbatim in collapsed blocks, their output omitted.
 The internal reasoning trace is not included.
-Times are Europe/Berlin. Exported through the record stamped 2026-11-26 15:28; later turns are not in this file.
+Times are Europe/Berlin. Exported through the record stamped 2026-11-26 16:18; later turns are not in this file.
 
 ## Turn 1 — 15:00
 
@@ -1657,7 +1657,7 @@ cd /home/user/gf180_cm_ip__single2diff2single_sudelbuecher && head -14 sudelbuec
 
 </details>
 
-*[Export and verify the chat log, add index, journal and manifest entries, commit and push (in the cloud container).]*
+*[Export and verify the chat log, add index, journal and manifest entries, commit and push (in the cloud container; 36 lines of output).]*
 
 <details><summary>command</summary>
 
@@ -1739,6 +1739,1639 @@ Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL
 EOF
 git push origin sudel_buecher 2>&1 | tail -1; git log --oneline | head -3; git -C /home/user/gf180_cm_ip__single2diff2single status -sb | head -2
+```
+
+</details>
+
+The exploration is finished and pushed: the report and the proposals are on `pad_esd_exploration`, and the journal, scripts, outputs and chat log are on `sudel_buecher`. Nothing in the design, the Makefiles or `config.txt` was changed.
+
+## What I found
+
+- **The `CLAUDE.md` claim holds.** `gf180mcu_ocd_io__asig_5p0` contains pad diodes to DVDD and from DVSS, a DVSS-to-DVDD diode and a decoupling capacitor, and nothing else. Netlist and layout agree, and the library's own datasheet says "only HBM protection diodes" and asks for a user-added CDM network next to input gates.
+- **The pad wire is the bond pad.** `ASIG5V` is one Metal2 net (eight 2.54 µm strips) from the pad to the core edge, so the design sees the full pad voltage.
+- **The pad's diodes sit on the 5 V pad ring, not on the slot's supplies.** The slot's `vdd_5v0` and `vdd_3v3` come through per-slot power switches. Protection tied to a slot rail can therefore be forward-biased while the slot is off; the current proof-of-concept input front end is tied that way.
+- **No measured ESD level exists for these cells.**
+  - The installed PDK has no ESD data at all.
+  - The foundry manual has TLP data for a 0.9 µm × 25 µm diode test structure; the pad uses 3 µm × 50 µm fingers, twice the recommended maximum length.
+  - The 2 kV / 200 V / 500 V figures in the datasheet are labelled "Target".
+- **The DRC deck does not contain the manual's ESD and I/O latch-up guidelines**, so a clean DRC says nothing about them.
+- **The evampire page describes `gf180mcu_fd_io`, not the library on this chip.** Its device sizes match the netlists; its limits are the manual's test-structure numbers applied to other layouts.
+- **`CLAUDE.md` section 5 checks out.** One addition: the harness padframe netlist on `main` still connects pads through `iovdd iovss vdd vss`, which the PDK cell does not have.
+- **The PDK pad netlist does not load in this container's ngspice-47** (`unknown parameter (e9)` on the `m=36` capacitor). I evaluated the diodes from a copy without it.
+
+## Things I did that the brief did not spell out
+
+- **Logs on `sudel_buecher`:** I read your message as covering the work journal too, so it is in `sudelbuecher/logs/pad_esd_exploration/` instead of next to the report.
+- **Chat log convention:** I used this repository's own `export_chatlog.py`, the only one that keeps shell commands verbatim, and checked the result with the harness fork's `verify_chatlog.py`.
+- **The check does not pass by `session_chatlog.sh`'s rule.** It reports 2 texts missing: these are the two subagent reports, which the exporter leaves out by design. All your messages are present, and no reasoning text was found. I filed the two reports verbatim in the logs folder, with only the internal agent id removed.
+- **The chat log stops before this reply** and before its own commit.
+- **Environment change:** `gf180mcu-pdk.readthedocs.io` is now an allowed host of `gf180mcuD`, on your approval.
+- **Extra clones:** I cloned `google/gf180mcu-pdk` and `RTimothyEdwards/gf180mcu_ocd_io` read-only, because the installed PDK could not answer the question about foundry limits.
+- **Possible merge on your side:** the harness fork's notes mention a chat log `2026-11-13_sonnet_cloud_config_and_gf180_pad_work.md` on this repository's `sudel_buecher` that is not on the remote. If your local worktree is ahead, pulling may need a merge in `chatlog/README.md` and `MANIFEST.tsv`, where I appended lines.
+
+## Not checked
+
+No extraction or LVS of a pad cell, no ESD or clamp simulation, no metal current limits or rail resistance to the clamps, and not the routing from pad to slot.
+
+## Questions for you
+
+Section 11 of the report lists eight. The ones that decide the next step:
+
+1. Is `asig_5p0` fixed for slot 16, or is `bi_a` (resistors and small diodes included, but with a digital output stage on the pad) an option?
+2. Should the design's own protection use the slot's switched rails, and must the pads tolerate a signal while the slot or the 5 V supply is off?
+3. Should the output devices be drawn to the manual's ESD transistor guidelines and double as protection, as on IHP, or be ordinary devices behind a resistor-and-diode network?
+4. With two pads on slot 16, where does the third signal (`vcm`) go?
+
+Files are in `docs/` on `pad_esd_exploration`:
+- PAD_STRUCTURES.md
+- PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md
+
+## Turn 2 — 15:46
+
+**User:**
+
+I'm a bit distracted to pay full attention to your output in a timely way.
+If the pads and their characterization/extraction only exist in magic, it would be nice to have a klayout version analogous (homologous?) to the IHP library. But don't invent a special case if the entire gf180 PDK weakly support KLayout; then ask me if you should upgrade KLayout support for the entire PDK.
+Also, if ESD information is missing in the information available, search for it in other available sources that aren't jealously guarded trade secrets.
+
+**Assistant:**
+
+Two threads, then: I'll check how far the PDK's KLayout support goes (devices, DRC, LVS, and whether the pad cells pass through it) before building anything pad-specific, and in parallel search public sources for GF180 ESD data.
+
+*[Called Agent.]*
+
+*[Survey the KLayout technology folder of the GF180 PDK (in the cloud container; 110 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; ls -la $K; for d in drc lvs macros pymacros scripts d25; do echo "== $d"; ls $K/$d | head -40; done; find -L $K -type f | wc -l; cat $K/gf180mcu.lyt | head -60
+```
+
+</details>
+
+*[List the PDK's KLayout PCells and LVS deck contents (in the cloud container; 185 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; ls $K/pymacros/cells $K/pymacros/klayout_api_cells $K/pymacros/sealring_cells | head -70; echo; cat $K/pymacros/gf180mcu.lym | grep -v '^\s*$' | head -50; ls $K/lvs/rule_decks; sed -n 1,60p $K/lvs/README.md | cut -c1-200
+```
+
+</details>
+
+*[Read how the PDK's KLayout DRC is invoked and its options (in the cloud container; 118 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; sed -n 1,200p $K/drc/README.md | grep -v '^\s*$' | cut -c1-190 | head -70; echo ====; head -c 1500 $K/macros/run_drc_main; echo; cat $K/macros/drc_defaults.yml $K/macros/lvs_defaults.yml | head -60; sed -n 1,80p $K/drc/options.rb | grep -v '^#' | head -60
+```
+
+</details>
+
+*[Print the KLayout DRC deck's usage text (in the cloud container; 45 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; mkdir -p $S/kl && cd $S/kl && K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; klayout -b -r $K/drc/gf180mcu.drc -rd help=true 2>&1 | head -45
+```
+
+</details>
+
+*[Split the pad cells into separate GDS files and run the KLayout DRC on the analog pad (in the cloud container; 19 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl && python3 -I - <<'EOF'
+import klayout.db as kdb
+src='/foss/pdks/gf180mcuD/libs.ref/gf180mcu_ocd_io/gds/gf180mcu_ocd_io.gds'
+ly=kdb.Layout(); ly.read(src)
+for c in ['asig_5p0','bi_t','bi_a','bi_24t','in_c','in_s','dvdd','dvss','vdd','vss','cor','brk2','brk5','fill1','fill5','fill10','fillnc']:
+    name='gf180mcu_ocd_io__'+c
+    out=kdb.Layout(); out.dbu=ly.dbu
+    top=out.create_cell(name)
+    top.copy_tree(ly.cell(name))
+    out.write(name+'.gds')
+import os
+print(sorted((os.path.getsize(f)//1024,f) for f in os.listdir('.') if f.endswith('.gds')))
+EOF
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; nproc; free -g | sed -n 2p; ( time klayout -b -r $K/drc/gf180mcu.drc -rd input=$S/kl/gf180mcu_ocd_io__asig_5p0.gds -rd topcell=gf180mcu_ocd_io__asig_5p0 -rd report=$S/kl/drc_asig.lyrdb -rd variant=gf180mcuD -rd run_mode=deep ) > drc_asig.log 2>&1; tail -15 drc_asig.log | cut -c1-200
+```
+
+</details>
+
+KLayout DRC with the PDK's own deck runs on the analog pad and reports 0 violations. Now trying the PDK's KLayout LVS on the same cell against its netlist.
+
+*[Check the LVS runner's options and dependencies (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; grep -c 'Executing rule' drc_asig.log; python3 $K/lvs/run_lvs.py --help 2>&1 | head -40; python3 -c "import docopt" 2>&1 | tail -1
+```
+
+</details>
+
+*[Read how the LVS runner calls KLayout (in the cloud container; 90 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; grep -n 'rd \|klayout -b\|switches\|-rd' $K/lvs/run_lvs.py | cut -c1-200 | head -50; grep -n '\$[a-z_]*' -o $K/lvs/gf180mcu.lvs | sort | uniq -c | sort -rn | head -40
+```
+
+</details>
+
+*[Install the LVS runner's missing Python module for this session and read its options (in the cloud container; 46 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; pip install -q --break-system-packages docopt 2>&1 | tail -1; python3 $K/lvs/run_lvs.py --help 2>&1 | sed -n 1,45p | cut -c1-170; sed -n 1,40p $K/lvs/gf180_xschem_klayout_spice_convert.py | cut -c1-160
+```
+
+</details>
+
+*[Read the LVS runner's KLayout command construction (in the cloud container; 75 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; sed -n 283,400p $K/lvs/run_lvs.py | grep -v '^\s*$\|^\s*#\|"""' | cut -c1-190 | head -90
+```
+
+</details>
+
+*[Run the PDK's KLayout LVS on the analog pad against its PDK netlist (in the cloud container; 38 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; sed -n 1,10p /foss/pdks/gf180mcuD/libs.ref/gf180mcu_ocd_io/spice/gf180mcu_ocd_io.spice > asig.spice; ( time klayout -b -r $K/lvs/gf180mcu.lvs -rd input=$S/kl/gf180mcu_ocd_io__asig_5p0.gds -rd topcell=gf180mcu_ocd_io__asig_5p0 -rd schematic=$S/kl/asig.spice -rd report=$S/kl/lvs_asig.lvsdb -rd target_netlist=$S/kl/lvs_asig.cir -rd thr=4 -rd run_mode=deep -rd metal_top=11K -rd mim_option=B -rd metal_level=5LM -rd poly_res=1k -rd mim_cap=2 -rd lvs_sub=gf180mcu_gnd -rd verbose=true -rd spice_net_names=true -rd spice_comments=false -rd scale=false -rd schematic_simplify=true -rd net_only=false -rd top_lvl_pins=true -rd combine=true -rd purge=true -rd purge_nets=false ) > lvs_asig.log 2>&1; grep -v 'Executing\|Memory Usage.*derivation\|Starting\b' lvs_asig.log | tail -30 | cut -c1-220; echo ---; cat lvs_asig.cir 2>/dev/null | head -40 | cut -c1-200
+```
+
+</details>
+
+*[Read how the KLayout LVS deck recognizes the 6 V diodes (in the cloud container; 60 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs/rule_decks; grep -n 'nd2ps\|ndiode\|diode_mk\|pd2nw' $K/general_derivations.lvs $K/diode_extraction.lvs $K/devices_connections.lvs $K/substrate_connections.lvs | cut -c1-200 | head -40; grep -n 'diode' $K/layers_definitions.lvs | head; grep -n -i 'isosub\|23, *5\|latchup\|esd_mk\|lvs_io' $K/*.lvs | head
+```
+
+</details>
+
+*[Find why the N+ substrate diodes are not extracted by the KLayout LVS (in the cloud container; 86 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs/rule_decks; sed -n 20,42p $K/diode_extraction.lvs; sed -n 60,72p $K/diode_extraction.lvs; grep -n 'lvpwell_con\b' $K/*.lvs | head -8; grep -n -A6 'diode_extraction.lvs:6[89]\|diode_extraction.lvs:71\|diode_extraction.lvs:4[679]' lvs_asig.log | cut -c1-160 | head -40; grep -n 'ncomp_mv\|ncomp_lv\b' $K/general_derivations.lvs | head -5; grep -n 'v5_xtor\|dualgate' $K/general_derivations.lvs $K/layers_definitions.lvs | head -8
+```
+
+</details>
+
+*[Read the substrate and p-well terminal definitions of the LVS deck (in the cloud container; 20 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs/rule_decks; grep -n 'lvpwell_con\|^sub \|sub *=\|psub\b' $K/general_derivations.lvs $K/substrate_connections.lvs $K/general_connections.lvs $K/layers_definitions.lvs | cut -c1-180 | head -20; sed -n 15,40p $K/substrate_connections.lvs
+```
+
+</details>
+
+*[Start the KLayout DRC on all other pad cells in the background and check the PEX tool's PDK list (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; cat > run_drc_all.sh <<EOF
+#!/bin/bash
+# KLayout DRC (PDK deck, all rule decks, variant gf180mcuD, deep mode) on each pad cell of gf180mcu_ocd_io; one line per cell
+cd $S/kl
+for c in bi_t bi_a bi_24t in_c in_s dvdd dvss vdd vss brk2 brk5 fill1 fill5 fill10 fillnc cor; do
+  n=gf180mcu_ocd_io__\$c
+  /usr/bin/time -f "%e s" klayout -b -r $K/drc/gf180mcu.drc -rd input=$S/kl/\$n.gds -rd topcell=\$n -rd report=$S/kl/drc_\$c.lyrdb -rd variant=gf180mcuD -rd run_mode=deep -rd threads=2 > drc_\$c.log 2>&1
+  echo "\$c: \$(grep -o 'DRC RESULT.*' drc_\$c.log | tail -1) rules \$(grep -c 'Executing rule' drc_\$c.log) time \$(tail -1 drc_\$c.log)" >> drc_all_summary.txt
+done
+echo DONE >> drc_all_summary.txt
+EOF
+chmod +x run_drc_all.sh; echo "asig_5p0: $(grep -o 'DRC RESULT.*' drc_asig.log | tail -1) rules $(grep -c 'Executing rule' drc_asig.log)" > drc_all_summary.txt; nohup ./run_drc_all.sh > /dev/null 2>&1 &
+echo started; which kpex klayout-pex 2>/dev/null; kpex --help 2>&1 | grep -i -A8 'pdk' | head -20
+```
+
+</details>
+
+*[Check why the background DRC batch ended immediately (in the cloud container; 22 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; cat drc_all_summary.txt; tail -3 drc_bi_t.log | cut -c1-200; kpex --help 2>&1 | grep -n -i 'pdk\|tech' | head -12
+```
+
+</details>
+
+Small script slip (no `/usr/bin/time` here); restarting the batch DRC over all pad cells in the background and continuing with the LVS and PCell checks meanwhile.
+
+*[Fix the batch DRC script (in the cloud container).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; cat > run_drc_all.sh <<EOF
+#!/bin/bash
+# KLayout DRC (PDK deck, all rule decks, variant gf180mcuD, deep mode) on each pad cell of gf180mcu_ocd_io; one line per cell
+cd $S/kl
+for c in bi_t bi_a bi_24t in_c in_s dvdd dvss vdd vss brk2 brk5 fill1 fill5 fill10 fillnc cor; do
+  n=gf180mcu_ocd_io__\$c; t0=\$(date +%s)
+  klayout -b -r $K/drc/gf180mcu.drc -rd input=$S/kl/\$n.gds -rd topcell=\$n -rd report=$S/kl/drc_\$c.lyrdb -rd variant=gf180mcuD -rd run_mode=deep -rd threads=2 > drc_\$c.log 2>&1
+  echo "\$c: \$(grep -o 'DRC RESULT.*' drc_\$c.log | tail -1) rules \$(grep -c 'Executing rule' drc_\$c.log) time \$(( \$(date +%s) - t0 )) s" >> drc_all_summary.txt
+done
+echo DONE >> drc_all_summary.txt
+EOF
+echo "asig_5p0: $(grep -o 'DRC RESULT.*' drc_asig.log | tail -1) rules $(grep -c 'Executing rule' drc_asig.log) time 26 s" > drc_all_summary.txt
+```
+
+</details>
+
+*[Run the KLayout DRC on the remaining sixteen pad cells (in the cloud container).]*
+
+<details><summary>command</summary>
+
+```sh
+/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad/kl/run_drc_all.sh
+```
+
+</details>
+
+*[Read the usage of the PDK's xschem-to-KLayout netlist converter (in the cloud container; 16 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; python3 $K/lvs/gf180_xschem_klayout_spice_convert.py --help 2>&1 | head -30
+```
+
+</details>
+
+*[Convert the pad netlist with the PDK's converter and rerun the KLayout LVS on the analog pad (in the cloud container; 37 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; python3 $K/lvs/gf180_xschem_klayout_spice_convert.py /foss/pdks/gf180mcuD/libs.ref/gf180mcu_ocd_io/spice/gf180mcu_ocd_io.spice -o ocd_io_converted.spice 2>&1 | tail -3; sed -n 1,10p ocd_io_converted.spice | cut -c1-200; grep -n 'schematic_translate' -A8 $K/lvs/gf180mcu.lvs | head -30
+cat > run_lvs_cell.sh <<EOF
+#!/bin/bash
+# KLayout LVS with the PDK deck on one pad cell: run_lvs_cell.sh <cell short name> <netlist> <tag>
+c=\$1; n=gf180mcu_ocd_io__\$c
+klayout -b -r $K/lvs/gf180mcu.lvs -rd input=$S/kl/\$n.gds -rd topcell=\$n -rd schematic=\$2 -rd report=$S/kl/lvs_\${c}_\$3.lvsdb -rd target_netlist=$S/kl/lvs_\${c}_\$3.cir -rd thr=2 -rd run_mode=deep -rd metal_top=11K -rd mim_option=B -rd metal_level=5LM -rd poly_res=1k -rd mim_cap=2 -rd lvs_sub=gf180mcu_gnd -rd verbose=false -rd spice_net_names=true -rd spice_comments=false -rd scale=false -rd schematic_simplify=true -rd net_only=false -rd top_lvl_pins=true -rd combine=true -rd purge=true -rd purge_nets=false > lvs_\${c}_\$3.log 2>&1
+echo "\$c (\$3): \$(grep -o 'ERROR : Netlists.*\|INFO : Congratulations.*\|Congratulations.*\|ERROR.*' lvs_\${c}_\$3.log | tail -1)"
+EOF
+chmod +x run_lvs_cell.sh; ./run_lvs_cell.sh asig_5p0 $S/kl/ocd_io_converted.spice conv; cat lvs_asig_5p0_conv.cir | cut -c1-160; grep -i 'flatten\|mismatch\|not match' lvs_asig_5p0_conv.log | head
+```
+
+</details>
+
+*[Scratch experiment: test whether a drawn p-well makes the KLayout LVS extract the substrate diodes (in the cloud container; 10 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; python3 -I - <<'EOF'
+# scratch experiment only: copy of the analog pad with an LVPWELL shape drawn over the N+ diode tap grids, to test
+# whether the missing P terminal is what keeps the KLayout LVS from extracting diode_nd2ps_06v0
+import klayout.db as kdb
+ly=kdb.Layout(); ly.read('gf180mcu_ocd_io__asig_5p0.gds'); u=ly.dbu
+top=ly.cell('gf180mcu_ocd_io__asig_5p0'); lw=ly.layer(204,0)
+for box in [(10.265,108.205,64.735,136.735),(15.42,145.51,59.58,163.48)]:
+    top.shapes(lw).insert(kdb.DBox(*box).to_itype(u))
+top.name='gf180mcu_ocd_io__asigexp'
+ly.write('gf180mcu_ocd_io__asigexp.gds')
+EOF
+sed 's/gf180mcu_ocd_io__asig_5p0/gf180mcu_ocd_io__asigexp/' ocd_io_converted.spice | sed -n 1,10p > asigexp.spice; ./run_lvs_cell.sh asigexp $S/kl/asigexp.spice exp; cat lvs_asigexp_exp.cir | cut -c1-160
+```
+
+</details>
+
+*[Run the KLayout LVS on the other pad cells with the converted netlist (in the cloud container; 18 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; for c in dvdd dvss vdd vss bi_t bi_a bi_24t in_c in_s brk5 fill5 fill10; do ./run_lvs_cell.sh $c $S/kl/ocd_io_converted.spice conv; done 2>&1 | tee lvs_all_summary.txt; cat drc_all_summary.txt
+```
+
+</details>
+
+Result so far: KLayout DRC passes on the analog pad, but KLayout LVS matches none of the pad cells as shipped. Sorting out which device classes are the cause before I report back.
+
+*[Compare device models in the pad netlists with what the KLayout LVS extracts (in the cloud container; 38 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; python3 -I - <<'EOF'
+import re, collections
+# schematic: flatten model counts per top cell from the converted netlist
+txt=open('ocd_io_converted.spice').read()
+txt=re.sub(r'\n\+',' ',txt)
+subs={}; cur=None
+for l in txt.split('\n'):
+    t=l.split()
+    if not t: continue
+    if t[0].lower()=='.subckt': cur=t[1]; subs.setdefault(cur,[]) if cur not in subs else None; body=[]; subs[cur]=body if not subs.get(cur) else subs[cur]; continue
+    if t[0].lower()=='.ends': cur=None; continue
+    if cur and not l.startswith('*') and not l.startswith('.'):
+        subs[cur].append(t)
+def model(t):
+    # first token that is not a net and precedes parameters: last token without '=' before the first 'k=v'
+    toks=[]
+    for x in t[1:]:
+        if '=' in x or x.startswith("'"): break
+        toks.append(x)
+    return toks[-1]
+def flat(c, mult=1, acc=None):
+    acc=acc if acc is not None else collections.Counter()
+    for t in subs[c]:
+        m=model(t)
+        if m in subs: flat(m,mult,acc)
+        else: acc[m]+=mult
+    return acc
+def extracted(c):
+    acc=collections.Counter()
+    try: s=open(f'lvs_{c}_conv.cir').read()
+    except Exception: return None
+    for l in s.split('\n'):
+        t=l.split()
+        if t and t[0][0] in 'MDCRQX' and not l.startswith('.'):
+            toks=[x for x in t[1:] if '=' not in x]
+            m=[x for x in toks if re.match(r'[a-z]',x)]
+            acc[m[-1] if m else '?']+=1
+    return acc
+for c in ['asig_5p0','dvdd','vdd','bi_t','bi_24t','in_c','brk5','fill5','fill10']:
+    s=flat('gf180mcu_ocd_io__'+c); e=extracted(c)
+    print(f'== {c}\n   schematic instances by model: {dict(s)}\n   layout extracted (after combining) : {dict(e) if e is not None else None}')
+    print('   models only in schematic:', sorted(set(s)-set(e or [])), '| only in layout:', sorted(set(e or [])-set(s)))
+EOF
+grep -h 'Flatten schematic circuit\|not found\|unknown\|Warning\|warning' lvs_bi_t_conv.log lvs_dvdd_conv.log | sort | uniq -c | head -12
+```
+
+</details>
+
+*[Look at the DRC violations found so far and test whether the PDK's KLayout PCell libraries load (in the cloud container; 38 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; cat drc_all_summary.txt | tail -8; python3 -I - <<'EOF'
+import re
+for c in ['bi_t','in_c']:
+    t=open(f'drc_{c}.lyrdb').read()
+    cats=re.findall(r'<category>\'?([^<\']+)\'?</category>',t)
+    import collections; print(c, collections.Counter(cats))
+    m=re.search(r'<item>.*?</item>',t,re.S); print(m.group(0)[:600] if m else None)
+EOF
+cat > pcell_test.py <<'EOF'
+import sys, os, pya
+p='/foss/pdks/gf180mcuD/libs.tech/klayout/tech/pymacros'
+sys.path.insert(0,p)
+try:
+    from cells import gf180mcu
+    gf180mcu(); print('gdsfactory-based library: loaded')
+except Exception as e:
+    print('gdsfactory-based library: FAILED:', type(e).__name__, str(e)[:120])
+try:
+    from klayout_api_cells import gf180mcu_klayoutapi
+    gf180mcu_klayoutapi(); print('KLayout-API library: loaded')
+except Exception as e:
+    print('KLayout-API library: FAILED:', type(e).__name__, str(e)[:200])
+try:
+    from sealring_cells import gf180mcu_sealring
+    gf180mcu_sealring(); print('sealring library: loaded')
+except Exception as e:
+    print('sealring library: FAILED:', type(e).__name__, str(e)[:200])
+for name in pya.Library.library_names():
+    lib=pya.Library.library_by_name(name)
+    print('library', name, ':', sorted(lib.layout().pcell_names()))
+EOF
+klayout -b -r pcell_test.py 2>&1 | tail -12 | cut -c1-400
+```
+
+</details>
+
+*[Retry loading the KLayout-API PCell library with the USER variable set (in the cloud container; 12 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; USER=root klayout -b -r pcell_test.py 2>&1 | tail -6 | cut -c1-600; grep -rn "environ\['USER'\]\|environ\[\"USER\"\]" /foss/pdks/gf180mcuD/libs.tech/klayout/tech/pymacros | head -3 | cut -c1-200; grep -n "PL.8" /foss/pdks/gf180mcuD/libs.tech/klayout/tech/drc/rule_decks/*.rb | head -3 | cut -c1-220
+```
+
+</details>
+
+*[Read the recorded KLayout tree of the IHP PDK for comparison (in the cloud container; 122 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/user/tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single && git show origin/sudel_buecher:sudelbuecher/IHP_pcell_structure_visualization/ihp_sg13cmos5l_klayout_tree.txt | grep -v '\.pyc\|__pycache__' | head -120 | cut -c1-140; git show origin/sudel_buecher:sudelbuecher/IHP_pcell_structure_visualization/ihp_sg13cmos5l_klayout_tree.txt | wc -l
+```
+
+</details>
+
+*[Read how the LVS deck recognizes salicide-block FETs and check DRC batch progress (in the cloud container; 45 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs/rule_decks; sed -n 20,75p $K/mos_sab_derivations.lvs | grep -v '^\s*$\|^#' | cut -c1-170 | head -45; grep -n "extract_devices" $K/mos_sab_extraction.lvs | cut -c1-170 | head -12; cat /var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad/kl/drc_all_summary.txt | tail -9
+```
+
+</details>
+
+*[Check the foundry pad library's marker layers and run the KLayout LVS on its analog and digital pad (in the cloud container; 25 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; python3 -I - <<'EOF'
+import klayout.db as kdb
+names={l.split('\t')[0]:l.split('\t')[1] for l in open('../layers.tsv')}
+ly=kdb.Layout(); ly.read('/foss/pdks/gf180mcuD/libs.ref/gf180mcu_fd_io/gds/gf180mcu_fd_io.gds'); u=ly.dbu
+print('fd_io layers:', sorted(f"{ly.get_info(i).layer}/{ly.get_info(i).datatype}:{names.get(str(ly.get_info(i).layer)+'/'+str(ly.get_info(i).datatype),'?')}" for i in ly.layer_indexes()))
+for cn in ['gf180mcu_fd_io__asig_5p0','gf180mcu_fd_io__bi_t']:
+    c=ly.cell(cn)
+    for w in ['204/0','100/8','119/5','24/5','137/5','49/0','115/5']:
+        L,D=map(int,w.split('/')); li=ly.find_layer(L,D)
+        if li is None: print(cn,w,names.get(w),'not in file'); continue
+        r=kdb.Region(c.begin_shapes_rec(li)); r.merge(); print(cn,w,names.get(w),r.count(),round(r.area()*u*u,1))
+out=kdb.Layout(); out.dbu=ly.dbu
+for cn in ['gf180mcu_fd_io__asig_5p0','gf180mcu_fd_io__bi_t']:
+    o=kdb.Layout(); o.dbu=ly.dbu; t=o.create_cell(cn); t.copy_tree(ly.cell(cn)); o.write(cn+'.gds')
+EOF
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; for c in asig_5p0 bi_t; do n=gf180mcu_fd_io__$c; klayout -b -r $K/lvs/gf180mcu.lvs -rd input=$S/kl/$n.gds -rd topcell=$n -rd schematic=/foss/pdks/gf180mcuD/libs.ref/gf180mcu_fd_io/cdl/gf180mcu_fd_io.cdl -rd report=$S/kl/lvs_fd_$c.lvsdb -rd target_netlist=$S/kl/lvs_fd_$c.cir -rd thr=2 -rd run_mode=deep -rd metal_top=11K -rd mim_option=B -rd metal_level=5LM -rd poly_res=1k -rd mim_cap=2 -rd lvs_sub=gf180mcu_gnd -rd verbose=false -rd spice_net_names=true -rd spice_comments=false -rd scale=false -rd schematic_simplify=true -rd net_only=false -rd top_lvl_pins=true -rd combine=true -rd purge=true -rd purge_nets=false > lvs_fd_$c.log 2>&1; echo "fd_io $c: $(grep -o 'ERROR : Netlists.*\|INFO : Congratulations.*\|ERROR.*' lvs_fd_$c.log | tail -1)"; done; cat lvs_fd_asig_5p0.cir | cut -c1-150; grep -c dss lvs_fd_bi_t.cir
+```
+
+</details>
+
+*[Check DRC batch progress, the origin of the KLayout decks and the extracted device classes of the foundry pad (in the cloud container; 16 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; cat drc_all_summary.txt; grep -n 'gf180mcu_ws_klayout\|klayout' /foss/pdks/gf180mcuD/.config/nodeinfo.json; head -20 /foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs/gf180mcu.lvs | grep -i 'copyright\|wafer\|author' ; grep -rn -i 'wafer.space\|wafer-space' /foss/pdks/gf180mcuD/libs.tech/klayout/tech/drc/README.md /foss/pdks/gf180mcuD/libs.tech/klayout/tech/lvs/README.md | head -3; grep -c . lvs_fd_bi_t.cir; python3 -I - <<'EOF'
+import re,collections
+for f in ['lvs_fd_bi_t.cir','lvs_bi_t_conv.cir']:
+    acc=collections.Counter()
+    for l in open(f):
+        t=l.split()
+        if t and t[0][0] in 'MDCRQ' and not l.startswith('.'):
+            m=[x for x in t[1:] if '=' not in x and re.match(r'[a-z]',x)]
+            acc[m[-1] if m else '?']+=1
+    print(f,dict(acc))
+EOF
+```
+
+</details>
+
+*[Collect line numbers for the KLayout findings and check the PEX tool's GF180 support (in the cloud container; 9 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+K=/foss/pdks/gf180mcuD/libs.tech/klayout/tech; grep -n 'ngate_sab_6v\|pgate_sab_6v' $K/lvs/rule_decks/mos_sab_derivations.lvs | head -4; grep -n 'stopgap\|proper' $K/lvs/gf180_xschem_klayout_spice_convert.py | head -3; grep -n 'LVS with klayout' /home/user/tatzelbrumm/gf180mcu_ocd_chipalooza/README; grep -n 'gdsfactory' $K/pymacros/gf180mcu.lym | head -3; ls /foss/pdks/gf180mcuD/libs.ref/gf180mcu_ocd_io/ /foss/pdks/gf180mcuD/libs.ref/gf180mcu_fd_io/ | tr '\n' ' '; kpex --version 2>&1 | tail -1; ls /foss/pdks/gf180mcuD/libs.tech/ | tr '\n' ' '; python3 -c "import kpex, os; print(os.path.dirname(kpex.__file__))" 2>/dev/null | xargs -I{} sh -c 'ls {}/../klayout_pex* {} 2>/dev/null | head -20; grep -rl -i "gf180" {} 2>/dev/null | head -5'
+```
+
+</details>
+
+*[Check which PDKs the installed KLayout PEX tool knows (in the cloud container; 15 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+pip show klayout-pex 2>/dev/null | grep -i 'location\|version'; D=$(pip show klayout-pex 2>/dev/null | grep -i '^location' | cut -d' ' -f2); ls $D | grep -i 'kpex\|klayout_pex\|pdk' | head; find $D -ipath '*kpex*' \( -iname '*gf180*' -o -iname '*sky130*' -o -iname '*ihp*' \) 2>/dev/null | head -12; kpex --help 2>&1 | grep -n -i -B1 -A3 'gf180\|sky130\|ihp' | head -24; cat /var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad/kl/drc_all_summary.txt | tail -8
+```
+
+</details>
+
+*[List the PDK definitions shipped with the KLayout PEX tool (in the cloud container; 42 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+D=/usr/local/lib/python3.13/site-packages; ls $D/klayout_pex | head -30; find $D/klayout_pex $D/klayout_pex_protobuf -iname '*gf180*' -o -iname '*sky130*' -o -iname '*sg13*' 2>/dev/null | head -12; kpex --help 2>&1 | grep -n -i 'pdk' | head
+```
+
+</details>
+
+*[Try the KLayout-based parasitic extraction on the analog pad (in the cloud container; 17 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; kpex --help 2>&1 | grep -n -- '--pdk\|--gds\|--cell\|--2.5D\|--out_dir\|--schematic\|--lvsdb\|--mode\|--magic\|--blackbox\|--cache' | cut -c1-170 | head -16; ( timeout 600 kpex --pdk gf180mcuD --gds $S/kl/gf180mcu_ocd_io__asig_5p0.gds --cell gf180mcu_ocd_io__asig_5p0 --2.5D --out_dir $S/kl/kpex_asig > kpex_asig.log 2>&1; echo "exit $?" >> kpex_asig.log ) ; tail -12 kpex_asig.log | cut -c1-220; ls kpex_asig 2>/dev/null | head; find kpex_asig -name '*.spice' -o -name '*.csv' 2>/dev/null | head -5
+```
+
+</details>
+
+*[Read the extracted parasitic capacitances of the analog pad (in the cloud container; 27 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; f=kpex_asig/*/*_k25d_pex_netlist.csv; cat $f | head -30; grep -c . $f; grep -n -i 'warn\|error\|unsupported\|skip' kpex_asig.log | head -8 | cut -c1-200; grep -n 'R[0-9]* \|^R' kpex_asig/*/*pex_netlist.spice | head -5; cat drc_all_summary.txt | tail -5
+```
+
+</details>
+
+*[Read the extraction tool's warning and the DRC violation categories of the filler and break cells (in the cloud container; 23 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; sed -n 459,468p kpex_asig.log | cut -c1-200; python3 -I - <<'EOF'
+import re,collections
+for c in ['brk2','brk5','fill1','fill5','fillnc','bi_t']:
+    t=open(f'drc_{c}.lyrdb').read()
+    print(c, dict(collections.Counter(re.findall(r"<category>'?([^<']+)'?</category>",t))))
+EOF
+for r in DF.1a_MV PL.1 M2.1 NW.1a_MV LPW.1_MV DV.5 CO.6 M1.1 PL.2; do grep -h -o "$r : [^']*" /foss/pdks/gf180mcuD/libs.tech/klayout/tech/drc/rule_decks/*.rb | head -1; done 2>/dev/null | cut -c1-120
+```
+
+</details>
+
+*[Append the KLayout assessment as a new section of the report (in the cloud container; 5 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -I - <<'EOF'
+p='docs/PAD_STRUCTURES.md'; s=open(p).read()
+sec14 = r'''
+## 14. KLayout support: the PDK as a whole, and the pads in it (added later on 2026-11-26)
+
+Question from the user: if the pads and their characterization or extraction exist only in Magic, a KLayout version
+homologous to the IHP library would be welcome, but not as a special case if the whole GF180 PDK supports KLayout
+weakly. So this section first measures the PDK's KLayout support, then the pads inside it. Everything was run in
+this session with KLayout 0.30.12 and the PDK's own decks, unmodified; logs and scripts in `LOG/` (journal entry 18).
+
+### 14.1 What the PDK ships for KLayout
+
+**[V]** `TECH/klayout/tech/`:
+
+| Part | Content | Works here? |
+| --- | --- | --- |
+| technology | `gf180mcu.lyt`, `gf180mcu.lyp` (119 layers), `gf180mcu.map` | yes |
+| DRC | `drc/gf180mcu.drc` + 41 rule decks; 777 rules executed per run | yes, out of the box |
+| LVS | `lvs/gf180mcu.lvs` + 26 rule decks, `lvs/run_lvs.py`, `lvs/gf180_xschem_klayout_spice_convert.py` | the deck runs; `run_lvs.py` does not start (`No module named 'docopt'`, `run_lvs.py:49`; `pip install docopt` fails to build under Python 3.13). I called the deck directly with the same switches |
+| device PCells, KLayout API | `pymacros/klayout_api_cells/`: 31 PCells (FETs, diodes, MOS and MiM capacitors, resistors, BJTs, efuse) | loads only when the environment variable `USER` is set (`draw_efuse.py:18`); it is not set in the cloud container |
+| device PCells, gdsfactory | `pymacros/cells/` | not here: `No module named 'gdsfactory'` (`pymacros/gf180mcu.lym:40-49` catches that and continues) |
+| seal ring PCell | `pymacros/sealring_cells/` | yes |
+| fill, slots | `scripts/fill_*.rb`, `scripts/slots.drc` | not tried |
+| parasitic extraction | not in the PDK; the installed `klayout-pex` 0.6.8 ships its own `gf180mcuD` definition | runs (14.3) |
+
+Compared with IHP's KLayout tree (**[V]** `D:sudel_buecher:sudelbuecher/IHP_pcell_structure_visualization/ihp_sg13cmos5l_klayout_tree.txt`,
+a listing made on 2026-09-28): IHP registers, besides devices, PCells for `esd`, `bondpad`, `ptap1`/`ntap1` (taps and
+guard rings), `via_stack`, `NoFillerStack`, `sealring`. GF180 has devices and the seal ring only: **no ESD, bond pad,
+tap/guard-ring or via-stack PCell**. Neither PDK has parametric pad cells; on IHP those were written in the
+project (section 12.4).
+
+### 14.2 The pad cells through the PDK's KLayout decks
+
+Each pad cell was copied with its sub-cells into its own GDS file and run alone.
+
+**DRC** (`LOG/2026-11-26_fable_klayout_drc_pads.out`): **[V]**
+
+| Cells | Result |
+| --- | --- |
+| `asig_5p0`, `dvdd`, `dvss`, `vdd`, `vss`, `fill10` | 0 violations |
+| `bi_t`, `bi_a`, `bi_24t`, `in_c`, `in_s`, `fill5` | 1 violation: `PL.8`, "Poly2 coverage over the entire die" (`drc/rule_decks/density.rb:65`), a whole-die rule applied to one cell |
+| `fill1`, `brk2`, `brk5` | 2 to 5 violations, all coverage rules of the same kind (`PL.8`, `M2.4` to `M5.4`, `MT.3`, `DCF.1b`) |
+| `fillnc` (0.1 µm wide) | 89: the same coverage rules plus minimum-width rules that a 0.1 µm sliver cannot meet alone |
+| `cor` | see the log file (it was still running when this was written, or see the last line there) |
+
+So KLayout DRC works on the pads, and apart from die-level coverage rules they are clean.
+
+**LVS** (`LOG/2026-11-26_fable_klayout_lvs_pads.out`): **[V]** **no pad cell matches**, for three separate reasons.
+
+1. **Netlist dialect.** The library's netlist is xschem output (`XC1 ... cap_nmos_06v0 c_width=... c_length=...`,
+   `area=`/`pj=` on diodes); KLayout reads it as an unknown subcircuit. The PDK's converter fixes that
+   (`CC1 ... W= L=`, `A=`/`P=`); its header calls itself "a stopgap measure" (`lvs/gf180_xschem_klayout_spice_convert.py:25`).
+   All further results use the converted netlist.
+2. **N+ diodes in the substrate are not extracted.** The deck takes the anode of `diode_nd2ps_*` from a drawn
+   LVPWELL (`lvs/rule_decks/diode_extraction.lvs:68-71`, `general_derivations.lvs:42`). The pads' N+ diodes sit in
+   bare substrate with no LVPWELL drawn, so D1 and D2 of `asig_5p0` (8 of its 12 diode stripes) are missing from the
+   extracted netlist; so is the rail diode of every supply pad and the N+ diode of every digital pad.
+   - Check: on a scratch copy of `asig_5p0` with an LVPWELL rectangle drawn over the two N+ diode blocks, the
+     same deck extracts all four device groups and reports "Netlists match". (An experiment to prove the cause;
+     that copy is not a proposed layout.)
+   - **The foundry library has the same problem**: `gf180mcu_fd_io__asig_5p0` with its own CDL also extracts only
+     the P+ diode and the capacitor, and fails.
+3. **The salicide-block FETs are not recognised in `gf180mcu_ocd_io`.** The deck recognises `*_dss` devices by
+   `ESD_MK` and `SAB` and `LVS_Source` together (`lvs/rule_decks/mos_sab_derivations.lvs:45, 74`). The foundry GDS
+   has `LVS_Source` (100/8) and `LVS_IO` (119/5), and its `bi_t` extracts 8 + 8 `*_dss` devices. **The
+   `gf180mcu_ocd_io` GDS has neither layer** (section 2), and its `bi_t`, `bi_24t`, `in_c` extract none.
+   That is a loss in the pad library's GDS, not a fault of the deck.
+
+Further differences seen: `fill5` and `fill10` extract a MOS capacitor that their netlists do not contain
+(the note in section 2); in `bi_t` and its relatives every other device class is found with the schematic's count
+(79 + 79 six-volt FETs, 31 + 31 three-volt FETs, the P+ diodes); `in_c` extracts 28 of 31 `pfet_03v3`.
+I did not chase these.
+
+The harness itself says: "LVS with klayout has not been attempted". **[V]** `B:README:462-464`.
+
+### 14.3 Parasitic extraction with KLayout
+
+`kpex --pdk gf180mcuD --2.5D` on `asig_5p0` ran to the end and wrote a netlist (capacitances only). **[I]** as to
+accuracy: the engine is a 2.5D estimate, and it warned that it left out `isosub` and about a fifth of the contacts.
+Wiring capacitance of the pad net: 0.54 pF to DVDD, 0.38 pF to DVSS, 0.17 pF to substrate, 0.05 pF to VDD and VSS;
+about 1.15 pF in total. With the junction capacitance of section 9.2 the pad cell loads the signal with roughly
+2 pF, package and routing not included. (`LOG/2026-11-26_fable_kpex_asig.out`.)
+The statement in this repository's `Makefile` and port map that KPEX has "no verified GF180 support" is now out
+of date in one respect: the tool ships a `gf180mcuD` definition and runs. Whether its numbers are right is still
+unverified.
+
+### 14.4 Verdict
+
+The PDK's KLayout support is **uneven, not weak across the board**:
+
+- strong: technology files and DRC (complete, runs untouched, pads clean);
+- usable with small environment fixes: device PCells, parasitic extraction;
+- **weak exactly where pads and ESD need it**: LVS cannot pass the foundry's own analog pad (substrate diodes),
+  the open pad library has lost two LVS marker layers, the netlists need a stopgap converter, and there is no
+  ESD, guard-ring, bond-pad or via-stack PCell.
+
+A "KLayout version of the pads" that is honest therefore cannot be made inside this project alone: either the
+PDK's LVS deck and the pad library's GDS are corrected (PDK-wide work, upstream), or the pads get a private
+patched deck and a private patched GDS, which is the special case the user asked me not to invent. **I stopped
+here and ask** (section 11, question 9). Nothing was built.
+
+What "upgrading KLayout support for the PDK" would consist of, as far as this session can tell:
+
+| Item | Where it belongs | Size |
+| --- | --- | --- |
+| LVS: accept the substrate as anode of `diode_nd2ps_*` when no LVPWELL is drawn | the PDK's KLayout LVS deck (upstream of open_pdks) | small change, needs the deck's regression tests |
+| restore `LVS_Source`, `LVS_IO` (and `Latchup_MK` on the analog pad) in `gf180mcu_ocd_io` | the pad library (upstream), or its GDS export from Magic | small, but touches a shared library |
+| KLayout-readable netlists (CDL) for `gf180mcu_ocd_io`; fill-cell capacitors in the netlists | the pad library | small |
+| PCells homologous to IHP's: ESD diode array, tap and guard ring, via stack, bond pad | new library next to the PDK's device PCells, built by the method of section 12.4 and XOR-checked against the pad cells | the real work; the diode array is the natural first cell |
+| environment: `docopt` (or a runner without it), `USER`, optionally `gdsfactory` | `claude-cloud-config` | trivial |
+| KLayout PEX: compare against Magic extraction on a pad | this project or the harness | medium |
+'''
+assert '## 14.' not in s
+s = s.rstrip('\n') + '\n' + sec14
+open(p,'w').write(s)
+EOF
+grep -n '^## ' docs/PAD_STRUCTURES.md | tail -5
+```
+
+</details>
+
+*[Check whether the corner cell's DRC has finished (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; cd $S/kl; tail -3 drc_all_summary.txt; tail -2 drc_cor.log | cut -c1-160; ps aux | grep -c '[k]layout -b'
+```
+
+</details>
+
+The KLayout assessment is in the report; the corner cell's DRC and the public-ESD search are still running. Filing the KLayout evidence on the notes branch meanwhile.
+
+*[File the KLayout scripts and evidence outputs on the notes branch (in the cloud container; 23 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; N=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher; L=$N/sudelbuecher/logs/pad_esd_exploration; cd $S/kl
+# tools, with the scratch folder replaced by a variable
+cat > $L/tools/klayout_split_pads.py <<'EOF'
+#!/usr/bin/env python3
+"""Copy each pad cell of gf180mcu_ocd_io (with its sub-cells) into its own GDS file, for single-cell DRC/LVS runs.
+usage: klayout_split_pads.py <library.gds> <outdir> [prefix, default gf180mcu_ocd_io__]"""
+import sys, os
+import klayout.db as kdb
+src, out = sys.argv[1:3]; pre = sys.argv[3] if len(sys.argv) > 3 else 'gf180mcu_ocd_io__'
+ly = kdb.Layout(); ly.read(src)
+for c in ly.each_cell():
+    if c.name.startswith(pre):
+        o = kdb.Layout(); o.dbu = ly.dbu; o.create_cell(c.name).copy_tree(c); o.write(os.path.join(out, c.name + '.gds'))
+        print(c.name)
+EOF
+cat > $L/tools/klayout_drc_pads.sh <<'EOF'
+#!/bin/bash
+# KLayout DRC with the PDK's deck (all rule decks, variant gf180mcuD, deep mode) on each pad cell, one line per cell.
+# usage: klayout_drc_pads.sh <dir with the single-cell GDS files made by klayout_split_pads.py>
+W=$1; K=$PDK_ROOT/gf180mcuD/libs.tech/klayout/tech; cd "$W" || exit 1
+for c in asig_5p0 bi_t bi_a bi_24t in_c in_s dvdd dvss vdd vss brk2 brk5 fill1 fill5 fill10 fillnc cor; do
+  n=gf180mcu_ocd_io__$c; t0=$(date +%s)
+  klayout -b -r $K/drc/gf180mcu.drc -rd input=$W/$n.gds -rd topcell=$n -rd report=$W/drc_$c.lyrdb -rd variant=gf180mcuD -rd run_mode=deep -rd threads=2 > drc_$c.log 2>&1
+  echo "$c: $(grep -o 'DRC RESULT.*' drc_$c.log | tail -1) rules $(grep -c 'Executing rule' drc_$c.log) time $(( $(date +%s) - t0 )) s"
+done
+EOF
+cat > $L/tools/klayout_lvs_pad.sh <<'EOF'
+#!/bin/bash
+# KLayout LVS with the PDK's deck on one single-cell GDS, called directly (run_lvs.py needs the module docopt).
+# The switches are those run_lvs.py sets for variant D. The netlist must be in KLayout's dialect: convert xschem
+# netlists first with $PDK_ROOT/gf180mcuD/libs.tech/klayout/tech/lvs/gf180_xschem_klayout_spice_convert.py.
+# usage: klayout_lvs_pad.sh <workdir> <cell name> <netlist> <tag>
+W=$1; n=$2; K=$PDK_ROOT/gf180mcuD/libs.tech/klayout/tech
+klayout -b -r $K/lvs/gf180mcu.lvs -rd input=$W/$n.gds -rd topcell=$n -rd schematic=$3 -rd report=$W/lvs_${n}_$4.lvsdb -rd target_netlist=$W/lvs_${n}_$4.cir -rd thr=2 -rd run_mode=deep -rd metal_top=11K -rd mim_option=B -rd metal_level=5LM -rd poly_res=1k -rd mim_cap=2 -rd lvs_sub=gf180mcu_gnd -rd verbose=false -rd spice_net_names=true -rd spice_comments=false -rd scale=false -rd schematic_simplify=true -rd net_only=false -rd top_lvl_pins=true -rd combine=true -rd purge=true -rd purge_nets=false > $W/lvs_${n}_$4.log 2>&1
+echo "$n ($4): $(grep -o 'ERROR : Netlists.*\|INFO : Congratulations.*\|ERROR.*' $W/lvs_${n}_$4.log | tail -1)"
+EOF
+cp pcell_test.py $L/tools/klayout_pcell_load_test.py; chmod +x $L/tools/klayout_*.sh
+# evidence files
+{ echo "KLayout LVS, PDK deck (libs.tech/klayout/tech/lvs/gf180mcu.lvs, open_pdks e7a6777) called directly, KLayout 0.30.12, deep mode, variant D switches."
+  echo "Netlist: libs.ref/gf180mcu_ocd_io/spice/gf180mcu_ocd_io.spice after gf180_xschem_klayout_spice_convert.py, unless stated."; echo
+  echo "== result per cell"; echo "asig_5p0 (PDK netlist, unconverted): ERROR : Netlists don't match   [schematic XC1 read as a subcircuit: 'Flatten schematic circuit (no layout): CAP_NMOS_06V0(C_LENGTH=15U,C_WIDTH=15U,M=36)']"
+  echo "asig_5p0 (conv): ERROR : Netlists don't match"; cat lvs_all_summary.txt
+  echo "asigexp (scratch copy of asig_5p0 with LVPWELL drawn over the two N+ diode blocks; experiment only): $(grep -o 'INFO : Congratulations.*' lvs_asigexp_exp.log | tail -1)"
+  echo "gf180mcu_fd_io__asig_5p0 (foundry library, its own CDL libs.ref/gf180mcu_fd_io/cdl/gf180mcu_fd_io.cdl): $(grep -o 'ERROR : Netlists.*' lvs_fd_asig_5p0.log | tail -1)"
+  echo "gf180mcu_fd_io__bi_t (foundry library, its own CDL): $(grep -o 'ERROR : Netlists.*' lvs_fd_bi_t.log | tail -1)"; echo
+  for f in lvs_asig_5p0_conv.cir lvs_asigexp_exp.cir lvs_fd_asig_5p0.cir; do echo "== extracted netlist $f"; cat $f; echo; done
+  echo "== device models, schematic (flattened instance count) against layout (after combining), per cell"
+  python3 -I - <<'PY'
+import re, collections
+txt=re.sub(r'\n\+',' ',open('ocd_io_converted.spice').read()); subs={}; cur=None
+for l in txt.split('\n'):
+    t=l.split()
+    if not t: continue
+    if t[0].lower()=='.subckt':
+        cur=t[1]
+        if cur in subs: cur=None   # later sections repeat nothing; keep the first definition
+        else: subs[cur]=[]
+        continue
+    if t[0].lower()=='.ends': cur=None; continue
+    if cur and not l.startswith('*') and not l.startswith('.'): subs[cur].append(t)
+def model(t):
+    toks=[]
+    for x in t[1:]:
+        if '=' in x or x.startswith("'"): break
+        toks.append(x)
+    return toks[-1]
+def flat(c, acc):
+    for t in subs[c]:
+        m=model(t)
+        flat(m,acc) if m in subs else acc.update([m])
+    return acc
+def ext(f):
+    acc=collections.Counter()
+    for l in open(f):
+        t=l.split()
+        if t and t[0][0] in 'MDCRQ' and not l.startswith('.'):
+            m=[x for x in t[1:] if '=' not in x and re.match(r'[a-z]',x)]; acc[m[-1] if m else '?']+=1
+    return acc
+for c in ['asig_5p0','dvdd','dvss','vdd','vss','bi_t','bi_a','bi_24t','in_c','in_s','brk5','fill5','fill10']:
+    s=flat('gf180mcu_ocd_io__'+c, collections.Counter()); e=ext(f'lvs_{c}_conv.cir')
+    print(f"{c}\n  schematic: {dict(sorted(s.items()))}\n  layout   : {dict(sorted(e.items()))}\n  only in schematic: {sorted(set(s)-set(e))}   only in layout: {sorted(set(e)-set(s))}")
+print('gf180mcu_fd_io__bi_t (foundry library)\n  layout   :', dict(sorted(ext('lvs_fd_bi_t.cir').items())))
+PY
+} > $L/2026-11-26_fable_klayout_lvs_pads.out 2>&1
+{ echo "kpex 0.6.8 (klayout-pex): kpex --pdk gf180mcuD --gds gf180mcu_ocd_io__asig_5p0.gds --cell gf180mcu_ocd_io__asig_5p0 --2.5D   (exit 0)"; echo "== extracted netlist CSV"; cat kpex_asig/*/*_k25d_pex_netlist.csv; echo; echo "== warnings in the log"; grep -n -A12 'WARNING' kpex_asig.log | cut -c1-120 | head -60; } > $L/2026-11-26_fable_kpex_asig.out
+{ echo "klayout -b -r klayout_pcell_load_test.py, without and with the environment variable USER"; klayout -b -r pcell_test.py 2>&1 | tail -5 | cut -c1-700; echo "--- USER=root"; USER=root klayout -b -r pcell_test.py 2>&1 | tail -5 | cut -c1-700; } > $L/2026-11-26_fable_klayout_pcell_load.out
+wc -l $L/2026-11-26_fable_klayout_lvs_pads.out $L/2026-11-26_fable_kpex_asig.out $L/2026-11-26_fable_klayout_pcell_load.out; sed -n 1,16p $L/2026-11-26_fable_klayout_lvs_pads.out | cut -c1-170; tail -2 drc_all_summary.txt
+```
+
+</details>
+
+*[Write the DRC evidence file with violation categories and rule texts (in the cloud container; 22 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; L=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs/pad_esd_exploration; cd $S/kl; python3 -I - > /tmp/cats.txt <<'EOF'
+import re,collections
+for c in ['bi_t','bi_a','bi_24t','in_c','in_s','fill1','fill5','brk2','brk5','fillnc','cor']:
+    t=open(f'drc_{c}.lyrdb').read()
+    print(f"{c}: {dict(collections.Counter(re.findall(r'<category>.?([^<]+?).?</category>',t)))}")
+EOF
+{ echo "KLayout DRC, PDK deck (libs.tech/klayout/tech/drc/gf180mcu.drc, open_pdks e7a6777), all rule decks, variant gf180mcuD, deep mode, KLayout 0.30.12."; echo "Each pad cell of libs.ref/gf180mcu_ocd_io/gds/gf180mcu_ocd_io.gds copied with its sub-cells into its own file and run alone."; echo; cat drc_all_summary.txt | grep -v DONE; echo; echo "== violation categories (rule: count)"; cat /tmp/cats.txt; echo; echo "== rule texts"; for r in PL.8 M2.4 M3.4 M4.4 M5.4 MT.3 DCF.1b; do grep -h -o "'$r',[^)]*" /foss/pdks/gf180mcuD/libs.tech/klayout/tech/drc/rule_decks/*.rb | head -1 | tr -s ' \n' ' '; echo; done; } > $L/2026-11-26_fable_klayout_drc_pads.out; tail -22 $L/2026-11-26_fable_klayout_drc_pads.out | cut -c1-230
+```
+
+</details>
+
+*[Add the density rule texts to the DRC evidence file (in the cloud container; 10 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+L=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs/pad_esd_exploration; D=/foss/pdks/gf180mcuD/libs.tech/klayout/tech/drc/rule_decks; python3 -I - <<EOF
+import re
+f='$L/2026-11-26_fable_klayout_drc_pads.out'; s=open(f).read(); s=s[:s.index('== rule texts')]
+out=['== rule texts (comments in rule_decks/density.rb)']
+t=open('$D/density.rb').read().split('\n')
+for i,l in enumerate(t,1):
+    m=re.match(r'\s*# Rule (PL\.8|M#\{idx\}\.4|M[2-5]\.4|MT\.3|DCF\.1[ab])\b.*',l) or re.match(r'\s*# Rule (\S*\.4|MT\.3|DCF\.1[ab]|PL\.8):.*',l)
+    if m: out.append(f'density.rb:{i}: '+l.strip())
+open(f,'w').write(s+'\n'.join(out)+'\n')
+print('\n'.join(out))
+EOF
+```
+
+</details>
+
+*[Update the report's summary, questions and capacitance table with the KLayout findings (in the cloud container; 24 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -I - <<'EOF'
+p='docs/PAD_STRUCTURES.md'; s=open(p).read()
+def rep(a,b):
+    global s
+    assert s.count(a)==1,(s.count(a),a[:60]); s=s.replace(a,b)
+rep("| `cor` | see the log file (it was still running when this was written, or see the last line there) |",
+    "| `cor` | 2 violations: `DCF.1a`, `M2.4`, again coverage rules |")
+rep("So KLayout DRC works on the pads, and apart from die-level coverage rules they are clean.",
+    "The coverage rules are whole-die rules (`drc/rule_decks/density.rb:25-161`: \"coverage over the entire die\", \"global\n"
+    "density\"). So KLayout DRC works on the pads, and apart from those rules, which do not apply to a single cell, the\n"
+    "pads are clean; `fillnc` alone is too narrow to be checked outside a row.")
+# summary items
+rep("7. **`CLAUDE.md` section 5 holds up**, with one addition:",
+    "8. **KLayout (added later, section 14).** The PDK's KLayout DRC runs untouched and the pads pass it. Its KLayout LVS\n"
+    "   passes none of the pad cells, not even the foundry's own analog pad: N+ diodes in bare substrate are not extracted,\n"
+    "   and the open pad library's GDS has lost two LVS marker layers. A KLayout twin of the pads would need PDK-wide\n"
+    "   fixes, so nothing was built and the question is put to the user (section 11, question 9).\n"
+    "7. **`CLAUDE.md` section 5 holds up**, with one addition:")
+# question 9
+rep("8. **May I treat the upstream repositories",
+    "9. **KLayout support (section 14).** The pads cannot get an honest KLayout twin without PDK-wide work: an LVS deck\n"
+    "   fix for substrate diodes, the lost marker layers and KLayout netlists of `gf180mcu_ocd_io`, and ESD, guard-ring,\n"
+    "   via-stack and bond-pad PCells that IHP has and GF180 lacks. Should I take that on for the whole PDK (as patches and\n"
+    "   proposals for upstream, starting with the diode-array PCell and the LVS deck change), restrict myself to what\n"
+    "   works today (KLayout DRC and parasitic extraction of the pads, no LVS), or leave KLayout aside?\n"
+    "8. **May I treat the upstream repositories")
+# 9.2 table row
+rep("| junction capacitance of D2 + D3 on the pad | 0.80 pF at 2.5 V, 0.96 pF at 0 V and at 5 V | [I]; bond pad metal, Metal2 strips, routing and package are not included, so the real pad capacitance is larger by an amount I did not determine |",
+    "| junction capacitance of D2 + D3 on the pad | 0.80 pF at 2.5 V, 0.96 pF at 0 V and at 5 V | [I] |\n"
+    "| wiring capacitance of the pad net inside the pad cell | about 1.15 pF (0.54 to DVDD, 0.38 to DVSS, 0.17 to substrate, 0.05 to VDD and VSS) | [I] KLayout 2.5D extraction, accuracy unverified (section 14.3); routing to the slot and the package are not included |")
+open(p,'w').write(s)
+EOF
+grep -n '^[0-9]\. \*\*' docs/PAD_STRUCTURES.md | cut -c1-80 | head -24
+```
+
+</details>
+
+*[Put the added summary item and question in the right order (in the cloud container; 17 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -I - <<'EOF'
+p='docs/PAD_STRUCTURES.md'; s=open(p).read()
+def move(start_marker, next_marker, end_marker):
+    global s
+    a=s.index(start_marker); b=s.index(next_marker, a); blk=s[a:b]
+    s=s[:a]+s[b:]
+    e=s.index(end_marker, a)
+    # insert before end_marker, keeping one blank line before the heading
+    head=s[:e].rstrip('\n')+'\n'
+    s=head+blk.rstrip('\n')+'\n\n'+s[e:]
+move("8. **KLayout (added later, section 14).**", "7. **`CLAUDE.md` section 5 holds up**", "## 2. The pad library: cell table")
+move("9. **KLayout support (section 14).**", "8. **May I treat the upstream repositories", "## 12. Notes for parametric cells")
+open(p,'w').write(s)
+EOF
+sed -n '/^7\. \*\*`CLAUDE.md` section 5/,/^## 2\./p' docs/PAD_STRUCTURES.md | cut -c1-120; sed -n '/^8\. \*\*May I treat/,/^## 12\./p' docs/PAD_STRUCTURES.md | cut -c1-120
+```
+
+</details>
+
+*[Add the KLayout environment proposal to the proposals file (in the cloud container; 17 lines of output).]*
+
+<details><summary>command</summary>
+
+~~~~sh
+python3 -I - <<'EOF'
+p='docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md'; s=open(p).read()
+a="## What I would not put into C"
+assert s.count(a)==1
+p8='''## P8. KLayout flow of the gf180mcuD environment: three small fixes and one reference page (added later on 2026-11-26)
+
+**Why.** The user asked how far the PDK's KLayout support goes. Getting the PDK's own KLayout LVS, PCells and the
+KLayout parasitic extraction to run at all took three workarounds that belong in the environment
+(`docs/PAD_STRUCTURES.md` section 14).
+
+**What to add.**
+
+1. `parts/pdk-gf180mcuD.sh`: make the PDK's `run_lvs.py` usable. It imports `docopt` (`run_lvs.py:49`), which is not
+   installed; `pip install --break-system-packages docopt` failed to build a wheel under Python 3.13 in this
+   session. **[V]** Options, untested: the maintained fork `docopt-ng`, or installing under `python3.12` as the setup
+   already does for CACE. Until then the deck can be called directly; the command line is in
+   `LOG/tools/klayout_lvs_pad.sh`. **[V]** that script worked.
+2. Environment variables of `gf180mcuD`: add `USER=root`. Without `USER` the PDK's KLayout-API PCell library fails
+   to load with `KeyError 'USER'` (`libs.tech/klayout/tech/pymacros/klayout_api_cells/draw_efuse.py:18`); with it the
+   library registers 31 PCells. **[V]** `LOG/2026-11-26_fable_klayout_pcell_load.out`.
+3. State in the README that the gdsfactory-based PCell library does not load (`No module named 'gdsfactory'`) and
+   that this is intended (`parts/pdk-gf180mcuD.sh:117-119`), so nobody takes the message for a broken install.
+4. A page `reference/gf180mcuD/KLAYOUT_FLOW.md` with what was measured:
+
+```markdown
+# gf180mcuD in KLayout: what works (open_pdks e7a6777, KLayout 0.30.12, klayout-pex 0.6.8)
+
+- DRC: `klayout -b -r $PDK_ROOT/gf180mcuD/libs.tech/klayout/tech/drc/gf180mcu.drc -rd input=<gds> -rd topcell=<cell>
+  -rd report=<out.lyrdb> -rd variant=gf180mcuD`. 777 rules; about 30 s for a pad cell. On a single cell the
+  die-coverage rules (PL.8, M<n>.4, MT.3, DCF.1a/b) fire and mean nothing.
+- LVS: deck `libs.tech/klayout/tech/lvs/gf180mcu.lvs`. xschem netlists must first go through
+  `lvs/gf180_xschem_klayout_spice_convert.py`. Known gaps: `diode_nd2ps_*` is extracted only where an LVPWELL is
+  drawn (N+ diodes in bare substrate vanish); `*_dss` FETs need ESD_MK, SAB and LVS_Source, and the
+  gf180mcu_ocd_io GDS has no LVS_Source layer. No pad cell of gf180mcu_ocd_io or gf180mcu_fd_io passes.
+- PCells: library `gf180mcu_klayoutapi` (31 device PCells) needs `USER`; there is no ESD, guard-ring, via-stack or
+  bond-pad PCell.
+- Parasitics: `kpex --pdk gf180mcuD --gds <gds> --cell <cell> --2.5D --out_dir <dir>` runs (capacitances only);
+  accuracy not compared with Magic.
+```
+
+**Sources.** `docs/PAD_STRUCTURES.md` sections 14.1 to 14.3 with their file-and-line citations **[V]**; the run
+times and the "777 rules" from `LOG/2026-11-26_fable_klayout_drc_pads.out` **[V]**.
+
+---
+
+'''
+s=s.replace(a,p8+a)
+s=s.replace("P5 to P7 are tools and housekeeping.","P5 to P8 are tools and housekeeping.")
+open(p,'w').write(s)
+EOF
+grep -n '^## ' docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md | cut -c1-110
+~~~~
+
+</details>
+
+*[Add the KLayout entry to the work journal (in the cloud container; 2 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/user/gf180_cm_ip__single2diff2single_sudelbuecher && python3 -I - <<'EOF'
+p='sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_pad_structures_log.md'; s=open(p).read()
+a="## Not checked (summary)"
+assert s.count(a)==1
+e18='''## 18. KLayout support of the PDK and of the pads (second request of the session)
+
+Christoph asked for a KLayout version of the pads homologous to the IHP library if the pads exist only in Magic, but
+no special case if the whole PDK supports KLayout weakly; in that case I should ask. So I measured first. KLayout 0.30.12,
+the PDK's decks unmodified. Scripts: `tools/klayout_split_pads.py`, `klayout_drc_pads.sh`, `klayout_lvs_pad.sh`,
+`klayout_pcell_load_test.py` (filed copies with the scratch paths replaced by arguments; the filed copies themselves
+were not rerun).
+
+- `libs.tech/klayout/tech/`: `gf180mcu.lyt`, `.lyp`, `.map`; `drc/` (loader + 41 rule decks); `lvs/` (deck + 26 rule
+  decks, `run_lvs.py`, `gf180_xschem_klayout_spice_convert.py`); `pymacros/` (`cells` gdsfactory-based,
+  `klayout_api_cells`, `sealring_cells`); `scripts/` (fill, slots); `macros/`; `d25/`.
+- DRC on all 17 pad cells, each in its own GDS: `2026-11-26_fable_klayout_drc_pads.out`. 777 rules per run, 5 to 34 s
+  per cell, 127 s for the corner. Clean: `asig_5p0`, `dvdd`, `dvss`, `vdd`, `vss`, `fill10`. All other violations are
+  die-coverage rules of `density.rb`, plus minimum-width rules on the 0.1 um `fillnc`.
+  My first batch script called `/usr/bin/time`, which the container does not have; the second run is the one filed.
+- LVS: `run_lvs.py` stops at `from docopt import docopt`; `pip install --break-system-packages docopt` ended with
+  "Could not build wheels for docopt". I called the deck directly with the switches `run_lvs.py` sets for variant D.
+  Results: `2026-11-26_fable_klayout_lvs_pads.out`. No pad cell matches.
+  - Unconverted netlist: `XC1` is read as a subcircuit. After the PDK's converter the schematic side is read.
+  - `diode_nd2ps_06v0` is never extracted: the deck's P terminal is `lvpwell_con = lvpwell.not(res_mk)`
+    (`general_derivations.lvs:42`), and the pads' N+ diodes have no LVPWELL. Scratch copy of `asig_5p0` with LVPWELL
+    drawn over the two N+ diode blocks: "Congratulations! Netlists match." The foundry `gf180mcu_fd_io__asig_5p0`
+    with its own CDL fails the same way.
+  - `*_dss` FETs: the deck wants `esd_mk`, `sab` and `lvs_source` (`mos_sab_derivations.lvs:45, 74`). The foundry GDS
+    has LVS_Source 100/8 and LVS_IO 119/5 and its `bi_t` extracts 8 + 8 `*_dss`; the `gf180mcu_ocd_io` GDS has neither
+    layer and extracts none.
+  - `fill5`, `fill10`: a `cap_nmos_06v0` in the layout, none in the netlist.
+- PCells: `2026-11-26_fable_klayout_pcell_load.out`. gdsfactory library: `No module named 'gdsfactory'`. KLayout-API
+  library: `KeyError 'USER'` without the variable, 31 PCells with `USER=root`. Seal ring: loads.
+- Parasitics: `kpex --pdk gf180mcuD ... --2.5D` on `asig_5p0`, exit 0: `2026-11-26_fable_kpex_asig.out`. Pad net:
+  541.8 fF to DVDD, 380.7 fF to DVSS, 174.4 fF to VSUBS, 22.6 fF to VDD, 31.1 fF to VSS. The tool reported its own
+  LVS step as "Netlists don't match" (the same deck) and listed layers it left out.
+- IHP comparison from D `sudel_buecher`, `sudelbuecher/IHP_pcell_structure_visualization/ihp_sg13cmos5l_klayout_tree.txt`
+  (first 120 of 495 lines read): registered PCells include `esd`, `bondpad`, `ptap1`, `ntap1`, `sealring`,
+  `NoFillerStack`; `via_stack` is linked from sg13g2.
+- Decision: nothing built. The gaps are in the PDK's LVS deck and in the pad library's GDS, so a pads-only KLayout
+  version would be a special case. Question 9 in the report asks Christoph.
+- Not done: no change to any deck or GDS outside the scratch folder; no comparison of the KLayout extraction with
+  Magic's; the `fill_*.rb` and `slots.drc` scripts were not tried.
+
+'''
+s=s.replace(a,e18+a)
+open(p,'w').write(s)
+EOF
+echo ok
+```
+
+</details>
+
+*[Check which IHP PCells the recorded listing marks as registered (in the cloud container; 35 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/user/tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single && git show origin/sudel_buecher:sudelbuecher/IHP_pcell_structure_visualization/ihp_sg13cmos5l_klayout_tree.txt | grep -n -i 'via_stack\|guard_ring\|moduleNames\|registered\|\[R\]' | cut -c1-200 | head -40
+```
+
+</details>
+
+*[Correct the IHP PCell list in the report and the journal (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -I - <<'EOF'
+p='docs/PAD_STRUCTURES.md'; s=open(p).read()
+a="IHP registers, besides devices, PCells for `esd`, `bondpad`, `ptap1`/`ntap1` (taps and\nguard rings), `via_stack`, `NoFillerStack`, `sealring`."
+assert s.count(a)==1
+s=s.replace(a,"IHP registers, besides devices, PCells for `esd`, `bondpad`, `ptap1`/`ntap1` (taps),\n`guard_ring`, `via_stack`, `NoFillerStack`, `sealring` (lines 85-118 of that listing).")
+open(p,'w').write(s)
+p='../gf180mcu_dummy'
+p='/home/user/gf180_cm_ip__single2diff2single_sudelbuecher/sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_pad_structures_log.md'; s=open(p).read()
+a="  (first 120 of 495 lines read): registered PCells include `esd`, `bondpad`, `ptap1`, `ntap1`, `sealring`,\n  `NoFillerStack`; `via_stack` is linked from sg13g2."
+assert s.count(a)==1
+s=s.replace(a,"  (lines 80-118 of 495 read): registered PCells include `esd`, `bondpad`, `ptap1`, `ntap1`, `guard_ring`, `via_stack`,\n  `sealring`, `NoFillerStack`.")
+open(p,'w').write(s)
+EOF
+echo done
+```
+
+</details>
+
+KLayout part is written up; committing and pushing it now so it is safe while the public-source search is still running.
+
+*[Commit and push the KLayout findings on both branches (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+git add docs/PAD_STRUCTURES.md docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md && git commit -q -F - <<'EOF'
+docs/PAD_STRUCTURES.md docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md : KLayout support of the PDK and of the pad cells measured (section 14, proposal P8)
+
+The PDK's KLayout DRC runs unmodified and the pads pass it apart from die-coverage
+rules. Its KLayout LVS passes no pad cell: N+ substrate diodes are not extracted
+(also in the foundry library), and the gf180mcu_ocd_io GDS lacks the LVS_Source and
+LVS_IO marker layers. Nothing was built; question 9 asks how to proceed.
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL
+EOF
+git push origin pad_esd_exploration 2>&1 | tail -1
+cd /home/user/gf180_cm_ip__single2diff2single_sudelbuecher && python3 -I - <<'EOF'
+import os,datetime
+root='sudelbuecher/logs/pad_esd_exploration'
+src={
+ '2026-11-26_fable_klayout_drc_pads.out':"KLayout DRC with the PDK deck on each pad cell alone (tools/klayout_split_pads.py, tools/klayout_drc_pads.sh), plus violation categories and the density rule texts",
+ '2026-11-26_fable_klayout_lvs_pads.out':"KLayout LVS with the PDK deck called directly (tools/klayout_lvs_pad.sh) on the pad cells, extracted netlists and a model comparison",
+ '2026-11-26_fable_kpex_asig.out':"kpex 0.6.8 --pdk gf180mcuD --2.5D on gf180mcu_ocd_io__asig_5p0: netlist CSV and warnings",
+ '2026-11-26_fable_klayout_pcell_load.out':"klayout -b -r tools/klayout_pcell_load_test.py without and with USER set",
+ 'tools/klayout_split_pads.py':'written in session 01XU3KH8','tools/klayout_drc_pads.sh':'written in session 01XU3KH8 (filed copy, paths as arguments)',
+ 'tools/klayout_lvs_pad.sh':'written in session 01XU3KH8 (filed copy, paths as arguments)','tools/klayout_pcell_load_test.py':'written in session 01XU3KH8',
+}
+rows=[]
+for f,c in src.items():
+    st=os.stat(os.path.join(root,f)); rows.append('\t'.join([os.path.join(root,f),datetime.datetime.fromtimestamp(st.st_mtime,datetime.UTC).strftime('%Y-%m-%dT%H:%M:%SZ'),str(st.st_size),c,'-']))
+open('sudelbuecher/MANIFEST.tsv','a').write('\n'.join(rows)+'\n')
+EOF
+git add sudelbuecher && git commit -q -F - <<'EOF'
+sudelbuecher/logs/pad_esd_exploration : KLayout DRC, LVS, PCell and parasitic extraction runs on the pad cells, scripts, journal entry 18
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL
+EOF
+git push origin sudel_buecher 2>&1 | tail -1; git log --oneline | head -1
+```
+
+</details>
+
+*[Called ListAgents (4 lines of output).]*
+
+**KLayout: I measured first and built nothing, because the gaps are in the PDK and the pad library, not in the pads alone.** So, as you asked, here is the question instead of a special case.
+
+What the PDK's own KLayout flow does on the pad cells (all run unmodified in this session):
+
+| Part | Result |
+| --- | --- |
+| DRC | Runs out of the box, 777 rules. All 17 pad cells are clean apart from whole-die coverage rules, which mean nothing on a single cell (the 0.1 µm `fillnc` also trips minimum-width rules when checked alone). |
+| LVS | Passes none of the pad cells, including the foundry's own analog pad. |
+| Device PCells | 31 exist (FETs, diodes, caps, resistors, BJTs). They load only when `USER` is set, which it is not in the cloud container. |
+| ESD, guard-ring, via-stack, bond-pad PCells | None. IHP's PDK has all of these. |
+| Parasitic extraction | `kpex` ships a `gf180mcuD` definition and runs. It gives about 1.15 pF wiring capacitance on the pad net, so roughly 2 pF with the diode junctions; accuracy is unverified. |
+
+The LVS failures have three causes:
+- **Substrate diodes:** the deck only extracts N+ diodes where a p-well is drawn, and the pads' diodes sit in bare substrate. On a scratch copy with a p-well drawn in, the analog pad matches.
+- **Lost marker layers:** the `gf180mcu_ocd_io` GDS has no `LVS_Source` and `LVS_IO` layers, so its ESD transistors are not recognised. The foundry library still has them.
+- **Netlist format:** the pad netlists need the PDK's converter, which calls itself a stopgap. The PDK's `run_lvs.py` also does not start here (missing `docopt`); I called the deck directly.
+
+So KLayout support is strong for DRC and weak exactly where pads and ESD need it.
+
+**Decision for you:**
+1. **Upgrade for the whole PDK**, as patches and proposals for upstream. I would start with the LVS deck fix for substrate diodes and a diode-array PCell checked by XOR against the foundry cell, then guard ring, via stack and bond pad, plus restoring the marker layers and KLayout netlists for the pad library.
+2. **Use only what works today:** KLayout DRC and parasitic extraction of the pads, no LVS, no new cells.
+3. **Leave KLayout aside** and stay with Magic for the pads.
+
+I'd lean towards 1, but it touches a shared deck and Tim's library, so it is yours to call.
+
+The details are in section 14 of `docs/PAD_STRUCTURES.md` (pushed), with question 9 in section 11 and environment fixes as proposal P8.
+
+**Public ESD sources:** the search is still running. When it returns I will add its findings as a new section with sources and the same verified / inferred / unverified marks, then rebuild the chat log.
+
+The public-source search is back. Before adding it to the report I'm checking its key claims against the files I can open here (the foundry documentation clone, the pad library's datasheet tables, the upstream issue it cites).
+
+*[Verify the breakdown, electromigration and pad current-rating tables cited by the search (in the cloud container; 90 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/user/upstream/gf180mcu-pdk/docs && for f in analog/spice/elec_specs/tables_clear/5_General_Specification3.csv analog/spice/elec_specs/tables_clear/5_General_Specification4.csv analog/spice/elec_specs/tables_clear/5_General_Specification5.csv physical_verification/design_manual/tables_clear/54_Electro-migration1_150.csv physical_verification/design_manual/tables_clear/54_Electro-migration2_151.csv; do echo "=== $f"; cat -n $f | cut -c1-200 | head -40; done; grep -n -i 'PRES.8\|current' physical_verification/design_manual/tables_clear/33_ANALOG_DEVICE1_80.csv | head -4; grep -n 'PL.10' physical_verification/design_manual/tables_clear/16_Poly2_42.csv | head -2; grep -n -i '6.5V\|3.63\|overshoot' physical_verification/design_manual/drm_14_1.rst | cut -c1-260 | head -6; cat -n /home/user/upstream/gf180mcu_ocd_io/docs/specs/02_Cell_List.csv | cut -c1-200
+```
+
+</details>
+
+*[Verify the gate voltage limit and oxide thickness, and test access to three cited web sources (in the cloud container; 11 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+sed -n 51p /home/user/upstream/gf180mcu-pdk/docs/physical_verification/design_manual/drm_14_1.rst | cut -c240-520; N=/foss/pdks/gf180mcuD/libs.tech/ngspice/sm141064.ngspice; awk 'NR>=37038 && NR<=37751 && /toxe/ {print NR": "$0}' $N | head -3; awk 'NR>=38074 && NR<=38330 && /toxe/ {print NR": "$0}' $N | head -2; grep -n 'toxe' $N | sed -n 1,3p | cut -c1-80; cd /tmp && for u in "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pv/issues/33" "https://raw.githubusercontent.com/wafer-space/gf180mcu-project-template/main/README.md" "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_io/main/docs/user_guide.rst"; do printf '%s -> ' "$u"; curl -s -L -o /tmp/f_$(echo $u | md5sum | cut -c1-6) -w '%{http_code} %{size_download}\n' --max-time 30 "$u"; done
+```
+
+</details>
+
+*[Verify the upstream LVS issue, the shuttle template's status table and the sky130 guide statements (in the cloud container; 29 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp; gh api -X GET search/issues -f q='repo:fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pv diode_nd2ps' 2>&1 | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+for i in d.get('items',[]):
+    print(i['number'], i['state'], i['created_at'][:10], '|', i['title']); print('   ', i['html_url']); print('   body:', (i.get('body') or '')[:900].replace('\r','').replace('\n',' / '))
+print('total', d.get('total_count'))
+" 2>&1 | cut -c1-1400; grep -n -i 'silicon-verified\|experimental\|ocd_io\|fd_io' f_* 2>/dev/null | grep -v user_guide | cut -c1-220 | head -8; f=$(grep -l 'pad_a_esd_0_h' f_* | head -1); grep -n -i '150 ohm\|3.3KV\|2us time\|2880\|non-distributed\|preliminary ESD review' $f | cut -c1-220 | head -8
+```
+
+</details>
+
+*[Look up the upstream issue about substrate diodes in the KLayout LVS deck (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp; gh api -X GET search/issues -f q='repo:fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pv diode_nd2ps' > /tmp/iss.json 2>/tmp/iss.err; head -c 400 /tmp/iss.json; echo; head -c 300 /tmp/iss.err; python3 -I - <<'EOF'
+import json
+t=open('/tmp/iss.json').read()
+try:
+    d,_=json.JSONDecoder().raw_decode(t)
+    for i in d.get('items',[]):
+        print(i['number'], i['state'], i['created_at'][:10], '|', i['title']); print('   ', i['html_url']); print('   body:', (i.get('body') or '')[:1200].replace('\r','').replace('\n',' / '))
+    print('total', d.get('total_count'), d.get('message'))
+except Exception as e: print('parse', e)
+EOF
+```
+
+</details>
+
+*[Read the upstream LVS issue and the pad library's commit history for ESD-related changes (in the cloud container; 7 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /tmp; gh api -X GET search/issues -f q='repo:fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pv is:issue diode_nd2ps' > /tmp/iss.json 2>/tmp/iss.err; python3 -I - <<'EOF'
+import json
+t=open('/tmp/iss.json').read()
+d,_=json.JSONDecoder().raw_decode(t)
+for i in d.get('items',[]):
+    print(i['number'], i['state'], i['created_at'][:10], 'updated', i['updated_at'][:10], 'comments', i['comments'], '|', i['title']); print('   ', i['html_url']); print('   body:', (i.get('body') or '')[:1500].replace('\r','').replace('\n',' / '))
+print('total', d.get('total_count'), d.get('message'))
+EOF
+cd /home/user/upstream/gf180mcu_ocd_io && git fetch -q --depth 120 origin 2>&1 | tail -1; git log --date=short --format='%h %ad %s' | grep -i 'marker\|latchup\|esd\|asig\|ohm' | head -12
+```
+
+</details>
+
+*[Verify the 3.3 V oxide thickness in the models and the fab lineage statement (in the cloud container; 21 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+N=/foss/pdks/gf180mcuD/libs.tech/ngspice/sm141064.ngspice; grep -n "toxe" $N | awk -F: '$1>690 && $1<4300' | sed -n 1,2p | cut -c1-90; grep -n '^\.subckt nfet_03v3 \|^\.lib nfet_03v3_t' $N | head -3; awk 'NR>=560 && NR<=700 && /toxe/' $N | head -3; cd /tmp && curl -s -L --max-time 30 "https://en.wikipedia.org/wiki/GlobalFoundries" -o gfwiki.html; python3 -I - <<'EOF'
+import re,html
+t=open('/tmp/gfwiki.html',errors='replace').read()
+x=html.unescape(re.sub(r'<[^>]+>',' ',t)); x=re.sub(r'\s+',' ',x)
+for m in re.finditer(r'Fab 3E',x):
+    print('...',x[max(0,m.start()-160):m.start()+220],'...'); print()
+EOF
+```
+
+</details>
+
+*[Verify the fab name, ESD implant option and electromigration lifetime wording in the foundry documentation (in the cloud container; 15 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cd /home/user/upstream/gf180mcu-pdk/docs && grep -rn -i 'FAB3E\|fab 3e' --include=*.rst --include=*.csv . | cut -c1-200 | head -4; grep -n 'ESD is optional\|ESD implant' physical_verification/design_manual/drm_04_1.rst | cut -c1-200 | head -3; grep -n 'T0.1\|100,000\|100000\|lifetime' physical_verification/design_manual/drm_14_2.rst | cut -c1-220 | head -4; sed -n 105,114p /tmp/f_95e005 | cut -c1-200
+```
+
+</details>
+
+*[Append the public-sources section to the report and check one citation (in the cloud container; 18 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -I - <<'EOF'
+p='docs/PAD_STRUCTURES.md'; s=open(p).read()
+assert '## 15.' not in s
+sec15 = r'''
+## 15. ESD information from other public sources (added later on 2026-11-26)
+
+Request from the user: where ESD information is missing, look in other available sources that are not trade
+secrets. A search subagent ran 42 web searches and GitHub issue searches and read eight public repositories; its
+full report is filed verbatim as `LOG/2026-11-26_fable_subagent_report_3_public_gf180_esd_sources_search.md`. I then
+opened the sources I could reach and re-read the claims that matter. Marks in this section:
+
+- **[V]** I opened the file or page myself (path and line given);
+- **[U-sub]** read by the subagent, not re-opened by me;
+- **[U-lead]** the subagent saw it only in a search-engine summary: a lead, not a citable value.
+
+The cloud environment's network policy refused most literature hosts (the ESD Association, the Industry Council
+on ESD Target Levels, JEDEC, IEEE Xplore, ScienceDirect, arXiv, archive.org), so everything from standards and papers
+is [U-lead]. If the user wants those leads turned into citations, those hosts would have to be allowed.
+
+### 15.1 The main result: nobody has published a measurement
+
+- **No measured ESD result (HBM, CDM, MM, TLP, latch-up) was found for any chip built with `gf180mcu_fd_io` or
+  `gf180mcu_ocd_io`**: not for Caravel on GF180, the GFMPW shuttles, the wafer.space runs, Tiny Tapeout on GF180,
+  university chips, or Chipalooza. Nor any statement that the pads were, or were not, ESD-tested; nor any report of
+  an ESD or latch-up failure on such a chip. **[U-sub]** (a negative result of searches; the query list is in the filed
+  report).
+- The wafer.space project template lists both pad libraries as "silicon-verified" and says above the tables: "Not
+  all of the community-created IPs have been tested yet, so support for them is experimental!" It does not say what
+  "silicon-verified" covers; ESD is not mentioned. **[V]** `raw.githubusercontent.com/wafer-space/gf180mcu-project-template/main/README.md`,
+  lines 112, 128-129 (fetched 2026-11-26).
+- So the only silicon data remains the design manual's test structures (section 7.2), and section 7.6 stands.
+
+### 15.2 Foundry limits that were not in section 7 (all in the public documentation of the PDK)
+
+All **[V]** in `google/gf180mcu-pdk` at `de3240d`, folder `docs/`. These are specification limits, kind "foundry
+target", not ESD data; they bound what the design may see in normal operation and give the only public voltage
+ceilings for the devices behind the pad.
+
+| Quantity | Value | File |
+| --- | --- | --- |
+| gate oxide breakdown, 6 V gate | limit 12 V, typical 16 V (N and P) | `analog/spice/elec_specs/tables_clear/5_General_Specification4.csv:5-6` |
+| gate oxide breakdown, 3.3 V gate | limit 7 V, typical 9 V (N), 8.8 V (P) | same file, lines 3-4 |
+| junction breakdown, 6 V devices | N+/P-: minimum 8.5 V, typical 11 V; P+/N-: limit 8.5 V, typical 10.5 V | `.../5_General_Specification5.csv:5-6` |
+| junction breakdown, 3.3 V devices | N+/P-: minimum 7 V, typical 11 V; P+/N-: limit 6.5 V, typical 10.5 V | same file, lines 3-4 |
+| n-well to substrate breakdown | minimum 10 V, typical 14 V | same file, line 7 |
+| gate oxide capacitance | 3.3 V: 3.4 / 4.4 / 5.4 fF/µm²; 6 V: 1.8 / 2.3 / 2.8 fF/µm² | `.../5_General_Specification3.csv:3-6` |
+| oxide thickness in the models | 8.0 nm (`nfet_03v3`), 15.2 nm (`nfet_06v0`), 15.6 nm (`pfet_06v0`) | `TECH/ngspice/sm141064.ngspice:894, 37309, 38255` |
+| maximum DC gate voltage | "3.63V (for thin oxide), 6.5V/6V for 5V/6V process thick gate"; supply overshoot tolerance 10 % | `physical_verification/design_manual/drm_14_1.rst:14, 51` |
+| metal line current, DC | Metal1 to the metal below the top: 2.09 / 1 / 0.67 mA/µm at 85 / 110 / 125 °C (unidirectional); top metal 11 kÅ: 4.5 / 2.2 / 1.5 mA/µm | `physical_verification/design_manual/tables_clear/54_Electro-migration1_150.csv:4-5, 13-14` |
+| contact and via current, DC | COMP contact and Via1 to Via5: 0.58 / 0.28 / 0.18 mA each; Poly2 contact 0.43 / 0.21 / 0.14 mA | `.../54_Electro-migration2_151.csv:4-12` |
+| poly resistor current | 1 mA per µm of width | `.../33_ANALOG_DEVICE1_80.csv:9` (PRES.8), `.../16_Poly2_42.csv:29` (PL.10) |
+| ESD implant | "ESD is optional mask to provide ESD implant for 3.3V or 5V/6V devices" | `physical_verification/design_manual/drm_04_1.rst:14`; rule ESD.9 restricts it to 5 V/6 V devices (section 7.1) |
+
+And from the pad library's datasheet: the analog pad is a "5V WR analogue signal pad with double diode protection
+(DC current carrying capability 10mA)"; `dvdd` and `dvss` carry 60 mA. **[V]** `OCD:docs/specs/02_Cell_List.csv:18-23`.
+
+What follows from these **[I]**:
+
+- **The analog pad has a DC rating: 10 mA.** That is the first hard number for "output drive" (section 9). The pad
+  net's 20.32 µm of Metal2 would allow about 20 mA at 110 °C by the line table, so the datasheet figure is the
+  tighter one; which element sets it was not found.
+- **Voltage ceilings at the first device behind the pad:** 12 V for a 6 V gate and 7 V for a 3.3 V gate are DC
+  specification limits. Oxide survives more for nanoseconds, but no pulsed data for this process is public, so
+  these are the only citable numbers, and they are conservative. A 3.3 V gate directly behind the pad has little
+  room: the pad diode to DVDD = 5 V lets the pad reach roughly 6 V before it conducts hard.
+- **The 30 mA/µm diode data applies without the ESD implant.** Neither pad library draws the implant layer 24/0
+  (section 2), and the manual's 5 V/6 V transistor data is explicitly "without ESD implant" (section 7.2). Whether
+  the shuttle's mask set includes the implant was not found. **Open.**
+- **The line and contact limits are lifetime limits for DC, not pulse limits.** No pulse-current limit for metal
+  is given anywhere in the PDK documentation. **[U-sub]** (the subagent read chapter 14.2; I read only the tables).
+- **A CDM series resistor carries no DC in an input**, so the 1 mA/µm poly limit matters only where a resistor is in
+  an output path.
+
+### 15.3 The foundry's own second stage as the public worked example
+
+Already in section 5.1, restated here because it is the best concrete sizing example that is public **[V]**
+(`IO/spice/gf180mcu_ocd_io.spice:497-507`, `FDIO/cdl/gf180mcu_fd_io.cdl:1174-1177`):
+
+- resistor: four poly resistors of 2.5 µm x 2.8 µm in parallel, about 110 Ω, 10 µm of total poly width;
+- diodes behind it: 2 x (20 µm x 1 µm) per polarity, i.e. 84 µm of perimeter per polarity;
+- what it protects: 6 V gates of the input buffer (`pfet_06v0` 3.8 and 4.3 µm, `nfet_06v0` 10.6 and 12 µm wide,
+  `IO/spice/gf180mcu_ocd_io.spice:97-113`).
+
+Measured against the datasheet's own minimum for a user-added network (resistor above 50 Ω, diode perimeter above
+25 µm, section 4.4), the foundry used about twice the resistance and more than three times the perimeter. **[I]**
+Copying this network is the most defensible public starting point; this project's proof-of-concept front end
+(about 200 Ω, 28 µm perimeter, section 9.1) has more resistance and a third of the diode.
+
+A discrepancy to know: the commit that added `bi_a` describes its analog tap as going "through the 75 ohm ESD
+resistor" and says "The signal line is narrow and it is not intended for high current capacity". **[V]**
+`OCD:` commit `a2c433c` (2025-11-24). The netlist gives about 110 Ω (449 Ω per resistor in my model run).
+
+### 15.4 Target levels, discharge currents and time scales (standards and industry guidance)
+
+None of these could be opened from here; all **[U-lead]** except the first.
+
+| Item | Source named by the search |
+| --- | --- |
+| Human-body model: 100 pF discharged through 1500 Ω | Wikipedia, "Human-body model" **[U-sub]** |
+| HBM peak current about 0.67 A per kV, so about 1.33 A at 2 kV; rise 2 to 10 ns, decay about 150 ns | Renesas TB505; a Thermo Fisher page citing JS-001 |
+| Recommended qualification targets of 1 kV HBM and 250 V CDM, lower than the datasheet's 2 kV / 500 V | Industry Council on ESD Target Levels, White Papers 1 and 2; JEDEC JEP155, JEP157 |
+| CDM peak currents of several amperes within about a nanosecond ("2-6 Amps" as the practical design range; about 8 A for 500 V on a small verification module) | Industry Council White Paper 2; JS-002 material |
+| Silicon dioxide withstands a few times its DC breakdown field for about 100 ns | patent and paper summaries from other processes; no number for this process |
+| Metal lines: failure current under 100 ns pulses depends strongly on thickness and pulse width | Banerjee, Amerasekera et al., IRPS 1996 and IEEE EDL 1997; Voldman et al., IRPS 1998 (located, not read) |
+
+Use for this project **[I]**: these say what a pad will be asked to carry, not what this pad can carry. They
+support asking question 3 of section 11 concretely: 1 kV HBM / 250 V CDM is the level the industry guidance
+recommends, and it is half the datasheet's target.
+
+### 15.5 How two other open PDKs document the same things (method comparison)
+
+- **SkyWater sky130 I/O** **[V]** `raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_io/main/docs/user_guide.rst`
+  (fetched 2026-11-26): the analog taps `pad_a_esd_0_h` and `pad_a_esd_1_h` are "connected to the pad through a 150 ohm
+  ESD resistor" (line 464); "The HV and LV RC ESD clamps are robust up to 3.3KV HBM" (line 1301); clamp with a "2us
+  time constant" and "Driver width of 2880 um" (lines 1305-1307); "scheduling a preliminary ESD review is
+  recommended before routing is started" (line 2049). So a second foundry's library puts 150 Ω in front of its
+  protected analog tap, where GF's digital pads use about 110 Ω; and its clamp has the same time constant class as
+  the GF clamp (section 5.1) with a smaller transistor (2880 µm against 4000 µm).
+- **IHP SG13G2** **[U-sub]**: the ESD device named `diodevdd_2kv` has a perimeter of 58.08 µm (model file); the
+  analog pad's secondary stage extracts as a 1 µm x 2 µm poly resistor with diodes of 7.5 µm and 11.2 µm perimeter
+  (IHP-Open-PDK issue 1218); an open issue (1247) notes that the IHP I/O libraries have no clamp between core VDD
+  and VSS and names 1 to 2 Ω as the target for a shared-rail ESD path; no measured ESD result is in the IHP tracker
+  either. For scale **[I]**: the GF analog pad's diodes have 424 µm of perimeter per polarity, about seven times
+  the IHP "2 kV" diode, which supports the reading that the pad diodes themselves are generously sized and that the
+  open points are the clamp path, the metal and the voltage at the protected device.
+
+### 15.6 Process lineage: a correction to an assumption
+
+I had told the search that GF180MCU "descends from Chartered's 0.18 µm process". That is not established. The PDK
+names the process "FAB3E 0.18UM 3.3V/6V High Voltage CMOS Technology" **[V]**
+(`google/gf180mcu-pdk:docs/analog/layout/inter_specs/inter_specs.rst:10`); Fab 3E is the Tampines, Singapore fab
+("produces 180 nm wafers"; sold to Vanguard in 2019) **[V]** Wikipedia, "GlobalFoundries" (fetched 2026-11-26).
+According to the search, Chartered acquired that fab from Hitachi in 2008 **[U-lead]**. Older Chartered papers on
+0.18 µm ESD therefore cannot be assumed to describe this process, and the search found no paper that clearly does.
+
+### 15.7 Other things the search turned up
+
+- **The pad library's GDS is written by Magic**, and its marker layers are generated there: commit `2fa4cdc`
+  (2025-11-27) lists "Added required latchup and ESD marker layers on output" and Nplus/Pplus width fixes in "the
+  magic cifoutput section". **[V]** `OCD:` history. That is the likely origin of the missing `LVS_Source` and `LVS_IO`
+  layers of section 14.2 **[I]**.
+- **An upstream issue about the substrate-diode gap is said to exist**: `fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pv`
+  issue 33, opened 2026-09-27, KLayout LVS not extracting `diode_nd2ps_06v0` in bare p-substrate on a pad ring.
+  **[U-sub]**: my own search access does not reach that repository, so I could not open it. It matches what I
+  measured independently in section 14.2, and it names where the deck's upstream is.
+- **Third-party statement to avoid quoting:** an automated project's issue claims that no PDK source characterizes
+  ESD failure current or snapback for gf180mcu. That is wrong; chapter 14.5 of the manual does (section 7.2). **[U-sub]**
+  for the issue, **[V]** for the manual.
+
+### 15.8 What stays unknown after the search
+
+Measured ESD levels of the pads; whether they were ever ESD-tested; pulsed oxide breakdown and pulsed metal limits
+for this process; a sizing rule for the user's CDM network beyond the datasheet sentence and the foundry's own
+example; whether the shuttle includes the ESD implant; anything said about analog-pad ESD in the FOSSi/Chipalooza
+chat, the wafer.space chat or other closed archives, which cannot be searched from here.
+'''
+s = s.rstrip('\n') + '\n' + sec15
+# summary item 9 and pointer in 7.x / 9
+a="## 2. The pad library: cell table"
+s=s.replace(a,"9. **Other public sources (added later, section 15).** No measured ESD result for these pads is public anywhere.\n"
+  "   The public documentation does add limits that section 7 lacked: the analog pad is rated for 10 mA DC, gate oxide\n"
+  "   breakdown limits are 12 V (6 V gate) and 7 V (3.3 V gate), and the foundry's own second stage (about 110 Ω, 84 µm\n"
+  "   of diode perimeter per polarity) is the best public example for the network the design has to add.\n\n"+a,1)
+open(p,'w').write(s)
+EOF
+grep -n '^## \|^### 15' docs/PAD_STRUCTURES.md | tail -14; sed -n 97,113p /foss/pdks/gf180mcuD/libs.ref/gf180mcu_ocd_io/spice/gf180mcu_ocd_io.spice | grep -o 'XI[0-9]* [a-zA-Z0-9]* PAD [a-zA-Z0-9]* [A-Z]* [a-z_0-9]* L=[0-9.u]* W=[0-9.u]*'
+```
+
+</details>
+
+*[Refine the new section, add the pad's DC rating to section 9 and update the proposals (in the cloud container; 1 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+python3 -I - <<'EOF'
+p='docs/PAD_STRUCTURES.md'; s=open(p).read()
+def rep(a,b):
+    global s
+    assert s.count(a)==1,(s.count(a),a[:60]); s=s.replace(a,b)
+rep("- **The 30 mA/µm diode data applies without the ESD implant.** Neither pad library draws the implant layer 24/0\n  (section 2), and the manual's 5 V/6 V transistor data is explicitly \"without ESD implant\" (section 7.2). Whether\n  the shuttle's mask set includes the implant was not found. **Open.**",
+    "- **The data set \"without ESD implant\" is the applicable one.** The manual's 5 V/6 V transistor tables are headed\n  \"without ESD implant\" (section 7.2), and neither pad library draws the implant layer 24/0 (section 2). Whether\n  the shuttle's mask set includes the implant was not found. **Open.**")
+rep("| DC leakage of the pad | not obtained (model floor only) | open |",
+    "| DC leakage of the pad | not obtained (model floor only) | open |\n| DC current rating of the pad | 10 mA (\"DC current carrying capability 10mA\") | [V] `OCD:docs/specs/02_Cell_List.csv:18-20` (section 15.2) |")
+rep("- **Output (`vout`).** The driver's output devices sit directly on the pad wire",
+    "- **Output (`vout`), DC limit.** The pad is rated for 10 mA DC (section 15.2); the class-AB driver's load current has\n  to stay inside that.\n- **Output (`vout`).** The driver's output devices sit directly on the pad wire")
+open(p,'w').write(s)
+p='docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md'; s=open(p).read()
+a="- Chapter 14 \"Reliability\": 14.3 latch-up (`drm_14_3*.rst`, tables 55, 56), 14.4 ESD layout guidelines\n  (`drm_14_4*.rst`, tables 57-59), 14.5 ESD characterization data (`drm_14_5*.rst`, tables 60-67)."
+assert s.count(a)==1
+s=s.replace(a,a+"\n- Also there, and not in the installed PDK: 14.1 operating conditions (`drm_14_1.rst`: maximum DC gate voltage),\n  14.2 electromigration (tables 54: mA/um per metal, mA per contact and via), and the electrical specification\n  `docs/analog/spice/elec_specs/tables_clear/5_General_Specification<n>.csv` (3: gate oxide capacitance, 4: oxide\n  breakdown, 5: junction breakdown). The pad library's datasheet tables are in\n  github.com/RTimothyEdwards/gf180mcu_ocd_io, `docs/specs/*.csv` (02: cell list with DC current ratings).")
+a="| table numbers 55-67 | file names in `DRM:tables_clear/` | [V] for 55, 56, 58, 59, 64-67 (opened); 57, 60-63 by file name only |"
+assert s.count(a)==1
+s=s.replace(a,a+"\n| operating conditions, electromigration, electrical specification, cell list | `docs/PAD_STRUCTURES.md` section 15.2, with file and line | [V] |")
+a="2. A paragraph \"Documents that are not in the PDK\""
+assert s.count(a)==1
+s=s.replace(a,"   Hosts that a literature search needed and the policy refused on 2026-11-26 (search subagent's report, **[U]** as\n   I did not probe each one): `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`, `ieeexplore.ieee.org`,\n   `sciencedirect.com`, `arxiv.org`, `web.archive.org`, `tinytapeout.com`, `skywater-pdk.readthedocs.io`. Reachable\n   without being on the list: `raw.githubusercontent.com` (**[V]**, two files fetched). The GitHub web pages of\n   repositories outside the session answered 403 to `curl` (**[V]**, one issue page).\n"+a)
+open(p,'w').write(s)
+EOF
+git diff --stat | tail -1
+```
+
+</details>
+
+Report and proposals updated with the public-source findings. Filing the search report and journal entry, then committing, pushing and rebuilding the chat log.
+
+*[Commit and push section 15, file the third subagent report and the journal entry (in the cloud container; 8 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+set -e; S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; N=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher; L=$N/sudelbuecher/logs/pad_esd_exploration; NAME=2026-11-26_fable_pad_structures_and_esd_exploration
+cd /home/user/gf180_cm_ip__single2diff2single && git add docs && git commit -q -F - <<'EOF'
+docs/PAD_STRUCTURES.md docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md : ESD information from other public sources (section 15), pad DC rating, proposal updates
+
+No measured ESD result for the open GF180 pads is public. Added from the PDK's
+public documentation: oxide and junction breakdown limits, DC current limits,
+the analog pad's 10 mA rating; the foundry's own second stage as worked example;
+standards and literature as unverified leads (hosts refused by the network policy).
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL
+EOF
+git push origin pad_esd_exploration 2>&1 | tail -1
+cd $N
+T=$(ls -t ~/.claude/projects/*/*.jsonl | head -1); cp "$T" /var/tmp/transcripts/; t=/var/tmp/transcripts/$(basename "$T")
+python3 -I $L/tools/extract_handbacks.py "$t" $L 2026-11-26_fable
+python3 -I - <<'EOF'
+p='sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_pad_structures_log.md'; s=open(p).read()
+a="## Not checked (summary)"
+assert s.count(a)==1
+e='''## 19. ESD information from other public sources (third request of the session)
+
+Christoph asked to search other available sources that are not trade secrets where ESD information is missing.
+
+- A general-purpose subagent searched (42 web queries, GitHub issue and code searches) and read public repositories.
+  Its report is filed verbatim: `2026-11-26_fable_subagent_report_3_public_gf180_esd_sources_search.md`. Its own
+  limitation: the network policy let it fetch only `github.com`, `en.wikipedia.org` and `gf180mcu-pdk.readthedocs.io`,
+  so standards and papers are known from search summaries only.
+- Checked by me afterwards, in files I opened: `google/gf180mcu-pdk` `docs/analog/spice/elec_specs/tables_clear/5_General_Specification{3,4,5}.csv`,
+  `docs/physical_verification/design_manual/tables_clear/54_Electro-migration{1_150,2_151}.csv`, `33_ANALOG_DEVICE1_80.csv:9`,
+  `16_Poly2_42.csv:29`, `drm_14_1.rst:14, 51`, `drm_04_1.rst:14`, `docs/analog/layout/inter_specs/inter_specs.rst:10`;
+  `RTimothyEdwards/gf180mcu_ocd_io` `docs/specs/02_Cell_List.csv` and its history after `git fetch --depth 120`
+  (commits `a2c433c`, `2fa4cdc`, `634ba38`, `0e241e3`, `b6dcaab`); model file lines 894, 37309, 38255 (`toxe`);
+  `raw.githubusercontent.com/wafer-space/gf180mcu-project-template/main/README.md` (HTTP 200);
+  `raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_io/main/docs/user_guide.rst` (HTTP 200);
+  `en.wikipedia.org/wiki/GlobalFoundries` (Fab 3E passages).
+- Could not check: the upstream issue `fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pv` #33 (`curl` to the
+  github.com issue page: 403; `gh api search/issues` restricted to that repository: 0 results, my search access does
+  not reach it); the IHP statements; every standards or literature number.
+- Result in the report: section 15 (no measured ESD result is public; DC and breakdown limits from the public PDK
+  documentation; the analog pad's 10 mA DC rating; the foundry's second stage as worked example; leads).
+- A wrong assumption of mine went into the search prompt ("descends from Chartered's 0.18 um process"); the search
+  did not confirm it, and section 15.6 corrects it.
+
+'''
+s=s.replace(a,e+a)
+open(p,'w').write(s)
+EOF
+git add sudelbuecher && git commit -q -m "sudelbuecher/logs/pad_esd_exploration : public ESD source search, subagent report 3, journal entry 19
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL" && git push origin sudel_buecher 2>&1 | tail -1; ls $L | grep subagent
+```
+
+</details>
+
+*[Inspect how the third hand-back and the later user messages are stored in the transcript (in the cloud container; 17 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+t=/var/tmp/transcripts/$(ls -t ~/.claude/projects/*/*.jsonl | head -1 | xargs basename); python3 -I - $t <<'EOF'
+import json,sys
+recs=[json.loads(l) for l in open(sys.argv[1])]
+for r in recs:
+    if r.get('type')=='user':
+        c=r['message'].get('content')
+        if isinstance(c,str): print('USER str meta=',r.get('isMeta'),'compact=',r.get('isCompactSummary'),'origin=',r.get('origin'),len(c),repr(c[:90]), {k:r[k] for k in r if k in('userType','isSidechain','sourceToolUseID','toolUseResult') and k!='toolUseResult'})
+        elif not any(b.get('type')=='tool_result' for b in c): print('USER list meta=',r.get('isMeta'),'origin=',r.get('origin'),[(b.get('type'),len(b.get('text','')),repr(b.get('text','')[:70])) for b in c])
+    if r.get('type')=='attachment' and r['attachment'].get('type')=='queued_command':
+        a=r['attachment']; print('ATT', a.get('commandMode'), (a.get('origin') or {}).get('kind'), a.get('humanTurn'), len(str(a.get('prompt'))), repr(str(a.get('prompt'))[:60]))
+EOF
+```
+
+</details>
+
+*[Read the remaining transcript record summary (in the cloud container; 4 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+cut -c1-330 /root/.claude/projects/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/tool-results/b2u0a00eo.txt | sed -n 10,30p
+```
+
+</details>
+
+*[Extend the hand-back extractor to the third report's record form and file that report (in the cloud container; 16 lines of output).]*
+
+<details><summary>command</summary>
+
+```sh
+N=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher; L=$N/sudelbuecher/logs/pad_esd_exploration; cd $N && python3 -I - <<'EOF'
+p='sudelbuecher/logs/pad_esd_exploration/tools/extract_handbacks.py'; s=open(p).read()
+a="""n = 0
+for r in recs:
+    a = r.get('attachment', {}) if r.get('type') == 'attachment' else {}
+    p = a.get('prompt')
+    if a.get('type') == 'queued_command' and (a.get('origin') or {}).get('kind') == 'peer' and isinstance(p, str):
+"""
+assert s.count(a)==1
+b="""n = 0
+for r in recs:
+    # a hand-back arrives either as a queued attachment (while the session is working) or as a meta user record
+    # (when it starts a new turn); both carry origin kind 'peer'
+    a = r.get('attachment', {}) if r.get('type') == 'attachment' else {}
+    p = a.get('prompt')
+    if r.get('type') == 'user' and (r.get('origin') or {}).get('kind') == 'peer' and isinstance(r.get('message', {}).get('content'), str):
+        a = {'type': 'queued_command', 'origin': r['origin']}; p = r['message']['content']
+    if a.get('type') == 'queued_command' and (a.get('origin') or {}).get('kind') == 'peer' and isinstance(p, str):
+"""
+s=s.replace(a,b)
+open(p,'w').write(s)
+EOF
+t=/var/tmp/transcripts/$(ls -t ~/.claude/projects/*/*.jsonl | head -1 | xargs basename); python3 -I $L/tools/extract_handbacks.py $t $L 2026-11-26_fable; head -8 $L/2026-11-26_fable_subagent_report_3_*.md | cut -c1-150; grep -c 'af32a0cfdb5851949' $L/2026-11-26_fable_subagent_report_3_*.md; git -C $N status --short | cut -c1-120
+```
+
+</details>
+
+*[Rebuild and verify the chat log, update index, journal and manifest, commit and push (in the cloud container).]*
+
+<details><summary>command</summary>
+
+```sh
+set -e; S=/var/tmp/claude-0/-home-user-gf180-cm-ip--single2diff2single/35fe6b9a-54a3-54d0-adab-73eed00fa4d5/scratchpad; N=/home/user/gf180_cm_ip__single2diff2single_sudelbuecher; cd $N; NAME=2026-11-26_fable_pad_structures_and_esd_exploration
+T=$(ls -t ~/.claude/projects/*/*.jsonl | head -1); cp "$T" /var/tmp/transcripts/; t=/var/tmp/transcripts/$(basename "$T")
+( cd sudelbuecher/chatlog && python3 -I export_chatlog.py "$t" ${NAME}.md "Pad structures and ESD exploration (gf180mcu_ocd_io, asig_5p0, harness padframe)" "session_01XU3KH8TTLjkQNhWPaFJmRL, transcript $(basename "$T" .jsonl)" claude-fable-5-2 ) | tee /var/tmp/transcripts/export.out
+V=sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out
+{ echo "verify_chatlog.py (tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher, sudelbuecher/chatlog_tools/) on sudelbuecher/chatlog/${NAME}.md (rebuilt; second run of the session)"; cat /var/tmp/transcripts/export.out; python3 -I $S/verify_chatlog.py "$t" sudelbuecher/chatlog/${NAME}.md; python3 -I - "$t" sudelbuecher/chatlog/${NAME}.md <<'EOF'
+import json, sys
+recs = [json.loads(l) for l in open(sys.argv[1])]; log = open(sys.argv[2]).read()
+print("records that carry text from outside the assistant, by origin:")
+for r in recs:
+    a = r.get('attachment', {}) if r.get('type') == 'attachment' else {}
+    if a.get('type') == 'queued_command' and a.get('commandMode') == 'prompt' and isinstance(a.get('prompt'), str):
+        print('  queued, origin', (a.get('origin') or {}).get('kind'), '| characters', len(a['prompt']), '| counted by the verifier: yes | in the log:', a['prompt'].rstrip() in log)
+    if r.get('type') == 'user' and isinstance(r.get('message', {}).get('content'), str) and not r.get('isCompactSummary'):
+        c = r['message']['content']; k = (r.get('origin') or {}).get('kind')
+        if k or not r.get('isMeta'):
+            import re
+            s = re.sub(r'<system-reminder>.*?</system-reminder>', '', c, flags=re.S).strip()
+            print('  user record, origin', k, '| meta', bool(r.get('isMeta')), '| characters', len(c), '| counted by the verifier:', 'no' if r.get('isMeta') else 'yes', '| in the log:', bool(s) and s in log)
+EOF
+} > $V 2>&1; cat $V
+python3 -I - "$NAME" <<'EOF'
+import sys, os, datetime
+name = sys.argv[1]
+p = 'sudelbuecher/chatlog/README.md'; s = open(p).read()
+a = "chat log convention chosen during the session (this branch's `export_chatlog.py`, checked with the harness fork's `verify_chatlog.py`).\n"
+assert s.count(a) == 1
+s = s.replace(a, a.rstrip('\n') + " Rebuilt later the same day to add the second part: KLayout support of the PDK and of the pads measured, and a search of other public sources for ESD data. Note: the first message, shown as \"User\", is the session's seed prompt, sent by the session that created this one, not typed by Christoph here; his own messages are the four sent while the assistant was working and the one that opens the second turn. Three subagent reports are not in the log; they are filed verbatim in `../logs/pad_esd_exploration/`.\n")
+open(p, 'w').write(s)
+v = open('sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out').read().strip().split('\n')
+p = 'sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_pad_structures_log.md'; s = open(p).read()
+a = "## Not checked (summary)"
+assert s.count(a) == 1
+s = s.replace(a, "## 20. Chat log rebuilt\n\nThe chat log was rebuilt from the grown transcript with the same tools after the second and third requests\n(the file is replaced by a longer version of itself; `2026-11-26_fable_chatlog_verify.out` holds this run):\n\n"
+  + ''.join('    ' + l + '\n' for l in v) + "\n"
+  "- The two texts the verifier calls missing are again the two subagent reports that arrived as queued records; the third\n"
+  "  report arrived as a meta record, which neither tool counts. All three are filed in this folder by\n"
+  "  `tools/extract_handbacks.py` (extended for the third record form).\n"
+  "- The first message of the log, labelled \"User\" by the exporter, has origin `task-notification` in the transcript: it is\n"
+  "  the seed prompt with which another session created this one, not a message typed by Christoph in this session.\n"
+  "- By the rule of `session_chatlog.sh` the check still does not pass (2 missing); no reasoning text was found in the log.\n\n" + a)
+open(p, 'w').write(s)
+rows = []
+for f, c in [(f'sudelbuecher/chatlog/{name}.md', "rebuilt: chatlog/export_chatlog.py on the transcript of session 01XU3KH8 after the second part of the session"),
+             ('sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out', "rebuilt: verify_chatlog.py on the rebuilt chat log, plus a listing of outside-text records by origin"),
+             ('sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_subagent_report_3_public_gf180_esd_sources_search.md', "tools/extract_handbacks.py on the session transcript (subagent hand-back, verbatim, agent id removed)"),
+             ('sudelbuecher/logs/pad_esd_exploration/tools/extract_handbacks.py', "extended in session 01XU3KH8 for hand-backs stored as meta user records")]:
+    st = os.stat(f); rows.append('\t'.join([f, datetime.datetime.fromtimestamp(st.st_mtime, datetime.UTC).strftime('%Y-%m-%dT%H:%M:%SZ'), str(st.st_size), c, '-']))
+open('sudelbuecher/MANIFEST.tsv', 'a').write('\n'.join(rows) + '\n')
+EOF
+grep -n '^## Turn\|^\*\*User' sudelbuecher/chatlog/${NAME}.md | cut -c1-90
+git add sudelbuecher && git commit -q -F - <<'EOF'
+sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md : chat log rebuilt with the second part of the session (KLayout support, public ESD sources); third subagent report, journal entry 20
+
+Rebuilt by script from the raw transcript with sudelbuecher/chatlog/export_chatlog.py
+(unchanged) and checked with verify_chatlog.py of the harness fork; check output in
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out.
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XU3KH8TTLjkQNhWPaFJmRL
+EOF
+git push origin sudel_buecher 2>&1 | tail -1; git status -sb | head -2; git -C /home/user/gf180_cm_ip__single2diff2single status -sb | head -2
 ```
 
 </details>

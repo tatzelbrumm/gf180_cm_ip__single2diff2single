@@ -319,6 +319,33 @@ Christoph asked to search other available sources that are not trade secrets whe
 - A wrong assumption of mine went into the search prompt ("descends from Chartered's 0.18 um process"); the search
   did not confirm it, and section 15.6 corrects it.
 
+## 20. Chat log rebuilt
+
+The chat log was rebuilt from the grown transcript with the same tools after the second and third requests
+(the file is replaced by a longer version of itself; `2026-11-26_fable_chatlog_verify.out` holds this run):
+
+    verify_chatlog.py (tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher, sudelbuecher/chatlog_tools/) on sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md (rebuilt; second run of the session)
+    turns 2 bytes 207186
+    live path : texts 25 missing 2
+    off the live path : texts 0 missing 0
+    thinking blocks 151 with text 11 40-char windows checked 1656 found in the log 2
+    records that carry text from outside the assistant, by origin:
+      user record, origin task-notification | meta False | characters 1233 | counted by the verifier: yes | in the log: True
+      queued, origin human | characters 234 | counted by the verifier: yes | in the log: True
+      queued, origin human | characters 34 | counted by the verifier: yes | in the log: True
+      queued, origin peer | characters 16103 | counted by the verifier: yes | in the log: False
+      queued, origin peer | characters 21311 | counted by the verifier: yes | in the log: False
+      queued, origin human | characters 66 | counted by the verifier: yes | in the log: True
+      user record, origin human | meta False | characters 534 | counted by the verifier: yes | in the log: True
+      user record, origin peer | meta True | characters 32308 | counted by the verifier: no | in the log: False
+
+- The two texts the verifier calls missing are again the two subagent reports that arrived as queued records; the third
+  report arrived as a meta record, which neither tool counts. All three are filed in this folder by
+  `tools/extract_handbacks.py` (extended for the third record form).
+- The first message of the log, labelled "User" by the exporter, has origin `task-notification` in the transcript: it is
+  the seed prompt with which another session created this one, not a message typed by Christoph in this session.
+- By the rule of `session_chatlog.sh` the check still does not pass (2 missing); no reasoning text was found in the log.
+
 ## Not checked (summary)
 
 No extraction or LVS of a pad cell. No ESD or clamp simulation. No layout dimensions of `comp018green_esd_cdm`, the

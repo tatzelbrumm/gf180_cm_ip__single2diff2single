@@ -23,8 +23,12 @@ for r in recs:
                 if m: name[m.group(1)] = desc[b['tool_use_id']]
 n = 0
 for r in recs:
+    # a hand-back arrives either as a queued attachment (while the session is working) or as a meta user record
+    # (when it starts a new turn); both carry origin kind 'peer'
     a = r.get('attachment', {}) if r.get('type') == 'attachment' else {}
     p = a.get('prompt')
+    if r.get('type') == 'user' and (r.get('origin') or {}).get('kind') == 'peer' and isinstance(r.get('message', {}).get('content'), str):
+        a = {'type': 'queued_command', 'origin': r['origin']}; p = r['message']['content']
     if a.get('type') == 'queued_command' and (a.get('origin') or {}).get('kind') == 'peer' and isinstance(p, str):
         m = re.search(r'<agent-message from="(\w+)">', p)
         who = name.get(m.group(1), 'subagent') if m else 'subagent'
