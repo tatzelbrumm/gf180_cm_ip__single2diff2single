@@ -23,8 +23,21 @@ Your task is exploration and a written report. You do not design or change any l
   PDK install scripts); it holds no process specification and no design rules (checked 2026-11-26 on its `main` branch: `README.md`, `CLAUDE.md`, `parts/`, `setup-*.sh`).
   Your use of C: while you work, note what information about the process, the PDK, the pad library and the harness you had to dig out, and propose what
   `claude-cloud-config` should carry so the next agent finds it directly (see "Deliverable", proposals).
+- **D** `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`: the IHP reference design this project is ported from (public, read only, clone it anonymously; never push to it).
+  Look at how it builds its ESD and output pad layout as parametric cells; branches that look relevant (names only, not read by the author of this brief):
+  `main`, `claude/c2-pad-layout`, `claude/c3-s2d-pad-layout`. It is IHP sg13cmos5l, not GF180: take the method, not the numbers.
 - The FOSSi chat excerpt below names no repository, only two web pages (the evampire page and a Wikipedia article). Both are public. The environment now allows
   `evampire.readthedocs.io` and `en.wikipedia.org`. If the evampire page links to its source repository on github.com, you may read that (public, read only).
+
+## Look ahead (keep it in mind; do not do it in this task)
+The user's likely next step is to build **parametric ESD and output layout cells** for GF180, as the IHP reference design (repository D) does for sg13cmos5l.
+This task designs nothing, but what you find should be recorded in a form that such cells can use. In the report, add a section "Notes for parametric cells":
+- For each protection or driver structure in the pad cells (ESD diodes, GGNMOS or clamp devices, the output driver devices, guard rings, resistors): the dimensions as parameter
+  candidates, each with a name, value, unit, and its source (file and line in the PDK netlist, layout or lib file).
+- Which dimensions the PDK or the pad cell fixes, and which a designer could change; and which design rules (DRC rule names from `gf180mcu.drc`) limit each free one.
+- Anchors a cell would have to match: pad pitch and size, terminal positions and metal layers, supply rails, where the ESD structure sits relative to the bond pad.
+- How the IHP cells in D are parametrized (language and tool, which parameters, which checks), and what of that carries over to GF180 and what does not.
+- What cannot be parametrized safely without silicon or foundry data (see the chat excerpt below).
 
 ## What to find out (the pad structures)
 1. The pad library `gf180mcu_ocd_io` in the PDK: `$PDK_ROOT/gf180mcuD/libs.ref/gf180mcu_ocd_io/` (mag, gds, lef, lib, spice, verilog). List the pad cells
