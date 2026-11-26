@@ -14,6 +14,18 @@ Your task is exploration and a written report. You do not design or change any l
 - The notes in CLAUDE.md say the harness repository was empty when written (2026-09-30). The harness now exists: the user's fork is
   github.com/tatzelbrumm/gf180mcu_ocd_chipalooza (upstream RTimothyEdwards/gf180mcu_ocd_chipalooza). Check what the notes assume against what is there.
 
+## Repositories (A, B, C), by full name
+- **A** `tatzelbrumm/gf180_cm_ip__single2diff2single`: the user's design repository, the source of this session. Push only to its branch `pad_esd_exploration`
+  (report, journal, proposals) and append chat logs to its branch `sudel_buecher`. Never push to `main`.
+- **B** `tatzelbrumm/gf180mcu_ocd_chipalooza`: the user's fork of the Chipalooza #3 harness (upstream RTimothyEdwards/gf180mcu_ocd_chipalooza). Read only.
+  Attach it with `add_repo` (read access) and clone it; it has the padframe scripts, the slot wrappers, and the chat log tool on its branch `sudel_buecher`.
+- **C** `tatzelbrumm/claude-cloud-config`: public, read only. Clone it anonymously (no attachment needed); never push to it. It builds the cloud environment (toolchain,
+  PDK install scripts); it holds no process specification and no design rules (checked 2026-11-26 on its `main` branch: `README.md`, `CLAUDE.md`, `parts/`, `setup-*.sh`).
+  Your use of C: while you work, note what information about the process, the PDK, the pad library and the harness you had to dig out, and propose what
+  `claude-cloud-config` should carry so the next agent finds it directly (see "Deliverable", proposals).
+- The FOSSi chat excerpt below names no repository, only two web pages (the evampire page and a Wikipedia article). Both are public. The environment now allows
+  `evampire.readthedocs.io` and `en.wikipedia.org`. If the evampire page links to its source repository on github.com, you may read that (public, read only).
+
 ## What to find out (the pad structures)
 1. The pad library `gf180mcu_ocd_io` in the PDK: `$PDK_ROOT/gf180mcuD/libs.ref/gf180mcu_ocd_io/` (mag, gds, lef, lib, spice, verilog). List the pad cells
    (asig_5p0, bi_24t, bi_a, bi_t, brk2, brk5, cor, dvdd, dvss, fill1, fill5, fill10, fillnc, in_c, in_s, vdd, vss) and say what each is for.
@@ -43,8 +55,8 @@ or only from the evampire page or the chat. Do not copy numbers from the page in
 
 ## Environment and access
 - Use the cloud environment `gf180mcuD` (PDK at /foss/pdks, gf180mcuD, with gf180mcu_ocd_io). The session needs both repositories above; add them if they are missing.
-- Hosts the exploration may need and that the environment may block: evampire.readthedocs.io (the page), en.wikipedia.org (the snapback article). If a request is
-  refused, say so; do not change the environment settings without asking the user. The FOSSi chat itself (Matrix, fossi-chat.org) cannot be read from the cloud: the excerpt above is all there is.
+- Hosts: `evampire.readthedocs.io` (the page) and `en.wikipedia.org` (the snapback article) were added to the environment's allowed hosts on 2026-11-26 and answered HTTP 200.
+  If a request is refused anyway, say so; do not change the environment settings without asking the user. The FOSSi chat itself (Matrix, fossi-chat.org) cannot be read from the cloud: the excerpt above is all there is.
 - Do not put the user's name, email address or project details into requests to outside services.
 
 ## Deliverable
@@ -53,6 +65,10 @@ or only from the evampire page or the chat. Do not copy numbers from the page in
   It has: a table of the pad cells; the asig_5p0 netlist as a readable
   summary (devices, sizes, nets); a plain-language account of the ESD structure with the verified / inferred / unverified marks; a list of open questions for the user.
 - No changes to layout, schematics, Makefiles or `config.txt`. If you think something is wrong, write it into the report.
+- Proposals for `claude-cloud-config`: a file `docs/PROPOSALS_FOR_CLAUDE_CLOUD_CONFIG.md` on `pad_esd_exploration`. For each proposal: what to add (file name and a draft of its
+  content, or an outline), why (what you had to search for and where you found it), and a source for every fact (PDK path, repository path, URL). Keep process facts, design rules,
+  pad library facts and the slot interface apart, and mark every statement verified / inferred / unverified as in the report. The user will hand the proposals over to
+  `claude-cloud-config` when they ask; you never push there.
 - A short work journal (what you did, what you found, what you could not check) goes next to the report on `pad_esd_exploration`.
 - Chat log: the user keeps chat logs in the worktree `gf180_cm_ip__single2diff2single_sudelbuecher`, which is the branch `sudel_buecher` of the same repository
   (layout: `sudelbuecher/chatlog/`, `sudelbuecher/logs/main/`, as in the existing files there). Append only; change nothing else on that branch. The chat log tool
