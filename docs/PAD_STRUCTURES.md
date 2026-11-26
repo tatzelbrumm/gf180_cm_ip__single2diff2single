@@ -57,6 +57,11 @@ core edge at the top (y = 350).
    and the open pad library's GDS has lost two LVS marker layers. A KLayout twin of the pads would need PDK-wide
    fixes, so nothing was built and the question is put to the user (section 11, question 9).
 
+9. **Other public sources (added later, section 15).** No measured ESD result for these pads is public anywhere.
+   The public documentation does add limits that section 7 lacked: the analog pad is rated for 10 mA DC, gate oxide
+   breakdown limits are 12 V (6 V gate) and 7 V (3.3 V gate), and the foundry's own second stage (about 110 Ω, 84 µm
+   of diode perimeter per polarity) is the best public example for the network the design has to add.
+
 ## 2. The pad library: cell table
 
 All cells: `IO/lef/gf180mcu_ocd_io.lef` for class and size, `IO/spice/gf180mcu_ocd_io.spice` for content. **[V]** for
@@ -483,6 +488,7 @@ Model evaluations **[I]**: typical corner, diode stripes only (`LOG/tools/asig_d
 | wiring capacitance of the pad net inside the pad cell | about 1.15 pF (0.54 to DVDD, 0.38 to DVSS, 0.17 to substrate, 0.05 to VDD and VSS) | [I] KLayout 2.5D extraction, accuracy unverified (section 14.3); routing to the slot and the package are not included |
 | series resistance pad to slot inside the pad cell | Metal2, 20.32 µm wide, about 285 µm long from the pad edge to the core edge | [V] geometry; resistance not computed |
 | DC leakage of the pad | not obtained (model floor only) | open |
+| DC current rating of the pad | 10 mA ("DC current carrying capability 10mA") | [V] `OCD:docs/specs/02_Cell_List.csv:18-20` (section 15.2) |
 | supply decoupling inside the pad cell | about 17.6 pF between DVDD and DVSS | [I] |
 | back-powering: ring unpowered (DVDD = 0 V), pad at 0.7 V | 94 µA flows from the pad into DVDD | [I] |
 
@@ -492,6 +498,8 @@ Model evaluations **[I]**: typical corner, diode stripes only (`LOG/tools/asig_d
   conduct. Inside that window the design's own protection decides. The datasheet's network (4.4) puts the added
   diodes on DVDD/DVSS, the ring rails; the slot has `vdd_5v0` and `vss_5v0` pins, but its `vdd_5v0` is the switched
   copy (6.3). Which rail the design's diodes should use is a decision for the user (question 2).
+- **Output (`vout`), DC limit.** The pad is rated for 10 mA DC (section 15.2); the class-AB driver's load current has
+  to stay inside that.
 - **Output (`vout`).** The driver's output devices sit directly on the pad wire with only the pad diodes in front
   of them. In a discharge they see the full pad voltage; whether they survive, or themselves conduct, depends on
   their layout. On the IHP design the output devices were built as clamp-style cells and doubled as the pad's
@@ -913,3 +921,155 @@ What "upgrading KLayout support for the PDK" would consist of, as far as this se
 | PCells homologous to IHP's: ESD diode array, tap and guard ring, via stack, bond pad | new library next to the PDK's device PCells, built by the method of section 12.4 and XOR-checked against the pad cells | the real work; the diode array is the natural first cell |
 | environment: `docopt` (or a runner without it), `USER`, optionally `gdsfactory` | `claude-cloud-config` | trivial |
 | KLayout PEX: compare against Magic extraction on a pad | this project or the harness | medium |
+
+## 15. ESD information from other public sources (added later on 2026-11-26)
+
+Request from the user: where ESD information is missing, look in other available sources that are not trade
+secrets. A search subagent ran 42 web searches and GitHub issue searches and read eight public repositories; its
+full report is filed verbatim as `LOG/2026-11-26_fable_subagent_report_3_public_gf180_esd_sources_search.md`. I then
+opened the sources I could reach and re-read the claims that matter. Marks in this section:
+
+- **[V]** I opened the file or page myself (path and line given);
+- **[U-sub]** read by the subagent, not re-opened by me;
+- **[U-lead]** the subagent saw it only in a search-engine summary: a lead, not a citable value.
+
+The cloud environment's network policy refused most literature hosts (the ESD Association, the Industry Council
+on ESD Target Levels, JEDEC, IEEE Xplore, ScienceDirect, arXiv, archive.org), so everything from standards and papers
+is [U-lead]. If the user wants those leads turned into citations, those hosts would have to be allowed.
+
+### 15.1 The main result: nobody has published a measurement
+
+- **No measured ESD result (HBM, CDM, MM, TLP, latch-up) was found for any chip built with `gf180mcu_fd_io` or
+  `gf180mcu_ocd_io`**: not for Caravel on GF180, the GFMPW shuttles, the wafer.space runs, Tiny Tapeout on GF180,
+  university chips, or Chipalooza. Nor any statement that the pads were, or were not, ESD-tested; nor any report of
+  an ESD or latch-up failure on such a chip. **[U-sub]** (a negative result of searches; the query list is in the filed
+  report).
+- The wafer.space project template lists both pad libraries as "silicon-verified" and says above the tables: "Not
+  all of the community-created IPs have been tested yet, so support for them is experimental!" It does not say what
+  "silicon-verified" covers; ESD is not mentioned. **[V]** `raw.githubusercontent.com/wafer-space/gf180mcu-project-template/main/README.md`,
+  lines 112, 128-129 (fetched 2026-11-26).
+- So the only silicon data remains the design manual's test structures (section 7.2), and section 7.6 stands.
+
+### 15.2 Foundry limits that were not in section 7 (all in the public documentation of the PDK)
+
+All **[V]** in `google/gf180mcu-pdk` at `de3240d`, folder `docs/`. These are specification limits, kind "foundry
+target", not ESD data; they bound what the design may see in normal operation and give the only public voltage
+ceilings for the devices behind the pad.
+
+| Quantity | Value | File |
+| --- | --- | --- |
+| gate oxide breakdown, 6 V gate | limit 12 V, typical 16 V (N and P) | `analog/spice/elec_specs/tables_clear/5_General_Specification4.csv:5-6` |
+| gate oxide breakdown, 3.3 V gate | limit 7 V, typical 9 V (N), 8.8 V (P) | same file, lines 3-4 |
+| junction breakdown, 6 V devices | N+/P-: minimum 8.5 V, typical 11 V; P+/N-: limit 8.5 V, typical 10.5 V | `.../5_General_Specification5.csv:5-6` |
+| junction breakdown, 3.3 V devices | N+/P-: minimum 7 V, typical 11 V; P+/N-: limit 6.5 V, typical 10.5 V | same file, lines 3-4 |
+| n-well to substrate breakdown | minimum 10 V, typical 14 V | same file, line 7 |
+| gate oxide capacitance | 3.3 V: 3.4 / 4.4 / 5.4 fF/µm²; 6 V: 1.8 / 2.3 / 2.8 fF/µm² | `.../5_General_Specification3.csv:3-6` |
+| oxide thickness in the models | 8.0 nm (`nfet_03v3`), 15.2 nm (`nfet_06v0`), 15.6 nm (`pfet_06v0`) | `TECH/ngspice/sm141064.ngspice:894, 37309, 38255` |
+| maximum DC gate voltage | "3.63V (for thin oxide), 6.5V/6V for 5V/6V process thick gate"; supply overshoot tolerance 10 % | `physical_verification/design_manual/drm_14_1.rst:14, 51` |
+| metal line current, DC | Metal1 to the metal below the top: 2.09 / 1 / 0.67 mA/µm at 85 / 110 / 125 °C (unidirectional); top metal 11 kÅ: 4.5 / 2.2 / 1.5 mA/µm | `physical_verification/design_manual/tables_clear/54_Electro-migration1_150.csv:4-5, 13-14` |
+| contact and via current, DC | COMP contact and Via1 to Via5: 0.58 / 0.28 / 0.18 mA each; Poly2 contact 0.43 / 0.21 / 0.14 mA | `.../54_Electro-migration2_151.csv:4-12` |
+| poly resistor current | 1 mA per µm of width | `.../33_ANALOG_DEVICE1_80.csv:9` (PRES.8), `.../16_Poly2_42.csv:29` (PL.10) |
+| ESD implant | "ESD is optional mask to provide ESD implant for 3.3V or 5V/6V devices" | `physical_verification/design_manual/drm_04_1.rst:14`; rule ESD.9 restricts it to 5 V/6 V devices (section 7.1) |
+
+And from the pad library's datasheet: the analog pad is a "5V WR analogue signal pad with double diode protection
+(DC current carrying capability 10mA)"; `dvdd` and `dvss` carry 60 mA. **[V]** `OCD:docs/specs/02_Cell_List.csv:18-23`.
+
+What follows from these **[I]**:
+
+- **The analog pad has a DC rating: 10 mA.** That is the first hard number for "output drive" (section 9). The pad
+  net's 20.32 µm of Metal2 would allow about 20 mA at 110 °C by the line table, so the datasheet figure is the
+  tighter one; which element sets it was not found.
+- **Voltage ceilings at the first device behind the pad:** 12 V for a 6 V gate and 7 V for a 3.3 V gate are DC
+  specification limits. Oxide survives more for nanoseconds, but no pulsed data for this process is public, so
+  these are the only citable numbers, and they are conservative. A 3.3 V gate directly behind the pad has little
+  room: the pad diode to DVDD = 5 V lets the pad reach roughly 6 V before it conducts hard.
+- **The data set "without ESD implant" is the applicable one.** The manual's 5 V/6 V transistor tables are headed
+  "without ESD implant" (section 7.2), and neither pad library draws the implant layer 24/0 (section 2). Whether
+  the shuttle's mask set includes the implant was not found. **Open.**
+- **The line and contact limits are lifetime limits for DC, not pulse limits.** No pulse-current limit for metal
+  is given anywhere in the PDK documentation. **[U-sub]** (the subagent read chapter 14.2; I read only the tables).
+- **A CDM series resistor carries no DC in an input**, so the 1 mA/µm poly limit matters only where a resistor is in
+  an output path.
+
+### 15.3 The foundry's own second stage as the public worked example
+
+Already in section 5.1, restated here because it is the best concrete sizing example that is public **[V]**
+(`IO/spice/gf180mcu_ocd_io.spice:497-507`, `FDIO/cdl/gf180mcu_fd_io.cdl:1174-1177`):
+
+- resistor: four poly resistors of 2.5 µm x 2.8 µm in parallel, about 110 Ω, 10 µm of total poly width;
+- diodes behind it: 2 x (20 µm x 1 µm) per polarity, i.e. 84 µm of perimeter per polarity;
+- what it protects: 6 V gates of the input buffer (`pfet_06v0` 3.8 and 4.3 µm, `nfet_06v0` 10.6 and 12 µm wide,
+  `IO/spice/gf180mcu_ocd_io.spice:97-113`).
+
+Measured against the datasheet's own minimum for a user-added network (resistor above 50 Ω, diode perimeter above
+25 µm, section 4.4), the foundry used about twice the resistance and more than three times the perimeter. **[I]**
+Copying this network is the most defensible public starting point; this project's proof-of-concept front end
+(about 200 Ω, 28 µm perimeter, section 9.1) has more resistance and a third of the diode.
+
+A discrepancy to know: the commit that added `bi_a` describes its analog tap as going "through the 75 ohm ESD
+resistor" and says "The signal line is narrow and it is not intended for high current capacity". **[V]**
+`OCD:` commit `a2c433c` (2025-11-24). The netlist gives about 110 Ω (449 Ω per resistor in my model run).
+
+### 15.4 Target levels, discharge currents and time scales (standards and industry guidance)
+
+None of these could be opened from here; all **[U-lead]** except the first.
+
+| Item | Source named by the search |
+| --- | --- |
+| Human-body model: 100 pF discharged through 1500 Ω | Wikipedia, "Human-body model" **[U-sub]** |
+| HBM peak current about 0.67 A per kV, so about 1.33 A at 2 kV; rise 2 to 10 ns, decay about 150 ns | Renesas TB505; a Thermo Fisher page citing JS-001 |
+| Recommended qualification targets of 1 kV HBM and 250 V CDM, lower than the datasheet's 2 kV / 500 V | Industry Council on ESD Target Levels, White Papers 1 and 2; JEDEC JEP155, JEP157 |
+| CDM peak currents of several amperes within about a nanosecond ("2-6 Amps" as the practical design range; about 8 A for 500 V on a small verification module) | Industry Council White Paper 2; JS-002 material |
+| Silicon dioxide withstands a few times its DC breakdown field for about 100 ns | patent and paper summaries from other processes; no number for this process |
+| Metal lines: failure current under 100 ns pulses depends strongly on thickness and pulse width | Banerjee, Amerasekera et al., IRPS 1996 and IEEE EDL 1997; Voldman et al., IRPS 1998 (located, not read) |
+
+Use for this project **[I]**: these say what a pad will be asked to carry, not what this pad can carry. They
+support asking question 3 of section 11 concretely: 1 kV HBM / 250 V CDM is the level the industry guidance
+recommends, and it is half the datasheet's target.
+
+### 15.5 How two other open PDKs document the same things (method comparison)
+
+- **SkyWater sky130 I/O** **[V]** `raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_io/main/docs/user_guide.rst`
+  (fetched 2026-11-26): the analog taps `pad_a_esd_0_h` and `pad_a_esd_1_h` are "connected to the pad through a 150 ohm
+  ESD resistor" (line 464); "The HV and LV RC ESD clamps are robust up to 3.3KV HBM" (line 1301); clamp with a "2us
+  time constant" and "Driver width of 2880 um" (lines 1305-1307); "scheduling a preliminary ESD review is
+  recommended before routing is started" (line 2049). So a second foundry's library puts 150 Ω in front of its
+  protected analog tap, where GF's digital pads use about 110 Ω; and its clamp has the same time constant class as
+  the GF clamp (section 5.1) with a smaller transistor (2880 µm against 4000 µm).
+- **IHP SG13G2** **[U-sub]**: the ESD device named `diodevdd_2kv` has a perimeter of 58.08 µm (model file); the
+  analog pad's secondary stage extracts as a 1 µm x 2 µm poly resistor with diodes of 7.5 µm and 11.2 µm perimeter
+  (IHP-Open-PDK issue 1218); an open issue (1247) notes that the IHP I/O libraries have no clamp between core VDD
+  and VSS and names 1 to 2 Ω as the target for a shared-rail ESD path; no measured ESD result is in the IHP tracker
+  either. For scale **[I]**: the GF analog pad's diodes have 424 µm of perimeter per polarity, about seven times
+  the IHP "2 kV" diode, which supports the reading that the pad diodes themselves are generously sized and that the
+  open points are the clamp path, the metal and the voltage at the protected device.
+
+### 15.6 Process lineage: a correction to an assumption
+
+I had told the search that GF180MCU "descends from Chartered's 0.18 µm process". That is not established. The PDK
+names the process "FAB3E 0.18UM 3.3V/6V High Voltage CMOS Technology" **[V]**
+(`google/gf180mcu-pdk:docs/analog/layout/inter_specs/inter_specs.rst:10`); Fab 3E is the Tampines, Singapore fab
+("produces 180 nm wafers"; sold to Vanguard in 2019) **[V]** Wikipedia, "GlobalFoundries" (fetched 2026-11-26).
+According to the search, Chartered acquired that fab from Hitachi in 2008 **[U-lead]**. Older Chartered papers on
+0.18 µm ESD therefore cannot be assumed to describe this process, and the search found no paper that clearly does.
+
+### 15.7 Other things the search turned up
+
+- **The pad library's GDS is written by Magic**, and its marker layers are generated there: commit `2fa4cdc`
+  (2025-11-27) lists "Added required latchup and ESD marker layers on output" and Nplus/Pplus width fixes in "the
+  magic cifoutput section". **[V]** `OCD:` history. That is the likely origin of the missing `LVS_Source` and `LVS_IO`
+  layers of section 14.2 **[I]**.
+- **An upstream issue about the substrate-diode gap is said to exist**: `fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pv`
+  issue 33, opened 2026-09-27, KLayout LVS not extracting `diode_nd2ps_06v0` in bare p-substrate on a pad ring.
+  **[U-sub]**: my own search access does not reach that repository, so I could not open it. It matches what I
+  measured independently in section 14.2, and it names where the deck's upstream is.
+- **Third-party statement to avoid quoting:** an automated project's issue claims that no PDK source characterizes
+  ESD failure current or snapback for gf180mcu. That is wrong; chapter 14.5 of the manual does (section 7.2). **[U-sub]**
+  for the issue, **[V]** for the manual.
+
+### 15.8 What stays unknown after the search
+
+Measured ESD levels of the pads; whether they were ever ESD-tested; pulsed oxide breakdown and pulsed metal limits
+for this process; a sizing rule for the user's CDM network beyond the datasheet sentence and the foundry's own
+example; whether the shuttle includes the ESD implant; anything said about analog-pad ESD in the FOSSi/Chipalooza
+chat, the wafer.space chat or other closed archives, which cannot be searched from here.

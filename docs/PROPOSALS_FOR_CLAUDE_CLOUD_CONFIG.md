@@ -114,6 +114,11 @@ guidelines are not coded in the DRC deck, so "DRC clean" does not cover them.
 - Rendered: gf180mcu-pdk.readthedocs.io (allow this host in the environment, or clone the repository).
 - Chapter 14 "Reliability": 14.3 latch-up (`drm_14_3*.rst`, tables 55, 56), 14.4 ESD layout guidelines
   (`drm_14_4*.rst`, tables 57-59), 14.5 ESD characterization data (`drm_14_5*.rst`, tables 60-67).
+- Also there, and not in the installed PDK: 14.1 operating conditions (`drm_14_1.rst`: maximum DC gate voltage),
+  14.2 electromigration (tables 54: mA/um per metal, mA per contact and via), and the electrical specification
+  `docs/analog/spice/elec_specs/tables_clear/5_General_Specification<n>.csv` (3: gate oxide capacitance, 4: oxide
+  breakdown, 5: junction breakdown). The pad library's datasheet tables are in
+  github.com/RTimothyEdwards/gf180mcu_ocd_io, `docs/specs/*.csv` (02: cell list with DC current ratings).
 
 ## Coded and not coded
 - Coded: ESD.1-ESD.10, ESD.pl (ESD implant), SB.1-SB.16 (salicide block).
@@ -133,6 +138,7 @@ guidelines are not coded in the DRC deck, so "DRC clean" does not cover them.
 | the site was blocked, then allowed | this session: HTTP code 000 before, 200 after the user approved the host | [V] |
 | not coded | search of the deck for `HVNESD`, `HVPESD`, `IO.<n>`, `14.4.5`: no hit; `generic_layers.rb:67, 78`, `geom.rb:87, 98` | [V] for the KLayout deck. The Magic DRC section (`TECH/magic/gf180mcuD.tech`) was searched for `hvnesd`, `latch`, `IO.1` only, without hit | 
 | table numbers 55-67 | file names in `DRM:tables_clear/` | [V] for 55, 56, 58, 59, 64-67 (opened); 57, 60-63 by file name only |
+| operating conditions, electromigration, electrical specification, cell list | `docs/PAD_STRUCTURES.md` section 15.2, with file and line | [V] |
 
 ---
 
@@ -275,6 +281,11 @@ mention.
    `fossi-foundation.github.io`, `api.github.com`, `release-assets.githubusercontent.com`,
    `objects.githubusercontent.com`, `gitea.osmocom.org`, `evampire.readthedocs.io`, `en.wikipedia.org`, and since
    2026-11-26 `gf180mcu-pdk.readthedocs.io` (the foundry manual and the I/O library datasheet).
+   Hosts that a literature search needed and the policy refused on 2026-11-26 (search subagent's report, **[U]** as
+   I did not probe each one): `www.esda.org`, `esdindustrycouncil.org`, `www.jedec.org`, `ieeexplore.ieee.org`,
+   `sciencedirect.com`, `arxiv.org`, `web.archive.org`, `tinytapeout.com`, `skywater-pdk.readthedocs.io`. Reachable
+   without being on the list: `raw.githubusercontent.com` (**[V]**, two files fetched). The GitHub web pages of
+   repositories outside the session answered 403 to `curl` (**[V]**, one issue page).
 2. A paragraph "Documents that are not in the PDK": the design manual (`google/gf180mcu-pdk`, `docs/`), the pad
    library datasheet (`RTimothyEdwards/gf180mcu_ocd_io`, `docs/`; the foundry's version on the site under
    `IPs/IO/gf180mcu_fd_io/`). Public GitHub repositories can be cloned anonymously from a cloud session without
