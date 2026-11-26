@@ -1,0 +1,12 @@
+klayout -b -r klayout_pcell_load_test.py, without and with the environment variable USER
+gdsfactory-based library: FAILED: ModuleNotFoundError No module named 'gdsfactory'
+KLayout-API library: FAILED: KeyError 'USER'
+sealring library: loaded
+library Basic : ['ARC', 'CIRCLE', 'DONUT', 'ELLIPSE', 'PIE', 'ROUND_PATH', 'ROUND_POLYGON', 'STROKED_BOX', 'STROKED_POLYGON', 'TEXT']
+library gf180mcu_sealring : ['sealring']
+--- USER=root
+KLayout-API library: loaded
+sealring library: loaded
+library Basic : ['ARC', 'CIRCLE', 'DONUT', 'ELLIPSE', 'PIE', 'ROUND_PATH', 'ROUND_POLYGON', 'STROKED_BOX', 'STROKED_POLYGON', 'TEXT']
+library gf180mcu_klayoutapi : ['cap_mim', 'cap_nmos', 'cap_nmos_b', 'cap_pmos', 'cap_pmos_b', 'diode_dw2ps', 'diode_nd2ps', 'diode_nw2ps', 'diode_pd2nw', 'diode_pw2dw', 'efuse', 'metal_resistor', 'nfet', 'nfet_06v0_nvt', 'nfet_10v0_asym', 'nplus_s_resistor', 'nplus_u_resistor', 'npn_bjt', 'npolyf_s_resistor', 'npolyf_u_resistor', 'nwell_resistor', 'pfet', 'pfet_10v0_asym', 'pnp_bjt', 'pplus_s_resistor', 'pplus_u_resistor', 'ppolyf_s_resistor', 'ppolyf_u_high_Rs_resistor', 'ppolyf_u_resistor', 'pwell_resistor', 'sc_diode']
+library gf180mcu_sealring : ['sealring']

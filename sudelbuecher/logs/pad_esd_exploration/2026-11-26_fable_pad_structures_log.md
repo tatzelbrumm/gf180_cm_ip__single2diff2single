@@ -255,6 +255,46 @@ and the recorded DRC and LVS results of the IHP pad macros.
   The log ends with the record that was last in the transcript when the export ran; the final reply of the session and
   the commit of the log itself are not in it. External sources are indexed in `sudelbuecher/chatlog/ref/2026-11-26_fable_pad_structures_and_esd_exploration.md`.
 
+## 18. KLayout support of the PDK and of the pads (second request of the session)
+
+Christoph asked for a KLayout version of the pads homologous to the IHP library if the pads exist only in Magic, but
+no special case if the whole PDK supports KLayout weakly; in that case I should ask. So I measured first. KLayout 0.30.12,
+the PDK's decks unmodified. Scripts: `tools/klayout_split_pads.py`, `klayout_drc_pads.sh`, `klayout_lvs_pad.sh`,
+`klayout_pcell_load_test.py` (filed copies with the scratch paths replaced by arguments; the filed copies themselves
+were not rerun).
+
+- `libs.tech/klayout/tech/`: `gf180mcu.lyt`, `.lyp`, `.map`; `drc/` (loader + 41 rule decks); `lvs/` (deck + 26 rule
+  decks, `run_lvs.py`, `gf180_xschem_klayout_spice_convert.py`); `pymacros/` (`cells` gdsfactory-based,
+  `klayout_api_cells`, `sealring_cells`); `scripts/` (fill, slots); `macros/`; `d25/`.
+- DRC on all 17 pad cells, each in its own GDS: `2026-11-26_fable_klayout_drc_pads.out`. 777 rules per run, 5 to 34 s
+  per cell, 127 s for the corner. Clean: `asig_5p0`, `dvdd`, `dvss`, `vdd`, `vss`, `fill10`. All other violations are
+  die-coverage rules of `density.rb`, plus minimum-width rules on the 0.1 um `fillnc`.
+  My first batch script called `/usr/bin/time`, which the container does not have; the second run is the one filed.
+- LVS: `run_lvs.py` stops at `from docopt import docopt`; `pip install --break-system-packages docopt` ended with
+  "Could not build wheels for docopt". I called the deck directly with the switches `run_lvs.py` sets for variant D.
+  Results: `2026-11-26_fable_klayout_lvs_pads.out`. No pad cell matches.
+  - Unconverted netlist: `XC1` is read as a subcircuit. After the PDK's converter the schematic side is read.
+  - `diode_nd2ps_06v0` is never extracted: the deck's P terminal is `lvpwell_con = lvpwell.not(res_mk)`
+    (`general_derivations.lvs:42`), and the pads' N+ diodes have no LVPWELL. Scratch copy of `asig_5p0` with LVPWELL
+    drawn over the two N+ diode blocks: "Congratulations! Netlists match." The foundry `gf180mcu_fd_io__asig_5p0`
+    with its own CDL fails the same way.
+  - `*_dss` FETs: the deck wants `esd_mk`, `sab` and `lvs_source` (`mos_sab_derivations.lvs:45, 74`). The foundry GDS
+    has LVS_Source 100/8 and LVS_IO 119/5 and its `bi_t` extracts 8 + 8 `*_dss`; the `gf180mcu_ocd_io` GDS has neither
+    layer and extracts none.
+  - `fill5`, `fill10`: a `cap_nmos_06v0` in the layout, none in the netlist.
+- PCells: `2026-11-26_fable_klayout_pcell_load.out`. gdsfactory library: `No module named 'gdsfactory'`. KLayout-API
+  library: `KeyError 'USER'` without the variable, 31 PCells with `USER=root`. Seal ring: loads.
+- Parasitics: `kpex --pdk gf180mcuD ... --2.5D` on `asig_5p0`, exit 0: `2026-11-26_fable_kpex_asig.out`. Pad net:
+  541.8 fF to DVDD, 380.7 fF to DVSS, 174.4 fF to VSUBS, 22.6 fF to VDD, 31.1 fF to VSS. The tool reported its own
+  LVS step as "Netlists don't match" (the same deck) and listed layers it left out.
+- IHP comparison from D `sudel_buecher`, `sudelbuecher/IHP_pcell_structure_visualization/ihp_sg13cmos5l_klayout_tree.txt`
+  (lines 80-118 of 495 read): registered PCells include `esd`, `bondpad`, `ptap1`, `ntap1`, `guard_ring`, `via_stack`,
+  `sealring`, `NoFillerStack`.
+- Decision: nothing built. The gaps are in the PDK's LVS deck and in the pad library's GDS, so a pads-only KLayout
+  version would be a special case. Question 9 in the report asks Christoph.
+- Not done: no change to any deck or GDS outside the scratch folder; no comparison of the KLayout extraction with
+  Magic's; the `fill_*.rb` and `slots.drc` scripts were not tried.
+
 ## Not checked (summary)
 
 No extraction or LVS of a pad cell. No ESD or clamp simulation. No layout dimensions of `comp018green_esd_cdm`, the

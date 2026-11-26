@@ -1,0 +1,103 @@
+KLayout LVS, PDK deck (libs.tech/klayout/tech/lvs/gf180mcu.lvs, open_pdks e7a6777) called directly, KLayout 0.30.12, deep mode, variant D switches.
+Netlist: libs.ref/gf180mcu_ocd_io/spice/gf180mcu_ocd_io.spice after gf180_xschem_klayout_spice_convert.py, unless stated.
+
+== result per cell
+asig_5p0 (PDK netlist, unconverted): ERROR : Netlists don't match   [schematic XC1 read as a subcircuit: 'Flatten schematic circuit (no layout): CAP_NMOS_06V0(C_LENGTH=15U,C_WIDTH=15U,M=36)']
+asig_5p0 (conv): ERROR : Netlists don't match
+dvdd (conv): ERROR : Netlists don't match
+dvss (conv): ERROR : Netlists don't match
+vdd (conv): ERROR : Netlists don't match
+vss (conv): ERROR : Netlists don't match
+bi_t (conv): ERROR : Netlists don't match
+bi_a (conv): ERROR : Netlists don't match
+bi_24t (conv): ERROR : Netlists don't match
+in_c (conv): ERROR : Netlists don't match
+in_s (conv): ERROR : Netlists don't match
+brk5 (conv): ERROR : Netlists don't match
+fill5 (conv): ERROR : Netlists don't match
+fill10 (conv): ERROR : Netlists don't match
+asigexp (scratch copy of asig_5p0 with LVPWELL drawn over the two N+ diode blocks; experiment only): INFO : Congratulations! Netlists match.
+gf180mcu_fd_io__asig_5p0 (foundry library, its own CDL libs.ref/gf180mcu_fd_io/cdl/gf180mcu_fd_io.cdl): ERROR : Netlists don't match
+gf180mcu_fd_io__bi_t (foundry library, its own CDL): ERROR : Netlists don't match
+
+== extracted netlist lvs_asig_5p0_conv.cir
+* Extracted by KLayout with GF180MCU LVS runset on : 26/11/2026 14:50
+
+.SUBCKT gf180mcu_ocd_io__asig_5p0 ASIG5V DVDD DVSS
+C$1 DVDD DVSS 1.863e-11 cap_nmos_06v0 A=8100P P=2160U
+D$37 ASIG5V DVDD diode_pd2nw_06v0 A=600P P=424U
+.ENDS gf180mcu_ocd_io__asig_5p0
+
+== extracted netlist lvs_asigexp_exp.cir
+* Extracted by KLayout with GF180MCU LVS runset on : 26/11/2026 14:50
+
+.SUBCKT gf180mcu_ocd_io__asigexp ASIG5V DVDD DVSS
+D$1 DVSS ASIG5V diode_nd2ps_06v0 A=600P P=424U
+D$5 DVSS DVDD diode_nd2ps_06v0 A=160P P=328U
+C$9 DVDD DVSS 1.863e-11 cap_nmos_06v0 A=8100P P=2160U
+D$45 ASIG5V DVDD diode_pd2nw_06v0 A=600P P=424U
+.ENDS gf180mcu_ocd_io__asigexp
+
+== extracted netlist lvs_fd_asig_5p0.cir
+* Extracted by KLayout with GF180MCU LVS runset on : 26/11/2026 14:53
+
+.SUBCKT gf180mcu_fd_io__asig_5p0 ASIG5V DVDD DVSS
+D$1 ASIG5V DVDD diode_pd2nw_06v0 A=600P P=424U
+C$5 DVDD DVSS 1.863e-11 cap_nmos_06v0 A=8100P P=2160U
+.ENDS gf180mcu_fd_io__asig_5p0
+
+== device models, schematic (flattened instance count) against layout (after combining), per cell
+asig_5p0
+  schematic: {'cap_nmos_06v0': 1, 'diode_nd2ps_06v0': 2, 'diode_pd2nw_06v0': 1}
+  layout   : {'cap_nmos_06v0': 1, 'diode_pd2nw_06v0': 1}
+  only in schematic: ['diode_nd2ps_06v0']   only in layout: []
+dvdd
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'nfet_06v0': 4, 'pfet_06v0': 3, 'ppolyf_u': 1}
+  layout   : {'cap_nmos_06v0': 2, 'nfet_06v0': 4, 'pfet_06v0': 3, 'ppolyf_u': 1}
+  only in schematic: ['diode_nd2ps_06v0']   only in layout: []
+dvss
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'nfet_06v0': 4, 'pfet_06v0': 3, 'ppolyf_u': 1}
+  layout   : {'cap_nmos_06v0': 2, 'nfet_06v0': 4, 'pfet_06v0': 3, 'ppolyf_u': 1}
+  only in schematic: ['diode_nd2ps_06v0']   only in layout: []
+vdd
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'nfet_06v0': 4, 'pfet_06v0': 3, 'ppolyf_u': 1}
+  layout   : {'cap_nmos_06v0': 2, 'nfet_06v0': 4, 'pfet_06v0': 3, 'ppolyf_u': 1}
+  only in schematic: ['diode_nd2ps_06v0']   only in layout: []
+vss
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'nfet_06v0': 4, 'pfet_06v0': 3, 'ppolyf_u': 1}
+  layout   : {'cap_nmos_06v0': 2, 'nfet_06v0': 4, 'pfet_06v0': 3, 'ppolyf_u': 1}
+  only in schematic: ['diode_nd2ps_06v0']   only in layout: []
+bi_t
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'diode_pd2nw_03v3': 10, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'nfet_06v0_dss': 8, 'pfet_03v3': 31, 'pfet_06v0': 79, 'pfet_06v0_dss': 8, 'ppolyf_u': 12}
+  layout   : {'cap_nmos_06v0': 1, 'diode_pd2nw_03v3': 10, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'pfet_03v3': 31, 'pfet_06v0': 79, 'ppolyf_u': 2}
+  only in schematic: ['diode_nd2ps_06v0', 'nfet_06v0_dss', 'pfet_06v0_dss']   only in layout: []
+bi_a
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'diode_pd2nw_03v3': 10, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'nfet_06v0_dss': 8, 'pfet_03v3': 31, 'pfet_06v0': 79, 'pfet_06v0_dss': 8, 'ppolyf_u': 12}
+  layout   : {'cap_nmos_06v0': 1, 'diode_pd2nw_03v3': 10, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'pfet_03v3': 31, 'pfet_06v0': 79, 'ppolyf_u': 2}
+  only in schematic: ['diode_nd2ps_06v0', 'nfet_06v0_dss', 'pfet_06v0_dss']   only in layout: []
+bi_24t
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'diode_pd2nw_03v3': 10, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'nfet_06v0_dss': 8, 'pfet_03v3': 31, 'pfet_06v0': 79, 'pfet_06v0_dss': 8, 'ppolyf_u': 14}
+  layout   : {'cap_nmos_06v0': 1, 'diode_pd2nw_03v3': 10, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'pfet_03v3': 31, 'pfet_06v0': 79, 'ppolyf_u': 4}
+  only in schematic: ['diode_nd2ps_06v0', 'nfet_06v0_dss', 'pfet_06v0_dss']   only in layout: []
+in_c
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'diode_pd2nw_03v3': 6, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'nfet_06v0_dss': 8, 'pfet_03v3': 31, 'pfet_06v0': 79, 'pfet_06v0_dss': 8, 'ppolyf_u': 14}
+  layout   : {'cap_nmos_06v0': 1, 'diode_pd2nw_03v3': 6, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'pfet_03v3': 28, 'pfet_06v0': 79, 'ppolyf_u': 4}
+  only in schematic: ['diode_nd2ps_06v0', 'nfet_06v0_dss', 'pfet_06v0_dss']   only in layout: []
+in_s
+  schematic: {'cap_nmos_06v0': 2, 'diode_nd2ps_06v0': 1, 'diode_pd2nw_03v3': 6, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'nfet_06v0_dss': 8, 'pfet_03v3': 31, 'pfet_06v0': 79, 'pfet_06v0_dss': 8, 'ppolyf_u': 14}
+  layout   : {'cap_nmos_06v0': 1, 'diode_pd2nw_03v3': 6, 'diode_pd2nw_06v0': 1, 'nfet_03v3': 31, 'nfet_06v0': 79, 'pfet_03v3': 28, 'pfet_06v0': 79, 'ppolyf_u': 4}
+  only in schematic: ['diode_nd2ps_06v0', 'nfet_06v0_dss', 'pfet_06v0_dss']   only in layout: []
+brk5
+  schematic: {}
+  layout   : {}
+  only in schematic: []   only in layout: []
+fill5
+  schematic: {}
+  layout   : {'cap_nmos_06v0': 1}
+  only in schematic: []   only in layout: ['cap_nmos_06v0']
+fill10
+  schematic: {}
+  layout   : {'cap_nmos_06v0': 1}
+  only in schematic: []   only in layout: ['cap_nmos_06v0']
+gf180mcu_fd_io__bi_t (foundry library)
+  layout   : {'cap_nmos_06v0': 1, 'diode_pd2nw_06v0': 11, 'nfet_06v0': 83, 'nfet_06v0_dss': 8, 'pfet_06v0': 83, 'pfet_06v0_dss': 8, 'ppolyf_u': 2}

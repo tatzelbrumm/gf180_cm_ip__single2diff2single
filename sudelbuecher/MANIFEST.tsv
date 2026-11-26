@@ -20,3 +20,11 @@ sudelbuecher/logs/pad_esd_exploration/tools/asig_diodes_dc.spice	2026-11-26T14:1
 sudelbuecher/chatlog/2026-11-26_fable_pad_structures_and_esd_exploration.md	2026-11-26T14:28:12Z	98732	chatlog/export_chatlog.py on the transcript of session 01XU3KH8 (live path, through the record that was last when the export ran)	-
 sudelbuecher/chatlog/ref/2026-11-26_fable_pad_structures_and_esd_exploration.md	2026-11-26T14:28:12Z	2778	written in session 01XU3KH8 (pointers to external sources)	-
 sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_chatlog_verify.out	2026-11-26T14:28:12Z	714	verify_chatlog.py of the harness fork's sudel_buecher on the chat log, plus a listing of the queued records by origin	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_klayout_drc_pads.out	2026-11-26T14:57:38Z	2646	KLayout DRC with the PDK deck on each pad cell alone (tools/klayout_split_pads.py, tools/klayout_drc_pads.sh), plus violation categories and the density rule texts	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_klayout_lvs_pads.out	2026-11-26T14:57:19Z	6661	KLayout LVS with the PDK deck called directly (tools/klayout_lvs_pad.sh) on the pad cells, extracted netlists and a model comparison	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_kpex_asig.out	2026-11-26T14:57:19Z	2868	kpex 0.6.8 --pdk gf180mcuD --2.5D on gf180mcu_ocd_io__asig_5p0: netlist CSV and warnings	-
+sudelbuecher/logs/pad_esd_exploration/2026-11-26_fable_klayout_pcell_load.out	2026-11-26T14:57:23Z	1187	klayout -b -r tools/klayout_pcell_load_test.py without and with USER set	-
+sudelbuecher/logs/pad_esd_exploration/tools/klayout_split_pads.py	2026-11-26T14:57:19Z	591	written in session 01XU3KH8	-
+sudelbuecher/logs/pad_esd_exploration/tools/klayout_drc_pads.sh	2026-11-26T14:57:19Z	754	written in session 01XU3KH8 (filed copy, paths as arguments)	-
+sudelbuecher/logs/pad_esd_exploration/tools/klayout_lvs_pad.sh	2026-11-26T14:57:19Z	1106	written in session 01XU3KH8 (filed copy, paths as arguments)	-
+sudelbuecher/logs/pad_esd_exploration/tools/klayout_pcell_load_test.py	2026-11-26T14:57:19Z	872	written in session 01XU3KH8	-
