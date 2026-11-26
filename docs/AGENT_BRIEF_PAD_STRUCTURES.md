@@ -7,9 +7,10 @@ Your task is exploration and a written report. You do not design or change any l
 - The user's project is `gf180_cm_ip__single2diff2single` (repository tatzelbrumm/gf180_cm_ip__single2diff2single): a single-ended -> differential -> single-ended
   analog converter between pads for Chipalooza #3 (GlobalFoundries GF180MCU, variant gf180mcuD). It is a port of the IHP design `sg13cmos5l_cm_ip__single2diff2single`.
 - That repository already has notes for agents. Read these first, in this order: `CLAUDE.md`, `docs/IHP_TO_GF180_PORT_MAP.md`, `HANDOVER_gf180_migration.md`,
-  `docs/OPERATING_LIMITS.md`, `docs/GF180_PROCESS_OPTIONS.md`. Follow the rules in `CLAUDE.md`, with one exception, stated by the user: section 3 of `CLAUDE.md`
-  ("Agent git access: off-limits") is for the user's local `~/EDA` setup only. It does NOT apply in a cloud session: here you use git normally, for the two branches named below.
-  The `CLAUDE.md` you read is the one in the checkout of the branch `pad_esd_exploration` (the repository's own file; this task does not change it).
+  `docs/OPERATING_LIMITS.md`, `docs/GF180_PROCESS_OPTIONS.md`. Follow the rules in `CLAUDE.md`. Its section 3 now says: git is granted in cloud sessions (use it normally, for the two branches named below);
+  in the user's local `~/EDA` setup only read-only git without lock files is allowed. Section 5 was updated on 2026-11-26 to what the harness and the PDK now contain.
+  The `CLAUDE.md` you read is the one in the checkout of the branch `pad_esd_exploration`; this task does not change it any further.
+  Check its section 5 against what you find; if something there is wrong, say so in your report.
 - The notes in CLAUDE.md say the harness repository was empty when written (2026-09-30). The harness now exists: the user's fork is
   github.com/tatzelbrumm/gf180mcu_ocd_chipalooza (upstream RTimothyEdwards/gf180mcu_ocd_chipalooza). Check what the notes assume against what is there.
 
