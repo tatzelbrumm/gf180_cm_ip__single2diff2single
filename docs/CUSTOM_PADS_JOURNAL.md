@@ -11,7 +11,7 @@ work. "Scratch" is the session's scratch directory (not in any repository); its 
 1. **Read** `docs/AGENT_BRIEF_CUSTOM_PADS.md`, `CLAUDE.md`, `docs/AGENT_BRIEF_PAD_STRUCTURES.md`. Environment:
    `/foss/pdks/gf180mcuD` with `gf180mcu_ocd_io` (mag, gds, lef, lib, spice, verilog, xschem), Magic 8.3.706, netgen
    1.5.332, KLayout 0.30.12 (`/foss/setup.log`).
-2. **Repository B** is public: `add_repo` reported read access without attaching; shallow clone of `main` (`2f18cd4`),
+2. **The harness fork `tatzelbrumm/gf180mcu_ocd_chipalooza`** is public: `add_repo` reported read access without attaching; shallow clone of `main` (`2f18cd4`),
    then the branches `chipalooza_artifacts_run1`, `chipalooza_artifacts_run2`, `sudel_buecher`, `chipalooza_logs_run1`
    (depth 1). Read `config.txt`, `scripts/parse_config.py` (all of it), `gen_padframe_template.tcl`, the padframe verilog
    template, the run scripts, `Makefile`, `README`, the LVS scripts, `layout_setup.tcl`, `gen_xschem_sym.py` (pad parts),
@@ -24,7 +24,7 @@ work. "Scratch" is the session's scratch directory (not in any repository); its 
    Magic, in a test cell: `getcell` both the copy and asig, `instance list abutment` (both `0 0 15000 70000`), `gds write`.
    (a) warns `Structure definition has name gf180mcu_ocd_io__asig_5p0 but cell definition has name gf180_cm_io__asig_in`
    and writes the renamed cell; `tools/xor_cells.py` against the PDK cell: `XOR_SUMMARY layers_differing 0`.
-   (b) `layer 36/10: xor polygons 8 ...; texts A 16 B 8`, `layer 81/10: ... texts A 127 B 79`. Chose (a).
+   (b) `layer 36/10: xor polygons 8 ...; texts A 16 B 8`, `layer 81/10: ... texts A 127 B 79` (output of `tools/xor_cells.py`: A and B are its first and second layout, not repositories). Chose (a).
 5. **Which cell carries the edges.** Edge spans of `5LM_METAL_RAIL_PAD_60`, `GF_NI_ASIG_5P0_BASE`, `fill10`, `bi_24t`
    compared with asig: the rail cell has the same side-edge spans on 22/0, 31/0, 34/0, 42/0, 46/0, 81/0; it lacks the
    Metal2 VSS bands (they are in `GF_NI_ASIG_5P0_BASE`, at its y 182.485-189.485 and 254.485-261.485 plus the instance
@@ -74,9 +74,15 @@ work. "Scratch" is the session's scratch directory (not in any repository); its 
     `gds readonly true`. First `FIXED_BBOX` came out ten times too big; set from microns it is right. Ports come without
     class/use. Padframe placement and a GDS write work; XOR 0.
 15. **Read** the other agent's `docs/PAD_STRUCTURES.md` (`pad_esd_exploration`, `f936d69`): sections 1, 4.3-4.5, 6.2-6.3,
-    11, 12.3-12.4, 14.2. Consistent with my measurements (rails, Metal2 strips, slot pins). Read A's macro READMEs,
+    11, 12.3-12.4, 14.2. Consistent with my measurements (rails, Metal2 strips, slot pins). Read the macro READMEs of `tatzelbrumm/gf180_cm_ip__single2diff2single`,
     `submission.yaml`, `CLAUDE.md` for section 6 of the plan.
 16. **Wrote** the plan, this journal, `custom_pads/README.md`; copied logs (scratch path replaced by `<scratch>`),
     measurements and tools; checked which patches apply to a plain `main` (`logs/run/patch_check_plain_main.txt`).
 
-Not done: repository D; any DRC, extraction or LVS; Tim's custom pad netlist (not in any commit); a message to Tim.
+Not done: `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`; any DRC, extraction or LVS; Tim's custom pad netlist (not in any commit); a message to Tim.
+
+17. **Edited after the fact** (2026-11-28, later the same day, on the user's instruction "Your A and B labels are
+    obfuscating. Don't use them. Replace them everywhere and correct the logs accordingly."): in this journal, in
+    `CUSTOM_PADS_PLAN.md`, `AGENT_BRIEF_CUSTOM_PADS.md` and `custom_pads/pad_abutment_check_custom.tcl` the repository
+    labels were replaced by the full names (items 2, 4 (a note that A and B there are layouts) and 15 and the closing line of this journal changed; the order and
+    content of the entries did not). Older commits, their messages and the chat log keep the labels: A = `tatzelbrumm/gf180_cm_ip__single2diff2single`, B = `tatzelbrumm/gf180mcu_ocd_chipalooza`, C = `tatzelbrumm/claude-cloud-config`, D = `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`, Upstream = `RTimothyEdwards/gf180mcu_ocd_chipalooza`.

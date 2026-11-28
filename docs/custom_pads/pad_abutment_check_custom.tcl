@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-# pad_abutment_check_custom.tcl --- extension of sudelbuecher/harness_tools/pad_abutment_check.tcl (fork B, branch sudel_buecher).
+# pad_abutment_check_custom.tcl --- extension of sudelbuecher/harness_tools/pad_abutment_check.tcl (harness fork tatzelbrumm/gf180mcu_ocd_chipalooza, branch sudel_buecher).
 # 1. First-call abutment box of every gf180mcu_ocd_io__* pad cell AND of every custom pad *.mag in $CUSTOM_PAD_DIRS, read
 #    the way scripts/gen_padframe_template.tcl reads it (getcell, identify, `instance list abutment`, units microns).
 # 2. For each custom pad: its abutment box must equal that of gf180mcu_ocd_io__asig_5p0, and its ports (name, class, use)
