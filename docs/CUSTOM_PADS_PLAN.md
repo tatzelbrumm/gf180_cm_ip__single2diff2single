@@ -448,3 +448,14 @@ branch `custom_padframe`, see its `custom_pads/README.md`. In short **[V]** (com
   No DRC, extraction of the padframe or LVS was run. The Via2 that `label_left_signal` paints on a 0.38 µm pin is not
   DRC-checked; the PDK digital pads have never been used on the left or right side of this padframe either **[I]**
   (only the bottom and top rows hold digital pads, `gen_padframe_template.tcl`).
+
+## 14. Addendum (2026-11-28, later still): harness core for slot 16, hand-off files
+
+On B, `tatzelbrumm/gf180mcu_ocd_chipalooza`, branch `custom_padframe` (commits `87a1500` to `3e22733`):
+
+- The hand-maintained harness core now carries slot 16's 13 core-side pins instead of `s16_an[0:1]` (RTL, frame and
+  chip schematics, frame symbol, gate-level top); schematic netlists, LVS views and the frame extraction regenerated.
+- Two generator fixes keep existing symbol pins in place (padframe port order, slot symbol width).
+- Checks **[V]**: schematic connectivity equal to `main` except slot 16 (and slot 10's `vss3v3`, a pre-existing
+  regeneration effect); `lvs-verilog` slot 16 matches; `lvs-frame` same summary as `main`, `slot16_wrapper` equivalent.
+- Hand-off for Tim and the slot 10 designer: `handoff/CHANGES_FOR_TIM.md`, `handoff/SLOT10_FIXES.md` on that branch.
