@@ -345,7 +345,8 @@ real cell of the same name, size, pins and edge geometry changes no harness file
 2. **Decided by the user (2026-11-28): no prior request to Tim.** The change is built and shown working in the user's
    fork first ("fait accompli"), then presented to Tim (step 8). Consequence **[I]** (section 7): until Tim merges it,
    it does not reach the shuttle, and he may still choose another mechanism or location.
-3. **In the fork, on a new branch** (not `main`): apply the fork's `fixes/pad_pins` patches, the placeholder library
+3. **In B, `tatzelbrumm/gf180mcu_ocd_chipalooza`, on a new branch from `main`** (branch name not chosen yet; yours to
+   choose): apply the fork's `fixes/pad_pins` patches, the placeholder library
    and 0001-0004 (+0005), as in `docs/custom_pads/README.md`; run `make clean-config config padframe wrappers symbols
    gds-slots`; check the logs for `Bad pad type`, `couldn't be read` (other than `open_source`), `Bad cell path`; run
    `pad_abutment_check_custom.tcl`.
@@ -357,8 +358,12 @@ real cell of the same name, size, pins and edge geometry changes no harness file
    extraction against its spice; then swap it in for the placeholder (same file names) and rerun step 3.
 7. **Then, with the user's consent** (hours): `extract-padframe lvs-padframe`, `gds-prefill`, `gds-final`, `drc-final`,
    `extract-top`, `lvs-top`.
-8. **Present the working fork branch to Tim** as a pull request or patch set (the user's decision). An agent pushes to
-   B only if the user grants it write access for that branch; the brief of 2026-11-28 forbids it.
+8. **Present the branch of step 3 in B to Tim** as a pull request to `RTimothyEdwards/gf180mcu_ocd_chipalooza` or as a
+   patch set (the user's decision). Who pushes that branch to B: the user, or a Claude Code session, which needs (a)
+   the user lifting the rule "Never push to B" of `docs/AGENT_BRIEF_CUSTOM_PADS.md:58` for that one named branch and
+   (b) write access to B granted through `add_repo` with `access: push`. The session that wrote this plan
+   (`session_01XU3KH9Sz6DAeidhtcb5YLr`) has neither: `add_repo` answered `read_available` and "this session cannot
+   push to `tatzelbrumm/gf180mcu_ocd_chipalooza`" **[V]**.
 
 ## 10. Assumptions I made (each stated)
 
