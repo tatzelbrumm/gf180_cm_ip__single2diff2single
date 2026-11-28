@@ -29,3 +29,6 @@ One `[file](file)` + one sentence per log. The logs are made with [`export_chatl
 
 [2026-11-26_fable_pad_structures_subagent_4_ieee_abstracts_on_esd_pulse_limits.md](2026-11-26_fable_pad_structures_subagent_4_ieee_abstracts_on_esd_pulse_limits.md)
 : Subagent of the pad structure session: attempt to read four public IEEE Xplore abstract pages on pulsed current limits (page-fetch tool only; all four fetches failed because the tool could not resolve the host); the message shown as "User" is the assistant's brief. Its report: `../logs/pad_esd_exploration/2026-11-26_fable_subagent_report_4_ieee_abstracts_on_esd_pulse_limits.md`.
+
+[2026-11-28_custom_pads_exploration.md](2026-11-28_custom_pads_exploration.md)
+: Custom analog pads for slot 16, for the brief `docs/AGENT_BRIEF_CUSTOM_PADS.md` (branch `custom_pads_exploration`): where the harness depends on the pad type, the form factor measured from the PDK views, the views a custom pad needs, and a scratch trial of two renamed copies of the analog pad as placeholders (silent failures found, three harness patches make the quick steps run clean); the message shown as "User" is the task prompt the session was started with. Made with `session_chatlog.sh` of the harness fork (branch `sudel_buecher`) as the brief asks, not with `export_chatlog.py`; model not named in the file name.
