@@ -9,6 +9,12 @@ SPDX-License-Identifier: Apache-2.0
 > this plan; nothing else in the text was changed. The labels came from the brief `docs/AGENT_BRIEF_CUSTOM_PADS.md` (commits `5488b24`, `536a19e`, 2026-11-26).
 > Older versions of this file, the commit messages up to this edit and the verified chat log on `sudel_buecher` still use them:
 > A = `tatzelbrumm/gf180_cm_ip__single2diff2single`, B = `tatzelbrumm/gf180mcu_ocd_chipalooza`, C = `tatzelbrumm/claude-cloud-config`, D = `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`, Upstream = `RTimothyEdwards/gf180mcu_ocd_chipalooza`. Those were not rewritten (that would need a force-push).
+>
+> **Edited after the fact (2026-11-28, second edit).** The user rebased the fork's `custom_padframe` from `2f18cd4` onto
+> `main` `9dcda7e` (every patch unchanged, `git range-diff`: 15 × `=`). The commit hashes of that branch in this plan
+> were replaced by the new ones; the one recorded `git ls-remote` result keeps its old value. Old → new:
+> `c66429b` → `33743f3`, `ebcdd77` → `b7e3784`, `e1fb916` → `e81776f`, `4401f24` → `21ca197`, `276643a` → `c680e4b`, `843dc36` → `e21a6ff`, `a85894b` → `ef8e0db`, `f836915` → `c4d71cb`, `d910034` → `41d3c08`, `87a1500` → `3a47c28`, `a8a5c1b` → `560f3cd`, `692e3b0` → `5fade23`, `3e22733` → `b9b2b47`, `bcbef3b` → `22fc5fd`, `be10078` → `54999f8`.
+> The table with subjects: `handoff/CHANGES_FOR_TIM.md` section 7 on `custom_padframe` of `tatzelbrumm/gf180mcu_ocd_chipalooza`.
 
 Written for the user on 2026-11-28 by a Claude Code cloud session, following `docs/AGENT_BRIEF_CUSTOM_PADS.md`.
 Work journal: `docs/CUSTOM_PADS_JOURNAL.md`. Patches, scripts and logs: `docs/custom_pads/` (its `README.md` says how to
@@ -401,9 +407,9 @@ session's first summary):
 - The pad files live in `tatzelbrumm/gf180mcu_ocd_chipalooza`, under `custom_pads/gf180_cm_io/` (question 4).
 - No message to Tim first; the work is done in `tatzelbrumm/gf180mcu_ocd_chipalooza` (question 5, step 2).
 - Write access to `tatzelbrumm/gf180mcu_ocd_chipalooza` granted; the brief's "Never push to `tatzelbrumm/gf180mcu_ocd_chipalooza`" is lifted for the branch `custom_padframe` (from `main`).
-  Step 3 is done there: commits `c66429b` (the fork's pad pin and LVS fixes), `ebcdd77` (placeholder library and
-  tools), `e1fb916` (patches 0001-0004), `4401f24` (patch 0005), `276643a` (regenerated views; all checks clean)
-  **[V]** (`git -C <clone of tatzelbrumm/gf180mcu_ocd_chipalooza> log --oneline -6`; `git ls-remote origin custom_padframe` = `276643a`).
+  Step 3 is done there: commits `33743f3` (the fork's pad pin and LVS fixes), `b7e3784` (placeholder library and
+  tools), `e81776f` (patches 0001-0004), `21ca197` (patch 0005), `c680e4b` (regenerated views; all checks clean)
+  **[V]** (`git -C <clone of tatzelbrumm/gf180mcu_ocd_chipalooza> log --oneline -6`; `git ls-remote origin custom_padframe` = `276643a` at the time; `c680e4b` after the rebase).
 
 1. **Names** of the library and the two cells (A1)? Do they have to follow a convention of Tim's?
 2. **One type or two** for now (alternative c)?
@@ -439,8 +445,8 @@ only its ESD protection and gets the CDM resistor; the output pad's output trans
 5 V ring is acceptable for now, the pad connections are those of the IHP custom pads of
 `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`, and this is a first shot for the padframe generation scripts.
 Sections 5 and 8 describe the earlier analog-pad placeholders; for what is now on `tatzelbrumm/gf180mcu_ocd_chipalooza`,
-branch `custom_padframe`, see its `custom_pads/README.md`. In short **[V]** (commits `843dc36`, `a85894b`, `f836915`,
-`d910034` on top of `276643a`):
+branch `custom_padframe`, see its `custom_pads/README.md`. In short **[V]** (commits `e21a6ff`, `ef8e0db`, `c4d71cb`,
+`41d3c08` on top of `c680e4b`):
 
 - `gf180_cm_io__asig_in` = copy of `gf180mcu_ocd_io__in_c`, `gf180_cm_io__asig_out` = copy of `gf180mcu_ocd_io__bi_24t`
   (output FETs 720 µm PMOS / 296 µm NMOS, closest to the class-AB OP / ON of `ClassABDriver` in `tatzelbrumm/gf180_cm_ip__single2diff2single`); digital pins
@@ -457,7 +463,7 @@ branch `custom_padframe`, see its `custom_pads/README.md`. In short **[V]** (com
 
 ## 14. Addendum (2026-11-28, later still): harness core for slot 16, hand-off files
 
-On `tatzelbrumm/gf180mcu_ocd_chipalooza`, branch `custom_padframe` (commits `87a1500` to `3e22733`):
+On `tatzelbrumm/gf180mcu_ocd_chipalooza`, branch `custom_padframe` (commits `3a47c28` to `b9b2b47`):
 
 - The hand-maintained harness core now carries slot 16's 13 core-side pins instead of `s16_an[0:1]` (RTL, frame and
   chip schematics, frame symbol, gate-level top); schematic netlists, LVS views and the frame extraction regenerated.

@@ -86,3 +86,8 @@ Not done: `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`; any DRC, extractio
     `CUSTOM_PADS_PLAN.md`, `AGENT_BRIEF_CUSTOM_PADS.md` and `custom_pads/pad_abutment_check_custom.tcl` the repository
     labels were replaced by the full names (items 2, 4 (a note that A and B there are layouts) and 15 and the closing line of this journal changed; the order and
     content of the entries did not). Older commits, their messages and the chat log keep the labels: A = `tatzelbrumm/gf180_cm_ip__single2diff2single`, B = `tatzelbrumm/gf180mcu_ocd_chipalooza`, C = `tatzelbrumm/claude-cloud-config`, D = `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`, Upstream = `RTimothyEdwards/gf180mcu_ocd_chipalooza`.
+
+18. **Edited after the fact** (2026-11-28, later still): the user rebased `custom_padframe` of
+    `tatzelbrumm/gf180mcu_ocd_chipalooza` from `2f18cd4` onto `main` `9dcda7e` (patches unchanged). The fork's hashes in
+    `CUSTOM_PADS_PLAN.md` were replaced by the new ones (mapping in the plan's second edit note); this journal cites
+    none of them. In the fork, `handoff/CHANGES_FOR_TIM.md` got the new hashes and the mapping (`d71e331`).
