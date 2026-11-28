@@ -17,8 +17,11 @@ Every statement carries a mark:
 - **[U]** unverified: not checked; why is said.
 
 Abbreviations: **B** = the harness fork `tatzelbrumm/gf180mcu_ocd_chipalooza`, branch `main` at `2f18cd4` unless another
-branch is named. **PDK** = `/foss/pdks/gf180mcuD`, `libs.ref/gf180mcu_ocd_io/` (open_pdks `1.0.588-128-ge7a6777`).
-**A** = this repository. **asig** = `gf180mcu_ocd_io__asig_5p0`. Tools: Magic 8.3.706, netgen 1.5.332, KLayout 0.30.12
+branch is named. **Upstream** = Tim Edwards' `RTimothyEdwards/gf180mcu_ocd_chipalooza`, from which the chip is built;
+not read in this session. **"The harness"** without a name means the harness code as found in B `main` at `2f18cd4`,
+which carries Tim's commits (`CLAUDE.md` §5); that upstream's current state equals it is **[U]**. **PDK** = `/foss/pdks/gf180mcuD`, `libs.ref/gf180mcu_ocd_io/` (open_pdks `1.0.588-128-ge7a6777`).
+**A** = `tatzelbrumm/gf180_cm_ip__single2diff2single` (the design repository; this file is on its branch
+`custom_pads_exploration`). **asig** = `gf180mcu_ocd_io__asig_5p0`. Tools: Magic 8.3.706, netgen 1.5.332, KLayout 0.30.12
 **[V]** (`/foss/setup.log`, `logs/run/*_summary.txt`). Coordinates of a pad are pad-local, in µm: x across the 75 µm
 width, y from the chip edge (y = 0, bond pad) to the core edge (y = 350).
 
@@ -39,7 +42,7 @@ choice, provisional** (assumption A1 in section 10); the user decides the real n
    interface: one signal net `ASIG5V` that is both the bond pad and the core-side terminal, plus `DVDD DVSS VDD VSS`
    **[V]** (`parse_config.py:196-199, 213-215, 382-387`; `gen_padframe_template.tcl:169-219`). A custom input pad whose
    CDM resistor sits inside the pad (bond pad and protected core node as two nets) does not fit that class; it needs a
-   new pad class in the harness and Tim Edwards' agreement (section 8).
+   new pad class in the harness code (first in B, then upstream) and Tim Edwards' agreement (section 8).
 4. **"Replace the placeholder later without changing the flow again"** holds for the layout, the GDS and the netlist of
    the pad, as long as the names, the size (75 x 350 µm), the pins and the edge geometry (section 3) stay. It does not
    hold if any of those change. **[I]** from sections 2-4.
@@ -141,13 +144,14 @@ each neighbour type (no DRC was run) **[U]**.
 
 **Where the files live.** The PDK is read only, so not there **[V]** (the brief). Three options **[I]**:
 
-1. **In the harness fork** (`custom_pads/<lib>/`, as in the trial): one directory, relative paths from `magic/`, no
-   network at build time. Tested.
-2. **In this repository A** (e.g. `pads/`), reached as `dependencies/slot_16/pads/...` once `make projects` has
+1. **In B, the harness fork `tatzelbrumm/gf180mcu_ocd_chipalooza`** (`custom_pads/<lib>/`, as in the trial): one
+   directory, relative paths from `magic/`, no network at build time. Tested (in scratch copies of B only).
+2. **In A, `tatzelbrumm/gf180_cm_ip__single2diff2single`** (e.g. `pads/`), reached as `dependencies/slot_16/pads/...` once `make projects` has
    cloned A as the slot 16 submodule (`B:scripts/get_projects.sh:5-10`). Couples the padframe build to the user
    projects being cloned first, and freezes the pad with the slot's commit. Not tested.
-3. **A separate repository** as a further submodule under `dependencies/`, like the three IP repositories
-   (`B:.gitmodules`). Cleanest for upstream, most work. Not tested.
+3. **A new, separate repository** (does not exist; owner and name undecided, e.g. under `tatzelbrumm`) as a further
+   submodule of B under `dependencies/`, like the three IP repositories (`B:.gitmodules`). Cleanest for upstream, most
+   work. Not tested.
 
 **What has to point there:** the Magic search path in `gen_padframe_template.tcl` and `layout_setup.tcl` (patch 0003)
 **[V]**; the `readnet spice` lines of the two LVS scripts (patch 0004) **[V]** for the lines, not run; netgen's setup file
@@ -255,7 +259,7 @@ another name (5.4) **[I]**. For a **real custom pad** the following are needed, 
 any of them (section 11, Q9) **[I]**: KLayout DRC on the pad cell alone (minutes, as the other agent did for asig,
 `PAD_STRUCTURES.md` 14.2); `make extract-padframe lvs-padframe` (not timed; padframe only); then the chip-level steps.
 
-## 6. What else changes in this repository A (question 5)
+## 6. What else changes in A, `tatzelbrumm/gf180_cm_ip__single2diff2single` (question 5)
 
 Listed, none changed **[V]** (this branch holds only docs).
 
@@ -272,8 +276,8 @@ Listed, none changed **[V]** (this branch holds only docs).
 
 ## 7. Coordination and risk (question 6)
 
-- **The harness maintainer (Tim Edwards) has to agree** to: a custom pad library in the harness build (where it lives,
-  section 4); the `analog_pad_types` mechanism (patch 0002) or another one of his choosing; the two search paths and
+- **The harness maintainer (Tim Edwards) has to agree** to: a custom pad library in the upstream build, `RTimothyEdwards/gf180mcu_ocd_chipalooza` (where it
+  lives, section 4); the `analog_pad_types` mechanism (patch 0002) or another one of his choosing; the two search paths and
   LVS lines (0003, 0004); and the pad itself (DRC, LVS, ESD responsibility). Reason: the pads are part of the padframe,
   which belongs to the harness, not to the slot (`config.txt:35-46` **[V]**: changes "*only* ... in coordination with
   the slot's project designer", i.e. the change is the maintainer's, done with the slot owner).
@@ -364,7 +368,8 @@ real cell of the same name, size, pins and edge geometry changes no harness file
   `s16_an_1` were kept unchanged.
 - **A3** The placeholder keeps the pin names `ASIG5V DVDD DVSS VDD VSS` (needed by `parse_config.py:199` and the padframe
   verilog template).
-- **A4** The custom files sit in the harness under `custom_pads/gf180_cm_io/` (option 1 of section 4), for the trial only.
+- **A4** The custom files sit in B, the fork `tatzelbrumm/gf180mcu_ocd_chipalooza`, under `custom_pads/gf180_cm_io/`
+  (option 1 of section 4), for the trial only, and only in scratch copies of B.
 - **A5** The fork's own `fixes/pad_pins` patches belong in the base of the trial (they fix the pad power pin names the
   LVS needs); the trial applies them first, in both modes.
 - **A6** "Quick steps" includes `gds-slots` (README step 6, under a second) and one padframe-only GDS write (286 s);
@@ -378,7 +383,8 @@ real cell of the same name, size, pins and edge geometry changes no harness file
 2. **One type or two** for now (alternative c)?
 3. **One-net or two-terminal**: should the CDM resistor of the input stay in the slot (macro), as now, or move into the
    pad (alternative d)? Same question for the output pad's protection.
-4. **Where should the custom pad files live**: the harness, this repository, or a separate repository (section 4)?
+4. **Where should the custom pad files live** (section 4): in B, the harness fork `tatzelbrumm/gf180mcu_ocd_chipalooza`;
+   in A, `tatzelbrumm/gf180_cm_ip__single2diff2single`; or in a new repository (owner and name to be chosen by you)?
 5. ~~May I draft the message to Tim~~ Answered 2026-11-28: no prior message; the fork branch is presented to him when
    it works (step 2). Open instead: who pushes the fork branch (you, or an agent given write access to B)?
 6. **Patch 0005** (stop on a bad pad type): include it in what goes to Tim, or keep it separate as a bug report?
