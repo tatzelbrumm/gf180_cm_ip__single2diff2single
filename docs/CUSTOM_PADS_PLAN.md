@@ -338,8 +338,9 @@ real cell of the same name, size, pins and edge geometry changes no harness file
 ## 9. Step-by-step plan
 
 1. **User decisions** (section 11): names, one or two types, where the files live, one-net or two-terminal.
-2. **Ask Tim** (the user, not an agent; a draft can be written on request): is a custom analog pad library in the
-   harness acceptable, which mechanism (0002 or his own), which location.
+2. **Decided by the user (2026-11-28): no prior request to Tim.** The change is built and shown working in the user's
+   fork first ("fait accompli"), then presented to Tim (step 8). Consequence **[I]** (section 7): until Tim merges it,
+   it does not reach the shuttle, and he may still choose another mechanism or location.
 3. **In the fork, on a new branch** (not `main`): apply the fork's `fixes/pad_pins` patches, the placeholder library
    and 0001-0004 (+0005), as in `docs/custom_pads/README.md`; run `make clean-config config padframe wrappers symbols
    gds-slots`; check the logs for `Bad pad type`, `couldn't be read` (other than `open_source`), `Bad cell path`; run
@@ -352,7 +353,8 @@ real cell of the same name, size, pins and edge geometry changes no harness file
    extraction against its spice; then swap it in for the placeholder (same file names) and rerun step 3.
 7. **Then, with the user's consent** (hours): `extract-padframe lvs-padframe`, `gds-prefill`, `gds-final`, `drc-final`,
    `extract-top`, `lvs-top`.
-8. **Hand the change to Tim** as a pull request or patch set from the fork (the user's decision; no agent pushes to B).
+8. **Present the working fork branch to Tim** as a pull request or patch set (the user's decision). An agent pushes to
+   B only if the user grants it write access for that branch; the brief of 2026-11-28 forbids it.
 
 ## 10. Assumptions I made (each stated)
 
@@ -377,7 +379,8 @@ real cell of the same name, size, pins and edge geometry changes no harness file
 3. **One-net or two-terminal**: should the CDM resistor of the input stay in the slot (macro), as now, or move into the
    pad (alternative d)? Same question for the output pad's protection.
 4. **Where should the custom pad files live**: the harness, this repository, or a separate repository (section 4)?
-5. **May I draft the message to Tim** (issue text for the fork, not sent), or do you write to him yourself?
+5. ~~May I draft the message to Tim~~ Answered 2026-11-28: no prior message; the fork branch is presented to him when
+   it works (step 2). Open instead: who pushes the fork branch (you, or an agent given write access to B)?
 6. **Patch 0005** (stop on a bad pad type): include it in what goes to Tim, or keep it separate as a bug report?
 7. **The pre-existing `parse_config.py:201` defect** (stale signal name for digital pads): report it to Tim?
 8. **Documentation in A** (section 6): update `submission.yaml`, `CLAUDE.md` §5 and the macro READMEs now, or only when
