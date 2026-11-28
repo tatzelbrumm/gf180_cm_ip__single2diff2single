@@ -1,0 +1,30 @@
+harness 2f18cd4 Merge from Tim's repository 'origin'  mode base  PDK /foss/pdks/gf180mcuD  magic 8.3.706
+STEP apply_pad_pins rc=0 seconds=0  (git apply <scratch>/deliver/custom_pads/upstream_fixes/pad_pins.patch)
+STEP apply_lvs_scripts rc=0 seconds=0  (git apply <scratch>/deliver/custom_pads/upstream_fixes/lvs_scripts.patch)
+STEP clean-config rc=0 seconds=0  (make clean-config)
+STEP config rc=0 seconds=0  (make config)
+STEP padframe rc=0 seconds=4  (make padframe)
+STEP wrappers rc=0 seconds=2  (make wrappers)
+STEP symbols rc=0 seconds=0  (make symbols)
+--- log scan (the make steps exit 0 even on these)
+<scratch>/run/logs/base_padframe.log:312:Cell open_source couldn't be read
+--- slot 16 in the generated views
+545:place_pad_left	 pad_s16_an_1	gf180mcu_ocd_io__asig_5p0		 pad_71
+547:place_pad_left	 pad_s16_an_0	gf180mcu_ocd_io__asig_5p0	 	 pad_70
+696:label_pad pad_s16_an_0 s16_an\[0\]
+697:label_pad pad_s16_an_1 s16_an\[1\]
+885:label_left_analog pad_s16_an_0  pad s16_an\[0\]
+886:label_left_analog pad_s16_an_1  pad s16_an\[1\]
+1024:    gf180mcu_ocd_io__asig_5p0 pad_s16_an_0 (
+1035:    gf180mcu_ocd_io__asig_5p0 pad_s16_an_1 (
+1252:use gf180mcu_ocd_io__asig_5p0  pad_s16_an_0
+1254-transform 0 1 0 -1 0 412400
+1256:use gf180mcu_ocd_io__asig_5p0  pad_s16_an_1
+1258-transform 0 1 0 -1 0 378400
+flabel metal3 248 54539 648 63403 0 FreeSans 3200 90 0 0 s16_an[0]
+flabel metal3 248 20539 648 29403 0 FreeSans 3200 90 0 0 s16_an[1]
+STEP abutment rc=0 seconds=0  (magic -dnull -noconsole -rcfile /foss/pdks/gf180mcuD/libs.tech/magic/gf180mcuD.magicrc <scratch>/deliver/custom_pads/pad_abutment_check_custom.tcl)
+ABUT_SUMMARY pads 17 empty 0  custom 0 custom_bad 0
+STEP netgen_read rc=0 seconds=1  (netgen -batch source netgen_read.tcl)
+netgen placeholder/undefined lines mentioning a pad cell: 0
+DONE base

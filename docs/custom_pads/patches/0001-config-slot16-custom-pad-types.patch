@@ -1,0 +1,28 @@
+diff --git a/config.txt b/config.txt
+index 44a2723..0d6e2a8 100644
+--- a/config.txt
++++ b/config.txt
+@@ -55,6 +55,12 @@
+ #		gf180mcu_ocd_io__in_s
+ #		gf180mcu_ocd_io__asig_5p0
+ #
++#	or a custom analog pad of the same form factor as
++#	gf180mcu_ocd_io__asig_5p0, listed in "analog_pad_types" in
++#	scripts/parse_config.py, with its views in custom_pads/:
++#		gf180_cm_io__asig_in	(slot 16 input, placeholder)
++#		gf180_cm_io__asig_out	(slot 16 output, placeholder)
++#
+ #	The default value of each user project pad type is an analog
+ #	pad gf180mcu_ocd_io__asig_5p0.
+ #
+@@ -166,8 +172,8 @@ s14_an[0]:	gf180mcu_ocd_io__asig_5p0		s14_an_0
+ s14_an[1]:	gf180mcu_ocd_io__asig_5p0		s14_an_1
+ s15_an[0]:	gf180mcu_ocd_io__asig_5p0		s15_an_0
+ s15_an[1]:	gf180mcu_ocd_io__asig_5p0		s15_an_1
+-s16_an[0]:	gf180mcu_ocd_io__asig_5p0		s16_an_0
+-s16_an[1]:	gf180mcu_ocd_io__asig_5p0		s16_an_1
++s16_an[0]:	gf180_cm_io__asig_in		s16_an_0
++s16_an[1]:	gf180_cm_io__asig_out		s16_an_1
+ s17_an[0]:	gf180mcu_ocd_io__asig_5p0		s17_an_0
+ s17_an[1]:	gf180mcu_ocd_io__asig_5p0		s17_an_1
+ s18_an[0]:	gf180mcu_ocd_io__asig_5p0		s18_an_0

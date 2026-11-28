@@ -1,0 +1,33 @@
+# Generated and patched files: baseline run (fork fixes only) vs custom run (placeholders), same environment.
+# Lines starting with 'timestamp' and the checkpaint 'rect -2010' lines are ignored. Command: diff -rq, then per-file diff.
+config.txt lines_differing_excluding_timestamps=10
+magic/chipalooza_frame_wrapper.mag lines_differing_excluding_timestamps=0
+magic/gf180mcu_padframe.mag lines_differing_excluding_timestamps=4
+magic/padframe_pins.mag lines_differing_excluding_timestamps=0
+magic/slot10_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot11_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot12_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot13_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot14_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot15_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot16_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot17_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot18_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot1_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot2_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot3_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot4_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot5_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot6_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot7_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot8_wrapper.mag lines_differing_excluding_timestamps=0
+magic/slot9_wrapper.mag lines_differing_excluding_timestamps=0
+scripts/gen_padframe.tcl lines_differing_excluding_timestamps=9
+scripts/gen_padframe_template.tcl lines_differing_excluding_timestamps=5
+scripts/layout_setup.tcl lines_differing_excluding_timestamps=4
+scripts/parse_config.py lines_differing_excluding_timestamps=20
+validate/run_lvs_ocd_chipalooza.sh lines_differing_excluding_timestamps=3
+validate/run_lvs_padframe.sh lines_differing_excluding_timestamps=3
+verilog/gl/gf180mcu_padframe.v lines_differing_excluding_timestamps=4
+# only in custom:
+Only in custom: custom_pads
