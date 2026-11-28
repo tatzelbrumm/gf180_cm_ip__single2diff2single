@@ -32,3 +32,11 @@ One `[file](file)` + one sentence per log. The logs are made with [`export_chatl
 
 [2026-11-28_custom_pads_exploration.md](2026-11-28_custom_pads_exploration.md)
 : Custom analog pads for slot 16, for the brief `docs/AGENT_BRIEF_CUSTOM_PADS.md` (branch `custom_pads_exploration`): where the harness depends on the pad type, the form factor measured from the PDK views, the views a custom pad needs, and a scratch trial of two renamed copies of the analog pad as placeholders (silent failures found, three harness patches make the quick steps run clean); the message shown as "User" is the task prompt the session was started with. Made with `session_chatlog.sh` of the harness fork (branch `sudel_buecher`) as the brief asks, not with `export_chatlog.py`; model not named in the file name.
+  Repository labels in this chat log (note added 2026-11-28, later the same day): the log is the verified transcript and
+  uses the labels of the brief as they were said, A = `tatzelbrumm/gf180_cm_ip__single2diff2single`,
+  B = `tatzelbrumm/gf180mcu_ocd_chipalooza`, C = `tatzelbrumm/claude-cloud-config`,
+  D = `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`, Upstream = `RTimothyEdwards/gf180mcu_ocd_chipalooza`. On the
+  user's instruction ("Your A and B labels are obfuscating. Don't use them. Replace them everywhere and correct the logs
+  accordingly.") the labels were replaced by these names in the brief, plan and journal on `custom_pads_exploration`
+  (commit `8ee0074`) and in the fork's `custom_padframe` (`be10078`); the chat log itself was not edited, because a
+  changed transcript would no longer match its check file and the session it was verified against.
