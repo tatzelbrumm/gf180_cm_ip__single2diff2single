@@ -384,6 +384,21 @@ real cell of the same name, size, pins and edge geometry changes no harness file
 
 ## 11. Open questions for the user
 
+**Answered by the user on 2026-11-28** (the numbering below is the plan's; the user answered the five questions of the
+session's first summary):
+
+- Names: `gf180_cm_io`, `gf180_cm_io__asig_in`, `gf180_cm_io__asig_out` are kept for now (question 1).
+- Two placeholder types for now, not one (question 2).
+- The input's CDM resistor **moves into the pad** (question 3). Consequence: the input pad becomes a two-terminal pad
+  (bond pad and protected core node), which needs a new pad class in the harness code (section 8, item 3, and
+  alternative d). Not built yet.
+- The pad files live in B, `tatzelbrumm/gf180mcu_ocd_chipalooza`, under `custom_pads/gf180_cm_io/` (question 4).
+- No message to Tim first; the work is done in B (question 5, step 2).
+- Write access to B granted; the brief's "Never push to B" is lifted for the branch `custom_padframe` (from `main`).
+  Step 3 is done there: commits `c66429b` (the fork's pad pin and LVS fixes), `ebcdd77` (placeholder library and
+  tools), `e1fb916` (patches 0001-0004), `4401f24` (patch 0005), `276643a` (regenerated views; all checks clean)
+  **[V]** (`git -C <clone of B> log --oneline -6`; `git ls-remote origin custom_padframe` = `276643a`).
+
 1. **Names** of the library and the two cells (A1)? Do they have to follow a convention of Tim's?
 2. **One type or two** for now (alternative c)?
 3. **One-net or two-terminal**: should the CDM resistor of the input stay in the slot (macro), as now, or move into the
