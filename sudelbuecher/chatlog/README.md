@@ -46,3 +46,6 @@ One `[file](file)` + one sentence per log. The logs are made with [`export_chatl
   accordingly.") the labels were replaced by these names in the brief, plan and journal on `custom_pads_exploration`
   (commit `8ee0074`) and in the fork's `custom_padframe` (`be10078`); the chat log itself was not edited, because a
   changed transcript would no longer match its check file and the session it was verified against.
+  Later the same day the user rebased the fork's `custom_padframe` onto `main` `9dcda7e`; the fork hashes cited in this
+  chat log and in the note above (`be10078`) are the pre-rebase ones, mapped to the new ones in
+  `../logs/main/2026-11-28_custom_padframe_rebase_hash_map.tsv` (e.g. `be10078` → `54999f8`).
