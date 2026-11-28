@@ -425,3 +425,26 @@ session's first summary):
 - The cocotb testbenches of B (`verilog/dv`) and whether they instantiate pad cells **[U]**.
 - How `fill_all.rb` treats the pad row **[U]**.
 - What Magic does if a custom pad without explicit subcell paths is the first pad it loads (5.2) **[U]**.
+
+## 13. Addendum (2026-11-28, later): placeholders from digital pads, pins of the IHP custom pads
+
+Decided by the user: the placeholders are copies of digital pads (more inner structure to gut; the input pad keeps
+only its ESD protection and gets the CDM resistor; the output pad's output transistors become analog devices), the
+5 V ring is acceptable for now, the pad connections are those of the IHP custom pads of
+`tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`, and this is a first shot for the padframe generation scripts.
+Sections 5 and 8 describe the earlier analog-pad placeholders; for what is now on B, `tatzelbrumm/gf180mcu_ocd_chipalooza`,
+branch `custom_padframe`, see its `custom_pads/README.md`. In short **[V]** (commits `843dc36`, `a85894b`, `f836915`,
+`d910034` on top of `276643a`):
+
+- `gf180_cm_io__asig_in` = copy of `gf180mcu_ocd_io__in_c`, `gf180_cm_io__asig_out` = copy of `gf180mcu_ocd_io__bi_24t`
+  (output FETs 720 µm PMOS / 296 µm NMOS, closest to the class-AB OP / ON of A's `ClassABDriver`); digital pins
+  unlabelled; bond pad pin `pad`; new Metal2 pin stubs with the IHP pins (branch `claude/c3-s2d-pad-layout`,
+  `c913388`): in `outp outn vcm vref iref en_3v3 en_3v3_b`, out `vinp vinn vref iref en_3v3 en_3v3_b`. Stubs unconnected.
+- `parse_config.py`: a custom pad class whose core-side pins are read from `custom_pads/*/verilog/*.v`; pin `<p>`
+  becomes `s16_an_<k>_<p>`; the bond pad stays `s16_an[k]`.
+- `magic/chipalooza_frame.mag`: the two slot 16 analog straps removed (they would have shorted the new pins).
+- Quick steps clean; extraction of `slot16_wrapper` gives the 13 pins as separate ports.
+- Not updated (hand-maintained, still `s16_an[0:1]`): the frame's and the chip's verilog, schematics and netlists.
+  No DRC, extraction of the padframe or LVS was run. The Via2 that `label_left_signal` paints on a 0.38 µm pin is not
+  DRC-checked; the PDK digital pads have never been used on the left or right side of this padframe either **[I]**
+  (only the bottom and top rows hold digital pads, `gen_padframe_template.tcl`).
