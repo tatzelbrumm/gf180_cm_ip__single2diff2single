@@ -49,3 +49,6 @@ One `[file](file)` + one sentence per log. The logs are made with [`export_chatl
   Later the same day the user rebased the fork's `custom_padframe` onto `main` `9dcda7e`; the fork hashes cited in this
   chat log and in the note above (`be10078`) are the pre-rebase ones, mapped to the new ones in
   `../logs/main/2026-11-28_custom_padframe_rebase_hash_map.tsv` (e.g. `be10078` → `54999f8`).
+  The files under `../logs/main/2026-11-28_{padframe_gds/,custom_padframe_*,custom_pads_trial_*}` named in this chat log
+  and in the notes above were moved to `tatzelbrumm/gf180mcu_ocd_chipalooza`, branch `sudel_buecher`,
+  `sudelbuecher/logs/custom_padframe/`, and this branch's history was rewritten: `../logs/main/2026-11-28_MOVED_TO_HARNESS_FORK.md`.
