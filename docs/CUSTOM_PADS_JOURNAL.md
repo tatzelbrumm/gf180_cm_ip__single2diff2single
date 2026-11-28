@@ -6,7 +6,7 @@ SPDX-License-Identifier: Apache-2.0
 
 Short journal of the cloud session that wrote `CUSTOM_PADS_PLAN.md`. Times are not recorded; the order is the order of
 work. "Scratch" is the session's scratch directory (not in any repository); its runs are reproducible with
-`custom_pads/run_trial.sh`.
+`sudelbuecher/logs/custom_padframe/first_trial/run_trial.sh` on the branch `sudel_buecher` of `tatzelbrumm/gf180mcu_ocd_chipalooza` (until 2026-11-28 `custom_pads/run_trial.sh` here).
 
 1. **Read** `docs/AGENT_BRIEF_CUSTOM_PADS.md`, `CLAUDE.md`, `docs/AGENT_BRIEF_PAD_STRUCTURES.md`. Environment:
    `/foss/pdks/gf180mcuD` with `gf180mcu_ocd_io` (mag, gds, lef, lib, spice, verilog, xschem), Magic 8.3.706, netgen
@@ -17,7 +17,7 @@ work. "Scratch" is the session's scratch directory (not in any repository); its 
    template, the run scripts, `Makefile`, `README`, the LVS scripts, `layout_setup.tcl`, `gen_xschem_sym.py` (pad parts),
    `fixes/pad_pins/ANALYSIS.md`, `fixes/TIM_SUMMARY.md`, the run 1 step logs, `pad_abutment_check.tcl`, the 2026-11-19
    harness handoff note (stale child timestamps).
-3. **Measured asig** from the PDK GDS with `custom_pads/tools/pad_edges.py`: per layer, the shapes touching each edge of
+3. **Measured asig** from the PDK GDS with `tools/pad_edges.py` (now in `sudelbuecher/logs/custom_padframe/first_trial/tools/` of the fork's `sudel_buecher`): per layer, the shapes touching each edge of
    (0,0)-(75,350). Rail nets from the Metal5 labels of the mag view (26 bands, both edges equal: `diff` of the two
    sorted lists empty).
 4. **Single-pad GDS test.** Copy of asig's mag file under a new name, (a) with the PDK's `GDS_*` properties, (b) without.
@@ -91,3 +91,10 @@ Not done: `tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single`; any DRC, extractio
     `tatzelbrumm/gf180mcu_ocd_chipalooza` from `2f18cd4` onto `main` `9dcda7e` (patches unchanged). The fork's hashes in
     `CUSTOM_PADS_PLAN.md` were replaced by the new ones (mapping in the plan's second edit note); this journal cites
     none of them. In the fork, `handoff/CHANGES_FOR_TIM.md` got the new hashes and the mapping (`d71e331`).
+
+19. **Edited after the fact** (2026-11-28, later still): the trial material under `docs/custom_pads/` (all but
+    `measurements/`) moved, with its history, to `sudelbuecher/logs/custom_padframe/first_trial/` on the branch
+    `sudel_buecher` of `tatzelbrumm/gf180mcu_ocd_chipalooza`. Short paths in this journal (`logs/...`, `tools/...`,
+    the script names) are relative to that directory; `custom_pads/README.md` in entry 16 and
+    `custom_pads/pad_abutment_check_custom.tcl` in entry 17 now mean `README.md` and `pad_abutment_check_custom.tcl`
+    there. The opening paragraph and entry 3 were changed to name the new place.

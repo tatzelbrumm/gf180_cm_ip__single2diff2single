@@ -1,7 +1,0 @@
-# git apply --check on a plain clone of main 2f18cd4, WITHOUT the fork fixes
-0001-config-slot16-custom-pad-types.patch: applies
-0002-parse_config-analog-pad-types.patch: applies
-0003-magic-search-path-custom-pads.patch: applies
-0004 alone: error: patch failed: validate/run_lvs_ocd_chipalooza.sh:23
-0004 alone: error: validate/run_lvs_ocd_chipalooza.sh: patch does not apply
-0005 on top of 0002: applies

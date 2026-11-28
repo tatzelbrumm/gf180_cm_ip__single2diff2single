@@ -15,16 +15,31 @@ SPDX-License-Identifier: Apache-2.0
 > were replaced by the new ones; the one recorded `git ls-remote` result keeps its old value. Old → new:
 > `c66429b` → `33743f3`, `ebcdd77` → `b7e3784`, `e1fb916` → `e81776f`, `4401f24` → `21ca197`, `276643a` → `c680e4b`, `843dc36` → `e21a6ff`, `a85894b` → `ef8e0db`, `f836915` → `c4d71cb`, `d910034` → `41d3c08`, `87a1500` → `3a47c28`, `a8a5c1b` → `560f3cd`, `692e3b0` → `5fade23`, `3e22733` → `b9b2b47`, `bcbef3b` → `22fc5fd`, `be10078` → `54999f8`.
 > The table with subjects: `handoff/CHANGES_FOR_TIM.md` section 7 on `custom_padframe` of `tatzelbrumm/gf180mcu_ocd_chipalooza`.
+>
+> **Edited after the fact (2026-11-28, third edit).** On the user's instruction ("go ahead with 1–4, move the history to
+> gf180mcu_ocd_chipalooza") the trial material under `docs/custom_pads/` of this branch (all of it except `measurements/`)
+> was moved, with its history, to `sudelbuecher/logs/custom_padframe/first_trial/` on the branch `sudel_buecher` of
+> `tatzelbrumm/gf180mcu_ocd_chipalooza` (commits `34a4a0c`, `3ff5540` there; the 40 `*.log` files, never committed here
+> because of `*.log` in `.gitignore`, in `d96d4fb`). The four full paths `docs/custom_pads/...` in this plan were
+> changed to the new place, and section 0 now says where the short paths (`logs/...`, `tools/...`, ...) point; nothing
+> else was changed. The patches 0001–0005 and `upstream_fixes/` are also commits `e81776f`, `21ca197`, `33743f3` on
+> `custom_padframe` of `tatzelbrumm/gf180mcu_ocd_chipalooza` (same `git patch-id`).
 
 Written for the user on 2026-11-28 by a Claude Code cloud session, following `docs/AGENT_BRIEF_CUSTOM_PADS.md`.
-Work journal: `docs/CUSTOM_PADS_JOURNAL.md`. Patches, scripts and logs: `docs/custom_pads/` (its `README.md` says how to
-apply them). No pad was designed; nothing was pushed to the harness fork.
+Work journal: `docs/CUSTOM_PADS_JOURNAL.md`. Patches, scripts and logs of the first trial: `sudelbuecher/logs/custom_padframe/first_trial/`
+on the branch `sudel_buecher` of `tatzelbrumm/gf180mcu_ocd_chipalooza` (its `README.md` says how to apply them); measurements: `docs/custom_pads/measurements/`. No pad was designed; nothing was pushed to the harness fork.
 
 ## 0. How to read this
 
 Every statement carries a mark:
 
-- **[V]** verified: a file and line, or a command and its output (logs under `docs/custom_pads/logs/`).
+- **[V]** verified: a file and line, or a command and its output (logs under `sudelbuecher/logs/custom_padframe/first_trial/logs/` on the branch `sudel_buecher` of `tatzelbrumm/gf180mcu_ocd_chipalooza`).
+
+Paths of the trial material: a path in this plan that starts with `logs/`, `tools/`, `patches/` or `upstream_fixes/`,
+and the bare file names `run_trial.sh`, `make_placeholder_pads.sh`, `pad_edge_check.py` and
+`pad_abutment_check_custom.tcl`, are relative to `sudelbuecher/logs/custom_padframe/first_trial/` on the branch `sudel_buecher` of `tatzelbrumm/gf180mcu_ocd_chipalooza`
+(until 2026-11-28 they were under `docs/custom_pads/` of this branch). A path that starts with `measurements/` is
+relative to `docs/custom_pads/` of this branch (`custom_pads_exploration` of `tatzelbrumm/gf180_cm_ip__single2diff2single`).
 - **[I]** inferred: the source of the inference is named.
 - **[U]** unverified: not checked; why is said.
 
@@ -172,7 +187,7 @@ needs nothing for a subcircuit with the PDK's devices **[I]**; KLayout DRC/fill 
 
 ## 5. The placeholder trial (question 4)
 
-All in scratch copies of `tatzelbrumm/gf180mcu_ocd_chipalooza`; quick steps only. Driver: `docs/custom_pads/run_trial.sh` (fresh clone, the fork's two
+All in scratch copies of `tatzelbrumm/gf180mcu_ocd_chipalooza`; quick steps only. Driver: `sudelbuecher/logs/custom_padframe/first_trial/run_trial.sh` on the branch `sudel_buecher` of `tatzelbrumm/gf180mcu_ocd_chipalooza` (fresh clone, the fork's two
 existing fixes, then in `custom` mode the placeholder library and patches 0001-0004).
 
 ### 5.1 Baseline
@@ -359,7 +374,7 @@ real cell of the same name, size, pins and edge geometry changes no harness file
    it does not reach the shuttle, and he may still choose another mechanism or location.
 3. **In `tatzelbrumm/gf180mcu_ocd_chipalooza`, on a new branch from `main`** (branch name not chosen yet; yours to
    choose): apply the fork's `fixes/pad_pins` patches, the placeholder library
-   and 0001-0004 (+0005), as in `docs/custom_pads/README.md`; run `make clean-config config padframe wrappers symbols
+   and 0001-0004 (+0005), as in `sudelbuecher/logs/custom_padframe/first_trial/README.md` on the branch `sudel_buecher` of `tatzelbrumm/gf180mcu_ocd_chipalooza`; run `make clean-config config padframe wrappers symbols
    gds-slots`; check the logs for `Bad pad type`, `couldn't be read` (other than `open_source`), `Bad cell path`; run
    `pad_abutment_check_custom.tcl`.
 4. **In `tatzelbrumm/gf180_cm_ip__single2diff2single`**: nothing until the real pads exist, except the documentation lines of section 6 when the user wants them.
